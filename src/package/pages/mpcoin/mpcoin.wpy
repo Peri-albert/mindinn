@@ -1,0 +1,376 @@
+<style lang="less">
+@import "../../../base";
+
+@balanceHeight: 300rpx;
+page {
+	background-color: #EFEFEF;
+	.container {
+		margin-bottom: 40rpx;
+	}
+
+	.x-header {
+		background-color: #FFF;
+		padding: 20rpx;
+
+		.x-i-balance {
+			height: @balanceHeight;
+			position: relative;
+			overflow: hidden;
+			border-radius: 20rpx;
+
+			.x-i-bg {
+				position: absolute;
+				top: 0px;
+				left: 0px;
+				display: block;
+				width: 100%;
+				height: @balanceHeight;
+				z-index: 0;
+			}
+
+			.x-i-content {
+				position: absolute;
+				top: 0px;
+				left: 0px;
+				width: 100%;
+				height: @balanceHeight;
+				display: flex;
+				flex-direction: row;
+				align-items: center;
+
+				.x-i-icon {
+					width: 100rpx;
+					display: block;
+					padding-left: 80rpx;
+				}
+
+				.x-i-name {
+					padding-left: 20rpx;
+					color: rgb(255, 245, 130);
+				}
+
+				.x-i-amount {
+					flex: 1;
+					text-align: right;
+					color: rgb(251, 100, 20);
+					padding-right: 80rpx;
+
+					.x-i-cash {
+						font-size: 0.8em;
+					}
+				}
+			}
+		}
+
+		.x-i-products {
+			display: flex;
+			flex-direction: row;
+			flex-wrap: wrap;
+			justify-content: space-around;
+
+			.x-i-product {
+				border: solid 4rpx rgb(235, 235, 235);
+				height: 120rpx;
+				line-height: 120rpx;
+				width: 45vw;
+				text-align: center;
+				margin-bottom: 20rpx;
+				font-size: 28rpx;
+				position: relative;
+
+				.x-i-name {
+					font-size: 1.0em;
+					color: rgb(65, 65, 65);
+				}
+
+				.x-i-selectedIcon {
+					position: absolute;
+					bottom: 0px;
+					right: 0px;
+					width: 60rpx;
+					height: 60rpx;
+				}
+			}
+
+			.x-i-selectedProduct {
+				border: solid 4rpx rgb(255, 142, 9);
+			}
+		}
+
+		.x-i-btn {
+			border-radius: 40rpx;
+			height: 80rpx;
+			line-height: 80rpx;
+			background-color: rgb(255, 142, 9);
+			color: #FFF;
+		}
+		.x-i-btn-disable {
+			background-color: rgba(255, 142, 9, 0.4);
+		}
+	}
+
+	.x-panel {
+		padding: 20rpx;
+		background-color: #FFF;
+
+		.x-i-header {
+			color: #333;
+			font-size: 0.9em;
+			border-left: solid 3px rgb(255, 142, 9);
+			padding-left: 20rpx;
+		}
+
+		.x-i-content {
+			font-size: 0.7em;
+			color: #666;
+			line-height: 1.5em;
+
+			.x-i-link {
+				display: inline;
+				color: rgb(65,136,242);
+			}
+		}
+	}
+	.x-panel-income {
+		.x-i-item {
+			display: flex;
+			flex-direction: row;
+			padding: 10rpx 0rpx;
+			align-items: center;
+		}
+
+		.x-i-text {
+			flex: 1;
+		}
+
+		.x-i-btn {
+			width: 160rpx;
+			background-color: rgb(255, 142, 9);
+			color: #FFF;
+			text-align: center;
+			padding: 10rpx 0rpx;
+			border-radius: 40rpx;
+		}
+		.x-i-btn-disabled {
+			background-color: rgba(255, 142, 9, 0.4);
+		}
+	}
+}
+</style>
+
+<template>
+	<view class="container">
+		<view class="x-header">
+			<view class="x-i-balance">
+				<image class="x-i-bg" mode="aspectFill" src="../../../images/mpcoin_bg.png" />
+				<view class="x-i-content">
+					<image class="x-i-icon" mode="widthFix" src="../../../images/mpcoin.png" />
+					<view class="x-i-name">秀豆</view>
+					<view class="x-i-amount">
+						<view>余额{{mpcoin.balance}}秀豆</view>
+						<!-- <view class="x-i-cash">可提现余额: ￥{{cash.balance}}</view> -->
+					</view>
+				</view>
+			</view>
+
+			<view class="x-i-products mt10">
+				<view
+					wx:for="{{products}}" 
+					wx:for-item="product"
+					wx:key="{{product.cash}}" 
+					class="x-i-product {{selectedProduct && selectedProduct.cash == product.cash ? 'x-i-selectedProduct' : ''}}"
+					@tap="onSelectProduct({{product}})">
+					<view class="x-i-name">{{product.cash}}元（{{product.mpcoin}}秀豆）</view>
+					<image mode="widthFix" wx:if="{{selectedProduct && selectedProduct.cash == product.cash}}" src="../../../images/mpcoin_selected.png" class="x-i-selectedIcon" />
+				</view>
+			</view>
+
+			<button wx:if="{{selectedProduct}}" class="x-i-btn" type="default" @tap="onTapShowPay">立即充值: {{selectedProduct.cash}}元</button>
+			<button wx:if="{{!selectedProduct}}" class="x-i-btn x-i-btn-disable" type="default">请选择充值金额</button>
+		</view>
+
+		<view class="x-panel mt10">
+			<view class="x-i-header">充值秀豆</view>
+			<view class="x-i-content mt10">
+				<view>充值秀豆无使用期限，充值成功后无法退款，不可提现。</view>
+				<view>如果遇到无法充值，充值失败等问题，可通过“<view class="x-i-link" @tap="onTapContact">联系我们</view>”向我们反馈，我们将竭诚帮您处理。</view>
+			</view>
+		</view>
+
+		<view class="x-panel x-panel-income mt10">
+			<view class="x-i-header">秀豆获取</view>
+			<view class="x-i-content mt10">
+				<view class="x-i-item">
+					<view class="x-i-text">补充完整店铺资料赠送200秀豆</view>
+					<view wx:if="{{!isPrizeMPCoinForProfile}}" class="x-i-btn" @tap="onTapEditProfile">去完成</view>
+					<view wx:if="{{isPrizeMPCoinForProfile}}" class="x-i-btn x-i-btn-disabled">已完成</view>
+				</view>
+				<view class="x-i-item">
+					<view class="x-i-text">每日分享小程序赠送10秀豆</view>
+					<view wx:if="{{!isSharedToday}}" class="x-i-btn" @tap="onTapShare">去完成</view>
+					<view wx:if="{{isSharedToday}}" class="x-i-btn x-i-btn-disabled">已分享</view>
+				</view>
+			</view>
+		</view>
+	</view>
+</template>
+
+<script>
+	import wepy from 'wepy'
+	import IMoneyService from '../../../services/imoney_service'
+	//import StoreService from '../../../services/store_service'
+	import FinanceService from '../../../services/finance_service'
+	
+	export default class Ads extends wepy.page {
+		config = {
+			navigationBarTitleText: "秀豆"
+		}
+
+		components = {
+		}
+
+		mixins = []
+
+		data = {
+			mpcoin: {
+				balance: 0
+			},
+
+			cash: {
+				balance: 0
+			},
+
+			products: [],
+
+			selectedProduct: null,
+			isSharedToday: true,
+			isPrizeMPCoinForProfile: true,
+
+			price: "",
+			use: '支付',
+			show_pay: false,
+		}
+
+		computed = {
+			
+		}
+
+		methods = {
+			onTapShowPay: function() {
+				if (this.checkHasSetPayPassword() == false) {
+					return;
+				} else {
+					this.show_pay = true;
+				}
+			},
+
+			onSelectProduct: function(product) {
+				this.selectedProduct = product;
+				this.price = this.selectedProduct.cash;
+			},
+
+			onTapDeposit: function() {
+				this.show_pay = false;
+				this.$apply();
+				
+				if (!this.selectedProduct) {
+					return;
+				}
+
+				if (this.cash.balance < this.selectedProduct.cash) {
+					wx.showToast({
+						title: '可提现余额不足，无法充值',
+						icon: 'none',
+						duration: 1500
+					});
+
+					return;
+				}
+
+				IMoneyService.deposit(this.selectedProduct.id).then(data => {
+					wx.showToast({
+						title: '充值成功，更新资产',
+						icon: 'none',
+						duration: 1500
+					});
+					this.loadIMoney();
+				})
+			},
+
+			onTapEditProfile: function() {
+				wx.navigateTo({
+					url: '/pages/profile/profile'
+				})
+			},
+
+			onTapShare: function() {
+				wx.navigateTo({
+					url: '/pages/card/card'
+				})
+			},
+
+			onTapContact: function() {
+				wx.navigateTo({
+					url: '/package/pages/support/support'
+				})
+			},
+
+			closePay: function() {
+				this.show_pay = false;
+			},
+		}
+
+		events = {
+			
+		}
+
+		loadIMoney() {
+			IMoneyService.getOutline().then(outline=>{
+				this.mpcoin = outline.mpcoin;
+				this.cash = outline.cash;
+				this.$apply();
+			}, resp=>{
+				console.log(resp)
+			});
+		}
+
+		loadTodayShare() {
+			let appId = this.$parent.globalData.app_id;
+			StoreService.isSharedToday(appId).then(isShared => {
+				this.isSharedToday = isShared;
+				this.$apply();
+			})
+		}
+
+		loadProfileCompletion() {
+			StoreService.getStore().then(store => {
+				this.isPrizeMPCoinForProfile = store.is_prize_mpcoin_for_profile;
+				this.$apply();
+			})
+		}
+
+		loadMPCoinProducts() {
+			FinanceService.getMPCoinProducts().then(products => {
+				this.products = products.map(product => {
+					return {
+						cash: product.price,
+						mpcoin: product.count,
+						id: product.id,
+						product_id: product.product_id
+					}
+				})
+				this.$apply();
+			})
+		}
+
+		onLoad() {
+		}
+
+		onShow() {
+			this.loadIMoney();
+			this.loadTodayShare();
+			this.loadProfileCompletion();
+			this.loadMPCoinProducts();
+		}
+	}
+</script>

@@ -1,0 +1,157 @@
+<style lang="less">
+page {
+	.layer {
+		height: 100vh;
+		left: 0;
+		position: fixed;
+		top: 0;
+		width: 100vw;
+		z-index: 99;
+
+		.bg {
+			background: rgba(0, 0, 0, .7);
+			height: 100%;
+			margin-bottom: -100vh;
+			width: 100%;
+		}
+
+		.list {
+			display: flex;
+			flex-wrap: wrap;
+			
+			navigator {
+				background-color: #fff;
+				border-radius: 12rpx;
+				color: #000;
+				display: block;
+				font-weight: bold;
+				height: 150rpx;
+				margin: 50rpx auto;
+				text-align: center;
+				width: 150rpx;
+				word-break: break-all;
+			}
+		}
+	}
+	.container {
+		display: flex;
+		flex-direction: column;
+		height: 100vh;
+		width: 100vw;
+
+		view {
+			align-items: center;
+			box-shadow: 0 0 30rpx 10rpx #999;
+			border-radius: 12rpx;
+			display: flex;
+			height: 150rpx;
+			justify-content: center;
+			margin: 50rpx;
+			position: relative;
+		}
+		image {
+			align-self: center;
+			border-radius: 50%;
+			box-shadow: 4rpx 5rpx 7rpx 7rpx #999;
+			display: block;
+			height: 140rpx;
+			width: 140rpx;
+		}
+		view.nomessages {
+			display: none;
+		}
+
+	}
+}
+</style>
+
+<template>
+	<view class="container">
+		<image mode="aspectFill" src="{{avatar}}"></image>
+		<view class="broadcast {{messagesState['op_broadcast_comment'].length > 0 ? '' : 'nomessages'}}" @tap.stop="tapShowlist('broadcast')">霸屏有新消息	</view>
+		<view class="datings {{messagesState['op_blog_comment'].length > 0 ? '' : 'nomessages'}}" @tap.stop="tapShowlist('blog')">动态新消息</view>
+		<view class="chating {{messagesState['op_chat_message'].length > 0 ? '' : 'nomessages'}}" @tap.stop="tapShowlist('chat')">聊天有新消息</view>
+	</view>
+	<view class="layer" wx:if="{{layerShow}}">
+		<view class="bg" @tap.stop="tapCloseLayer"></view>
+		<view class="list">
+			<block wx:for="{{messagesShowArray[0]}}" wx:key="id">
+				<navigator url="{{messagesShowArray[1]}}{{item}}" @tap.stop="tapDelTheMessage({{messagesShowArray[2]}}, {{item}}, {{index}})">{{messagesShowArray[3]}} {{item}}</navigator>
+			</block>
+		</view>
+	</view>
+</template>
+
+<script>
+import wepy from 'wepy'
+import Session from '../../lib/session'
+import UserService from '../../services/user_service'
+import AccountService from '../../services/account_service'
+
+export default class MessagesUser extends wepy.page {
+	config = {
+		navigationBarTitleText: '待办'
+	}
+
+	components = {
+
+	}
+
+	mixins = []
+
+	data = {
+		avatar: '',
+		layerShow: false,
+		messagesState: {},
+		messagesShowArray: []
+	}
+
+	methods = {
+		tapShowlist(e) {
+			this.layerShow = true
+			if (e == 'broadcast') {
+				this.messagesShowArray[0] = this.messagesState['op_broadcast_comment']
+				this.messagesShowArray[1] = '/pages/blog_detail/broadcast_blog_detail?id='
+				this.messagesShowArray[2] = 'op_broadcast_comment'
+
+				this.messagesShowArray[3] = '霸屏'
+			}else if (e == 'blog') {
+				this.messagesShowArray[0] = this.messagesState['op_blog_comment']
+				this.messagesShowArray[1] = '/pages/blog_detail/blog_detail?id='
+				this.messagesShowArray[2] = 'op_blog_comment'
+
+				this.messagesShowArray[3] = '动态'
+			}else {
+				this.messagesShowArray[0] = this.messagesState['op_chat_message']
+				this.messagesShowArray[1] = '/package/pages/chatroom/chatroom?touserid='
+				this.messagesShowArray[2] = 'op_chat_message'
+
+				this.messagesShowArray[3] = '私聊'
+			}
+		},
+		tapCloseLayer() {
+			this.layerShow = false
+		},
+		tapDelTheMessage(type, id, index) {
+			this.messagesShowArray[0].splice(index, 1)
+			UserService.delMessageToDo(type, id)
+			if (this.messagesShowArray[0].length == 0) {
+				this.layerShow = false
+			}
+		}
+	}
+
+	events = {
+	}
+
+	onLoad (res) {
+		this.avatar = res.avatar
+		this.$apply()
+
+		UserService.getOperaterMessages(res.id).then(res => {
+			this.messagesState = res.data
+			this.$apply()
+		})
+	}
+}
+</script>

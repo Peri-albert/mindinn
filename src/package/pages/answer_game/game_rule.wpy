@@ -1,0 +1,111 @@
+<style lang="less">
+page {
+	min-height: 100vh;
+	overflow-x: hidden;
+
+	//flex居中
+	.flexCenter {
+		align-items: center;
+		display: flex;
+		justify-content: center;
+	}
+	image {
+		display: block;
+	}
+	.gameRule-container {
+		background: url(https://vxiaocheng-jh.oss-cn-beijing.aliyuncs.com/mercury/challenge/container_bg.png) no-repeat;
+		background-size: cover;
+		box-sizing: border-box;
+		min-height: 100vh;
+		overflow: hidden;
+		padding-top: 5.31vh;
+
+		.rule-title {
+			height: 101rpx;
+			margin: 0 auto 3.814262vh;
+			width: 479rpx;
+		}
+
+		.rule-content {
+			background-color: #f9f0e1;
+			border-radius: 10rpx;
+			box-sizing: border-box;
+			margin: 0 auto;
+			padding: 100rpx 45rpx;
+			width: 692rpx;
+
+			.rule-text {
+				color: #766d64;
+				font-size: 24rpx;
+				margin-bottom: 4.643449vh;
+
+				.num {
+					color: #000;
+					font-weight: bold;
+				}
+			}
+		}
+	}	
+}
+</style>
+
+<template>
+	<view class="gameRule-container">
+		<image class="rule-title" src="https://vxiaocheng-jh.oss-cn-beijing.aliyuncs.com/mercury/game_rule/game_rule_pic.png"></image>
+
+		<view class="rule-content">
+			<view wx:for="{{showRules}}" class="rule-text">
+				<text class="num">{{index + 1}}、</text>
+				<text class="txt">{{item}}</text>
+			</view>
+		</view>
+	</view>
+</template>
+
+<script>
+import wepy from 'wepy'
+
+export default class GameRule extends wepy.page {
+	config = {
+		navigationBarTitleText: "挑战酒神"
+	}
+
+	components = {
+
+	}
+
+	mixins = []
+
+	data = {
+		showRules: [],
+		timeRules: ["答题规则：\n每题6秒倒计时\n答对可进行下一题\n答错可分享好友或重新挑战\n分享好友可继续回答 直到完成5道题目生成分数海报\n多次挑战按照最高分数进入榜单",
+			"计分规则：\n速度越快分数越高"
+		],
+		valueRules: ["游戏分3档难度，可选择任一难度进行挑战",
+			"挑战结束生成挑战结果",
+			"每答完一题可进行下一题",
+			"中途退出不生成挑战结果",
+			"挑战成绩可分享至好友或微信群"
+		]
+	}
+
+	computed = {
+	}
+
+	methods = {
+	}
+
+	events = {
+
+	}
+
+	onLoad(query) {
+		this.showRules = query.gameType == 'time' ? this.timeRules : this.valueRules
+	}
+
+	onShow() {
+		
+	}
+
+}
+</script>

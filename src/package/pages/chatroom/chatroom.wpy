@@ -1,0 +1,952 @@
+<style lang="less">
+	.container {
+		background-color: #ebebeb;
+		min-height: 100vh;
+		
+		.x-gift{
+			width: 114rpx;
+			height: 114rpx;
+			z-index: 2;
+			position:fixed;
+			bottom: 100rpx;
+			right: 20rpx;
+		}
+		.x-main {
+			.x-modal {
+				position: absolute;
+				top: 0;
+				right: 0;
+				left: 0;
+				bottom: 0;
+				width: 100%;
+				height: 100%;
+				display: flex;
+				justify-content: center;
+				align-items: center;
+			}
+
+			.x-modal-record {
+				.x-modal-body {
+					width: 304rpx;
+					height: 260rpx;
+					background-color:#000;
+					display: flex;
+					flex-direction: column;
+					justify-content: center;
+					align-items: center;
+					border-radius: 24rpx;
+					z-index: 999;
+					opacity: 0.6;
+					.x-desc {
+						color: #fff;
+						font-size: 22rpx;
+						margin-top: 190rpx;
+					}
+					.x-loading{
+						width: 144rpx;
+						height: 144rpx;
+						display: flex;
+						flex-direction: column;
+						position: absolute;
+						margin-top:-20rpx;
+						.x-dot {
+							width: 140rpx;
+							height: 140rpx;
+							display: flex;
+							justify-content: center;
+							align-items: center;
+							.x-icon-mic {
+								width: 75rpx;
+								height: 105rpx;
+							}
+						}
+						.x-wrapper{
+							width: 144rpx;
+							height: 144rpx;
+							top:0;
+							position: absolute;
+							overflow: hidden;
+							.x-Progress{
+								top: 4rpx;
+								left: 4rpx;
+								width: 132rpx;
+								height: 132rpx;
+								border-radius: 50%;
+								position: absolute;
+								-webkit-transform: rotate(-135deg);
+							}
+							.x-leftcircle{
+								border-bottom:4rpx solid #ec99ff;
+								border-left:4rpx solid #ec99ff;
+								border-top:4rpx solid white;
+								border-right:4rpx solid white;
+								-webkit-animation: circleProgressLoad_left 60s linear infinite;
+							}
+							.x-rightcircle{
+								border-bottom:4rpx solid white;
+								border-left:4rpx solid white;
+								border-top:4rpx solid #ec99ff;
+								border-right:4rpx solid #ec99ff;
+								-webkit-animation: circleProgressLoad_right 60s linear infinite;
+							}
+							@-webkit-keyframes circleProgressLoad_right{
+								0%{
+									-webkit-transform: rotate(-135deg);
+								}
+								50%,100%{
+									-webkit-transform: rotate(45deg);
+								}
+							}
+							@-webkit-keyframes circleProgressLoad_left{
+								0%,50%{
+									-webkit-transform: rotate(-135deg);
+								}
+								100%{
+									-webkit-transform: rotate(45deg);
+								}
+							}
+						}
+						.x-right{
+							z-index: 1;
+						}
+						.x-left{
+							width: 73rpx;
+							z-index: 2;
+						}
+					}
+				}
+			}
+
+			.x-scroll_view {
+				width: 100%;
+				left: 0;
+				top: 0;
+				right: 0;
+				bottom: 75px;
+
+				.x-message {
+					width: 92%;
+					height: auto;
+					padding: 0 34rpx;
+					.x-time {
+						padding: 48rpx 0 40rpx;				
+						text {
+							display: block;
+							font-size: 20rpx;
+							color: #000;
+							text-align: center;
+						}
+					}
+					.x-main{
+						margin-bottom: 36rpx;
+						.x-audio-time{
+							display: inline-block;
+							padding: 4px;
+							max-width: calc(85% - 40px);
+							font-size: 26rpx;
+							color: #545355;
+							overflow: hidden;
+							text-align: left;
+							word-break: break-all;
+							background-color: white;
+							border-radius: 16rpx;
+							margin-top:40rpx;
+
+						}
+						.x-avatar {
+							border: 3rpx solid #000;
+							box-sizing: border-box;
+							display: block;
+							width: 86rpx;
+							height: 86rpx;
+							margin: 0 30rpx 0 0;
+							border-radius: 50%;
+							float: left;
+						}
+						.x-msg {
+							background-color: #fff;
+							box-sizing: border-box;
+							display: inline-block;
+							padding: 27rpx 46rpx 25rpx 34rpx;
+							position: relative;
+							max-width: 535rpx;
+							font-size: 28rpx;
+							color: #010101;
+							text-align: left;
+							word-break: break-all;
+							border-radius: 40rpx;
+							._x-msg {
+								height: 48rpx;
+								overflow: hidden;
+								position: absolute;
+								top: 0;
+								width: 48rpx;
+							}
+							._x-msg::after {
+								background-color: #fff;
+								border-radius: 50%; 
+								content: '';
+								height: 96rpx;
+								position: absolute;
+								width: 96rpx;
+							}
+							.x-template {
+								display: inline;
+							}
+						}
+						.x-imagemsg{
+							display: inline-block;
+							padding: 4px;
+							max-width: calc(85% - 40px);
+							font-size: 26rpx;
+							color: #545355;
+							overflow: hidden;
+							text-align: left;
+							word-break: break-all;
+							background-color: #e0e0e0;
+							border-radius: 16rpx;
+							margin-top: 34rpx;
+							.x-template {
+								display: inline;
+							}
+						}
+					}
+					.x-self {
+						text-align: right;
+						.x-audio-time{
+							text-align: right;
+						}
+						.x-avatar {
+							float: right;
+							margin: 0 0 0 30rpx;
+						}
+
+						.x-msg {
+							background-color: #010101;
+							color: #fff;
+							padding: 27rpx 34rpx 25rpx 46rpx;
+							._x-msg::after {
+								background-color: #000;
+								left: -48rpx;
+							}
+						}
+						.x-imagemsg{
+							background-color: #a94cee;
+							color: #f2f2f2;
+						}
+
+						.x-msg::before {
+							right: inherit;
+							left: 100%;
+							border-right-color: transparent;
+							border-left-color: #a94cee;
+						}
+					}
+				}
+			}
+			.x-room_bar {
+				width: 100%;
+				height: auto;
+				border-top: 1px solid #CFCFCF;
+				bottom: 0;
+				right: 0;
+				z-index: 1;
+				background-color: #FFFFFF;
+				position: fixed;
+				.x-f-row{
+					width: 100%;
+					height: 88rpx;
+					display: flex;
+					background: #fff;
+					.x-news {
+						flex: 1;
+						height: 60rpx;
+						font-size: 14px;
+						padding-left: 36rpx;
+						background: #fff;
+					}
+					.x-foraudio {
+						font-size: 30rpx;
+						line-height: 88rpx;
+						text-align:center;
+						color:#838282;
+					}
+					.x-foraudio {
+						font-size: 30rpx;
+						line-height: 88rpx;
+						text-align:center;
+						color:#838282;
+					}
+					.x-send_btn{
+						width: 68rpx;
+						height: 88rpx;
+						display: flex;
+						align-items: center;
+						margin: 0 12rpx;
+					}
+					.x-other-item {
+						background-color: #fff;
+						height: 100%;
+						display: flex;
+						align-items: center;
+						justify-content: center;
+						overflow: hidden;
+						.x-send-audio{
+							width: 30rpx;
+							height:42rpx;
+							margin: 0 22rpx 0 26rpx;
+						}
+						.x-send-audio{
+							width: 30rpx;
+							height:42rpx;
+							margin: 0 22rpx 0 26rpx;
+						}
+						.x-send-text{
+							width: 48rpx;
+							height: 34rpx;
+							margin: 0 13rpx 0 17rpx;
+						}
+					}
+					.x-input-msg{
+						border: 1rpx solid #000;
+						border-radius: 70rpx;
+						box-sizing: border-box;
+						height: 68rpx;
+						display:flex;
+						margin-top: 10rpx;
+						align-items: center;
+						flex: 1;
+						overflow: hidden;
+					}
+				}
+				.emoji_list{
+					margin-top: 30px;
+					width: 100%;
+					height: 115px;
+					background-color: #dddddd;
+					padding-top: 10px;
+					padding-left: 3%;
+					display: none;
+					.emoji_item {
+						display: flex;
+						justify-content: space-around;
+						margin-right: 20px;
+					}
+				}
+
+				.showEmoji {
+					width: 100%;
+					height: 115px;
+					background-color: #dddddd;
+					padding-top: 10px;
+					padding-left: 3%;
+					display: block;
+				}
+				.x-emoji-send{
+					height: 30px;
+					width:100%;
+					.x-send-btn{
+						height:24px;
+						line-height: 24px;
+						margin-top:3px;
+						right: 3px;
+						text-align:center;
+						width:48px;
+						background:#8f2af1;
+						position:absolute;
+						color:white;
+						font-size:12px;
+					}
+				}
+				
+				.emoji_list image, .showEmoji image {
+				width: 26px;
+				height: 26px;
+				margin: 5px 2%;
+				}
+			}
+		}
+}
+</style>
+<template>
+	<view class="container">
+		<view class="x-main">
+			<view wx:if="{{recordStatus != RecordStatus.HIDE&&recordStatus != RecordStatus.SHOW}}" class="x-modal x-modal-record" bindtap="toggleRecordModal">
+				<view class="x-modal-body">
+					<view class="x-loading">
+						<view class="x-dot">
+							<image class="x-icon-mic" src="http://resource.vxiaocheng.com/mercury/chating.png" />
+						</view>
+						<view class="x-wrapper x-left">
+							<view class="x-Progress x-leftcircle"></view>
+						</view>
+						<view class="x-wrapper x-right">
+							<view class="x-Progress x-rightcircle"></view>
+						</view>
+					</view>
+					<text class="x-desc">{{RecordDesc[recordStatus]}}</text>
+				</view>
+			</view>
+			<scroll-view style="height: {{chatheight}}px" scroll-y="true" class="x-scroll_view" bindtap="cancelEmoji" scroll-into-view="{{ toView }}">
+				<view class="x-message" wx:for="{{ chatMsg }}" wx:key="" id="{{ item.mid }}">
+					<view wx:if="{{item.time}}" class="x-time">
+						<text>{{item.time}}</text>
+					</view>
+					<view class="x-main {{item.from==fromuserInfo.id ? 'x-self': '' }}">
+						<image mode="aspectFill" wx:if="{{item.from==fromuserInfo.id}}" class="x-avatar" src="{{fromuserInfo.avatar}}" @tap.stop="onTapEnterUser({{fromuserInfo.id}})" />
+						<image mode="aspectFill" wx:else class="x-avatar" src="{{touserInfo.avatar}}" @tap.stop="onTapEnterUser({{to_user_id}})" />
+						<view wx:if="{{item.duration&&item.from==fromuserInfo.id}}" class="x-audio-time">{{item.duration}}''</view>
+						<view wx:if="{{ item.type == 'img'}}" class="x-imagemsg">
+							<image mode="widthFix" src="{{ item.data }}" style="width:90px;margin-bottom:-5px;" bindtap="previewImage" data-url="{{ item.data }}" />
+						</view>
+						<view wx:elif="{{ item.type == 'audio'}}" class="x-imagemsg">
+							<view @tap.stop="tapPlayAudio({{item}})" style="width: {{item.duration >= 60 ? 320 : 100+2*item.duration}}rpx;display:flex;{{item.from!=fromuserInfo.id ? '' : 'flex-direction:row-reverse;'}}">
+								<image src="{{item.audioimg}}" style="width:40rpx;height:40rpx;" />
+							</view>
+						</view>
+						<view wx:elif="{{ item.type == 'gift' }}" class="x-msg">
+							<view class="_x-msg" style="{{item.from==fromuserInfo.id ? 'right' : 'left'}}: -14rpx;"></view>
+							<text style="float: left;margin-top: 2px;">{{item.from==fromuserInfo.id ? '送出一个' : '送给你一个'}} {{ item.data[0].data }}</text>
+						</view>
+						<view wx:else class="x-msg">
+							<view class="_x-msg" style="{{item.from==fromuserInfo.id ? 'right' : 'left'}}: -14rpx;"></view>
+							<view class="x-template">
+								<block wx:for="{{ item.data }}" wx:key="">
+									<image wx:if="{{ item.type == 'emoji' }}" class="avatar" src="{{'../../images/faces/' + item.data }}" style="width: 25px;height: 25px;margin: 0 0 2px 0;float: left;" />
+									<text wx:else style="float: left;margin-top: 2px;">{{ item.data }}</text>
+								</block>
+							</view>
+						</view>
+						<view wx:if="{{item.duration&&item.from!=fromuserInfo.id}}" class="x-audio-time">{{item.duration}}''</view>
+					</view>
+				</view>
+			</scroll-view>
+			<view class="x-room_bar">
+				<view class="x-f-row">
+					<view class="x-other-item" @tap="toggleRecordModal">
+						<image wx:if="{{recordStatus == RecordStatus.HIDE}}" src="https://vxiaocheng-jh.oss-cn-beijing.aliyuncs.com/mercury/chatroom/audioinput_icon.png" class="x-send-audio" />
+						<image wx:else src="https://vxiaocheng-jh.oss-cn-beijing.aliyuncs.com/mercury/chatroom/keyboard_input_icon.png" class="x-send-text" />
+					</view>
+					<view wx:if="{{recordStatus == RecordStatus.HIDE}}" class="x-input-msg">
+						<!-- 文本输入框 -->
+						<input class="f x-news x-inputtext" type="text" value="{{ inputMessage }}" placeholder="输入新消息" placeholder-style="color:#CFCFCF;padding-left:5px;" bindinput="bindMessage" @tap="focus" />
+						<!-- 发送图片按钮 -->
+						<view class="x-other-item">
+							<image @tap="sendImage" src="https://vxiaocheng-jh.oss-cn-beijing.aliyuncs.com/mercury/chatroom/pic_input_icon.png" style="height: 48rpx;width: 48rpx;" />
+						</view>
+						<!-- 发送表情按钮 -->
+						<view class="x-other-item">
+							<image @tap="openEmoji" src="https://vxiaocheng-jh.oss-cn-beijing.aliyuncs.com/mercury/chatroom/emoji_input_icon.png" style="height: 48rpx;width: 48rpx;margin: 0 10rpx 0 16rpx;" />
+						</view>
+					</view>
+					<!-- 按住说话按钮 -->
+					<view wx:else class="x-news x-foraudio" catchtouchstart="handleRecording" catchtouchmove="handleRecordingMove" catchtouchend="handleRecordingStop" catchtouchcancel="handleRecordingStop">按住说话</view>
+					<!-- 发送消息按钮 -->
+					<view @tap="sendMessage" class="x-send_btn">
+						<image src="https://vxiaocheng-jh.oss-cn-beijing.aliyuncs.com/mercury/chatroom/send_message_icon.png" style="height: 68rpx;width: 68rpx;" />
+					</view>
+				</view>
+				<swiper class="emoji_list" class=" {{ show }}" duration="{{duration}}">
+					<block>
+						<swiper-item>
+							<view class="emoji_item">
+								<image wx:for="{{ emojiObj.map1 }}" src="{{ emojiObj.path + item }}" wx:key="" bindtap="sendEmoji" data-emoji="{{ index }}" />
+							</view>
+							<view class="emoji_item">
+								<image wx:for="{{ emojiObj.map2 }}" src="{{ emojiObj.path + item }}" wx:key="" bindtap="sendEmoji" data-emoji="{{ index }}" />
+							</view>
+							<view class="emoji_item">
+								<image wx:for="{{ emojiObj.map3 }}" src="{{ emojiObj.path + item }}" wx:key="" bindtap="sendEmoji" data-emoji="{{ index }}" />
+							</view>
+						</swiper-item>
+					</block>
+					<block class="x-second">
+						<swiper-item>
+							<view class="emoji_item">
+								<image wx:for="{{ emojiObj.map4 }}" src="{{ emojiObj.path + item }}" wx:key="" bindtap="sendEmoji" data-emoji="{{ index }}" />
+							</view>
+							<view class="emoji_item">
+								<image wx:for="{{ emojiObj.map5 }}" src="{{ emojiObj.path + item }}" wx:key="" bindtap="sendEmoji" data-emoji="{{ index }}" />
+							</view>
+							<view class="emoji_item">
+								<image wx:for="{{ emojiObj.map6 }}" src="{{ emojiObj.path + item }}" wx:key="" bindtap="sendEmoji" data-emoji="{{ index }}" />
+							</view>
+						</swiper-item>
+					</block>
+				</swiper>
+				<!-- <view wx:if="{{show!='emoji_list'}}" class="x-emoji-send">
+					<view @tap="sendMessage" class="x-send-btn">发送</view>
+				</view> -->
+			</view>
+		</view>
+		<image mode="scaleToFill" class="x-gift" @tap="onTapAccost" src="https://resource.vxiaocheng.com/mercury/private_chat_gift_image.png" style="bottom: {{ show=='emoji_list' ? '100' : '500'}}rpx" wx:if="{{enableMP && !isiPhoneUser}}" />
+		<mp-widget></mp-widget>
+	</view>
+</template>
+<script>
+import wepy from 'wepy';
+import formSender from '../../../components/form_sender';
+import UserService from '../../../services/user_service'
+import Uploader from '../../../lib/uploader'
+import WebIMService from '../../../services/webim_service'
+import AudioService from '../../../services/audio_service'
+import MD5 from '../../../lib/md5';
+import MP from '../../../services/mp_service'
+import MPWidget from '../../../components/mp_widget'
+import GiftService from '../../../services/gift_service'
+import _ from '../../../lib/mptool'
+import StorageService from '../../../services/storage_service'
+
+export default class Support extends wepy.page {
+	config = {
+		navigationBarTitleText: "聊天",
+		enablePullDownRefresh: true
+	};
+	components = {
+		'mp-widget': MPWidget
+	};
+
+	data = {
+		chatheight: 0,
+		title: '聊天',
+		chatMsg: [],
+		emojiStr: '',
+		touserInfo: {},
+		fromuserInfo: {},
+		sendInfo: '',
+		userMessage: '',
+		inputMessage: '',
+		indicatorDots: true,
+		autoplay: false,
+		interval: 5000,
+		duration: 1000,
+		show: 'emoji_list',
+		view: 'scroll_view',
+		toView: '',
+		emoji: WebIMService.Emoji.EmojiList,
+		emojiObj: WebIMService.Emoji.EmojiObj,
+		msgView: {},
+		RecordStatus: {
+			SHOW: 0,
+			HIDE: 1,
+			HOLD: 2,
+			SWIPE: 3,
+			RELEASE: 4
+		},
+		RecordDesc: {
+			0: '长按开始录音',
+			2: '手指上滑，取消发送',
+			3: '松开手取消',
+		},
+		recordStatus: 1,
+		sendJSON: "",
+		formid: '',
+		enableMP: false,
+		receiveMsg: '',
+		to_user_id: 0,
+		myid: 0,
+		isiPhoneUser: false,
+	};
+
+	methods = {
+		onTapEnterUser(id) {
+			wx.navigateTo({
+				url: '/pages/paoypao/paoypao_friend?id=' + id,
+			})
+		},
+
+		tapPlayAudio(item) {
+			let self = this;
+			let mindex = 0;
+			let num = 0;
+			self.chatMsg.forEach(msg => {
+				if (item.mid == msg.mid) {
+					mindex = num;
+				}
+				num += 1;
+			});
+			let stopevent = () => {
+				self.innerAudioContext.stop();
+				clearTimeout(self.chatMsg[mindex].timeout);
+				setTimeout(() => {
+					if (self.chatMsg[mindex].from == self.myid) {
+						self.chatMsg[mindex].audioimg = '../../images/voice/left00.png'
+
+					} else {
+						self.chatMsg[mindex].audioimg = '../../images/voice/right00.png'
+
+					}
+					self.chatMsg[mindex].audioplay = 0;
+					self.$apply();
+				}, 500);
+			}
+			let playevnet = () => {
+				if (self.innerAudioContext.paused) {
+					stopevent();
+					return
+				}
+				if (self.chatMsg[mindex].audioplay >= 3) {
+					self.chatMsg[mindex].audioplay = 1;
+				} else {
+					self.chatMsg[mindex].audioplay += 1;
+				}
+				if (self.chatMsg[mindex].from == self.myid) {
+					self.chatMsg[mindex].audioimg = `../../images/voice/left0${self.chatMsg[mindex].audioplay}.png`
+
+				} else {
+					self.chatMsg[mindex].audioimg = `../../images/voice/right0${self.chatMsg[mindex].audioplay}.png`
+
+				}
+				self.$apply();
+				self.chatMsg[mindex].timeout = setTimeout(playevnet, 300);
+			}
+			if (self.chatMsg[mindex].audioplay == 0) {
+				self.innerAudioContext.stop();
+				self.chatMsg.forEach(msg => {
+					if (msg.timeout) {
+						clearTimeout(msg.timeout);
+						setTimeout(() => {
+
+							if (msg.from == self.myid) {
+								msg.audioimg = '../../images/voice/left00.png'
+
+							} else {
+								msg.audioimg = '../../images/voice/right00.png'
+
+							}
+							msg.audioplay = 0;
+							self.$apply();
+						}, 500);
+					}
+				});
+				self.innerAudioContext.src = self.chatMsg[mindex].data;
+				self.innerAudioContext.play();
+				self.chatMsg[mindex].timeout = setTimeout(playevnet, 300);
+			} else {
+				stopevent();
+			}
+		},
+		onTapAccost() {
+			var self = this;
+			MP.sendGift({
+				userId: self.to_user_id,
+				complete: async (success = false, gift = null) => {
+					if (success && gift) {
+						var msgData = await WebIMService.sendGiftMsg(this.to_user_id, gift.name, self.fromuserInfo)
+						self.refreshChat(msgData);
+						self.userMessage = '';
+						self.$apply();
+					}
+					//如送给运营则put
+					UserService.getIsOperater(self.to_user_id).then(res => {
+						if (res.exist) {
+							UserService.putMessagesToDo(self.to_user_id, 'op_chat_message', self.myid)
+						}
+					})
+				}
+			});
+		},
+		audioerror(e) {
+			console.log("audioerror........");
+			console.log(e);
+		},
+		bindMessage: function(e) {
+			this.userMessage = e.detail.value;
+			this.inputMessage = e.detail.value;
+		},
+		sendMessage: async function(e) {
+			this.cleanInput();
+			if (!this.userMessage.trim()) return;
+
+			var msgData = await WebIMService.sendIMmsg("txt", this.to_user_id, this.sendInfo, this.fromuserInfo);
+			this.showMsgs(msgData);
+			this.userMessage = '';
+			this.$apply();
+
+			//如送给运营则put
+			UserService.getIsOperater(this.to_user_id).then(res => {
+				if (res.exist) {
+					UserService.putMessagesToDo(this.to_user_id, 'op_chat_message', this.myid)
+				}
+			})
+		},
+		openEmoji() {
+			this.show = 'showEmoji'
+			this.chatheight = this.chatheightWithEmogi;
+			this.$apply();
+		},
+		sendEmoji(event) {
+			var self = this
+			var emoji = event.target.dataset.emoji
+			var msglen = self.userMessage.length - 1
+			if (emoji && emoji != '[del]') {
+				var str = self.userMessage + emoji
+			} else if (emoji == '[del]') {
+				var start = self.userMessage.lastIndexOf('[')
+				var end = self.userMessage.lastIndexOf(']')
+				var len = end - start
+				if (end != -1 && end == msglen && len >= 3 && len <= 4) {
+					var str = self.userMessage.slice(0, start)
+				} else {
+					var str = self.userMessage.slice(0, msglen)
+				}
+			}
+			this.userMessage = str
+			this.inputMessage = str
+		},
+		focus() {
+			// this.show = 'emoji_list'
+			this.chatheight = this.chatheightWithoutEmogi;
+			this.$apply();
+		},
+		cancelEmoji() {
+			this.show = 'emoji_list'
+			this.chatheight = this.chatheightWithoutEmogi;
+			console.log(this.show);
+			this.$apply();
+		},
+		sendImage() {
+			var self = this
+			this.noEmoji();
+			wx.chooseImage({
+				count: 1,
+				sizeType: ['original', 'compressed'],
+				success: function(res) {
+					self.methods.upLoadImage(res, self)
+				}
+			})
+		},
+		async upLoadImage(res, self) {
+			var tempFilePaths = res.tempFilePaths
+			wx.getImageInfo({
+				src: res.tempFilePaths[0],
+				success: async function(res) {
+					var allowType = {
+						'jpg': true,
+						'gif': true,
+						'png': true,
+						'bmp': true
+					};
+					var width = res.width
+					var height = res.height
+					var index = res.path.lastIndexOf('.')
+					if (index != -1) {
+						var filetype = res.path.slice(index + 1)
+					}
+					if (filetype.toLowerCase() in allowType) {
+						let urls = await Uploader.uploadImages([tempFilePaths[0]]);
+						var data = res.data
+						var msgData = await WebIMService.sendIMmsg("img", self.to_user_id, urls[0], self.fromuserInfo);
+						self.showMsgs(msgData);
+
+					}
+				}
+			})
+		},
+		previewImage: function(event) {
+			var url = event.target.dataset.url
+			wx.previewImage({
+				urls: [url] // 需要预览的图片http链接列表
+			})
+		},
+		toggleRecordModal: function(e) {
+			this.recordStatus = this.recordStatus == this.RecordStatus.HIDE ? this.RecordStatus.SHOW : this.RecordStatus.HIDE;
+		},
+		handleRecordingMove: function(e) {
+			var touches = e.touches[0]
+			var changedTouches = this.changedTouches
+
+			if (!this.changedTouches) {
+				return
+			}
+			if (this.recordStatus == this.RecordStatus.SWIPE) {
+				if (changedTouches.pageY - touches.pageY < 20) {
+					this.recordStatus = this.RecordStatus.HOLD
+				}
+			}
+			if (this.recordStatus == this.RecordStatus.HOLD) {
+				if (changedTouches.pageY - touches.pageY > 20) {
+					this.recordStatus = this.RecordStatus.SWIPE
+				}
+			}
+
+		},
+		handleRecording: function(e) {
+			var self = this
+			this.changedTouches = e.touches[0]
+			this.recordStatus = this.RecordStatus.HOLD
+
+			AudioService.start();
+		},
+		async handleRecordingStop() {
+			let duration = await AudioService.stop();
+			let self = this;
+			if (this.recordStatus == this.RecordStatus.SWIPE) {
+				this.recordStatus = this.RecordStatus.RELEASE
+			} else {
+				this.recordStatus = this.RecordStatus.HIDE
+			}
+			if (self.recordStatus == self.RecordStatus.RELEASE) {
+				console.log('user canceled')
+				this.recordStatus = this.RecordStatus.SHOW
+				this.$apply();
+				return
+			} else {
+				this.recordStatus = this.RecordStatus.HIDE
+				this.$apply();
+			}
+			if (duration < 1) {
+				return
+			}
+			let url = await AudioService.upload();
+			var msgData = await WebIMService.sendIMmsg("audio", self.to_user_id, url, self.fromuserInfo, duration);
+			self.showMsgs(msgData);
+		}
+	};
+
+	noEmoji() {
+		this.show = 'emoji_list'
+		this.chatheight = this.chatheightWithoutEmogi;
+		this.$apply();
+	}
+	cleanInput() {
+		this.sendInfo = this.userMessage;
+		this.inputMessage = '';
+		this.$apply();
+	}
+
+	events = {};
+	initInterval() {
+		let self = this;
+		self.refreshChat();
+		this.receiveMsg = setInterval(() => {
+			self.refreshChat();
+		}, 5000);
+	}
+	async refreshChat() {
+		var msgs = await WebIMService.loadUnReadMsgs(this.to_user_id)
+		this.showMsgs()
+	}
+	showMsgs() {
+		var value = WebIMService.loadMsgs(this.to_user_id)
+		if (value.length > 0) {
+			this.chatMsg = value;
+			this.chatMsg.forEach((msg, index) => {
+				if (msg.type == 'audio') {
+					if (msg.from == this.myid) {
+						msg.audioimg = "../../images/voice/left00.png"
+						msg.audioplay = 0
+					} else {
+						msg.audioimg = "../../images/voice/right00.png"
+						msg.audioplay = 0
+					}
+				}
+				msg.msgtime = msg.time
+				if (index > 0 && msg.msgtime.split(":").slice(0, -1).join(":") == this.chatMsg[index - 1].msgtime.split(":").slice(0, -1).join(":")) {
+					msg.time = "";
+				}
+			});
+			this.toView = this.chatMsg[this.chatMsg.length - 1].mid
+			this.$apply();
+		}
+	}
+	initAudioContext() {
+		this.innerAudioContext = wx.createInnerAudioContext()
+		this.innerAudioContext.onError((res) => {
+			console.log(res.errMsg)
+			console.log(res.errCode)
+		})
+		this.innerAudioContext.onPlay(() => {
+			console.log('开始播放')
+		})
+	}
+
+	async onLoad(options) {
+		this.isiPhoneUser = StorageService.get('isiPhoneUser');
+		MP.bind(this);
+		let self = this;
+		wx.getSystemInfo({
+			success: function(res) {
+				let statusBarHeight = parseInt(res.statusBarHeight);
+				let tabHeight = 46
+				if (res.model.indexOf('iPhone') >= 0) {
+					tabHeight = 44
+				}
+				self.chatheight = res.windowHeight - res.windowWidth / 750 * 88;
+				self.chatheightWithoutEmogi = self.chatheight;
+				self.chatheightWithEmogi = res.windowHeight - res.windowWidth / 750 * 88 - 145;
+				self.$apply();
+			}
+		})
+		this.initAudioContext();
+		this.fromuserInfo = await UserService.getUserInfo();
+		this.enableMP = this.fromuserInfo.enable_mpcoin;
+		this.$apply();
+
+		let toUserId = options.touserid;
+
+		if (!this.fromuserInfo.id || !toUserId || this.fromuserInfo.id == toUserId) {
+			wx.showToast({
+				"title": '用户信息错误',
+				'icon': 'none',
+				'duration': 1500
+			})
+			setTimeout(() => {
+				wx.navigateBack({
+					delta: 1
+				})
+			}, 1500);
+		}
+		this.touserInfo = await UserService.getUserInfo(toUserId);
+		this.myid = this.fromuserInfo.id
+		this.to_user_id = this.touserInfo.id
+
+		wx.setNavigationBarTitle({
+			title: this.touserInfo.name
+        })
+        WebIMService.Queue.reset(this.to_user_id)
+		this.initInterval()
+	}
+
+	onUnload() {
+		clearInterval(this.receiveMsg);
+	}
+
+	async onPullDownRefresh() {
+		wx.showLoading({
+			mask: true
+		})
+		let fromid = 0
+		if (this.chatMsg.length > 0 && this.chatMsg[0].id) {
+			fromid = this.chatMsg[0].id
+		}
+		let msgs = await WebIMService.getHistroyMsgs(this.to_user_id, fromid)
+		this.showMsgs(msgs)
+		this.finishRefresh();
+	}
+
+	finishRefresh() {
+		wx.stopPullDownRefresh()
+		wx.hideLoading()
+	}
+
+	onShareAppMessage(e) {
+		const title = e.target.dataset.sharedata.title
+		const base = e.target.dataset.sharedata.base
+		const target = encodeURIComponent(`/pages/paoypao/paoypao_friend?id=${this.to_user_id}`)
+		GiftService.getUserShareGiftCount().then(res => {
+			if (res) {
+				if (!res.share_gift_count) return;
+				GiftService.updateUserFreeGiftCount(1)
+				GiftService.updateUserShareGiftCount()
+			}
+		})
+		return {
+			title: title,
+			path: base + target,
+			imageUrl: this.touserInfo.avatar,
+		}
+
+	}
+}
+</script>

@@ -1,0 +1,654 @@
+<style lang="less">
+@import "../../../base";
+
+@primaryColor: #5508b5;
+page {
+	.container {
+		padding: 0rpx 20rpx;
+		padding-bottom: 30rpx;
+		font-size: 32rpx;
+		.x-dating {
+			width: 100%;
+			top: 0;
+			left: 0;
+			z-index: 1;
+			background-color: #fff;
+
+			.x-i-titleZone {
+				position: relative;
+				text-align: center; 
+				margin-top: 20rpx;
+			}
+			.x-i-titleBg {
+				display: flex;
+				flex-direction: row;
+				align-items: center;
+				position: relative;
+				width: 80%;
+				top: 40rpx;
+				left: 0rpx;
+				z-index: 10;
+				margin: 0rpx auto;
+
+				.x-i-dot {
+					width: 15rpx;
+					height: 15rpx;
+					border-radius: 10rpx;
+					background-color: @primaryColor;
+				}
+				.x-i-line {
+					flex: 1;
+					height:1rpx;
+					border-bottom:2rpx dashed @primaryColor;
+				}
+			}
+
+			.x-i-title {
+				position: relative;
+				color: @primaryColor;
+				text-align: center;
+				font-size: 1.2em;
+				margin: 0rpx auto;
+				display: inline-block;
+				background-color: #FFF;
+				padding: 5rpx 30rpx;
+				z-index: 10000;
+			}
+			.x-i-status {
+				color: @primaryColor;
+				text-align: center;
+			}
+			swiper.x-i-cover {
+				margin-top: 25rpx;
+				height: 500rpx;
+
+				image {
+					width: 100%;
+					min-width: 100%;
+					max-width: 100%;
+				}
+			}
+			.x-i-founder {
+				display: flex;
+				flex-direction: row;
+				align-items: center;
+
+				.x-i-avatar {
+					image {
+						width: 90rpx;
+						height: 90rpx;
+						border-radius: 50%;
+						margin-right: 20rpx;
+					}
+				}
+
+				.x-i-name {
+					flex: 1;
+					height: 90rpx;
+					line-height: 90rpx;
+					color: @primaryColor;
+
+					.x-i-suffix {
+						font-size: 0.8em;
+						color: #AFAFAF;
+						display: inline;
+						margin-left: 15rpx;
+					}
+				}
+
+				.x-i-datingTypeImg {
+					image {
+						width: 180rpx;
+						height: 80rpx;
+					}
+					text {
+						position: absolute;
+						top: 26rpx;
+						right: 30rpx;
+						font-size: 22rpx;
+						color: #fff;
+					}
+					position: relative;
+				}
+				.x-i-datingType {
+					background-color: @primaryColor;
+					color: #fff;
+					height: 60rpx;
+					line-height: 60rpx;
+					padding-left: 25rpx;
+					padding-right: 20rpx;
+					border-top-right-radius: 20rpx;
+					border-bottom-right-radius: 20rpx;
+				}
+			}
+			.x-i-detail {
+				margin-left: 90rpx;
+				color: @primaryColor;
+
+				image {
+					width: 38rpx;
+					height: 38rpx;
+					margin-right: 10rpx;
+				}
+
+				.x-i-description {
+					color: #727272;
+					padding-right: 20rpx;
+					margin: 20rpx 0 40rpx;
+					font-size: 30rpx;
+				}
+
+				.x-i-date {
+					font-size: 26rpx;
+				}
+
+				.x-i-addressInfo {
+					display: flex;
+					flex-direction: row;
+					font-size: 26rpx;
+
+					.x-i-address {
+						flex: 1;
+					}
+
+					.x-i-map {
+						font-size: 24rpx;
+						color: #7941c7;
+					}
+				}
+			}
+			.x-i-joinerInfo {
+				margin-left: 90rpx;
+				color: @primaryColor;
+
+				image {
+					width: 38rpx;
+					height: 38rpx;
+					margin-right: 10rpx;
+				}
+
+				.x-i-count {
+
+				}
+				.x-i-joiners {
+					display: inline-block;
+					width: 80%;
+					height: 80rpx;
+					white-space: nowrap;
+					margin-top: 20rpx;
+					image {
+						width: 80rpx;
+						height: 80rpx;
+						margin-right: 15rpx;
+						border-radius: 50%;
+					}
+				}
+			}
+		}
+
+		.x-i-rejectHint {
+			margin-left: 90rpx;
+			background-color: #d9534f;
+			padding: 10rpx;
+			color: #FFF;
+			border-radius: 10rpx;
+		}
+
+		.x-actions {
+			display: flex;
+			margin-top: 90rpx;
+			justify-content: space-between;
+
+			button {
+				width: 46%;
+				border: 1px solid @primaryColor;
+				color: @primaryColor;
+				font-size: 30rpx;
+				background-color: #fff;
+				border-radius: 45rpx;
+				height: 80rpx;
+				line-height: 60rpx;
+			}
+
+			.x-i-btn {
+				flex: 1;
+				margin: 0rpx 10rpx;
+				border-radius: 30rpx;
+				height: 80rpx;
+				line-height: 80rpx;
+				text-align: center;
+			}
+			.x-i-btn-join {
+				background-color: @primaryColor;
+				color: #FFF;
+			}
+			.x-i-btn-share {
+				background-color: #FFF;
+				font-size: 32rpx;
+				line-height: 60rpx;
+				border: solid 1px @primaryColor;
+				color: @primaryColor;
+			}
+		}
+
+		.x-comments {
+			width: 100%;
+			margin-top: 72rpx;
+			.x-i-header {
+				width: 100%;
+				display: flex;
+				flex-direction: row;
+				align-items: center;
+
+				image {
+					width: 38rpx;
+					height: 38rpx;
+					margin-right: 10rpx;
+				}
+				image.x-i-comment-trigger {
+					width: 54rpx;
+					height: 74rpx;
+					margin-right: 0rpx;
+				}
+				image.x-i-date-again {
+					width: 92rpx;
+					height: 72rpx;
+					margin-right: 0rpx;
+				}
+
+				.x-i-full {
+					flex: 1;
+				}
+			}
+
+			.x-i-comments {
+				margin-top: 34rpx;
+			}
+
+			.x-i-comment {
+				display: flex;
+				flex-direction: row;
+				padding: 20rpx 0rpx;
+				border-bottom: solid 1px #EFEFEF;
+				position: relative;
+				.x-i-avatar {
+					image {
+						width: 90rpx;
+						height: 90rpx;
+						border-radius: 50%;
+						margin-right: 20rpx;
+					}
+				}
+				.x-i-contentZone {
+					flex: 1;
+					.x-i-name {
+						color: @primaryColor;
+					}
+					.x-i-content {
+						margin-top: 15rpx;
+					}
+				}
+				.x-i-time {
+					position: absolute;
+					color: #CFCFCF;
+					top: 20rpx;
+					right: 10rpx;
+					font-size: 0.8em;
+				}
+			}
+
+			.x-i-images {
+				margin-top: 10rpx;
+				width: 100%;
+				.x-i-image {
+					float: left;
+					width: 150rpx;
+					height: 200rpx;
+					margin-right: 15rpx;
+					margin-bottom: 15rpx;
+					overflow: hidden;
+					image {
+						width: 100%;
+						height: 200rpx;
+					}
+				}
+			}
+		}
+	}
+}
+
+</style>
+
+<template>
+<view class="container">
+	<view class="x-dating">
+		<view class="x-i-titleZone">
+			<view class="x-i-titleBg">
+				<view class="x-i-dot"></view>
+				<view class="x-i-line"></view>
+				<view class="x-i-dot"></view>
+			</view>
+			<view class="x-i-title">{{datingInfo.topic}}</view>
+		</view>
+		<view class="x-i-status">{{statusText}}</view>
+		<swiper class="x-i-cover" duration="500" circular="true" interval="3000" autoplay>
+			<block wx:for="{{datingInfo.images}}" wx:key="{{image.id}}" wx:for-item="image">
+				<swiper-item>
+					<view>
+						<image mode="aspectFill" src="{{image.url}}"></image>
+					</view>
+				</swiper-item>
+			</block>
+		</swiper>
+		<view class="x-i-founder">
+			<view class="x-i-avatar">
+				<image mode="aspectFill" src="{{datingInfo.user.avatar}}" @tap.stop="onTapEnterUser({{datingInfo.user.id}})"></image>
+				</view>
+			<view class="x-i-name">{{datingInfo.user.name}}<view class="x-i-suffix">发起一个局</view></view>
+			<view class="x-i-datingTypeImg">
+				<image src="http://resource.vxiaocheng.com/mercury/daing/dating_type_suren.png" wx:if="{{datingInfo.dating_type.name == '素人局'}}"/>
+				<image src="http://resource.vxiaocheng.com/mercury/daing/dating_type_yiqing.png" wx:if="{{datingInfo.dating_type.name == '怡情局'}}"/>
+				<image src="http://resource.vxiaocheng.com/mercury/daing/dating_type_yangsheng.png" wx:if="{{datingInfo.dating_type.name == '养生局'}}"/>
+				<image src="http://resource.vxiaocheng.com/mercury/daing/dating_type_shengyan.png" wx:if="{{datingInfo.dating_type.name == '盛宴豪局'}}"/>
+				<text>{{datingInfo.dating_type.name}}</text>
+			</view>		
+		</view>
+		<view class="x-i-detail">
+			<view class="x-i-description">{{datingInfo.description}}</view>
+			<view class="x-i-date mt10"><image src="../../images/time.png" mode="widthFix"/>{{datingInfo.time}}</view>
+			<view wx:if="{{status == 'ongoing'}}" class="x-i-date mt10"><image src="../../images/joiner_count.png" mode="widthFix"/>{{datingInfo.join_count}}人</view>
+			<view class="x-i-addressInfo mt10">
+				<image src="../../images/location.png" mode="widthFix"/>
+				<view class="x-i-address">{{datingInfo.showAddress}}</view>
+				<view class="x-i-map" @tap="onTapChooseAddress">查看地图</view>
+			</view>
+		</view>
+		<view wx:if="{{status == 'finished'}}" class="x-i-joinerInfo">
+			<view class="x-i-count mt10"><image src="../../images/joiner_count.png" mode="widthFix"/>{{datingInfo.join_count}}人</view>
+			<view class="x-i-joiners">
+				<scroll-view scroll-x style="width:100%;">
+					<repeat for="{{joiners}}" key="{{joiner.id}}" index="index" item="joiner"> 
+						<image src="{{joiner.avatar}}" @tap.stop="onTapEnterUser({{joiner.id}})"/>
+					</repeat>
+				</scroll-view>
+			</view>
+		</view>
+	</view>
+
+	<view class="x-i-rejectHint" wx:if="{{userJoinStatus == 'reject'}}">报名结果: 您的申请已被拒绝</view>
+	<view class="x-i-rejectHint" wx:if="{{userJoinStatus == 'blocked'}}">您已被踢出局</view>
+	<view wx:if="{{status == 'closed'}}" class="x-actions">
+		<view class="x-i-btn x-i-btn-join" @tap="onTapJoin" wx:if="{{userJoinStatus == '' || userJoinStatus == 'reject'}}">群主我还想报名</view>
+		<view class="x-i-btn x-i-btn-join" wx:if="{{userJoinStatus == 'ongoing'}}">已报名，等待通过</view>
+		<button open-type="share" class="x-i-btn x-i-btn-share">叫上小伙伴一起找群主</button>
+	</view>
+
+	<view wx:if="{{status == 'ongoing' && enableMP}}" class="x-actions">
+		<button open-type="share">分享到微信群</button>
+		<button @tap="onTapSharePoster">分享到朋友圈</button>
+	</view>
+
+	<view wx:if="{{status == 'finished'}}" class="x-comments">
+		<view class="x-i-header">
+			<view class="x-i-full"><image src="../../images/comment_header.png" />评价区</view>
+			<view @tap="onTapComment" wx:if="{{userJoinStatus == 'pass'}}">
+				<image src="../../images/comment_triger.png" class="x-i-comment-trigger"/>
+			</view>
+			<view @tap="onTapDateAgain" style="margin-left:15rpx;" wx:if="{{selfId == userId}}">
+				<image src="../../images/date_again.png" class="x-i-date-again"/>
+			</view>
+		</view>
+		<view class="x-i-comments">
+		<view 
+			wx:for="{{datingInfo.ratings}}" 
+			wx:for-item="comment" 
+			wx:key="{{comment.id}}"
+			class="x-i-comment"
+		>
+			<view class="x-i-avatar">
+				<image src="{{comment.user.avatar}}" @tap.stop="onTapEnterUser({{comment.user.id}})"/>
+			</view>
+			<view class="x-i-contentZone">
+				<view class="x-i-name">{{comment.user.name}}</view>
+				<view class="x-i-content">{{comment.content}}</view>
+				<view class="x-i-images" wx:if="{{comment.images.length > 0}}">
+					<view
+						wx:for="{{comment.images}}" 
+						wx:for-item="image" 
+						wx:key="index"
+						class="x-i-image"
+					>
+						<image mode="aspectFill" src="{{image+'?x-oss-process=image/resize,m_lfit,s_100/quality,q_80'}}" @tap.stop="onTapPreviewImg({{comment}}, {{image}})" />
+					</view>
+				</view>
+			</view>
+			<view class="x-i-time">{{comment.created_at}}</view>
+		</view>
+		</view>
+	</view>
+</view>
+</template>
+
+<script>
+import wepy from 'wepy';
+const app = getApp();
+import UserService from '../../../services/user_service';
+import AccountService from '../../../services/account_service';
+import DatingService from '../../../services/dating_service';
+import LocationService from '../../../services/location_service';
+import _ from '../../../lib/mptool';
+
+export default class Support extends wepy.page {
+	config = {
+		navigationBarTitleText: "组局详情"
+	};
+	components = {
+	};
+
+	data = {
+		userId: 0,
+		selfId: 0,
+		datingId: 0,
+		datingInfo: {},
+		userJoinStatus: '',
+		joiners: [],
+		status: '',
+		enableMP: false,
+	};
+
+	computed = {
+		statusText: () => {
+			if (!this.datingInfo.is_closed) {
+				return '';
+			}
+
+			if (this.datingInfo.is_finished) {
+				return '';
+			} else {
+				return '（ 私聊中 ）';
+			}
+		},
+	};
+
+	methods = {
+		onTapEnterUser(id) {
+			wx.navigateTo({
+				url: '/pages/paoypao/paoypao_friend?id=' + id,
+			})
+		},
+
+		onTapSharePoster() {
+			wx.navigateTo({
+                url: `/package/pages/dating/dating_share?id=${this.datingId}`,
+            })
+		},
+
+		onTapFinishDating() {
+			DatingService.FinishDating(this.datingId).then(
+				(data) => {
+					wx.switchTab({
+						url: '/pages/dating/datings'
+					})
+				}
+			)
+		},
+
+		onTapPreviewImg (comment, image) {
+			wx.previewImage({
+				current: image,
+				urls: comment.images
+			})
+		},
+
+		onTapJoin() {
+			app.aldstat.sendEvent("报名组约", {
+				"用户ID": this.selfId + "",
+				"时间": _.getAldTime()
+			})
+
+			DatingService.joinDating(this.datingId).then(join => {
+				if (join) {
+					wx.showToast({
+						title: '报名成功，请耐心等待局座通过',
+						icon: 'none',
+						duration: 2000
+					});
+					this.userJoinStatus = 'ongoing';
+					this.$apply();
+				}
+				console.log(join);
+			})
+		},
+
+		onTapComment() {
+			wx.navigateTo({
+				url: '/package/pages/post_dating_comment/post_dating_comment?datingId='+this.datingId
+			})
+		},
+
+		onTapDateAgain() {
+			wx.navigateTo({
+				url: '/pages/dating/create_dating?datingId='+this.datingId
+			})
+		},
+
+		onTapChooseAddress() {
+			LocationService.getAddressCoordinate(this.$parent.globalData.qqmapKey, this.datingInfo.useAddress).then(data => {
+				wx.openLocation({
+					latitude: data.lat,
+					longitude: data.lng
+				})
+			})
+			// wx.chooseLocation({
+			// 	success: function (res) {
+			// 	}
+			// })
+		},
+
+		tapEnterUser() {
+			wx.navigateTo({
+				url: '/pages/paoypao/paoypao_friend?id=' + this.selfId
+			})
+		}
+	};
+	
+	events = {};
+
+	loadDatingInfo() {
+		DatingService.getDating(this.datingId).then(
+			data => {
+				console.log(data)
+				this.datingInfo = data;
+				this.userId = data.user_id;
+				if (data.user_join && data.user_join.is_agree == false && data.user_join.is_deleted == false) {
+					this.joinText = "已报名";
+				}
+				if (data.user_join && data.user_join.is_agree == true && data.user_join.is_deleted == false) {
+					this.joinText = "已参与";
+				}
+				if (data.has_followed) {
+					this.followText = "取消关注";
+				}
+
+				if (data.is_finished) {
+					this.status = "finished"
+				} else if (data.is_closed) {
+					this.status = 'closed';
+				} else {
+					this.status = 'ongoing';
+				}
+
+				//计算用户的参与状态
+				let userJoin = data.user_join;
+				if (userJoin) {
+					if (userJoin.is_agree) {
+						if (userJoin.is_deleted) {
+							this.userJoinStatus = 'blocked';
+						} else {
+							this.userJoinStatus = 'pass';
+						}
+					} else if (userJoin.is_deleted) {
+						this.userJoinStatus = 'reject';
+					} else {
+						this.userJoinStatus = 'ongoing';
+					}
+				}
+
+				if (data.user_join) {
+					DatingService.updateUserJoinInfo(data.user_join.id).then(
+						() => {},
+						res => {console.log(res)}
+					)
+				}
+
+				this.datingInfo.showAddress = data.address.split("@")[0];
+				this.datingInfo.useAddress = data.address.split("@")[1];
+				
+				console.log(this.userJoinStatus);
+				this.$apply();
+				console.log(data);
+			}
+		)
+	}
+
+	loadDatingJoiners() {
+		DatingService.getDatingJoiners(this.datingId, true).then(
+			data => {
+				this.joiners = data.joiners;
+				this.$apply();
+				console.log(data.joiners);
+			}
+		)
+	}
+
+	onShareAppMessage() {
+        let base = '/pages/login/login?redirect=';
+        let target = encodeURIComponent(`/package/pages/dating/outsider_dating?id=${this.datingId}`);
+        return {
+            title: '这里有个很火的组约，快来参加吧!',
+            path: base + target,
+        }
+    }
+
+
+	onShow() {
+		this.loadDatingInfo();
+		this.loadDatingJoiners();	
+	}
+
+	async onLoad(options) {
+		this.datingId = options.id;
+		this.selfId = AccountService.getSelfId();
+		let userInfo = await UserService.getUserInfo();
+		this.enableMP = userInfo.enable_mpcoin;
+		if (this.datingInfo.user_join) {
+			DatingService.updateUserJoinInfo(this.datingInfo.user_join.id).then(
+				() => {},
+				res => {console.log(res)}
+			)
+		}
+		this.$apply();
+	}
+}
+</script>
+

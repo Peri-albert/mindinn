@@ -1,0 +1,176 @@
+<style lang="less">
+@import "../../base";
+.container {
+    .xui-tab {
+        width: 100%;
+        height: 134rpx;
+        border-bottom: 1px solid #eee;
+        padding: 35rpx 32rpx 0 30rpx;
+        position: relative;
+        font-family: "微软雅黑";
+
+        .xui-tab-content {
+            font-size: 30rpx;
+            color: #666;
+            margin-bottom: 25rpx;
+        }
+
+        .xui-tab-time {
+            font-size: 24rpx;
+            color: #a9a9a9;
+        }
+
+        .xui-tab-price {
+            position: absolute;
+            top: 56rpx;
+            right: 96rpx;
+            font-size: 32rpx;
+            color: #fe615a;
+        }
+    }
+}
+</style>
+
+<template>
+    <view class="container" >
+        <repeat for="{{details}}" key="{{detail.id}}" item="detail" index="index" wx:if="{{details.length > 0}}"> 
+            <view class="xui-tab">
+                <view class="xui-tab-content">{{detail.type == 'expense' ? '支出' : '充值'}}<text wx:if="{{detail.type == 'expense'}}">-{{detail.product}}</text></view>
+                <view class="xui-tab-time">{{detail.time}}</view>
+                <view class="xui-tab-price">{{detail.type == 'expense' ? '-' : '+'}} {{detail.amount}}秀点</view>
+            </view>
+        </repeat>
+        <bottomloader :isFinishLoad.sync="isFinishLoad"></bottomloader>
+    </view>
+</template>
+
+<script>
+import wepy from 'wepy';
+import BottomLoader from '../../components/bottom_loader';
+import OrderService from '../../services/order_service';
+import AccountService from '../../services/account_service';
+import LoadMoreService from '../../services/loadmore_service';
+
+export default class RechargeDetail extends wepy.page {
+    config = {
+        'navigationBarTitleText': '交易明细',
+        enablePullDownRefresh: true
+    }
+
+    components = {
+        bottomloader: BottomLoader
+    }
+
+    data = {
+        code: 'mpcoin',
+        type: 'all',
+        details: [],
+        isFinishLoad: false,
+    }
+
+    methods = {
+  
+    }
+
+    loadTransfers(reset) {
+        if (reset) {
+            OrderService.reset();
+            this.isFinishLoad = false;
+            this.details = [];
+        }
+
+        OrderService.getUserTransfers(this.code, this.type).then(
+            transfers => {
+                if (transfers.length < 20) {
+                    this.isFinishLoad = true;
+                    this.$apply();
+                }
+
+                let bids = [],
+                    bid2detail = {},
+                    count = 0;
+                transfers.forEach(transfer => {
+                    let bid = transfer.third_bid;
+                    if (bid && transfer.amount > 0) {
+                        let detail = {
+                            "bid": bid,
+                            "amount": transfer.amount,
+                            "time": transfer.created_at,
+                            "type": (transfer && transfer.transfer_type) ? transfer.transfer_type : 'unknown'
+                        }
+                        console.log(detail.type)
+                        bids.push(bid);
+                        this.details.push(detail);
+                        count += 1;
+                    }
+                });
+                this.$apply();
+                if (count < 12 && !this.isFinishLoad) {
+                    setTimeout(() => {
+                        this.loadTransfers();
+                    }, 2000);
+                }
+                this.loadOrders(bids);
+            }
+        )
+    }
+
+    loadOrders(bids) {
+        OrderService.getOrderByBids(bids).then(
+            orders => {
+                let id2order = {};
+                orders.forEach(order => {
+                    id2order[order.bid] = order;
+                });
+
+                this.details.forEach(detail => {
+                    if (!detail.product) {
+                        let order = id2order[detail.bid];
+                        if (order) {
+                            let product = this.getProductName(order.product_names[0]);
+                            if (product) {
+                                detail["product"] = product;
+                            }
+                        }
+                    }
+                });
+                this.$apply();
+                wx.stopPullDownRefresh();
+                console.log(this.details);
+            }
+        )
+    }
+
+    getProductName(str) {
+        let product = "";
+        switch (str) {
+            case "reward_blog":
+                product = "悬赏";
+                break;
+            case "broadcast_blog":
+                product = "霸屏";
+                break;
+            case "mpcoin_product":
+                product = " ";
+                break;
+            default:
+                product = str;
+        }
+        return product
+    }
+
+    onLoad() {
+        this.loadTransfers(true);
+    }
+
+    onReachBottom () {
+        if (!this.isFinishLoad) {
+            this.loadTransfers();
+        }
+    }
+
+    onPullDownRefresh() {
+		this.loadTransfers(true);
+    }
+}
+</script>

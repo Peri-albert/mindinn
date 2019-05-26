@@ -1,0 +1,67 @@
+<style lang="less">
+
+</style>
+
+<template>
+<video-player></video-player>
+<modal-editor></modal-editor>
+<profile-editor></profile-editor>
+<send-gift></send-gift>
+<dialog></dialog>
+</template>
+
+<script>
+import wepy from 'wepy'
+import VideoPlayer from './video_player'
+import ModalEditor from './modal_editor'
+import ProfileEditor from './profile_editor'
+import SendGift from './send_gift'
+import Dialog from './dialog'
+import MP from '../services/mp_service'
+
+export default class MPWidget extends wepy.component {
+	props = {
+
+	}
+
+	data = {
+		url: null,
+	}
+
+	components = {
+		"video-player": VideoPlayer,
+		"modal-editor": ModalEditor,
+		'profile-editor': ProfileEditor,
+		"send-gift": SendGift,
+		"dialog": Dialog,
+	}
+
+	events = {
+		'close-video-player': () => {
+			console.log('close-video-player in mp_widget')
+			wx.hideTabBar({})
+			MP.handle('close-video-player');
+		},
+		'submit-modal-editor': (text) => {
+			MP.handle('submit-modal-editor', text);
+		},
+		'submit-profile-editor': (text) => {
+			MP.handle('submit-profile-editor', text);
+		},
+		'close-gift': (success=false, gift=null) => {
+			MP.handle('close-gift', success, gift);
+		}
+	}
+
+	watch = {
+
+	}
+
+	methods = {
+	}
+
+	onLoad () {
+
+	}
+}
+</script>

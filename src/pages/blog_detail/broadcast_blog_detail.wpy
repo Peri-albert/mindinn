@@ -1,0 +1,1104 @@
+<style lang="less">
+	@import "../../base";
+page {
+	background-color:#FAFAFA;
+	padding-bottom: 115rpx;
+	
+	.container {
+		overflow-x: hidden;
+		width: 100%;
+		
+		.xui-broadcast {
+			width: 100%;
+			position: relative;
+			
+			.xui-broadcast-content {
+				width: 100%;
+				height: 240px;
+				position: absolute;
+				top: 0;
+				left: 0;
+				background-color: rgba(73, 2, 114, 0.5);
+
+				.pic_bg {
+					filter: blur(5rpx);
+					-webkit-filter: blur(5rpx;);
+					height: 100%;
+					left: 0;
+					position: absolute;
+					top: 0;
+					width: 100%;
+				}
+
+				.shadow_bg {
+					background: rgba(0, 0, 0, .5);
+					height: 100%;
+					left: 0;
+					position: absolute;
+					top: 0;
+					width: 100%;
+				}
+
+				.xui-avatar {
+					position: absolute;
+					top: 20px;
+					left: 20px;
+					width: 60px;
+					height: 60px;
+					border-radius: 50%;
+				}
+
+				.xui-name {
+					position: absolute;
+					top: 34px;
+					left: 90px;
+					color: #fff;
+					font-size: 35rpx;
+					font-weight: 700;
+				}
+
+				.xui-msg {
+					position: absolute;
+					top: 60px;
+					left: 90px;
+					color: #fff;
+					font-size: 25rpx;
+					.x-i-horn {
+						width: 30rpx;
+						margin-left: 10rpx;
+					}
+				}
+				
+				.xui-content {
+					position: absolute;
+					top: 95px;
+					left: 50px;
+					width: 75%;
+					font-size: 32rpx;
+					color: #fff;
+					text-align: left;
+					vertical-align: middle;
+				}
+
+				.xui-broadcast-author {
+					position: absolute;
+					bottom: 20px;
+					right: 40px;
+					color: #fff;
+					font-size: 28rpx;
+				}
+
+				.x-i-sex {
+					width: 30rpx;
+					height: 30rpx;
+					margin-left: 10rpx;
+				}
+
+				.x-i-gift {
+					width: 52rpx;
+					height: 75rpx;
+					position: absolute;
+					right: 100rpx;
+					top: 30rpx;
+				}
+			}
+		}
+	
+		.xui-action {
+			width: 100%;
+			background:#fff;
+
+			.xui-action-handle {
+				width: 100%;
+				height: 40px;
+				padding: 0px 5px;
+				position: relative;
+				display:flex;
+				align-items:center;
+				justify-content: space-between;
+
+				.xui-blog-time {
+					color: lightgray;
+					font-size: 25rpx;
+				}
+
+				.xui-action-options {
+					display: flex;
+					justify-content: space-between;
+					margin-right: 10rpx;
+
+					.xui-action-option {
+						margin: 0 5px;
+						font-size: 25rpx;
+						vertical-align: middle;
+
+						image {
+							margin-right: 3px;
+						}
+
+						text {
+							color: lightgray;
+						}
+					}
+
+					.xui-i-share {
+						background-color: #fff;
+						height: 38rpx;
+						line-height: 24rpx;
+
+						text {
+							color: lightgray;
+						}
+					}
+
+					.iconfont {
+						font-size: 45rpx;
+					}
+					.icon-zanxuanzhong {
+						color: #ff4181 !important;
+					}
+
+					
+				}
+
+				
+			}
+
+			.xui-action-data {
+				margin: 0 5px 5px;
+				background-color: rgb(235, 235, 235);
+
+				.xui-data-upvote {
+					padding: 5px;
+					height: 40px;
+					border-bottom: 1px solid rgb(215, 215, 215);
+
+					.xui-upvote-image {
+						display: inline-block;
+						height: 16px;
+						width: 16px;
+						margin: 11px 5px;
+					}
+
+					.xui-upvote-avatar {
+						display: inline-block;
+						height: 30px;
+						line-height: 40px;
+						width: 30px;
+						border-radius: 50%;
+						margin: 3px;
+					}
+				}
+
+				.xui-data-comments {
+					.xui-data-comment {
+						margin-left: 30px;
+						border-bottom: 1px solid rgb(215, 215, 215);
+						position: relative;
+
+						.xui-avatar {
+							display: inline-block;
+							height: 30px;
+							line-height: 40px;
+							width: 30px;
+							border-radius: 50%;
+							margin: 3px;
+						}
+
+						.xui-mainContent {
+							display: inline-block;
+						
+							.xui-i-name {
+								color: purple;
+								display: block;
+								font-size: 30rpx;
+							}
+
+							.xui-i-content {
+								color: gray;
+								display: block;
+								font-size: 27rpx;
+							}
+
+							.xui-i-time {
+								position: absolute;
+								top: 5px;
+								right: 5px;
+								font-size: 18rpx;
+								color: lightgray;
+							}
+
+							.xui-i-action{
+								.xui-i-delete {
+									position: absolute;
+									bottom: 0;
+									right: 5px;
+									color: gray;
+									font-size: 25rpx;
+								}
+							}
+						}
+					}
+				}
+
+				.xui-input-wrapper {
+					display: flex;
+					position: fixed;
+					width: 100%;
+					left: 0;
+					bottom: 0px;
+					background-color: #FFF;
+				}
+				.xui-input-wrapper input {
+					border: 1px solid #e1e1e1;
+					flex: 1;
+					height: 35px;
+					line-height: 35px;
+					padding: 5px;
+				}
+				.xui-input-wrapper button {
+					background-color: #ff4181;
+					color: #fff;
+					width: 80px;
+					font-size: 28rpx;
+					height: 35px;
+					line-height: 35px;
+				}
+			}
+		}
+	}
+	.xui-members {
+		display: flex;
+		align-items: center;
+		flex-wrap: wrap;
+		padding: 5px 0px;
+		background-color: #FFF;
+		.x-i-avatar {
+			width: 86rpx;
+			height: 86rpx;
+			border-radius: 50%;
+			float: left;
+			margin-right: 10rpx;
+		}
+		.x-i-icon {
+			width: 28rpx;
+			height: 24rpx;
+			margin-right: 14rpx;
+		}
+		.iconfont {
+			font-size: 1.1em;
+			margin-right: 10rpx;
+		}
+	}
+	.xui-comments {
+		margin-bottom: 40rpx;
+		position: relative;
+		padding: 5px 0px;
+		background-color: #fff;
+		margin-top: 1px;
+		padding-top: 40rpx;
+		.xui-i-title {
+			border-bottom: solid 1px #f7f7fb;
+			padding: 5rpx 0rpx;
+
+			.x-i-commentCount {
+				font-size: 0.8em;
+				margin-left: 5rpx;
+			}
+		}
+		.xui-commentsContent {
+			display: flex;
+			.x-i-icon {
+				width:28rpx;
+				height:24rpx;
+				margin-right:15rpx;
+				margin-top:52rpx;
+			}
+			.x-i-content {
+				flex: 1;
+				.xui-i-comment {
+					display: flex;
+					align-items:center;
+					min-height: 122rpx;
+					position: relative;
+					border-bottom: solid 1px #f7f7fb;
+					.xui-i-avatarContent {
+						display: flex;
+						align-items: center;
+						margin-right: 10rpx;
+						image {
+							width: 86rpx;
+							height: 86rpx;
+							border-radius: 50%;
+						}
+					}
+					.xui-i-mainContent {
+						flex: 1;
+						.x-i-top {
+							display: flex;
+							justify-content: space-between;
+							.xui-i-name {
+								color: #470682;
+								font-size: 28rpx;
+								display: block;
+								max-width: 400rpx;
+								overflow: hidden;
+								text-overflow: ellipsis;
+								white-space: nowrap;
+							}
+							.xui-i-time {
+								font-size: 20rpx;
+								color: #a3a3a4;
+							}
+						}
+						.xui-i-content {
+							font-size: 24rpx;
+							margin-top: 5rpx;
+							color: #535455;
+							display: flex;
+							align-items: center;
+							width: 600rpx;
+							 text {
+								// width: 100%;
+								word-break: break-all;
+							}
+							.x-i-at-user {
+								display: inline;
+							}
+						}
+						.xui-i-action {
+							position: absolute;
+							right: 10rpx;
+							bottom: 0;
+							font-size: 20rpx;
+							color: #a3a3a4;
+						}
+					}
+				}
+			}
+		}
+	}
+	.xui-room-bar {
+		width:100%;
+		height:auto;
+		bottom:0;
+		right:0;
+		z-index:1;
+		background-color:#FFFFFF;
+		position:fixed;
+		.xui-input-wrapper {
+			width: 100%;
+			height: 112rpx;
+			display: flex;
+			background: #fff;
+			justify-content: space-between;
+			align-items: center;
+			.x-i-send {
+				width: 50rpx;
+				height: 50rpx;
+				margin: 0 25rpx;
+			}
+			.x-i-emoji {
+				width: 50rpx;
+				height: 50rpx;
+				margin: 0 25rpx;
+			}
+			view {
+				position: relative;
+				flex: 1;
+				input {
+					border:1px solid #d8d5fb;
+					height:74rpx;
+					line-height:74rpx;
+					padding:0 15rpx;
+					color:#a7a0ed;
+					font-size:26rpx;
+					border-radius:10rpx;
+				}
+
+				text {
+					position: absolute;
+					left: 20rpx;
+					top: 0rpx;
+					font-size: 26rpx;
+					height: 74rpx;
+					line-height: 74rpx;
+					color: lightgray;
+				}
+			}
+		}
+	}
+	.input-placeholder {
+		color: #a7a0ed; 
+		font-size: 26rpx;
+		line-height: 60rpx;
+	}
+	.emoji_list{
+		margin-top: 30px;
+		width: 100%;
+		height: 290rpx;
+		background-color: #dddddd;
+		display: none;
+	}
+	.emoji_item {
+		display: flex;
+		margin-top: 10rpx;
+	}
+	.showEmoji {
+		width: 100%;
+		height: 290rpx;
+		background-color: #dddddd;
+		display: block;
+	}
+	.emoji_list image, .showEmoji image {
+	  width: 52rpx;
+	  height: 52rpx;
+	  margin: 10rpx 28rpx;
+	}
+}
+
+
+</style>
+<template>
+	<view class="container">
+		<view class="xui-broadcast">
+			<image src="{{blog.author.cover}}" style="width:100%;" mode="center"></image>
+			<view class="xui-broadcast-content">
+				<image class="pic_bg" mode="aspectFill" src="{{blog.author.avatar ? blog.author.avatar : ''}}"></image>
+				<view class="shadow_bg"></view>
+				<image mode="aspectFill" src="{{blog.author.avatar}}" class="xui-avatar" @tap.stop="onTapEnterUser({{blog.author.id}})"></image>
+				<view class="xui-name">
+					<text>{{blog.author.name}}</text>
+					<image class="x-i-sex" mode="widthFix" wx:if="{{blog.author.sex === 'female'}}" src="../../images/female.png"></image>
+					<image class="x-i-sex" mode="widthFix" wx:else src="../../images/male.png"></image>
+				</view>
+				<view class="xui-msg">
+					<text>全网霸屏</text>
+					<image class="x-i-horn" mode="widthFix" src="../../images/horn.png"></image>
+				</view>
+				<image mode="widthFix" src="https://vxiaocheng-jh.oss-cn-beijing.aliyuncs.com/mercury/broadcast_blog_detail/minichat_btn.png" class="x-i-gift" @tap.stop="onTapGift({{blog}})" wx:if="{{blog.author.id != selfId && !blog.is_accost && enableMP}}"></image>
+				<image mode="widthFix" src="https://vxiaocheng-jh.oss-cn-beijing.aliyuncs.com/mercury/broadcast_blog_detail/minichat_btn.png" class="x-i-gift" @tap.stop="onTapChat({{blog}})" wx:if="{{blog.author.id != selfId && blog.is_accost && enableMP}}"></image>
+				<view style="background: url(https://vxiaocheng-jh.oss-cn-beijing.aliyuncs.com/mercury/broadcast_blog_detail/morebtn_bg.png) no-repeat;background-size: 100%;height: 8rpx;width: 30rpx;position:absolute;right:36rpx;top:50rpx;" @tap.stop="onTapMore({{blog}})"></view>
+				<text class="xui-content">{{blog.content}}</text>
+				<text class="xui-broadcast-author">—— {{blog.author.name}}</text>
+				<view class="xui-broadcast-count" wx:if="{{blog.count > 1}}">
+					<text>X{{blog.count}}</text>
+				</view>
+			</view>
+		</view>
+		<view class="xui-action">
+			<view class="xui-action-handle">
+				<text class="xui-blog-time">{{blog.created_at}}</text>
+				<view class="xui-action-options">
+					<view class="xui-action-option" @tap="onTapLike">
+						<text class="icon iconfont icon-zanxuanzhong" wx:if="{{blog.is_liked_by_current_user}}"></text>
+						<text class="icon iconfont icon-zan" wx:if="{{!blog.is_liked_by_current_user}}"></text>
+						<!--
+					<image src="../../images/upvote.png" mode="scaleToFill" style="width:16px;height:16px;" class="{{blog.is_liked_by_current_user == true ? 'like': ''}}"></image>
+					-->
+						<text>{{blog.like_count}}</text>
+					</view>
+					<button id="self-share" open-type="share" wx:if="{{blog.author.id != selfId}}" class="xui-i-share">
+						<text class="icon iconfont icon-fenxiang"></text>
+						<!--
+					<image src="../images/share.png" style="width:14px;height:13px;margin-right:3px;"></image>
+					-->
+					</button>
+					<!--
+				<view class="xui-action-option" @tap="onTapComment({{blog}})" wx:if="{{blog.is_allow_comment}}">
+					<image src="../../images/comment2.png" mode="scaleToFill" style="width:16px;height:16px;"></image>
+					<text>{{blog.comment_count}}</text>
+				</view>
+				-->
+					<!-- <view class="xui-action-option" @tap="onTapSendGift" wx:if="{{selfId != blog.author.id}}">
+					<text class="icon iconfont icon-liwuhuodong"></text>
+					
+					<image src="../../images/gift2.png" mode="scaleToFill" style="width:24px;height:24px;"></image>
+					
+				</view> -->
+				</view>
+			</view>
+			<view style="background: #f7f7fb; height: 1px;"></view>
+			<view class="xui-action-data">
+				<!--             <view class="xui-data-upvote">
+				<image class="xui-upvote-image" src="../../images/upvote.png" mode="scaleToFill"></image>
+				<image class="xui-upvote-avatar" wx:for="{{likeUsers}}" wx:key="{{item.id}}" src="{{item.avatar}}">
+			</view> -->
+				<!--             <view class="xui-data-comments" wx:if="{{blog.is_allow_comment}}">
+				<view class="xui-data-comment" wx:for="{{comments}}" wx:key="{{comment.id}}" wx:for-item="comment">
+					<image src="{{comment.author.avatar}}" class="xui-avatar" />
+					<view class="xui-mainContent">
+						<view class="xui-i-name">{{comment.author.name}}</view>
+						<view class="xui-i-time">{{comment.created_at}}</view>
+						<view class="xui-i-content">{{comment.content}}</view>
+
+						<view class="xui-i-action" wx:if="{{comment.author.id == selfId}}">
+						<view @tap.stop="onTapDeleteComment({{comment}})" class="xui-i-delete">
+							<text>删除</text>
+						</view>
+					</view>
+					</view>
+				</view>
+				<bottomloader :isFinishLoad.sync="isFinishLoad"></bottomloader>
+			</view> -->
+				<view class="xui-members clearfix mt10" wx:if="{{likeUsers && likeUsers.length > 0}}">
+					<text class="icon iconfont icon-zan"></text>
+					<!--<image class="x-i-icon" mode="widthFix" src="../../images/like_icon2.png" />-->
+					<view class="clearfix">
+						<image mode="aspectFill" class="x-i-avatar" wx:for="{{likeUsers}}" wx:key="{{item.id}}" src="{{item.avatar}}" @tap.stop="onTapEnterUser({{item.id}})">
+					</view>
+				</view>
+				<view class="xui-comments" wx:if="{{comments && comments.length > 0}}">
+					<view class="xui-i-title">
+						<text class="icon iconfont icon-comment"></text>
+						<text class="x-i-commentCount">{{blog.comment_count}}</text>
+					</view>
+					<view class="xui-commentsContent">
+						<!--
+					<image class="x-i-icon" mode="widthFix" src="../../images/comment_icon2.png" />
+					-->
+						<view class="x-i-content">
+							<view class="xui-i-comment" wx:for="{{comments}}" wx:key="{{comment.id}}" wx:for-item="comment">
+								<view class="xui-i-avatarContent">
+									<image mode="aspectFill" src="{{comment.author.avatar}}" class="xui-i-avatar" @tap.stop="onTapEnterUser({{comment.author.id}})" />
+								</view>
+								<view class="xui-i-mainContent" @tap="onTapAtUser({{comment.author}})">
+									<view class="x-i-top">
+										<view class="xui-i-name">{{comment.author.name}}</view>
+										<view class="xui-i-time">{{comment.created_at}}</view>
+									</view>
+									<view class="xui-i-content">
+										<view class="x-i-at-user" wx:if="{{comment.at_user.id != undefined}}">回复
+											<text style="color:#470682;word-break:normal;" @tap.stop="onTapAtUser({{comment.at_user}})">{{comment.at_user.name}}</text> :
+										</view>
+										<block wx:for="{{comment.contentData}}">
+											<image wx:if="{{item.type === 'emoji'}}" class="avatar" src="{{'https://resource.vxiaocheng.com/mercury/faces/' + item.data }}" style="width: 20px;height: 20px;" />
+											<text wx:if="{{item.type === 'txt'}}">{{ item.data }}</text>
+										</block>
+									</view>
+									<view class="xui-i-action" wx:if="{{comment.author.id == selfId}}">
+										<view @tap.stop="onTapDeleteComment({{comment}})">
+											<text>删除</text>
+										</view>
+									</view>
+								</view>
+							</view>
+						</view>
+					</view>
+					<bottomloader :isFinishLoad.sync="isFinishLoad"></bottomloader>
+				</view>
+				<!--             <form bindsubmit="formSubmit" wx:if="{{blog.is_allow_comment}}">
+				<view class="xui-input-wrapper"> 
+					<input type="text" name="comment" value="{{commentContent}}" bindinput="onInputChange">
+					<button hover-class="none" form-type="submit">评论</button>
+				</view>
+			</form> -->
+			</view>
+		</view>
+		<view class="xui-room-bar" wx:if="{{blog.is_allow_comment}}">
+			<view class="xui-input-wrapper">
+				<image class="x-i-emoji" mode="widthFix" src="https://vxiaocheng-jh.oss-cn-beijing.aliyuncs.com/mercury/chatroom/emoji_input_icon.png" @tap="openEmoji">
+					<view>
+						<input type="text" name="comment" value="{{commentContent}}" focus="{{focus}}" bindinput="onInputChange" bindblur="onBlurResetAtUser">
+						<text class="x-i-placeholder">{{placeholder}}</text>
+					</view>
+					<image class="x-i-send" mode="widthFix" @tap="formSubmit" src="https://vxiaocheng-jh.oss-cn-beijing.aliyuncs.com/mercury/chatroom/send_message_icon.png">
+			</view>
+			<swiper class="emoji_list" class="{{ show }}" indicator-dots="true" duration="1000">
+				<block>
+					<swiper-item>
+						<view class="emoji_item">
+							<image wx:for="{{ emojiObj.map1 }}" src="{{ emojiObj.path + item }}" wx:key="" bindtap="sendEmoji" data-emoji="{{ index }}" />
+						</view>
+						<view class="emoji_item">
+							<image wx:for="{{ emojiObj.map2 }}" src="{{ emojiObj.path + item }}" wx:key="" bindtap="sendEmoji" data-emoji="{{ index }}" />
+						</view>
+						<view class="emoji_item">
+							<image wx:for="{{ emojiObj.map3 }}" src="{{ emojiObj.path + item }}" wx:key="" bindtap="sendEmoji" data-emoji="{{ index }}" />
+						</view>
+					</swiper-item>
+				</block>
+				<block class="x-second">
+					<swiper-item>
+						<view class="emoji_item">
+							<image wx:for="{{ emojiObj.map4 }}" src="{{ emojiObj.path + item }}" wx:key="" bindtap="sendEmoji" data-emoji="{{ index }}" />
+						</view>
+						<view class="emoji_item">
+							<image wx:for="{{ emojiObj.map5 }}" src="{{ emojiObj.path + item }}" wx:key="" bindtap="sendEmoji" data-emoji="{{ index }}" />
+						</view>
+						<view class="emoji_item">
+							<image wx:for="{{ emojiObj.map6 }}" src="{{ emojiObj.path + item }}" wx:key="" bindtap="sendEmoji" data-emoji="{{ index }}" />
+						</view>
+					</swiper-item>
+				</block>
+			</swiper>
+		</view>
+		<mp-widget></mp-widget>
+	</view>
+</template>
+<script>
+import wepy from 'wepy'
+const app = getApp()
+import _ from '../../lib/mptool'
+import BlogService from '../../services/blog_service'
+import UserService from '../../services/user_service'
+import GiftService from '../../services/gift_service'
+import StorageService from '../../services/storage_service'
+import BlogCommentService from '../../services/blog_comment_service'
+import BottomLoader from '../../components/bottom_loader'
+import LoadMoreService from '../../services/loadmore_service'
+import AccountService from '../../services/account_service'
+import WebIMService from '../../services/webim_service'
+import MPWidget from '../../components/mp_widget'
+import MP from '../../services/mp_service'
+
+export default class BroadcastBlogDetail extends wepy.page {
+	config = {
+		navigationBarTitleText: '霸屏详情',
+		enablePullDownRefresh: false,
+	}
+
+	components = {
+		bottomloader: BottomLoader,
+		"mp-widget": MPWidget,
+	}
+
+	mixins = []
+
+	data = {
+		blogId: 0,
+		blog: {},
+		likeUsers: [],
+		comments: [],
+		selfId: 0,
+		selectGiftId: 0,
+		commentContent: "",
+		atUser: {},
+		showGift: false,
+		emoji: WebIMService.Emoji.EmojiList,
+		emojiObj: WebIMService.Emoji.EmojiObj,
+		show: 'emoji_list',
+		isFinishLoad: false,
+		placeholder: "发表评论",
+		focus: false,
+		relatedUser: {},
+		userInfo: {},
+
+		enableMP: false,
+		emojiParsed: false,
+		defaultAvatar: '/images/default_avatar.png'
+	}
+
+	computed = {
+
+	}
+
+	methods = {
+		onTapEnterUser(id) {
+			wx.navigateTo({
+				url: '/pages/paoypao/paoypao_friend?id=' + id,
+			})
+		},
+
+		onBlurResetAtUser() {
+			if (this.commentContent.length == 0 && !this.relatedUser.id) {
+				this.atUser = {};
+				this.placeholder = "发表评论";
+			} else {
+				return;
+			}
+			this.focus = false;
+		},
+
+		onTapAtUser(user) {
+			this.placeholder = "@ " + user.name;
+			this.atUser = user;
+			this.commentContent = "";
+			this.focus = true;
+		},
+
+		async onTapLike() {
+			//更新服务器
+			if (this.blog.is_liked_by_current_user) {
+				let isSucess = await UserService.unlikeBlog(this.blog.id);
+				if (isSucess) {
+					this.blog.like_count -= 1;
+					this.blog.is_liked_by_current_user = !this.blog.is_liked_by_current_user;
+					this.$emit('update-blog');
+				} else {
+
+				}
+			} else {
+				let isSucess = await UserService.likeBlog(this.blog.id);
+				if (isSucess) {
+					this.blog.like_count += 1;
+					this.blog.is_liked_by_current_user = !this.blog.is_liked_by_current_user;
+					this.$emit('update-blog');
+				} else {
+
+				}
+			}
+		},
+
+		onTapComment(blog) {
+			if (!blog.is_allow_comment) {
+				return;
+			}
+			console.log('onTapComment');
+			this.$emit('comment-blog', blog);
+		},
+
+		onTapSendGift() {
+			MP.sendGift({
+				userId: this.blog["author"]["id"],
+				complete: (success = false, gift = null) => {
+					this.showGift = false;
+					this.selectGiftId = 0;
+					this.$apply();
+				}
+			})
+		},
+
+		onInputChange(e) {
+			this.commentContent = e.detail.value;
+			this.checkCommentLength();
+		},
+
+		formSubmit(e) {
+			let content = this.commentContent.trim();
+			if (content.length == 0) {
+				wx.showToast({
+					title: '请输入评论内容',
+					icon: 'none',
+					duration: 1500
+				});
+				return;
+			}
+
+			let params = {
+				'type': 'broadcast_blog',
+				'toUser': this.blog.author.id,
+				'name': this.userInfo.name,
+				'topic': this.blog.content
+			}
+
+			BlogCommentService.commentBlog(this.blog.id, content, this.atUser.id, params).then(res => {
+				if (res.isSuccess) {
+					let comment = res.data;
+					wx.showToast({
+						title: '评论成功',
+						icon: 'success',
+						duration: 1500
+					});
+					this.atUser = {};
+					this.relatedUser = {};
+					this.show = 'emoji_list';
+					this.placeholder = "发表评论";
+					this.focus = false;
+					comment.contentData = WebIMService.Emoji.parseEmoji(comment.content);
+					comment.created_at = "刚刚";
+					this.comments = [comment, ...this.comments];
+					this.blog.comment_count = this.blog.comment_count + 1;
+					this.commentContent = "";
+					this.$apply();
+					StorageService.set('update_blog', {
+						"id": this.blog.id,
+						"count": this.blog.comment_count
+					});
+
+					// WebIMService.sendCommentNofitication(this.blog.author.id, this.userInfo.name, "震惊！又有人在泡泡围观你的全网霸屏，快去看看", this.blog.content);
+
+					//如送给运营则put
+					UserService.getIsOperater(this.blog.author.id).then(res => {
+						if (res.exist) {
+							UserService.putMessagesToDo(this.blog.author.id, 'op_broadcast_comment', this.blog.id)
+						}
+					})
+				} else {
+					let msg = res.title;
+					wx.showToast({
+						title: msg,
+						icon: 'none',
+						duration: 1500
+					});
+					return;
+				}
+			})
+		},
+
+		onPreviewImg(url) {
+			let urls = [];
+			this.blog.resources.forEach((resource, index) => {
+				urls.push(resource.url);
+			})
+			wx.previewImage({
+				current: url,
+				urls: urls
+			})
+		},
+
+		onTapDeleteComment(comment) {
+			BlogCommentService.deleteComment(comment.id).then(isSuccess => {
+				if (isSuccess) {
+					this.blog.comment_count = this.blog.comment_count - 1;
+					this.comments = this.comments.filter(aComment => {
+						return aComment.id != comment.id;
+					})
+					this.$apply();
+				}
+			})
+		},
+
+		openEmoji() {
+			this.relatedUser = this.atUser;
+			if (this.show === 'emoji_list') {
+				this.show = 'showEmoji';
+			} else {
+				this.show = 'emoji_list';
+			}
+		},
+		sendEmoji(event) {
+			var that = this
+			var emoji = event.target.dataset.emoji
+			var msglen = that.commentContent.length - 1
+			if (emoji && emoji != '[del]') {
+				var str = that.commentContent + emoji
+			} else if (emoji == '[del]') {
+				var start = that.commentContent.lastIndexOf('[')
+				var end = that.commentContent.lastIndexOf(']')
+				var len = end - start
+				if (end != -1 && end == msglen && len >= 3 && len <= 4) {
+					var str = that.commentContent.slice(0, start)
+				} else {
+					var str = that.commentContent.slice(0, msglen)
+				}
+			}
+			this.commentContent = str
+			this.checkCommentLength();
+		},
+
+		async onTapGift(blog) {
+			app.aldstat.sendEvent("发起泡TA", {
+				"用户ID": this.selfId + "",
+				"时间": _.getAldTime()
+			})
+
+			if (this.userInfo.sex == "female") {
+				wx.navigateTo({
+					url: '/package/pages/chatroom/chatroom?touserid=' + blog.author.id,
+				})
+				return;
+			}
+
+			let permission = await UserService.getUserPrivateChatPermission(blog["author"]["id"]);
+			if (permission.private_chat_permission) {
+				wx.navigateTo({
+					url: '/package/pages/chatroom/chatroom?touserid=' + blog.author.id,
+				})
+				return;
+			}
+			
+			MP.sendGift({
+				userId: blog["author"]["id"],
+				complete: (success = false, gift = null) => {
+					this.showGift = false;
+					this.selectGiftId = 0;
+					if (success) {
+						GiftService.accostUser(blog["author"]["id"]).then(data => {
+							this.$broadcast('update-accost', blog.id)
+							this.blog.is_accost = true;
+							this.$apply();
+						});
+
+						app.aldstat.sendEvent("完成泡TA", {
+							"用户ID": this.selfId + "",
+							"时间": _.getAldTime()
+						})
+					}
+				}
+			});
+		},
+
+		onTapChat(blog) {
+			app.aldstat.sendEvent("泡TA聊天", {
+				"用户ID": this.selfId + "",
+				"时间": _.getAldTime()
+			})
+			
+			wx.navigateTo({
+				url: '/package/pages/chatroom/chatroom?touserid=' + blog.author.id,
+			})
+		},
+
+		onTapMore(blog) {
+			let author = blog.author;
+			let url = `/pages/report_user/report_user?userId=${author.id}&userName=${author.name}&userAvatar=${author.avatar}`;
+			wx.showActionSheet({
+				itemList: ['举报用户'],
+				success: function(res) {
+					if (res.tapIndex == 0) {
+						wx.navigateTo({
+							url: url
+						})
+					}
+				},
+				fail: function(res) {
+					console.log(res.errMsg)
+				}
+			})
+		}
+	}
+
+	events = {
+		'update-blog': () => {
+			console.log('update blog');
+			this.loadBlogLikers();
+		},
+		'tap-video': (url) => {
+			MP.playVideo({
+				url: url,
+				complete: () => {
+					console.log('complete in blog_detail');
+				}
+			})
+		},
+		'tap-gift': (blog) => {
+			MP.sendGift({
+				userId: blog["author"]["id"],
+				complete: (success = false, gift = null) => {
+					this.showGift = false;
+					this.selectGiftId = 0;
+					this.$apply();
+				}
+			})
+		}
+	}
+
+	async onLoad(query) {
+		this.emojiParsed = query.parsed ? true : false
+		this.blogId = JSON.parse(query.id);
+		this.selfId = AccountService.getSelfId();
+		UserService.getUserInfo().then(
+			data => {
+				this.userInfo = data;
+				this.enableMP = data.enable_mpcoin;
+				console.log('this.enableMP',this.enableMP)
+				this.$apply();
+			}
+		)
+		this.loadBlog();
+	}
+
+	checkCommentLength() {
+		if (this.commentContent.length > 0) {
+			this.placeholder = "";
+		} else if (this.commentContent.length == 0) {
+			if (this.atUser.id) {
+				this.placeholder = "@ " + this.atUser.name;
+			} else {
+				this.placeholder = "发表评论"
+			}
+		}
+	}
+
+	onShow() {
+		MP.bind(this)
+	}
+
+	loadBlog() {
+		let blog = BlogService.getBlog(this.blogId);
+		blog.then(blog => {
+			this.blog = blog;
+			this.$apply();
+
+			for (let i = 0; i < this.blog.comments.length; i++) {
+				console.log(this.blog.comments[i].created_at)
+				this.blog.comments[i].created_at = _.calculateTime(this.blog.comments[i].created_at);
+				console.log(this.blog.comments[i].created_at)
+			}
+			this.blog.created_at = _.calculateTime(this.blog.created_at)
+			this.blog.content = this.blog.content.replace(/\n/g, ' ')
+			console.log(this.blog)
+
+			this.loadBlogLikers();
+			this.loadNextBlogComments(true);
+			GiftService.hasAccostUser(blog.author.id).then(res => {
+				blog.is_accost = res.is_accost;
+			});
+		})
+	}
+
+	loadBlogLikers() {
+		let likerUsers = BlogService.getLikers(this.blogId, 5, true);
+		likerUsers.then(likeUsers => {
+			this.likeUsers = likeUsers;
+			this.$apply();
+		})
+	}
+
+	loadNextBlogComments(reset = false) {
+		if (reset) {
+			BlogCommentService.reset();
+		}
+
+		let comments = null;
+
+		comments = BlogCommentService.getComments(this.blog.id);
+		comments.then(data => {
+			this.isFinishLoad = LoadMoreService.isFinishLoad();
+			if (data.length === 0) {
+				if (reset) {
+					this.comments = [];
+				}
+			} else {
+				for (let i = 0; i < data.length; i++) {
+					data[i].created_at = _.calculateTime(data[i].created_at);
+					if (!data[i].contentData && !this.emojiParsed) {
+						data[i].contentData = WebIMService.Emoji.parseEmoji(data[i].content)
+					}
+				}
+				if (reset) {
+					this.comments = [...data];
+				} else {
+					this.comments = [...this.comments, ...data];
+				}
+			}
+
+			this.$apply();
+		})
+	}
+
+	onShareAppMessage(e) {
+		if (e.target.id === 'self-share') {
+			let base = '/pages/login/login?redirect=';
+			let target = encodeURIComponent(`/pages/blog_detail/broadcast_blog_detail?id=${this.blogId}`);
+			return {
+				title: '这个霸屏全世界都能看到，不服来战.',
+				path: base + target,
+				imageUrl: "http://resource.vxiaocheng.com/mercury/share/broadcast_blog.jpg"
+			}
+		} else {
+			const title = e.target.dataset.sharedata.title
+			const base = e.target.dataset.sharedata.base
+			const target = encodeURIComponent(`/pages/paoypao/paoypao_friend?id=${this.blog.author.id}`)
+			GiftService.getUserShareGiftCount().then(res => {
+				if (res) {
+					if (!res.share_gift_count) return;
+					GiftService.updateUserFreeGiftCount(1)
+					GiftService.updateUserShareGiftCount()
+				}
+			   
+			})
+			return {
+				title: title,
+				path: base + target,
+				imageUrl: this.blog.author.avatar,
+			}
+		}
+	}
+
+	onReachBottom() {
+		this.loadNextBlogComments();
+	}
+}
+</script>

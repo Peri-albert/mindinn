@@ -1,0 +1,878 @@
+<style lang="less">
+page {
+	//单行省略号
+	.ellipsis {
+		overflow: hidden;
+		text-overflow: ellipsis;
+		white-space: nowrap;
+	}
+	//flex居中
+	.flexCenter {
+		align-items: center;
+		display: flex;
+		justify-content: center;
+	}
+
+	image {
+		display: block;
+	}
+
+	.newblog-container {
+		background-color: #fff;
+		box-sizing: border-box;
+		margin-bottom: 16rpx;
+		padding: 30rpx 26rpx 0;
+
+		.is-reward {
+			background: url(https://vxiaocheng-jh.oss-cn-beijing.aliyuncs.com/mercury/new_blog/reward_bg2.png) no-repeat 95% 0, url(https://vxiaocheng-jh.oss-cn-beijing.aliyuncs.com/mercury/new_blog/reward_bg1.png) repeat-x;
+			background-size: 166rpx 33rpx, auto 96rpx;
+			height: 100rpx;
+			margin: -30rpx 0 -70rpx -26rpx;
+			width: 100vw;
+		}
+
+		.info-and-time {
+			align-items: center;
+			display: flex;
+			justify-content: space-between;
+
+			.info-time-left {
+				display: flex;
+
+				.avatar {
+					border-radius: 50%;
+					display: block;
+					height: 80rpx;
+					margin-right: 24rpx;
+					width: 80rpx;
+				}
+
+				.name-and-sign {
+					display: flex;
+					flex-direction: column;
+					font-size: 22rpx;
+					justify-content: space-between;
+
+					.name {
+						align-items: center;
+						display: flex;
+
+						text {
+							color: #000;
+							display: block;
+							font-size: 30rpx;
+							margin-right: 10rpx;
+							max-width: 6em;
+							.ellipsis;
+						}
+
+						image {
+							display: block;
+							height: 32rpx;
+							margin-right: 6rpx;
+							width: 32rpx;
+						}
+					}
+
+					.sign, .time {
+						color: #666;
+						font-size: 24rpx;
+						max-width: 360rpx;
+						.ellipsis;
+					}
+				}
+			}
+
+			.info-time-right {
+				align-items: flex-end;
+				display: flex;
+				flex-direction: column;
+				height: 80rpx;  //等同于头像高度
+				justify-content: space-between;
+				.x-i-h5-bar {
+					background: url(https://vxiaocheng-jh.oss-cn-beijing.aliyuncs.com/mercury/blog/h5_background.png) no-repeat;
+					background-size: 100%;
+					box-sizing: border-box;
+					color: #fff;
+					font-size: 24rpx;
+					font-weight: 900;
+					font-style: italic;
+					height: 40rpx;
+					line-height: 40rpx;
+					padding: 0 10rpx;
+					text-align: center;
+					width: 297rpx;
+					text-shadow: 4rpx 0px 0rpx #18cbff, -4rpx 0px 0rpx #f30a26;
+					overflow: hidden;
+					text-overflow:ellipsis;
+					white-space: nowrap;
+				}
+
+				.time {
+					color: #666;
+					font-size: 20rpx;
+					margin-right: 15rpx;
+				}
+
+				.price {
+					color: #d64c00;
+					font-size: 24rpx;
+					font-weight: bold;
+				}
+
+				.countdown {
+					color: #777;
+					font-size: 20rpx;
+
+					text {
+						color: #fa835b;
+					}
+				}
+
+				.address {
+					box-sizing: border-box;
+					color: #666;
+					font-size: 20rpx;
+					padding-left: 30rpx;
+					max-width: 172rpx;
+					.flexCenter;
+
+					image {
+						display: block;
+						height: 26rpx;
+						margin: 0 10rpx 0 -30rpx;
+						width: 22rpx;
+					}
+
+					text {
+						width: 100%;
+						.ellipsis;
+					}
+				}
+
+				.image-icons {
+					align-items: center;
+					display: flex;
+					min-height: 36rpx;
+
+					image {
+						margin-left: 10rpx;
+					}
+				}
+
+				.state {
+					border-radius: 40rpx;
+					box-sizing: border-box;
+					color: #fff;
+					font-size: 20rpx;
+					height: 38rpx;
+					line-height: 38rpx;
+					padding: 0 30rpx;
+				}
+
+				.get-mpcoin {
+					align-items: center;
+					color: #fa835b;
+					display: flex;
+					font-size: 20rpx;
+					font-weight: bold;
+					margin-left: 8rpx;
+
+					image {
+						height: 26rpx;
+						margin-right: 8rpx;
+						width: 28rpx;
+					}
+
+					text {
+						color: #e95637;
+						font-size: 20rpx;
+						font-weight: bold;
+					}
+				}
+			}
+		}
+
+		.topic-and-pics {
+			margin: 24rpx 0;
+
+			.topic {
+				color: #6444FF;
+				font-size: 24rpx;
+				margin-bottom: 15rpx;
+
+				text {
+					color: #000;
+				}
+			}
+
+			.pics-wrapper {
+				margin: 0 auto;
+				width: 698rpx;
+
+				.pics {
+					display: flex;
+					flex-wrap: wrap;
+					margin: 0 0 -10rpx -5rpx;
+					width: 708rpx;
+
+					.pic-wrapper {
+						margin-bottom: 10rpx;
+						width: calc(100% / 3);
+
+						.pic {
+							display: block;
+							height: 226rpx;
+							margin: 0 auto;
+							width: 226rpx;
+						}
+					}
+
+					&.one-image {
+						height: 432rpx;
+						margin: 0 0 -10rpx;
+						width: 698rpx;
+
+						.pic {
+							display: block;
+							height: 100%;
+							margin: 0 auto;
+							width: 100%;
+						}
+
+						.pic-wrapper {
+							margin-bottom: 10rpx;
+							width: 100%;							
+						}
+
+						&.square {
+							height: 698rpx;
+						}
+					}
+				}
+			}
+
+			.video-wrapper {
+				.play-layer {
+					height: 225px;
+					.flexCenter;
+
+					image {
+						display: block;
+						height: 80rpx;
+						width: 80rpx;
+					}
+				}
+
+				video {
+					width: 100%;
+				}
+			}
+
+			.audio-wrapper {
+				align-items: center;
+				background: url(https://vxiaocheng-jh.oss-cn-beijing.aliyuncs.com/mercury/new_blog/audio_blog_bg.png) no-repeat;
+				background-size: 100%;
+				box-sizing: border-box;
+				display: flex;
+				height: 92rpx;
+				position: relative;
+				width: 410rpx;
+
+				image {
+					height: 48rpx;
+					margin-left: 38rpx;
+					width: 48rpx;
+				}
+
+				text {
+					color: #cbd9e5;
+					font-size: 30rpx;
+					left: 300rpx;
+					position: absolute;
+					top: 26rpx;
+				}
+			}
+		}
+
+		.onlookers-and-address {
+			align-items: center;
+			background-color: #fff;
+			border-top: 1rpx solid #eee;
+			box-sizing: border-box;
+			display: flex;
+			height: 69rpx;
+			justify-content: space-between;
+			white-space: nowrap;
+
+			.onlookers {
+				align-items: center;
+				color: #666;
+				display: flex;
+				font-size: 20rpx;
+			}
+
+			.address {
+				box-sizing: border-box;
+				color: #666;
+				font-size: 20rpx;
+				padding-left: 30rpx;
+				max-width: 172rpx;
+				.flexCenter;
+
+				image {
+					display: block;
+					height: 26rpx;
+					margin: 0 10rpx 0 -30rpx;
+					width: 22rpx;
+				}
+
+				text {
+					width: 100%;
+					.ellipsis;
+				}
+			}
+
+			.countdown {
+				color: #777;
+				display: flex;
+				flex: 1;
+				font-size: 20rpx;
+				justify-content: center;
+
+				text {
+					color: #fa835b;
+				}
+			}
+
+			.reward-finished {
+				color: #666;
+				font-size: 24rpx;
+			}
+
+			.contribute-num {
+				border-right: 1rpx solid #eee;
+				box-sizing: border-box;
+				height: 60%;
+				margin-right: 40rpx;
+				padding: 0 40rpx;
+				.flexCenter;
+				.xui-i-share {
+					background: transparent;
+					image {
+						width: 25rpx;
+						height: 25rpx;
+					}
+				}
+				.xui-i-share::after{
+					border: 0;
+				}
+			}
+
+			.price {
+				align-items: center;
+				color: #666;
+				display: flex;
+				font-size: 20rpx;
+
+				text {
+					color: #F06553;
+					font-size: 24rpx;
+					margin-left: 5rpx;
+				}
+			}
+		}
+
+		// 投稿下的点赞数及展示头像
+		.upvotes {
+			align-items: center;
+			border-top: 1rpx solid #eee;
+			display: flex;
+			height: 69rpx;
+			margin-bottom: 18rpx;
+			width: 100%;
+
+			.avatars {
+				display: flex;
+				flex: 1;
+
+				.avatar {
+					border-radius: 50%;
+					display: block;
+					height: 50rpx;
+					margin-right: 5rpx;
+					width: 50rpx;
+				}
+			}
+
+			.upvote-num {
+				align-items: center;
+				border-left: 1rpx solid #eee;
+				box-sizing: border-box;
+				display: flex;
+				height: 50rpx;
+				padding: 0 30rpx 0 20rpx;
+
+				image {
+					display: block;
+					height: 27rpx;
+					margin-right: 10rpx;
+					width: 27rpx;
+				}
+
+				text {
+					color: #666;
+					font-size: 20rpx;
+				}
+			}
+		}
+
+		// 投稿下的评论及写评论框
+		.contribute-comments {
+			margin-bottom: 4rpx;
+
+			.contribute-comment {
+				color: #7e7e7e;
+				font-size: 26rpx;
+				margin-bottom: 22rpx;
+
+				text.author-name {
+					color: #000;
+				}
+
+				image {
+					display: inline-block;
+					height: 40rpx;
+					vertical-align: -27%;
+					width: 40rpx;
+				}
+			}
+		}
+
+		.contribute-input {
+			align-items: center;
+			display: flex;
+			height: 54rpx;
+			overflow: hidden;
+			padding-bottom: 26rpx;
+
+			input {
+				background-color: #f3f3f3;
+				border-radius: 6rpx;
+				box-sizing: border-box;
+				display: block;
+				flex: 1;
+				font-size: 24rpx;
+				height: 54rpx;
+				line-height: 54rpx;
+				padding: 0 22rpx;
+			}
+
+			image {
+				height: 54rpx;
+				margin-left: 10rpx;
+				width: 54rpx;
+			}
+		}
+
+		.inner-broadcast {
+			align-items: center;
+			border-top: 1rpx solid #eee;
+			display: flex;
+			justify-content: space-around;
+			height: 69rpx;
+			width: 100%;
+
+			view {
+				align-items: center;
+				display: flex;
+
+				image {
+					display: block;
+					margin-right: 12rpx;
+				}
+				text {
+					color: #666;
+					font-size: 20rpx;
+				}
+			}
+
+			.address {
+				image {
+					height: 26rpx;
+					width: 22rpx;
+				}
+
+				text {
+					max-width: 8em;
+					.ellipsis;
+				}
+			}
+
+			.share {
+				background: transparent;
+				border-radius: 0;
+				margin: 0;
+				padding: 0;
+
+				image {
+					height: 25rpx;
+					width: 25rpx;
+				}
+			}
+
+			.comment {
+				image {
+					height: 30rpx;
+					width: 32rpx;
+				}
+			}
+
+			.upvote {
+				image {
+					height: 27rpx;
+					width: 27rpx;
+				}
+			}
+		}
+	}
+}
+</style>
+
+<template>
+	<view class="newblog-container" style="background-color: {{blog.type == 'reward' ? '#fafbf6' : '#fff'}}">
+		<!-- 首页的悬赏blog背景图 -->
+		<view wx:if="{{blog.type == 'reward'}}" class="is-reward"></view>
+
+		<view class="info-and-time" @tap.stop="tapEnterBlogDetail({{blog}})">
+			<view class="info-time-left">
+				<view @tap.stop="onTapEnterUser({{blog.author.id}})">
+					<image lazy-load="true" mode="aspectFill" class="avatar" src="{{blog.author.avatar}}"></image>
+				</view>
+				<view class="name-and-sign">
+					<view class="name">
+						<text>{{blog.author.name ? blog.author.name : '加载中···'}}</text>
+						<image lazy-load="true" src="https://vxiaocheng-jh.oss-cn-beijing.aliyuncs.com/mercury/new_blog/{{blog.author.sex ? blog.author.sex : 'male'}}_icon.png"></image>
+						<image lazy-load="true" wx:if="{{blog.author.callup_doyen && blog.is_in_homepage}}" src="https://vxiaocheng-jh.oss-cn-beijing.aliyuncs.com/mercury/new_blog/call_icon.png"></image>
+						<image lazy-load="true" wx:if="{{blog.author.reward_doyen && blog.is_in_homepage}}" src="https://vxiaocheng-jh.oss-cn-beijing.aliyuncs.com/mercury/new_blog/reward_icon.png"></image>
+					</view>
+
+					<view wx:if="{{blog.source == '签名又不要了'}}" class="sign">{{blog.author.slogan ? blog.author.slogan : '这人太懒没签名'}}</view>
+					<view class="time">{{blog.created_ago}}</view>
+
+				</view>
+			</view>
+			<view class="info-time-right">
+				<view wx:if="{{blog.source && blog.source != 'user' && blog.is_in_homepage}}" class="x-i-h5-bar">{{blog.address}}</view>
+				<view wx:if="{{blog.type == '右上角的时间又不要了'}}" class="time">{{blog.created_ago}}</view>
+				<view class="price" wx:if="{{blog.type == 'reward'}}">
+					悬赏: <text> {{blog.amount ? blog.amount : 0}}元</text>
+				</view>	
+				<view wx:if="{{1 == '右上角的倒计时也不要了'}}" class="countdown">
+					剩余时间：<text>{{blog.left_time_days}}</text>天<text>{{blog.left_time_hours}}</text>时<text>{{blog.left_time_minutes}}</text>分<text>{{blog.left_time_seconds}}</text>秒
+				</view>
+				<!-- 右上角地址(又不要了) -->
+				<!-- <view wx:if="{{blog.iMax}}" class="address">
+					<image lazy-load="true" src="https://vxiaocheng-jh.oss-cn-beijing.aliyuncs.com/mercury/reward_detail/location_icon.png"></image>
+					<text>{{blog.address ? blog.address : ''}}</text>
+				</view> -->
+				<!-- 皇冠火new图标 -->
+				<view wx:if="{{blog.type != 'contribute' && blog.is_in_homepage}}" class="image-icons">
+					<image lazy-load="true" wx:if="{{blog.amount >= 12000}}" src="https://vxiaocheng-jh.oss-cn-beijing.aliyuncs.com/mercury/new_blog/crown_icon.png" style="display: block;height: 36rpx;width: 40rpx;"></image>
+					<image lazy-load="true" wx:if="{{blog.comment_count > 10}}" src="https://vxiaocheng-jh.oss-cn-beijing.aliyuncs.com/mercury/new_blog/fire_icon.png" style="display: block;height: 34rpx;width: 30rpx;"></image>
+					<image lazy-load="true" wx:if="{{blog.is_new}}" src="https://vxiaocheng-jh.oss-cn-beijing.aliyuncs.com/mercury/new_blog/new_icon.png" style="display: block;height: 28rpx;width: 42rpx;"></image>
+				</view>
+				<!-- 采纳按钮和被采纳图标 -->
+				<view wx:if="{{blog.type == 'contribute'}}" class="adopt">
+					<image lazy-load="true" wx:if="{{!blog.is_finished && blog.showAdoptBtn}}" style="display: block;height: 40rpx;width: 89rpx;" src="https://vxiaocheng-jh.oss-cn-beijing.aliyuncs.com/mercury/new_blog/adopt_btn.png" @tap.stop="tapAdopt({{blog.id}}, {{blog.author.id}})"></image>
+					<image lazy-load="true" wx:if="{{blog.is_finished && blog.is_adopt}}" style="display: block;height: 40rpx;width: 98rpx;" src="https://vxiaocheng-jh.oss-cn-beijing.aliyuncs.com/mercury/new_blog/adopted_icon.png"></image>
+				</view>
+				<!-- 分得秀点数 -->
+				<view wx:if="{{blog.type == 'contribute' && blog.is_finished}}" class="get-mpcoin">
+					<image src="https://vxiaocheng-jh.oss-cn-beijing.aliyuncs.com/mercury/new_blog/purse_icon.png"></image>
+					<text>{{blog.adopt_mpcoin ? blog.adopt_mpcoin : 0}}元</text>
+				</view>
+
+				<view wx:if="{{blog.is_from_myreward}}" class="state" style="background-color: {{blog.is_finished ? '#999' : '#000'}}">{{blog.is_finished ? '已结束' : '进行中'}}</view>
+			</view>
+		</view>
+
+		<view class="topic-and-pics">
+			<view class="topic" @tap.stop="tapEnterBlogDetail({{blog}})">{{blog.topic.title ? blog.topic.title : ''}}<text hidden="{{blog.resources[0].type == 'audio'}}">{{blog.content ? blog.content : ''}}</text></view>
+
+			<view wx:if="{{blog.resources[0].type == 'image'}}" class="pics-wrapper">
+				<view class="pics {{blog.resources.length == 1 ? 'one-image' : ''}} {{blog.squareImage ? 'square' : ''}}">
+					<image wx:if="{{blog.resources.length == 1}}" lazy-load="true" mode="aspectFill" class="pic" src="{{blog.resources[0].url}}" data-blogid="{{blog.id}}" bindload="judgeImage" @tap.stop="tapImgPreview({{blog.type == 'reward' && !blog.iMax}}, {{blog.resources[0].url}}, {{blog}})"></image>
+					<block wx:if="{{blog.resources.length > 1}}" wx:for="{{blog.resources}}" wx:key="id">
+						<view class="pic-wrapper" @tap.stop="tapImgPreview({{blog.type == 'reward' && !blog.iMax}}, {{item.url}}, {{blog}})">
+							<image lazy-load="true" mode="aspectFill" class="pic" src="{{item.url}}"></image>
+						</view>
+					</block>
+				</view>
+			</view>
+			<view wx:if="{{blog.resources[0].type == 'video'}}" class="video-wrapper" @tap.stop="tapPlayThisVideo({{blog.id}})">
+				<video wx:if="{{blog.playVideo}}" show-fullscreen-btn="{{false}}" autoplay="{{blog.playVideo}}" src="{{blog.resources[0].url}}"></video>
+				<view wx:if="{{!blog.playVideo}}" class="play-layer" style="background: url({{blog.resources[0].url + '?x-oss-process=video/snapshot,t_500,f_jpg,w_0,h_0'}}) no-repeat;background-size: cover;">
+					<image lazy-load="true" mode="aspectFill" src="../images/play.png"></image>
+				</view>
+			</view>
+			<view wx:if="{{blog.resources[0].type == 'audio'}}" class="audio-wrapper" @tap.stop="tapPlayThisAudio({{blog.id}})">
+				<image src="{{blog.audioActive ? 'https://vxiaocheng-jh.oss-cn-beijing.aliyuncs.com/mercury/new_blog/audio_state_active_icon.png' : 'https://vxiaocheng-jh.oss-cn-beijing.aliyuncs.com/mercury/new_blog/audio_state_icon.png'}}"></image>
+				<text>{{blog.audioDuration ? blog.audioDuration : 'xx'}}s</text>
+			</view>
+		</view>
+
+		<view wx:if="{{blog.type == 'reward'}}" class="onlookers-and-address" style="background-color: {{blog.type == 'reward' ? '#fafbf6' : '#fff'}}">
+			<view wx:if="{{!blog.iMax}}" class="onlookers">
+				<view>
+					<text>{{blog.visit_count ? blog.visit_count : 0}}</text>人围观
+				</view>
+
+				<view wx:if="{{blog.type == 'reward'}}">
+					/ <text>{{blog.comment_count ? blog.comment_count : 0}}</text>人帮助
+				</view>
+
+			</view>
+
+			<view wx:if="{{blog.left_time_days != undefined && !blog.is_finished}}" class="countdown">
+				剩余时间：<text>{{blog.left_time_days}}</text>天<text>{{blog.left_time_hours}}</text>时<text>{{blog.left_time_minutes}}</text>分<text>{{blog.left_time_seconds}}</text>秒
+			</view>
+
+			<view wx:if="{{blog.iMax && blog.is_finished}}" class="reward-finished">
+				已结束
+			</view>
+
+			<view wx:if="{{blog.iMax}}" class="contribute-num">
+				<button wx:if="{{!blog.is_finished}}" class="xui-i-share" @tap.stop="tapRewardShare">
+					<image lazy-load="true" src="https://vxiaocheng-jh.oss-cn-beijing.aliyuncs.com/mercury/reward_detail/unknow_icon.png"></image>
+				</button>
+				<button wx:if="{{blog.is_finished}}" open-type="share" class="xui-i-share">
+					<image lazy-load="true" src="https://vxiaocheng-jh.oss-cn-beijing.aliyuncs.com/mercury/reward_detail/unknow_icon.png"></image>
+				</button>
+			</view>
+			<!-- 右下角秀点数 -->
+			<view class="price" wx:if="{{1 == '右下角的秀点数也不要了'}}">
+				悬赏: <text> {{blog.amount ? blog.amount : 0}}秀点</text>
+			</view>
+			<!-- 右下角回复赚赏金按钮 -->
+			<image wx:if="{{!blog.iMax && !blog.is_finished}}" src="https://vxiaocheng-jh.oss-cn-beijing.aliyuncs.com/mercury/new_blog/reply_btn.png" style="display: block;height: 52rpx;width: 182rpx;" @tap.stop="tapEnterBlogDetail({{blog}})"></image>
+			<image wx:if="{{!blog.iMax && blog.is_finished}}" src="https://vxiaocheng-jh.oss-cn-beijing.aliyuncs.com/mercury/new_blog/view_detail_btn.png" style="display: block;height: 52rpx;width: 182rpx;" @tap.stop="tapEnterBlogDetail({{blog}})"></image>
+		</view>
+
+		<block wx:if="{{blog.type == 'contribute'}}">
+			<!-- 投稿下的点赞数及展示头像 -->
+			<view class="upvotes">
+				<view class="avatars">
+					<block wx:for="{{blog.upvoters}}">
+						<image class="avatar" src="{{item.avatar}}"></image>
+					</block>
+					<view wx:if="{{blog.upvoters.length >= 10}}">···</view>
+				</view>
+				<view class="upvote-num" @tap.stop="tapUpvote({{blog.id}})">
+					<image lazy-load="true" src="https://vxiaocheng-jh.oss-cn-beijing.aliyuncs.com/mercury/new_blog/{{blog.is_liked_by_current_user ? 'upvoted' : 'upvote'}}_icon.png"></image>
+					<text>{{blog.like_count ? blog.like_count : 0}}</text>
+				</view>
+			</view>
+			<!-- 投稿下的评论及写评论框 -->
+			<view class="contribute-comments">
+				<block wx:for="{{blog.comments}}" wx:key="id">
+					<view class="contribute-comment"><text>{{item.author.name}}：</text>{{item.content}}</view>
+				</block>
+			</view>
+			<view class="contribute-input">
+				<input placeholder="写评论" placeholder-style="color: #adadad;font-size: 24rpx;" value="{{blog.inputValue}}" data-blogId="{{blog.id}}" bindinput="onContributeInputChange" />
+				<image src="https://vxiaocheng-jh.oss-cn-beijing.aliyuncs.com/mercury/new_blog/send_btn.png" @tap.stop="sendComment({{blog.id}})"></image>
+			</view>
+		</block>
+
+		<view wx:if="{{(blog.type == 'image' || blog.type == 'video' || blog.type == 'audio') || blog.source != 'user'}}" class="inner-broadcast">
+			<view class="address" wx:if="{{blog.address}}">
+				<image lazy-load="true" src="https://vxiaocheng-jh.oss-cn-beijing.aliyuncs.com/mercury/reward_detail/location_icon.png"></image>
+				<text>{{blog.address ? blog.address : ' '}}</text>
+			</view> 
+
+			<button open-type="share" class="share" data-blog="{{blog}}">
+				<image lazy-load="true" src="https://vxiaocheng-jh.oss-cn-beijing.aliyuncs.com/mercury/new_blog/share_icon.png"></image>
+				<!-- <text>2</text> -->
+			</button>
+
+			<view class="comment" @tap.stop="tapEnterBlogDetail({{blog}})">
+				<image lazy-load="true" src="https://vxiaocheng-jh.oss-cn-beijing.aliyuncs.com/mercury/new_blog/comment_icon.png"></image>
+				<text>{{blog.comment_count ? blog.comment_count : 0}}</text>
+			</view>
+
+			<view class="upvote" @tap.stop="tapUpvote({{blog.id}})">
+				<image lazy-load="true" src="https://vxiaocheng-jh.oss-cn-beijing.aliyuncs.com/mercury/new_blog/{{blog.is_liked_by_current_user ? 'upvoted' : 'upvote'}}_icon.png"></image>
+				<text>{{blog.like_count ? blog.like_count : 0}}</text>
+			</view>
+
+			<!-- 举报 -->
+			<view wx:if="{{userId != blog.author.id}}" class="icon iconfont icon-more_android_light" style="transform: rotate(90deg)" @tap.stop="onTapMore({{blog}})"></view>
+			<!-- 删除 -->
+			<view wx:if="{{userId == blog.author.id}}" class="icon iconfont icon-more_android_light" style="transform: rotate(90deg)" @tap.stop="onTapDelete({{blog}})"></view>
+		</view>
+		<!-- 话题详情下的评论及写评论框 -->
+		<block wx:if="{{blog.type != 'contribute' && blog.type != 'reward'}}">
+			<view class="contribute-comments">
+				<block wx:for="{{blog.comments}}" wx:key="id">
+					<view class="contribute-comment">
+						<text class="author-name">{{item.author.name}}：</text>
+						<block wx:for="{{item.contentData}}" wx:for-item="contents">
+							<image wx:if="{{contents.type == 'emoji'}}" class="avatar" src="{{'https://resource.vxiaocheng.com/mercury/faces/' + contents.data }}"/>
+							<text wx:if="{{contents.type == 'txt'}}">{{ contents.data }}</text>
+						</block>
+					</view>
+				</block>
+			</view>
+			<view class="contribute-input">
+				<input placeholder="写评论" placeholder-style="color: #adadad;font-size: 24rpx;" value="{{blog.inputValue}}" data-blogId="{{blog.id}}" bindinput="onContributeInputChange" />
+				<image src="https://vxiaocheng-jh.oss-cn-beijing.aliyuncs.com/mercury/new_blog/send_btn.png" @tap.stop="sendComment({{blog.id}})"></image>
+			</view>
+		</block>
+
+	</view>
+</template>
+
+<script>
+import wepy from 'wepy'
+import BlogService from '../services/blog_service'
+import AccountService from '../services/account_service'
+
+export default class NewBlog extends wepy.component {
+	props = {
+		blog: {
+			type: Object,
+			twoWay: true,
+			default: null
+		}
+	}
+
+	computed = {
+	}
+
+	data = {
+		contributeInputValue: '',
+		userId: 0
+	}
+
+	events = {
+	}
+
+	methods = {
+		judgeImage(e) {
+			if (e.detail.width <= e.detail.height) {
+				this.$emit('fitOneImage', e.target.dataset.blogid, 'squareImage')
+			}
+		},
+		tapEnterBlogDetail(blog) {
+			BlogService.addOnlookers(blog.id)
+			if (blog.type == 'image' || blog.type == 'video' || blog.type == 'audio') {
+				wx.navigateTo({
+					url: '/pages/blog_detail/blog_detail?id=' + blog.id
+				})
+			}
+			if (blog.type == 'reward') {
+				if (blog.iMax) return;
+				wx.navigateTo({
+					url: `/pages/reward_topic/reward_detail?rewardBlogId=${blog.id}&accountId=${blog.author.id}`
+				})
+			}
+		},
+		//投稿的采纳
+		tapAdopt(contributeId, userId) {
+			this.$emit('tap-adopt', contributeId, userId);
+		},
+		//点赞
+		tapUpvote(blogId) {
+			this.$emit('tap-upvote', blogId)
+		},
+		//点击预览图片
+		tapImgPreview(inRewardList, url, blog) {
+			if (inRewardList) {
+				wx.navigateTo({
+					url: `/pages/reward_topic/reward_detail?rewardBlogId=${blog.id}&accountId=${blog.author.id}`
+				})
+				return;
+			}
+			const urls = []
+			blog.resources.forEach(e => urls.push(e.url))
+			wx.previewImage({
+				urls: urls,
+				current: url
+			})
+		},
+		//点击播放视频
+		tapPlayThisVideo(blogId) {
+			this.$emit('play-video', blogId)
+		},
+		//点击播放音频
+		tapPlayThisAudio(blogId) {
+			this.$emit('play-audio', blogId)
+		},
+		onTapEnterUser(id) {
+			wx.navigateTo({
+				url: '/pages/paoypao/paoypao_friend?id=' + id,
+			})
+		},
+		onContributeInputChange(e) {
+			if (e.detail.value.trim()) {
+				this.$emit('blog-input-change', e.currentTarget.dataset.blogid, e.detail.value.trim())
+			}
+		},
+		//发送动态评论
+		sendComment(blogId) {
+			this.$emit('send-comment', blogId)
+		},
+		//举报用户
+		onTapMore (blog) {
+			let author = blog.author;
+			let url = `/pages/report_user/report_user?userId=${author.id}&userName=${author.name}&userAvatar=${author.avatar}`;
+			wx.showActionSheet({
+				itemList: ['举报用户'],
+				success: function(res) {
+					if(res.tapIndex==0){
+						wx.navigateTo({
+							url: url
+						})
+					}
+				},
+				fail: function(res) {
+					console.log(res.errMsg)
+				}
+			})
+		},
+		onTapDelete(blog) {
+			let _this = this;
+			wx.showModal({
+				title: '操作提示',
+				content: '您确认要删除该条动态吗？',
+				showCancel: true,
+				confirmText: '确定',
+				cancelText: '取消',
+				success: function(res) {
+					if (res.confirm) {
+						BlogService.deleteBlog(blog.id).then(isSucess => {
+							_this.blog.is_deleted = true;
+							_this.$emit('delete-blog', blog);
+						})
+					} else if (res.cancel) {
+						console.log('cancel')
+					}
+				}
+			})
+		},
+		//分享按钮触发悬赏详情弹窗
+		tapRewardShare() {
+			this.$emit('open-share-layer')
+		}
+	}
+
+	onLoad() {
+		this.userId = AccountService.getSelfId();
+	}
+
+	onShow() {
+		
+	}
+}
+</script>

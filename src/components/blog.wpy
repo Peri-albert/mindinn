@@ -1,0 +1,1030 @@
+<style lang="less">
+.xui-blog {
+	video, image {
+		width: 100%;
+		height: 244rpx;
+	}
+	margin-bottom: 30rpx;
+	position: relative;
+	padding: 20rpx 0 0;
+	border-top: 1px solid #e4e4e4;
+	.xui-i-avatarContent {
+		box-sizing: border-box;
+		width:100%;
+		padding: 20rpx 0 0 20rpx;
+		display: flex;
+		padding-bottom: 0;
+		.xui-i-avatar {
+			width: 82rpx;
+			height: 82rpx;
+			border-radius: 50%;
+		}
+		.xui-i-topic {
+			width: 100%;
+			height: 50rpx;
+
+			text {
+				box-sizing: border-box;
+				padding: 4rpx 10rpx;
+				// border: 1px solid #000;
+				border-radius: 40rpx;
+				border-top-left-radius: 0;
+				color: #000;
+				font-size: 20rpx;
+				height: 40rpx;
+			}
+		}
+		.xui-i-name {
+			color: #666;
+			font-size: 28rpx;
+			display: flex;
+			align-items: center;
+			justify-content: space-between;
+			flex: 1;
+			padding-left:20rpx;
+			.x-i-text {
+				flex: 1;
+				.x-i-name {
+					color: #000;
+					margin-bottom: 10rpx;
+					display: flex;
+					align-items: center;
+					text {
+						display: block;
+						font-weight: bold;
+						max-width: 400rpx;
+						overflow: hidden;
+						text-overflow: ellipsis;
+						white-space: nowrap;
+					}
+					image {
+						width: 25rpx;
+						height: 25rpx;
+						margin-left: 10rpx;
+					}
+					.x-i-xiuStar {
+						width: 120rpx;
+						height: 60rpx;
+					}
+					.x-i-verify {
+						background-color: lightskyblue;
+						color: #fff;
+						font-size: 20rpx;
+						margin-left: 10rpx;
+						padding: 5rpx;
+					}
+				}
+				.x-i-source {
+					background: url(https://vxiaocheng-jh.oss-cn-beijing.aliyuncs.com/mercury/blog/comefrom_bg.png) no-repeat -1rpx -2rpx;
+					background-size: 100% 100%;
+					color: #FFF;
+					height: 58rpx;
+					line-height: 58rpx;
+					padding: 8rpx 18rpx;
+					border-radius: 10rpx;
+					font-size: 24rpx;
+					font-weight: bold;
+					display: inline-block;
+					text-shadow: 2rpx -2rpx 1rpx 1rpx #4b1588;
+					width: 220rpx;
+				}
+			}
+
+			.time {
+				height: 100%;
+				margin-right: 52rpx;
+			}
+
+			.x-i-gift {
+				width: 50rpx;
+				height: 44rpx;
+				align-self: flex-start;
+			}
+
+			.x-i-chat {
+				width: 40px;
+				height: 20px;
+				color: white;
+				background-color: rgb(135, 48, 206);
+				text-align: center;
+				font-size: 25rpx;
+				line-height: 20px;
+				border-radius: 3px;
+			}
+
+			.iconfont {
+				padding: 0px 2px;
+				margin-left: 2px;
+			}
+		}
+
+	}
+	.xui-i-mainContent {
+		position:relative;
+
+		.x-i-bottom {
+			align-items: center;
+			box-sizing: border-box;
+			display: flex;
+			padding: 0 20rpx;
+
+			.xui-i-address {
+				font-size: 22rpx;
+				color: #c1c1c1;
+				overflow: hidden;
+				display: flex;
+				align-items: center;
+				image {
+					height: 25rpx;
+					width: 22rpx; 
+					margin-right: 10rpx;
+				}
+				text {
+					max-width: 7em;
+					overflow: hidden;
+					text-overflow: ellipsis;
+					white-space: nowrap;
+					color: #c1c1c1;
+				}
+			}
+			.xui-i-action {
+				font-size: 28rpx;
+				display: flex;
+				flex: 1;
+				align-items: center;
+				color: #bbb;
+				justify-content: space-around;
+
+				.comment, .likeit, .xui-i-share {
+					align-items: center;
+					display: flex;
+					padding: 0;
+					image {
+						height: 30rpx;
+						margin-right: 10rpx;
+						width: 30rpx;
+					}
+					text {
+						color: #8d8d8d;
+					}
+				}
+				.icon {
+					font-size: 34rpx;
+					margin-right: 2px;
+					&.liked {
+						color: #ff4181;
+					}
+				}
+				.xui-i-share {
+					background-color: transparent;
+					height: 38rpx;
+					margin: 0;
+				}
+				.del-btn {
+					view {
+						white-space: nowrap;
+					}
+				}
+			}
+		}
+
+		.xui-i-location {
+			font-size: 0.7em;
+			color: #AAA;
+			display: flex;
+			flex-direction: row;
+			align-items: center;
+		}
+
+		.xui-i-content {
+			box-sizing: border-box;
+			font-size: 30rpx;
+			padding: 0 0 20rpx 20rpx;
+			.txts {
+				height: 62rpx;
+				line-height: 62rpx;
+				overflow: hidden;
+				text {
+					display: block;
+					color: #333;
+					font-size: 28rpx;
+					font-weight: bold;
+					width: 100%;
+				}
+			}
+			.spread {
+				color: #391167;
+				font-size: 18rpx;
+				margin-top: 20rpx;
+			}
+			.xui-i-date {
+				color: #838382;
+				font-size: 16rpx;
+				margin-top: 18rpx;
+			}
+		}
+		.clearfix {
+			content: ''; 
+			display: block; 
+			clear: both;
+		}
+		.xui-i-resources {
+			box-sizing: border-box;
+			display: flex;
+			flex-wrap: wrap;
+			margin-top: 20rpx;
+			padding: 0 4rpx;
+			width: 100%;
+			.audio-wrapper {
+				align-items: center;
+				background: url(https://vxiaocheng-jh.oss-cn-beijing.aliyuncs.com/mercury/new_blog/audio_blog_bg.png) no-repeat;
+				background-size: 100%;
+				box-sizing: border-box;
+				display: flex;
+				height: 92rpx;
+				margin: 24rpx 0 24rpx 26rpx;
+				position: relative;
+				width: 410rpx;
+
+				image {
+					height: 48rpx;
+					margin-left: 38rpx;
+					width: 48rpx;
+				}
+
+				text {
+					color: #cbd9e5;
+					font-size: 30rpx;
+					left: 300rpx;
+					position: absolute;
+					top: 26rpx;
+				}
+			}
+			.xui-i-resource {
+				box-sizing: border-box;
+				padding: 0 4rpx;
+				min-width: calc(100% / 3);
+			}
+			&.oneImage {
+				padding: 0;
+				.xui-i-resource {
+					width: 100vw;
+					max-height: 100vw;
+					overflow: hidden;
+					margin: 0 0 10rpx;
+					padding: 0;
+					position: relative;
+
+					image {
+						display: block;
+						height: 432rpx;
+						width: 100%;
+
+						&.square {
+							height: 100vw;
+						}
+					}
+				}
+				.x-longImage-hint {
+					position: absolute;
+					right: 20rpx;
+					bottom: 20rpx;
+					width: 119rpx;
+					height: 43rpx;
+					background: url(https://vxiaocheng-jh.oss-cn-beijing.aliyuncs.com/mercury/blog/longpic_bg.png) no-repeat;
+					background-size: 100%;
+				}
+			}
+			&.fourImage {
+				.xui-i-resource {
+					flex: none;
+					width: 50%;
+				}
+			}
+			&.oneVideo {
+				padding: 0;
+			}
+		}
+		.xui-i-dating {
+			border: 1px solid #e1e1e1;
+			font-size: 28rpx;
+			margin-top: 10px;
+			.xui-i-bar {
+				display: flex;
+				justify-content: space-between;
+				font-size: 28rpx;
+				color: #fff;
+				background-color: #ff4181;
+				padding: 5px;
+			}
+			.xui-i-description {
+				margin: 10px;
+				border-bottom: 1px solid #e1e1e1;
+				padding-bottom: 20px;
+			}
+			.xui-i-bottom {
+				margin: 0 20px 10px;
+				display: flex;
+				justify-content: space-between;
+				color: #ff4181;
+			}
+		}
+	}
+
+	.xui-blog-comment {
+		width: 100%;
+		margin-top: 20rpx;
+		view {
+			height: 100rpx;
+			margin-bottom: 10rpx;
+			.xui-comment-avatar {
+				display: inline-block;
+				width: 15%;
+				height: 100rpx;
+				text-align: right;
+				image {
+					width: 70rpx;
+					height: 70rpx;
+					border-radius: 50%;
+					margin-right: 20rpx;
+				}
+			}
+
+			.xui-comment-info {
+				display: inline-block;
+				width: 80%;
+				height: 100rpx;
+				position: relative;
+				.xui-comment-name {
+					font-size: 24rpx;
+					font-weight: 600;
+					height: 40rpx;
+				}
+				.xui-comment-content {
+					font-size: 22rpx;
+					color: #333;
+					height: 40rpx;
+
+					.xui-at-user {
+						display: inline;
+						font-size: 20rpx;
+					}
+				}
+				.xui-comment-time {
+					position: absolute;
+					top: 1rpx;
+					right: 1rpx;
+					font-size: 20rpx;
+					color: #838282;
+				}
+				.xui-comment-like {
+					position: absolute;
+					top: 50rpx;
+					right: 1rpx;
+					font-size: 16rpx;
+					color: #838282;
+
+					image {
+						width: 20rpx;
+						height: 20rpx;
+					}
+					text {
+						margin-left:10rpx;
+						font-size: 20rpx;
+						color: #838282;
+					}
+				}
+			}
+		}
+
+		.xui-more-comment {
+			height: auto;
+			width: 100%;
+			display: flex;
+			justify-content: center;
+
+			text {
+				font-size: 20rpx;
+				color: #0f0e31;
+			}
+		}
+	}
+}
+</style>
+
+<template>
+<view class="xui-blog" wx:if="{{blog}}">
+	<image lazy-load="true" wx:if="{{blog.author.isStar}}" src="http://.com/mercury/star_bg.png" style="width: 100%; height: 100%;position: absolute;z-index: -1"></image>
+	<view class="xui-i-avatarContent">
+		<navigator url="{{'/pages/paoypao/paoypao_friend?id=' + blog.author.id}}" hover-class="none" @tap.stop="onTapRecordAld">
+		<image lazy-load="true" mode="aspectFill" src="{{blog.author.avatar+'?x-oss-process=image/resize,m_lfit,s_100/quality,q_90'}}" class="xui-i-avatar" />
+		</navigator>
+		<view class="xui-i-name">
+			<view class="x-i-text">
+				<view class="x-i-name">
+					<text>{{blog.author.name}}</text>
+					<image lazy-load="true" mode="widthFix" wx:if="{{blog.author.sex === 'female'}}" src="https://vxiaocheng-jh.oss-cn-beijing.aliyuncs.com/mercury/new_blog/female_icon.png"></image>
+					<image lazy-load="true" mode="widthFix" wx:if="{{blog.author.sex === 'male'}}" src="https://vxiaocheng-jh.oss-cn-beijing.aliyuncs.com/mercury/new_blog/male_icon.png"></image>
+					<image lazy-load="true" class="x-i-xiuStar" mode="widthFix" wx:if="{{blog.isStar}}" src="../images/xiu_star.png"></image>
+					<text class="x-i-verify" wx:if="{{!blog.has_verify}}">审核中</text>
+				</view>
+				<view class="xui-i-slogan" wx:if="{{blog.author.slogan != '' && blog.source == 'usurp_screen(又不要slogan了)'}}">
+					<text>{{blog.author.slogan}}</text>
+				</view>
+				<view class="time">{{blog.created_ago}}</view>
+			</view>
+			<view class="x-i-source" wx:if="{{blog.source == 'usurp_screen'}}">来自场内的{{blog.extra_data.theme ? blog.extra_data.theme : '重金霸屏'}}</view>
+		</view>
+	</view>
+
+	<view class="xui-i-mainContent">
+		<!-- 图片渲染 -->
+		<block wx:if="{{blog.type === 'image'}}">
+		<!-- <view class="xui-i-location">
+			<image lazy-load="true" style="width:13px; height:15px; margin-right:5px;" mode="widthFix" src="../images/address.png" />
+			<view>{{blog.author.region}}</view>
+		</view> -->
+			<!-- 文本内容 -->
+			<view class="xui-i-content" @tap.stop="onTapBlog({{blog}})">
+				<view wx:if="{{!(blog.showingContent.length == 1 && blog.showingContent[0] == '')}}" class="txts" style="height: {{blog.spreaded ? 'auto' : '62rpx'}}">
+					<block wx:for="{{blog.showingContent}}" wx:for-index="index" wx:for-item="item" wx:key="index">
+						<text>{{item}}</text>
+					</block>
+				</view>
+				<view class="spread" wx:if="{{blog.showingContent.length > 2 && !blog.spreaded}}" @tap.stop="tapBlogTextSpread({{blog.id}})">展开</view>
+			</view>
+			<view class="xui-i-resources clearfix {{blog.resources.length === 1 ? 'oneImage' : ''}} {{blog.resources.length === 4 || blog.resources.length === 2 ? 'fourImage' : ''}} {{blog.showingContent.length === 1 && blog.showingContent[0] === '' ? 'mt5' : ''}}">
+				<block wx:for="{{blog.resources}}" wx:for-item="resource" wx:key="{{resource.id}}">
+					<view class="xui-i-resource">
+						<image lazy-load="true" mode="aspectFill" src="{{resource.url+'?x-oss-process=image/resize,m_lfit,s_300/quality,q_80'}}" class="{{resource.bigImage ? 'square' : ''}}" @tap.stop="onPreviewImg({{blog}}, {{resource.url}})" bindload="imageLoad({{blog}})" />
+						<view class="x-longImage-hint" wx:if="{{blog.imageIsLong && blog.resources.length === 1}}"></view>
+					</view>
+				</block>
+			</view>
+			<view class="x-i-bottom">
+				<view class="xui-i-address">
+					<image lazy-load="true" src="https://vxiaocheng-jh.oss-cn-beijing.aliyuncs.com/mercury/blog/location_icon.png" mode="widthFix" wx:if="{{blog.extra_data && blog.extra_data.address}}"></image>
+					<text>{{blog.extra_data.address}}</text>
+				</view>
+
+				<view class="xui-i-action">
+					<!-- 评论数 -->
+					<view @tap.stop="onTapComment({{blog}})" wx:if="{{enableComment}}" class="comment">
+						<image lazy-load="true" src="https://vxiaocheng-jh.oss-cn-beijing.aliyuncs.com/mercury/new_blog/comment_icon.png"></image>
+						<text>{{blog.comment_count}}</text>
+					</view>
+					<!-- 分享数 -->
+					<button open-type="share" class="xui-i-share" @tap.stop="tapDoNothing">
+						<image lazy-load="true" src="https://vxiaocheng-jh.oss-cn-beijing.aliyuncs.com/mercury/new_blog/share_icon.png"></image>
+					</button>
+					<!-- 喜欢/点赞数 -->
+					<view @tap.stop="onTapLike" wx:if="{{enableLike}}" class="likeit">
+						<image lazy-load="true" src="https://vxiaocheng-jh.oss-cn-beijing.aliyuncs.com/mercury/new_blog/upvote_icon.png" wx:if="{{!blog.is_liked_by_current_user}}"></image>
+						<image lazy-load="true" src="https://vxiaocheng-jh.oss-cn-beijing.aliyuncs.com/mercury/new_blog/upvoted_icon.png" wx:if="{{blog.is_liked_by_current_user}}"></image>
+						<text style="margin-right: 10px;">{{blog.like_count}}</text>
+					</view>
+					<!-- 举报 -->
+					<view wx:if="{{blog.author.id != selfId}}" class="icon iconfont icon-more_android_light" style="transform: rotate(90deg)" @tap.stop="onTapMore({{blog}})"></view>
+					
+					<view class='del-btn' @tap.stop="onTapDelete({{blog}})" wx:if="{{blog.author.id == selfId}}">
+						<view>删除</view>
+					</view>
+				</view>
+			</view>
+		</block>
+		
+		<!-- 视频渲染 -->
+		<block wx:elif="{{blog.type === 'video'}}">
+		<!-- <view class="xui-i-location">
+			<image lazy-load="true" style="width:13px; height:15px; margin-right:5px;" mode="widthFix" src="../images/address.png" />
+			<view>{{blog.author.region}}</view>
+		</view> -->
+			<view class="xui-i-content" @tap.stop="onTapBlog({{blog}})">
+				<view wx:if="{{!(blog.showingContent.length == 1 && blog.showingContent[0] == '')}}" class="txts" style="height: {{blog.spreaded ? 'auto' : '62rpx'}}">
+					<block wx:for="{{blog.showingContent}}" wx:for-index="index" wx:for-item="item" wx:key="index">
+						<text>{{item}}</text>
+					</block>
+				</view>
+				<view class="spread" wx:if="{{blog.showingContent.length > 2 && !blog.spreaded}}" @tap.stop="tapBlogTextSpread({{blog.id}})">展开</view>
+			</view>
+			<view class="xui-i-resources clearfix mt5 {{blog.type === 'video' ? 'oneVideo' : ''}}">
+				<view class="xui-i-resource" @tap.stop="onTapVideo({{blog}})" style="width:100vw;position:relative;padding: 0;">
+					<image lazy-load="true" src="{{blog.resources[0].url+'?x-oss-process=video/snapshot,t_500,f_jpg,w_0,h_0'}}" mode="aspectFill" style="width:100vw; height:80vw;" />
+					<image lazy-load="true" src="../images/play.png" mode="widthFix" style="position:absolute;left:50%;margin-left:-30px;top:40%;color:#fff;width:60px;"/>
+					<video wx:if="{{blog.playVideo}}" autoplay="{{blog.playVideo}}" show-fullscreen-btn="{{false}}" src="{{blog.resources[0].url}}" style="display: block;height: 80vw;left:0;position:absolute;top:0;width: 100vw;">
+					</video>
+				</view>
+			</view>
+			<view class="x-i-bottom">
+				<view class="xui-i-address">
+					<image lazy-load="true" src="https://vxiaocheng-jh.oss-cn-beijing.aliyuncs.com/mercury/blog/location_icon.png" mode="widthFix" wx:if="{{blog.extra_data && blog.extra_data.address}}"></image>
+					<text>{{blog.extra_data.address}}</text>
+				</view>
+
+				<view class="xui-i-action">
+					<!-- 评论数 -->
+					<view @tap.stop="onTapComment({{blog}})" wx:if="{{enableComment}}" class="comment">
+						<image lazy-load="true" src="https://vxiaocheng-jh.oss-cn-beijing.aliyuncs.com/mercury/new_blog/comment_icon.png"></image>
+						<text>{{blog.comment_count}}</text>
+					</view>
+					<!-- 分享数 -->
+					<button open-type="share" class="xui-i-share">
+						<image lazy-load="true" src="https://vxiaocheng-jh.oss-cn-beijing.aliyuncs.com/mercury/new_blog/share_icon.png"></image>
+					</button>
+					<!-- 喜欢/点赞数 -->
+					<view @tap.stop="onTapLike" wx:if="{{enableLike}}" class="likeit">
+						<image lazy-load="true" src="https://vxiaocheng-jh.oss-cn-beijing.aliyuncs.com/mercury/new_blog/upvote_icon.png" wx:if="{{!blog.is_liked_by_current_user}}"></image>
+						<image lazy-load="true" src="https://vxiaocheng-jh.oss-cn-beijing.aliyuncs.com/mercury/new_blog/upvoted_icon.png" wx:if="{{blog.is_liked_by_current_user}}"></image>
+						<text style="margin-right: 10px;">{{blog.like_count}}</text>
+					</view>
+					<!-- 举报 -->
+					<view wx:if="{{blog.author.id != selfId}}" class="icon iconfont icon-more_android_light" style="transform: rotate(90deg)" @tap.stop="onTapMore({{blog}})"></view>
+					
+					<view class='del-btn' @tap.stop="onTapDelete({{blog}})" wx:if="{{blog.author.id == selfId}}">
+						<text>删除</text>
+					</view>
+				</view>
+			</view>
+		</block>
+
+		<!-- 音频渲染 -->
+		<block wx:elif="{{blog.type === 'audio'}}">
+			<!-- 话题内容 -->
+			<view class="xui-i-content" @tap.stop="onTapBlog({{blog}})">
+				<view wx:if="{{blog.topic.title}}" class="txts" style="color: #6444FF;margin-bottom: -44rpx;">
+					{{blog.topic.title}}
+				</view>
+			</view>
+			<view class="xui-i-resources clearfix mt5">
+				<view class="audio-wrapper" @tap.stop="onTapAudio({{blog.id}})">
+					<image src="{{blog.audioActive ? 'https://vxiaocheng-jh.oss-cn-beijing.aliyuncs.com/mercury/new_blog/audio_state_active_icon.png' : 'https://vxiaocheng-jh.oss-cn-beijing.aliyuncs.com/mercury/new_blog/audio_state_icon.png'}}"></image>
+					<text>{{blog.audioDuration ? blog.audioDuration : 'xx'}}s</text>
+				</view>
+			</view>
+			<view class="x-i-bottom">
+				<view class="xui-i-address">
+					<image lazy-load="true" src="https://vxiaocheng-jh.oss-cn-beijing.aliyuncs.com/mercury/blog/location_icon.png" mode="widthFix" wx:if="{{blog.extra_data && blog.extra_data.address}}"></image>
+					<text>{{blog.extra_data.address}}</text>
+				</view>
+
+				<view class="xui-i-action">
+					<!-- 评论数 -->
+					<view @tap.stop="onTapComment({{blog}})" wx:if="{{enableComment}}" class="comment">
+						<image lazy-load="true" src="https://vxiaocheng-jh.oss-cn-beijing.aliyuncs.com/mercury/new_blog/comment_icon.png"></image>
+						<text>{{blog.comment_count}}</text>
+					</view>
+					<!-- 分享数 -->
+					<button open-type="share" class="xui-i-share">
+						<image lazy-load="true" src="https://vxiaocheng-jh.oss-cn-beijing.aliyuncs.com/mercury/new_blog/share_icon.png"></image>
+					</button>
+					<!-- 喜欢/点赞数 -->
+					<view @tap.stop="onTapLike" wx:if="{{enableLike}}" class="likeit">
+						<image lazy-load="true" src="https://vxiaocheng-jh.oss-cn-beijing.aliyuncs.com/mercury/new_blog/upvote_icon.png" wx:if="{{!blog.is_liked_by_current_user}}"></image>
+						<image lazy-load="true" src="https://vxiaocheng-jh.oss-cn-beijing.aliyuncs.com/mercury/new_blog/upvoted_icon.png" wx:if="{{blog.is_liked_by_current_user}}"></image>
+						<text style="margin-right: 10px;">{{blog.like_count}}</text>
+					</view>
+					<!-- 举报 -->
+					<view wx:if="{{blog.author.id != selfId}}" class="icon iconfont icon-more_android_light" style="transform: rotate(90deg)" @tap.stop="onTapMore({{blog}})"></view>
+					
+					<view class='del-btn' @tap.stop="onTapDelete({{blog}})" wx:if="{{blog.author.id == selfId}}">
+						<text>删除</text>
+					</view>
+				</view>
+			</view>
+		</block>
+
+		<!-- <block wx:elif="{{blog.type === 'dating'}}">
+				<view class="xui-i-name">{{blog.author.name}}</view>
+				<view class='xui-i-dating'>
+					<view class="xui-i-bar">
+					<text>约会中</text>
+					<text>约会时间:2018/11/30 13:30</text>
+					</view>
+					<view class='xui-i-description'>
+					<view>地点：{{blog.content.bar.name}}</view>
+					<view>{{blog.content.description}}</view>
+					</view>
+					<view class='xui-i-bottom'>
+					<view>{{blog.content.gender === 'female' ? '有请女神' : (blog.content.gender === 'male' ? '有请帅哥' :'男女不限')}}</view>
+					<view>{{blog.content.payment_type === 'aa' ? 'AA买单' : (blog.content.payment_type === 'pay' ? '我买单' : '求入伙')}}</view>
+					</view>
+				</view>
+				<view class="xui-i-date">{{blog.created_at}}</view>
+				<view class="xui-i-action">
+					<view>
+					<text class="icon iconfont icon-friends" style="color: #ff4181;"></text>
+					<text style="margin-right: 10px;">{{blog.content.join_count}}</text>
+					</view>
+					<view @tap.stop="onTapComment({{blog}})">
+					<text class="icon iconfont icon-comment"></text>
+					<text>{{blog.comment_count}}</text>
+					</view>
+				</view>
+
+				</block> -->
+
+				<!-- <block wx:if="{{blog.type === 'bar_activity'}}">
+				<view class="xui-i-name">{{blog.author.name}}</view>
+				<view class="xui-i-content">
+					<view style="font-size: 36rpx;height: 50rpx;line-height: 50rpx;">{{blog.content.title}}</view>
+					<view style="color: #666;">{{blog.content.summary}}</view>
+				</view>
+				<view class="xui-i-date">{{blog.created_at}}</view>
+				<view class="xui-i-action">
+					<view @tap.stop="onTapLike">
+					<text class="icon iconfont icon-favorite {{ blog.is_liked_by_current_user ? 'liked' : ''}}"></text>
+					<text style="margin-right: 10px;">{{blog.like_count}}</text>
+					</view>
+					<view @tap.stop="onTapComment({{blog}})">
+					<text class="icon iconfont icon-comment"></text>
+					<text>{{blog.comment_count}}</text>
+					</view>
+				</view>
+		</block> -->
+		<block wx:if="{{blog.type === 'broadcast'}}">
+			<view class="xui-i-name">{{blog.author.name}}</view>
+			<view class="xui-i-content">{{blog.content}}</view>
+			<view class="xui-i-date">{{blog.created_at}}</view>
+			<view class="xui-i-action">
+				<view @tap.stop="onTapLike">
+				<text class="icon iconfont icon-favorite {{ blog.is_liked_by_current_user ? 'liked' : ''}}"></text>
+				<text style="margin-right: 10px;">{{blog.like_count}}</text>
+				</view>
+				<view @tap.stop="onTapComment({{blog}})">
+				<text class="icon iconfont icon-comment"></text>
+				<text>{{blog.comment_count}}</text>
+				</view>
+			</view>
+		</block>
+	</view>
+	
+	<view class="xui-blog-comment" wx:if="{{blog.comments.length > 0 && showComment}}">
+		<repeat for="{{blog.comments}}" key="id" item="comment" index="id">
+			<view wx:if="{{id < 3}}">
+				<view class="xui-comment-avatar"><image lazy-load="true" src="{{comment.author.avatar}}"></image></view>
+				<view class="xui-comment-info">
+					<view class="xui-comment-name">{{comment.author.name}}</view>
+					<view class="xui-comment-content">
+						<view class="xui-at-user" wx:if="{{comment.at_user.id != null}}">回复 
+							<text style="font-size:22rpx;color:black;">{{comment.at_user.name}}</text> :
+						</view>
+						<block wx:for="{{comment.contentData}}">
+							<image lazy-load="true" wx:if="{{item.type === 'emoji'}}" src="{{'https://resource.vxiaocheng.com/mercury/faces/' + item.data }}"
+								style="width: 30rpx;height: 30rpx;vertical-align:middle;"/>
+							<text wx:if="{{item.type === 'txt'}}">{{ item.data }}</text>
+						</block>
+					</view>
+					<view class="xui-comment-time">{{comment.created_at}}</view>
+					<view class="xui-comment-like" >
+						<image lazy-load="true" src="https://resource.vxiaocheng.com/mercury/blog_comment_like.png" @tap.stop="onTapLikeComment({{comment}})" wx:if="{{!comment.has_liked}}"></image>
+						<image lazy-load="true" src="https://resource.vxiaocheng.com/mercury/blog_comment_liked.png" @tap.stop="onTapUnLikeComment({{comment}})" wx:if="{{comment.has_liked}}"></image>
+						<text>{{comment.like_count}}</text>
+					</view>
+				</view>
+			</view>
+		</repeat>
+		<view class="xui-more-comment" @tap.stop="onTapBlog({{blog}})">
+			<text style="margin-right:30rpx;">共{{blog.comment_count}}条评论</text>
+			<text wx:if="{{blog.comment_count > 3}}">查看更多</text>
+		</view>
+	</view>
+</view>
+</template>
+
+<script>
+import wepy from 'wepy'
+const app = getApp()
+import _ from '../lib/mptool'
+import Session from '../lib/session'
+import UserService from '../services/user_service'
+import AccountService from '../services/account_service'
+import BlogService from '../services/blog_service'
+import BlogCommentService from '../services/blog_comment_service'
+
+export default class Blog extends wepy.component {
+	props = {
+		blog: {
+			type: Object,
+			twoWay: true,
+			default: null
+		},
+		enableLike: {
+			type: Boolean,
+			default: true
+		},
+		enableComment: {
+			type: Boolean,
+			default: true
+		},
+		enableGift: {
+			type: Boolean,
+			default: true
+		},
+		enableShare: {
+			type: Boolean,
+			default: false
+		},
+		showChat: {
+			type: Boolean,
+			default: true
+		},
+		enableMP: {
+			type: Boolean,
+			default: false,
+		},
+		showComment: {
+			type: Boolean,
+			default: true,
+		}
+	}
+
+	computed = {
+		/*
+		isSelfBlog: () => {
+			if (this.blog == undefined || Object.keys(this.blog).length == 0) {
+				return true;
+			}
+			console.log(this.selfId + ' ' + this.blog.author.id);
+			return this.selfId == this.blog.author.id;
+		}
+		*/
+	}
+
+	data = {
+		isLiked: false,
+		selfId: 0
+	}
+
+	events = {
+		'change-blog-comment-count': (blogId, delta) => {
+			if (blogId == this.blog.id) {
+				this.blog.comment_count = this.blog.comment_count + delta;
+				this.$apply();
+			}
+		},
+		'update-accost': (blogId) => {
+			if (blogId == this.blog.id) {
+				this.blog.is_accost = true;
+				this.$apply();
+			}
+		}
+	}
+
+	watch = {
+
+	}
+
+	methods = {
+		tapDoNothing() {
+			return false;
+		},
+
+		onTapLikeComment(comment) {
+			BlogCommentService.likeComment(comment.id).then(
+				() => {
+					this.blog.comments.forEach(com => {
+						if (com.id == comment.id) {
+							com.has_liked = true;
+							com.like_count += 1;
+							this.$apply();
+							this.updateBlogComment();
+						}
+					})
+				}
+			)
+		},
+
+		onTapUnLikeComment(comment) {
+			BlogCommentService.unlikeComment(comment.id).then(
+				() => {
+					this.blog.comments.forEach(com => {
+						if (com.id == comment.id) {
+							com.has_liked = false;
+							com.like_count -= 1;
+							this.$apply();
+							this.updateBlogComment();
+						}
+					})
+				}
+			)
+		},
+
+		onTapRecordAld() {
+			app.aldstat.sendEvent("从动态查看用户", {
+				"用户ID": this.selfId + "",
+				"时间": _.getAldTime()
+			})
+		},
+
+		onTapChat(blog) {
+			app.aldstat.sendEvent("泡TA聊天", {
+				"用户ID": this.selfId + "",
+				"时间": _.getAldTime()
+			})
+			wx.navigateTo({
+                url: '/package/pages/chatroom/chatroom?touserid=' + blog.author.id,
+            })
+		},
+
+		async onTapLike () {
+			//更新服务器
+			if (this.blog.is_liked_by_current_user) {
+				let isSucess = await UserService.unlikeBlog(this.blog.id);
+				if (isSucess) {
+					this.blog.like_count -= 1;
+					this.blog.is_liked_by_current_user = !this.blog.is_liked_by_current_user;
+					console.warn(this.blog.is_liked_by_current_user);
+					Session.setKey('trendsUpvote', JSON.stringify({blogId: this.blog.id, upvote: false}))
+					this.$emit('update-blog');
+					this.$apply();
+
+					app.aldstat.sendEvent("取消点赞", {
+						"用户ID": this.selfId + "",
+						"时间": _.getAldTime()
+					})
+				} else {
+
+				}
+			} else {
+				let isSucess = await UserService.likeBlog(this.blog.id);
+				if (isSucess) {
+					this.blog.like_count += 1;
+					this.blog.is_liked_by_current_user = !this.blog.is_liked_by_current_user;
+					console.warn(this.blog.is_liked_by_current_user);
+					Session.setKey('trendsUpvote', JSON.stringify({blogId: this.blog.id, upvote: true}))
+					this.$emit('update-blog');
+					this.$apply();
+
+					app.aldstat.sendEvent("点赞", {
+						"用户ID": this.selfId + "",
+						"时间": _.getAldTime()
+					})
+				} else {
+
+				}
+			}
+		},
+
+		onTapComment (blog) {
+			if (!this.enableComment) {
+				return;
+			}
+			console.log('onTapComment');
+			app.aldstat.sendEvent("评论", {
+				"用户ID": this.selfId + "",
+				"时间": _.getAldTime()
+			})
+			this.$emit('comment-blog', blog);
+			// if (blog.type === 'dating') {
+			// 	wx.navigateTo({
+			// 		url: '/pages/home/chatroom?id=' + blog.content.chatroom_id 
+			// 	});
+			// 	return;
+			// }
+			// wx.navigateTo({
+			// 	url: '/pages/blog_detail/blog_detail?id=' + blog.id
+			// });
+		},
+
+		onPreviewImg (blog, url) {
+			var urls = [];
+			blog.resources.forEach((resource, index) => {
+				urls.push(resource.url);
+			})
+			wx.previewImage({
+				current: url,
+				urls: urls
+			})
+		},
+
+		onTapVideo (blog) {
+			this.$emit('play-video', blog)
+		},
+
+		onTapAudio (blogId) {
+			this.$emit('play-audio', blogId)
+		},
+
+		onTapGift (blog) {
+			app.aldstat.sendEvent("发起泡TA", {
+				"用户ID": this.selfId + "",
+				"时间": _.getAldTime()
+			})
+			this.$emit('tap-gift', blog);
+		},
+
+		onTapMore (blog) {
+			let author = blog.author;
+			let url = `/pages/report_user/report_user?userId=${author.id}&userName=${author.name}&userAvatar=${author.avatar}`;
+			wx.showActionSheet({
+				itemList: ['举报用户'],
+				success: function(res) {
+					if(res.tapIndex==0){
+						wx.navigateTo({
+							url: url
+						})
+					}
+				},
+				fail: function(res) {
+					console.log(res.errMsg)
+				}
+			})
+		},
+
+		onTapShare(blog) {
+			console.log("share blog");
+		},
+
+		onTapBlog (blog) {
+			app.aldstat.sendEvent("浏览动态详情", {
+				"用户ID": this.selfId + "",
+				"时间": _.getAldTime()
+			})
+			this.$emit('tap-blog', blog);
+		},
+
+		onTapDelete (blog) {
+			let _this = this;
+			wx.showModal({
+				title: '操作提示',
+				content: '您确认要删除该条动态吗？',
+				showCancel: true,
+				confirmText: '我确定',
+				cancelText: '点错了',
+				success: function(res) {
+					if (res.confirm) {
+						BlogService.deleteBlog(blog.id).then(isSucess => {
+							_this.blog.is_deleted = true;
+							_this.$emit('delete-blog', blog);
+						})
+					} else if (res.cancel) {
+						console.log('cancel')
+					}
+				}
+			})
+		},
+
+		onTapEnterTopicBlogs(title) {
+			wx.navigateTo({
+				url: '/pages/blogs/topic_blogs?title=' + title
+			})
+		},
+
+		imageLoad(blog, e) {
+			if (blog.resources.length > 1) {
+				return;
+			}
+			var originalWidth = e.detail.width;
+  			var originalHeight = e.detail.height;
+  			var scaleHeight = 500 / originalWidth * originalHeight;
+  			if (scaleHeight >= 500) {
+  				console.log("+++++++++++++++++++++++++++++++")
+  				console.log(blog)
+  				this.$emit('mark-blog-image', blog);
+  			}
+		}, 
+		//点击展开blog文字内容
+		tapBlogTextSpread(blogId) {
+			this.$emit('spread-blogtxt', blogId)
+		}
+	}
+
+	updateBlogCommentLikeInfo(comment, isLike) {
+		if (isLike) {
+			this.blog.comments.forEach(com => {
+				if (com.id == comment.id) {
+					com.like_count += 1;
+					com.has_liked = true;
+					comment.like_count += 1;
+					this.$apply();
+				}
+			});
+		} else {
+			this.blog.comments.forEach(com => {
+				if (com.id == comment.id) {
+					com.like_count -= 1;
+					com.has_liked = false;
+					comment.like_count -= 1;
+					this.$apply();
+				}
+			});
+		}
+		this.updateBlogComment();
+	}
+
+	updateBlogComment() {
+		this.blog.comments.sort((a, b) => {
+			return b.like_count >= a.like_count;
+		})
+		this.$apply();
+	}
+
+	onLoad () {
+		this.selfId = AccountService.getSelfId()
+		console.log("+++++++++++++++++++++++++++++++")
+		console.log("blog: " + this.data);
+		console.log("enableComment: " + this.enableComment);
+		console.log("enableLike: " + this.enableLike);
+	}
+}
+</script>

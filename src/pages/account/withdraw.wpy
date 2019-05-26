@@ -1,0 +1,257 @@
+<style lang="less">
+    .container {
+	background: rgb(255, 255, 255);
+	.x-content{
+		background: rgb(255, 255, 255);
+		width: 600rpx;
+		height: 567rpx;
+		margin: auto;
+		padding: 40rpx;
+		.x-title{
+			.x-title-content{
+				height: 144rpx;
+				display: flex;
+				.x-title-name{
+					font-size: 30rpx;
+					line-height: 144rpx;
+					color: rgb(65, 65, 65);
+				}
+				.x-title-image{
+					width: 100rpx;
+					height: 100rpx;
+					border-radius: 50%;
+					margin: auto;
+				}
+				.x-title-toast{
+					height: 90rpx;
+					margin: auto;
+					.x-user-name{
+						font-size: 30rpx;
+						line-height: 45rpx;
+						color: rgb(65, 65, 65);
+					}
+					.x-gettime{
+						font-size: 30rpx;
+						line-height: 45rpx;
+						color: rgb(176, 176, 176);
+					}
+				}
+			}
+		}
+		.x-extract{
+			.x-extract-name{
+				font-size: 30rpx;
+				line-height: 100rpx;
+				color: rgb(65, 65, 65);
+			}
+			.x-extract-money{
+				font-size: 100rpx;
+				line-height: 120rpx;
+				color: rgb(65, 65, 65);
+				display: flex;
+				.x-money-input{
+					height: 120rpx;
+					margin:auto;
+				}
+			}
+		}
+		.x-submit{
+			.x-toast-error{
+				color: rgb(255, 78, 71);
+				font-size: 30rpx;
+				margin-top: 40rpx;
+			}
+			.x-toast-ok{
+				display: flex;
+				color: rgb(124, 124, 124);
+				font-size: 30rpx;
+				margin-top: 40rpx;
+				.x-toast-all{
+					color: #fdc111;
+					margin-left: 40rpx;
+					// background: linear-gradient(-90deg,#5941e1, #c241de);
+					// color: transparent;
+					// -webkit-background-clip: text;
+				}
+			}
+			.x-button{
+				background-color: #000;
+				margin-top: 40rpx;
+				color: white;
+				border-radius: 10rpx;
+				// &.x-can{
+				// 	background: linear-gradient(-90deg,#c241de,#5941e1);
+				// }
+				// &.x-cannot{
+				// 	background: linear-gradient(-90deg,#c241de,#5941e1);
+				// }
+			}
+		}
+	}
+
+	.xui-split-line{
+		height: 5rpx;
+		width: 100%;
+		background: rgb(250, 250, 250);
+	}
+}
+</style>
+<template>
+    <view class="container">
+        <view class="x-content">
+            <view class="x-title">
+                <view class="x-title-content">
+                    <view class="x-title-name">到账微信</view>
+                    <image src="{{userInfo.avatar}}" class="x-title-image" />
+                    <view class="x-title-toast">
+                        <view class="x-user-name">{{userInfo.name}}</view>
+                        <view class="x-gettime">24个小时内到账</view>
+                    </view>
+                </view>
+                <view class="xui-split-line"></view>
+                <view class="x-extract">
+                    <view class="x-extract-name">提现金额</view>
+                    <view class="x-extract-money">￥ <input class="x-money-input" type="digit" value="{{extractNum!=0 ? extractNum : ''}}" placeholder="{{extractNum}}" placeholder-style="color:rgb(241,241,241);font-size:100rpx" @input="bindValue('extractNum')" /></view>
+                    <view class="xui-split-line"></view>
+                </view>
+                <view class="x-submit">
+                    <view wx:if="{{numberOver}}" class="x-toast-error">{{numberTips}}</view>
+                    <view class="x-toast-ok" wx:else>
+                        <view>账户余额￥ {{ownNum}}</view>
+                        <view @tap="extractAll" class="x-toast-all">全部提现</view>
+                    </view>
+                    <button @tap="withdraw" class="x-button {{canExtract? 'x-can' : 'x-cannot'}}">提现</button>
+                </view>
+            </view>
+        </view>
+    </view>
+</template>
+<script>
+import wepy from 'wepy';
+import UserService from '../../services/user_service';
+import AccountService from '../../services/account_service';
+import IMoneyService from '../../services/imoney_service';
+import FinanceService from '../../services/finance_service';
+import WebIMService from '../../services/webim_service';
+import WxNotifyService from '../../services/weixin_notify_service';
+import Raven from '../../lib/raven/raven.min';
+
+export default class Withdraw extends wepy.page {
+    config = {
+        'navigationBarTitleText': '提现'
+    };
+
+    components = {}
+
+    data = {
+        navigationBarTitleText: "提现",
+        userInfo: {},
+
+        extractNum: 0,
+        ownNum: 0,
+        numberOver: false,
+        canExtract: false,
+        onProcess: false,
+        numberTips: "输入金额超过账户余额"
+    };
+
+    onLoad() {
+
+    };
+
+    methods = {
+        bindValue(property, event) {
+            let intvalue = parseFloat(event.detail.value);
+            if (this.judgeNum(intvalue)) {
+                this[property] = intvalue;
+            }
+        },
+
+        extractAll(e) {
+            this.extractNum = this.ownNum;
+            this.numberOver = false;
+            this.canExtract = true;
+        },
+
+        async withdraw(e) {
+            if (this.canExtract) {
+                let intvalue = parseFloat(this.extractNum);
+                if (this.judgeNum(intvalue) && !this.onProcess) {
+                    this.onProcess = true;
+                    this.$apply();
+
+                    try {
+                        let data = await FinanceService.withdraw(intvalue);
+                        this.loadBalance();
+                        // WxNotifyService.sendWithdrawNofitication(this.selfId, intvalue, "提现成功");
+                    } catch(e) {
+                        Raven.captureMessage(JSON.stringify(e), {
+                            level: 'error'
+                        });
+                    } finally {
+                        wx.showToast({
+                            title: '正在处理中...',
+                            icon: 'none',
+                            duration: 2000
+                        })
+                        setTimeout(() => {
+                            this.onProcess = false;
+                            this.$apply();
+                            wx.redirectTo({
+                                url: '/pages/account/withdraw_detail'
+                            });
+                        }, 2000);
+                    }
+                }
+            }
+        }
+    }
+
+    getUserInfo() {
+        UserService.getUserInfo(this.selfId).then(
+            data => {
+                this.userInfo = data;
+                this.$apply();
+            }
+        )
+    }
+
+    loadBalance() {
+        IMoneyService.getBalance("pp_cash").then(
+            data => {
+                this.ownNum = data;
+                this.$apply();
+            }
+        )
+
+    }
+
+    judgeNum(intvalue) {
+        this.numberOver = true;
+        this.canExtract = false;
+        if (isNaN(intvalue)) {
+            this.numberTips = "输入金额错误";
+        } else if (intvalue < 5) {
+            this.numberTips = "提现最低金额为5元";
+        } else if (intvalue > this.ownNum) {
+            this.numberTips = "输入金额超过账户余额";
+        } else if (intvalue > 20000) {
+            this.numberTips = "提现最高金额为20000元";
+        } else {
+            this.numberOver = false;
+            this.canExtract = true;
+            return true;
+        }
+        return false;
+    }
+
+    onLoad() {
+        this.selfId = AccountService.getSelfId();
+        this.$apply();
+
+        this.getUserInfo();
+        this.loadBalance();
+    }
+
+}
+</script>

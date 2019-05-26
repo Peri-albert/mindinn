@@ -1,0 +1,59 @@
+<style lang="less">
+@import "../../lib/wxParse/wxParse.wxss";
+
+page {
+	background-color: #f3f3f3;	
+}
+</style>
+
+<template>
+<import src="../../lib/wxParse/wxParse.wxml" />
+	<template is="wxParse" data="{{wxParseData:content.nodes}}"></template>
+</template>
+
+<script>
+	import wepy from 'wepy'
+	import AdService from '../../../services/ad_service'
+	import wxParse from '../../lib/wxParse/wxParse'
+
+	export default class RxtAd extends wepy.page {
+		config = {
+			navigationBarTitleText: "广告",
+		}
+
+		components = {
+
+		}
+
+		mixins = []
+
+		data = {
+			ad: {},
+		}
+
+		computed = {
+
+		};
+
+		methods = {
+
+		}
+
+		events = {
+
+		}
+
+		async onLoad(option) {
+			AdService.getAd(option.id).then(
+				res => {
+					this.ad = res;
+					wxParse.wxParse('content', 'html', this.ad.content , this, 5);
+					this.$apply();
+				},
+				res => {
+					console.log(res)
+				}
+			)
+		}
+	}
+</script>

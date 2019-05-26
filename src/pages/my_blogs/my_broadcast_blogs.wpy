@@ -1,0 +1,160 @@
+<style lang="less">
+@import "../../base";
+page {
+    .container {
+        width: 100%;
+    }
+}
+</style>
+	
+<template>
+	<view class="container">
+		<view>
+			<view>
+			<repeat for="{{blogs}}" key="{{blog.id}}" index="index" item="blog"> 
+                <broadcast-blog :blog.sync="blog"></broadcast-blog>
+			</repeat>
+			</view>
+
+			<bottomloader :isFinishLoad.sync="isFinishLoad"></bottomloader>
+		</view>
+	</view>
+	<mp-widget></mp-widget>
+</template>
+
+<script>
+	import wepy from 'wepy'
+	import _ from '../../lib/mptool'
+	import BlogService from '../../services/blog_service'
+	import LoadMoreService from '../../services/loadmore_service'
+	import StorageService from '../../services/storage_service'
+	import AccountService from '../../services/account_service'
+	import BottomLoader from '../../components/bottom_loader'
+	import BroadcastBlog from '../../components/broadcast_blog'
+	import MPWidget from '../../components/mp_widget'
+	import MP from '../../services/mp_service'
+
+	export default class MyBroadcastBlogs extends wepy.page {
+	config = {
+		navigationBarTitleText: "我的霸屏",
+		enablePullDownRefresh: true
+	}
+
+	components = {
+        'broadcast-blog': BroadcastBlog,
+		bottomloader: BottomLoader,
+		'mp-widget': MPWidget,
+	}
+
+	mixins = []
+
+	data = {
+		navigationBarTitleText: "我的霸屏",
+		blogs: [],
+		isFinishLoad: false,
+	}
+
+	computed = {
+
+	}
+
+	methods = {
+		preventDefault () {
+			return false;
+		},
+	}
+
+	events = {
+		'tap-blog': (blog) => {
+			wx.navigateTo({
+				url: '/pages/blog_detail/blog_detail?id=' + blog.id
+			});
+		},
+		'delete-blog': (blog) => {
+			this.blogs = this.blogs.filter(aBlog => {
+				return aBlog.id != blog.id;
+			})
+			this.$apply();
+		},
+
+		'show-dialog': function(blog) {
+			MP.dialogChoice({
+				message: "是否确认删除此条霸屏，霸屏一旦删除便不可恢复哦",
+				id: blog.id,
+			});
+		},
+
+		'dialog-yes': function(id) {
+			BlogService.deleteBlog(id).then(
+				res => {
+					this.blogs = this.blogs.filter(aBlog => {
+						return aBlog.id != id;
+					})
+					this.$apply();
+				}
+			)
+		}
+	}
+
+	onLoad () {
+		wx.showLoading({
+			mask: true
+		});
+		this.loadNextBlogs(true);
+	}
+
+	onShow() {
+		MP.bind(this);
+	}
+
+	loadNextBlogs (reset=false) {
+		let blogs = null;
+		blogs = BlogService.getUserBroadcastBlogs(8, reset);
+		blogs.then(data => {
+			wx.hideLoading();
+			this.isFinishLoad = LoadMoreService.isFinishLoad();
+			if (data.length === 0) {
+				if (reset) {
+					this.blogs = [];
+				}
+			} else {
+                for (let i=0; i<data.length; i++) {
+                    data[i].created_at = _.calculateTime(data[i].created_at);
+                }
+				if (reset) {
+					this.blogs = [...data];
+				} else {
+					this.blogs = [...this.blogs, ...data];
+				}
+            }
+            
+            for (let i=0; i<this.blogs.length; i++) {
+                let extraData = this.blogs[i].extra_data;
+                if (extraData != "") {
+                    let data = JSON.parse(extraData)
+                    if (data.count != undefined) {
+                        this.blogs[i].count = data.count;
+                    } else {
+                        this.blogs[i].count = 1
+                    }
+                } else {
+                    this.blogs[i].count = 1
+                }
+            }
+
+			this.$apply();
+		}, () => {
+			wx.hideLoading();
+		})
+		console.log(blogs)
+    }
+
+	onReachBottom () {
+		this.loadNextBlogs();
+	}
+
+	onPullDownRefresh() {
+		wx.stopPullDownRefresh();
+	}
+}
+</script>

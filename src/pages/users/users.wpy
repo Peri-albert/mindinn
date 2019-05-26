@@ -1,0 +1,235 @@
+<style lang="less">
+@import "../../base";
+page {
+	// background-color: #f3f3f3;
+
+	// .container {
+	// 	.xui-tab {
+	// 		width: 100%;
+	// 		height: 100px;
+	// 		background-color: #fff;
+	// 		border-bottom: 1px solid #f3f3f3;
+	// 		position: relative;
+
+	// 		.xui-tab-image {
+	// 			width: 70px;
+	// 			height: 70px;
+	// 			border-radius: 50%;
+	// 			margin: 15px;
+	// 		}
+
+	// 		.xui-tab-name {
+	// 			font-size: 40rpx;
+	// 		}
+
+	// 		.xui-tab-sex {
+	// 			width: 20px;
+	// 			height: 20px;
+	// 		}
+
+	// 		.xui-tab-tag {
+	// 			font-size: 30rpx;
+	// 			color: rgb(175, 42, 157);
+	// 			border: 1px solid rgb(175, 42, 157);
+	// 			border-radius: 5px;
+	// 			padding: 5px;
+	// 		}
+
+	// 		.xui-btn {
+	// 			position: absolute;
+	// 			top: 10px;
+	// 			right: 10px;
+	// 			padding: 5px;
+	// 			background-color: purple;
+	// 			color: #fff;
+	// 		}
+	// 	}
+	// }
+
+	.xui-visitors, .tip-visitors {
+		width: 100%;
+		margin-top: 0rpx;
+		display: flex;
+		flex-wrap: wrap;
+		justify-content: flex-start;
+		
+		.xui-password {
+			background-color: #eee;
+			width: 100%;
+			height: 30px;
+			text-align: center;
+		}
+
+		.xui-visitor {
+			margin: 20px 15px;
+			position: relative;
+
+			.xui-visitor-avatar {
+				display: block;
+				width: 50px;
+				height: 50px;
+				border-radius: 50%;
+				margin: 0 auto 5px;
+			}
+
+			.xui-visitor-sex {
+				position: absolute;
+				left: 18px;
+				top: 40px;
+				width: 24px;
+				height: 12px;
+			}
+
+			.xui-visitor-name {
+				display: block;
+				text-align: center;
+				font-size: 30rpx;
+				margin-bottom: 5px;
+				width: 60px;
+				white-space: nowrap;
+				overflow: hidden;
+				text-overflow: ellipsis;
+			}
+
+			.xui-visitor-time {
+				display: block;
+				text-align: center;
+				font-size: 26rpx;
+				color: gray;
+			}
+		}
+	}
+}
+
+</style>
+
+<template>
+<view class="container">
+	<!-- 模拟登录用户列表 -->
+	<view class="xui-visitors" wx:if="{{type != 'manager'}}">
+		<view class="xui-password" wx:if="{{!showUser}}">
+			<input placeholder="这里输入神奇的密码" type="number" bindinput="onInput"/>
+		</view>
+		
+		<repeat for="{{users}}" key="{{user.id}}" index="index" item="user" wx:if="{{showUser}}"> 
+			<view class="xui-visitor" @tap="onTapLogin({{user.id}})">
+				<image class="xui-visitor-avatar" mode="aspectFill" src="{{user.avatar+'?x-oss-process=image/resize,m_lfit,s_100/quality,q_90'}}" mode="aspectFill"></image>
+				<!-- <image class="xui-visitor-sex" src="{{visitor.visitor.sex == 'female' ? '../../images/girl.jpg': '../../images/boy.jpg'}}"> -->
+				<text class="xui-visitor-name">{{user.name}}</text>
+				<!-- <text class="xui-visitor-time">{{visitor.visit_time}}</text> -->
+			</view>
+		</repeat>
+	</view>
+	<!-- 待办任务用户列表 -->
+	<view class="tip-visitors" wx:if="{{type == 'manager'}}">
+		<repeat for="{{users}}" key="id" index="index" item="user">
+			<view class="xui-visitor" @tap="onTapMessageLogin({{user.id}}, {{user.avatar}})">
+				<image class="xui-visitor-avatar" mode="aspectFill" src="{{user.avatar}}" mode="aspectFill"></image>
+				<text class="xui-visitor-name">{{user.name}}</text>
+			</view>
+		</repeat>
+	</view>
+</view>
+</template>
+
+<script>
+import wepy from 'wepy'
+import Item from '../../components/item'
+import Resource from '../../lib/resource'
+import Session from '../../lib/session'
+import UserService from '../../services/user_service'
+import AccountService from '../../services/account_service'
+
+export default class Users extends wepy.page {
+	config = {
+		navigationBarTitleText: '隐蔽'
+	}
+
+	components = {
+
+	}
+
+	mixins = []
+
+	data = {
+		type: '',
+		users: [],
+		userIds: [],
+
+		pwd: "",
+		showUser: true,
+	}
+
+	computed = {
+
+	}
+
+	methods = {
+		onInput(e) {
+			this.pwd = e.detail.value;
+			if (this.pwd == "5583") {
+				this.showUser = true;
+			}
+		},
+
+		onTapLogin(id) {
+			AccountService.doMockLogin(id)
+			wx.switchTab({
+				url: '/pages/blogs/blogs',
+			})
+		},
+
+		onTapMessageLogin(id, avatar) {
+			AccountService.doMockLogin(id);
+			wx.navigateTo({
+				url: `messages_user?id=${id}&avatar=${avatar}`
+			})
+		}
+	}
+
+	events = {
+		'tap-user': (id) => {
+			AccountService.doMockLogin(id, {
+				success: () => {
+					wx.navigateBack();
+				}
+			});
+		}
+	}
+
+	onLoad (query) {
+		this.type = query.type;
+		this.$apply();
+		Session.getKey('myid') ? '' : Session.setKey('myid', Session.getKey('uid'))
+		Session.getKey('mytoken') ? '' : Session.setKey('mytoken', Session.getKey('_msid'))
+	}
+
+	onShow() {
+		Session.setKey('uid', Session.getKey('myid'))
+		Session.update(Session.getKey('mytoken'))
+		this.loadUsers();
+	}
+
+	async loadUsers () {
+		this.users = [];
+		if (this.type == "manager") {
+			let data = await UserService.getHaveMessagesOperaters();
+			let opusers = await UserService.getOPUsers();
+			let users = opusers.users
+			for (let i=0; i<data.users.length; i++) {
+				for (let j=0; j<users.length; j++) {
+					if (data.users[i].Id == users[j].id) {
+						this.users.push(users[j]);
+						this.$apply();
+					}
+				}
+			}
+		} else {
+			AccountService.getOpUsers().then(users => {
+				this.users = users;
+				this.$apply();
+			})
+		}
+	}
+}
+</script>

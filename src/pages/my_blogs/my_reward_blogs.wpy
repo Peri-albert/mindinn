@@ -1,0 +1,198 @@
+<style lang="less">
+page {
+	.my-reward-container {
+		background-color: #eee;
+		box-sizing: border-box;
+		min-height: 100vh;
+		overflow-x: hidden;
+		padding-top: 4rpx;
+
+		.tabs {
+			background-color: #fff;
+			display: flex;
+			height: 98rpx;
+			margin-bottom: 16rpx;
+
+			.tab {
+				align-items: center;
+				box-sizing: border-box;
+				color: #999;
+				display: flex;
+				flex: 1;
+				height: 100%;
+				justify-content: center;
+				transition: .1s;
+
+				&.active {
+					border-bottom: 4rpx solid #000;
+					color: #000;
+				}
+			}
+		}
+	}
+}
+</style>
+	
+<template>
+	<view class="my-reward-container">
+		<view class="tabs">
+			<view class="tab {{curTab == '进行中' ? 'active' : ''}}" @tap.stop="tapSwitchTab('进行中')">进行中</view>
+			<view class="tab {{curTab == '已结束' ? 'active' : ''}}" @tap.stop="tapSwitchTab('已结束')">已结束</view>
+		</view>
+		
+		<view class="rewards-wrapper">
+			<repeat for="{{myRewards}}" key="id" item="reward"> 
+				<new-blog :blog.sync="reward"></new-blog>
+			</repeat>
+		</view>
+
+		<bottom-loader :isFinishLoad.sync="isFinishLoad"></bottom-loader>
+	</view>
+</template>
+
+<script>
+import wepy from 'wepy'
+import _ from '../../lib/mptool'
+import NewBlog from '../../components/new_blog'
+import BlogService from '../../services/blog_service'
+import LoadMoreService from '../../services/loadmore_service'
+import StorageService from '../../services/storage_service'
+import AccountService from '../../services/account_service'
+import BottomLoader from '../../components/bottom_loader'
+import MPWidget from '../../components/mp_widget'
+
+export default class MyRewardBlogs extends wepy.page {
+	config = {
+		navigationBarTitleText: "我的悬赏",
+		enablePullDownRefresh: true
+	}
+
+	components = {
+		'new-blog': NewBlog,
+		'bottom-loader': BottomLoader
+	}
+
+	data = {
+		curTab: '进行中',
+		myRewards: [],
+		tempRunningArray: [],
+		tempOverArray: [],
+		isFinishLoad: false,
+		intervalArray: []
+	}
+
+	computed = {
+
+	}
+
+	methods = {
+		//tab切换
+		tapSwitchTab(tabTxt) {
+			if (this.curTab == tabTxt) return;
+			this.curTab = tabTxt
+			this.isFinishLoad = true
+			if (tabTxt == '已结束') {
+				this.myRewards = this.tempOverArray
+				
+			}else {
+				this.myRewards = this.tempRunningArray
+			}
+		}
+	}
+
+	events = {
+	}
+
+	onLoad () {
+		//获取我的进行中的悬赏
+		BlogService.getMyRewards(false).then(res => {console.log('进行中res ', res)
+			res.forEach(blog => {
+				let extraData = JSON.parse(blog.extra_data);
+				blog.address = extraData.address;
+			});
+			this.myRewards = res
+			this.tempRunningArray = res
+			this.isFinishLoad = true
+			this.$apply()
+			this.calcCountdownAll(this.myRewards)
+			//之后加载我的已结束的悬赏
+			BlogService.getMyRewards(true).then(res => {
+				res.forEach(blog => {
+					let extraData = JSON.parse(blog.extra_data);
+					blog.address = extraData.address;
+				});
+				this.tempOverArray = res
+				this.isFinishLoad = true
+				this.$apply()
+			})
+		})
+	}
+
+	onShow() {
+
+	}
+
+	onUnload() {
+		this.intervalArray.forEach(e => clearInterval(e))
+	}
+
+	onReachBottom () {
+
+	}
+
+	onPullDownRefresh() {
+		this.isFinishLoad = false
+		if (this.curTab == '进行中') {
+			BlogService.getMyRewards(false).then(res => {
+				res.forEach(blog => {
+					let extraData = JSON.parse(blog.extra_data);
+					blog.address = extraData.address;
+				});
+				this.myRewards = res
+				this.tempRunningArray = res
+				this.isFinishLoad = true
+				this.$apply()
+				wx.stopPullDownRefresh()
+			})
+		}else {
+			BlogService.getMyRewards(true).then(res => {
+				res.forEach(blog => {
+					let extraData = JSON.parse(blog.extra_data);
+					blog.address = extraData.address;
+				});
+				this.tempOverArray = res
+				this.myRewards = res
+				this.isFinishLoad = true
+				this.$apply()
+				wx.stopPullDownRefresh()
+			})
+		}	
+	}
+
+	calcCountdownAll(blogs) {
+		blogs.forEach(e => {
+			this.calcCountdown(e)
+			const interval = setInterval(() => {
+				if (e.leftTime <= 0) {
+					clearInterval(interval)
+				}
+				this.calcCountdown(e)
+				this.$apply()
+			}, 999)
+			this.intervalArray.push(interval)
+		})
+	}
+
+	//倒计时
+	calcCountdown(blog) {
+		if (!blog.is_finished) {
+			const leftTime = Math.floor((Date.parse(blog.created_at.replace(/-/g, '/')) + blog.duration * 86400000 - Date.now()) / 1000)
+			blog.leftTime = leftTime
+			blog.left_time_days = leftTime > 86400 ? Math.floor(leftTime / 86400) : 0
+			blog.left_time_hours = leftTime % 86400 > 3600 ? Math.floor((leftTime % 86400) / 3600) : 0
+			blog.left_time_minutes = (leftTime % 86400) % 3600 > 60 ? Math.floor(((leftTime % 86400) % 3600) / 60) : 0
+			blog.left_time_seconds = leftTime >= 0 ? Math.floor(((leftTime % 86400) % 3600) % 60) : 0
+		}
+	}
+}
+</script>

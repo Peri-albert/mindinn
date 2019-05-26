@@ -1,0 +1,178 @@
+<style lang="less">
+@import "/style/iconfont.wxss";
+@import "/style/normal.wxss";
+</style>
+<script>
+import wepy from 'wepy'
+import './utils/sdk/ald-stat'
+import 'wepy-async-function'
+import LoginService from './lib/login_service'
+import Session from './lib/session'
+import AccountService from './services/account_service'
+import Resource from './lib/resource'
+import Raven from './lib/raven/raven.min'
+import { ENV } from './lib/resource';
+import LocationService from './services/location_service'
+
+export default class extends wepy.app {
+	config = {
+		pages: [
+			'pages/login/login',
+			'pages/login/pick_community',
+			'pages/login/set_birthday',
+			'pages/group/bars',
+			'pages/group/bar',
+			'pages/paoypao/paoypao',
+			'pages/me/me',
+			'pages/profile/profile',
+			'pages/profile/perfecting_data',
+			'pages/blogs/broadcast_blogs',
+			// 'pages/dating/datings',
+			'pages/report_user/report_user',
+			'pages/visitors/visitors',
+			'pages/my_blogs/my_broadcast_blogs',
+			'pages/my_blogs/my_reward_blogs',
+			'pages/post_blog/post_newblog',
+			'pages/users/users',
+			'pages/users/messages_user',
+			'pages/blog_detail/blog_detail',
+			'pages/blog_detail/broadcast_blog_detail',
+			'pages/blogs/new_blogs',
+			'pages/reward_topic/topic_list',
+			'pages/reward_topic/topic_detail',
+			'pages/reward_topic/reward_detail',
+			'pages/reward_topic/reward_list',
+			'pages/setting/setting',
+			'pages/challenge/challenge',
+			'pages/account/account',
+			'pages/account/withdraw',
+			'pages/account/withdraw_detail',
+			'pages/account/recharge_detail',
+			// 'pages/dating/create_dating',
+			// 'pages/dating/createdating_success',
+			// 'pages/dating/my_datings',
+			// 'pages/dating/dating_join_verify',
+			'pages/like/like',
+			'pages/about/about',
+			'pages/about/agreement'
+		],
+		"subPackages": [{
+			"root": "package",
+			"pages": [
+				'pages/bars/bars',
+				'pages/support/support',
+				'pages/chatroom/chatroom',
+				'pages/chatroom/groupchatroom',
+				'pages/dating/outsider_dating',
+				'pages/dating/dating_share',
+				'pages/post_dating_comment/post_dating_comment',
+				'pages/ad/web_ad',
+				'pages/ad/rxt_ad',
+				'pages/mine/my_summons',
+				'pages/my_poster/my_poster',
+				'pages/notification/notification',
+				'pages/notification/system_notification',
+				'pages/answer_game/game_rule',
+				'pages/answer_game/game_ranking',
+				'pages/answer_game/game_lottery',
+				'pages/answer_game/game_lottery_detail',
+				'pages/answer_game/game_poster',
+				'pages/answer_game/poster',
+				'pages/account/extract_detail_content',
+				'pages/annual_summary/annual_summary',
+				'pages/annual_summary/annual_summary_poster'
+			]
+		}],
+		window: {
+			backgroundTextStyle: 'light',
+			backgroundColor: '#ffe411',
+			navigationBarBackgroundColor: '#ffe411',
+			navigationBarTitleText: 'WeChat',
+			navigationBarTextStyle: 'white',
+			// navigationStyle: 'custom'
+		},
+		tabBar: {
+			color: "#000",
+			borderStyle: "white",
+			selectedColor: "#7e41e0",
+			// borderStyle: "white",
+			backgroundColor: "#f7f7fa",
+			list: [{
+				"pagePath": "pages/blogs/new_blogs",
+				"text": "首页",
+				"iconPath": "images/find.png",
+				"selectedIconPath": "images/find_active.png",
+			}, {
+				//"pagePath": "pages/dating/datings",
+				"pagePath": "pages/group/bars",
+				"text": "圈子",
+				"iconPath": "images/dating.png",
+				"selectedIconPath": "images/dating_active.png",
+			}, {
+				"pagePath": "pages/paoypao/paoypao",
+				"text": "发布",
+				"iconPath": "images/paopao.png",
+				"selectedIconPath": "images/paopao.png",
+			}, {
+				"pagePath": "pages/challenge/challenge",
+				"text": "聊天",
+				"iconPath": "images/challenge.png",
+				"selectedIconPath": "images/challenge_active.png",
+			}, {
+				"pagePath": 'pages/me/me',
+				"text": "我的",
+				"iconPath": "images/me.png",
+				"selectedIconPath": "images/me_active.png",
+			}]
+		},
+		permission: {
+			"scope.userLocation": {
+				"desc": "获取您附近的圈子"
+			}
+		}
+	}
+
+	globalData = {
+		// "qqmapKey": "66NBZ-R7EKP-YLJDH-LKEHR-NCAA2-ZEFTN",
+		'app_id': 'wxd425f6ba5b0ab719',
+		'version': '201903191652'
+	}
+
+	constructor() {
+		super()
+		this.use('promisify');
+		this.use('requestfix')
+	}
+
+	async onLaunch(option) {
+		// Raven.config('https://dc71494d5a8b4a26b98637cea445d5ee@sentry.vxiaocheng.com/14', {
+		Raven.config('https://cfc22c6ebb814b44803c90b71499b3c8@sentry.vxiaocheng.com/17', {
+			release: this.globalData['version'],
+			environment: "production",
+			allowDuplicates: true,
+			sampleRate: 1
+		}).install()
+
+		//调用API从本地缓存中获取数据
+		var that = this
+		var logs = wx.getStorageSync('logs') || []
+		logs.unshift(Date.now())
+		wx.setStorageSync('logs', logs)
+
+		// LocationService.setQQMapKey(this.globalData.qqmapKey)
+	}
+	getRoomPage() {
+		return this.getPage("package/pages/chatroom/chatroom")
+	}
+	getGroupRoomPage() {
+		return this.getPage("package/pages/chatroom/groupchatroom")
+	}
+	getPage(pageName) {
+		var pages = getCurrentPages()
+		return pages.find(function(page) {
+			return page.__route__ == pageName
+		})
+
+	}
+}
+</script>

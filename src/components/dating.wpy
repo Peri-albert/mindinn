@@ -1,0 +1,351 @@
+<style lang="less">
+.xui-dating {
+	background-color: lightblue;
+	border-radius: 26rpx;
+	height: 300rpx;
+	margin: 0 auto 30rpx;
+	padding: 30rpx 26rpx 26rpx;
+	width: 85%;
+	display: flex;
+	font-family: "微软雅黑";
+	position: relative;
+
+	.x-i-redDot {
+		position: absolute;
+		top: 20rpx;
+		right: 20rpx;
+		width: 20rpx;
+		height: 20rpx;
+		border-radius: 10rpx;
+		background-color: red;
+	}
+
+	.xui-info {
+		width: 70%;
+		height: 300rpx;
+
+		.xui-title {
+			font-size: 32rpx;
+			font-weight: bold;
+			width: 100%;
+			overflow: hidden;
+			text-overflow: ellipsis;
+			white-space: nowrap;
+
+			.x-i-verify {
+				background-color: lightskyblue;
+				color: #fff;
+				font-size: 20rpx;
+				margin-left: 10rpx;
+				padding: 5rpx;
+			}
+		}
+
+		.xui-title-suren {
+			color: #4d4d4d;
+		}
+
+		.xui-title-yiqing {
+			color: #d3d3d3;
+		}
+
+		.xui-title-yangsheng {
+			color: #aaa;
+		}
+
+		.xui-title-shengyan {
+			color: #fff;
+		}
+
+		.xui-text-suren {
+			color: #b4b4b4;
+		}
+
+		.xui-text-yiqing {
+			color: #afafaf;
+		}
+
+		.xui-text-yangsheng {
+			color: #757575;
+		}
+
+		.xui-text-shengyan {
+			color: #636363;
+		}
+
+		.xui-time {
+			image {
+				width: 22rpx;
+				height: 22rpx;
+				margin-right: 10rpx;
+			}
+
+			text {
+				font-size: 22rpx;
+			}
+
+		}
+
+		.xui-address {
+			margin-top: -5rpx;
+			width: 95%;
+			overflow: hidden;
+			white-space: nowrap;
+			text-overflow: ellipsis;
+
+			image {
+				width: 22rpx;
+				height: 22rpx;
+				margin-right: 10rpx;
+			}
+
+			text {
+				font-size: 22rpx;
+			}
+		}
+
+		.xui-distance {
+			margin-top: 5rpx;
+			margin-left: 32rpx;
+			font-size: 22rpx;
+		}
+
+		.xui-founder {
+			margin-top: 25rpx;
+			position: relative;
+
+			image {
+				position: absolute;
+				top: 5rpx;
+				left: 5rpx;
+				width: 100rpx;
+				height: 100rpx;
+				border-radius: 50%;
+			}
+
+			.xui-founder-info {
+				position: absolute;
+				top: 5rpx;
+				left: 110rpx;
+				width: 100%;
+
+				.xui-founder-name {
+					font-size: 22rpx;
+					padding-left: 10rpx;
+				}
+
+				.xui-name-suren {
+					color: #5b5b5b;
+				}
+
+				.xui-name-yiqing {
+					color: #d3d3d3;
+				}
+
+				.xui-name-yangsheng {
+					color: #a4a4a4;
+				}
+
+				.xui-name-shengyan {
+					color: #fff;
+				}
+
+				.xui-dating-info {
+					margin-top: 14rpx;
+					width: 100%;
+					height: 52rpx;
+					line-height: 52rpx;
+					font-size: 20rpx;
+
+					.xui-dating-count {
+						display: inline-block;
+						width: 130rpx;
+						text-align: center;
+						background-color: #cacaca;
+						color: #6c6c6c;
+						border-top-left-radius: 28rpx;
+						border-bottom-left-radius: 28rpx;
+					}
+
+					.xui-dating-status {
+						display: inline-block;
+						width: 130rpx;
+						text-align: center;
+						background-color: #a12bca;
+						color: #fff;
+						border-top-right-radius: 28rpx;
+						border-bottom-right-radius: 28rpx;
+						position: relative;
+						text-indent: 18rpx;
+
+						.xui-status-image {
+							display: inline-block;
+							width: 28rpx;
+							height: 28rpx;
+							margin: 8rpx 5rpx 18rpx;
+						}
+					}
+
+					.xui-status-finish {
+						background-color: #646464;
+					}
+
+					.xui-status-open {
+						background-color: #a12bca;
+					}
+
+					.xui-status-ing {
+						background-color: #0e87ff;
+					}
+				}
+			}
+		}
+	}
+
+	.xui-img {
+		float: right;
+		width: 30%;
+		height: 280rpx;
+
+		.xui-dating-type {
+			width: 174rpx;
+			height: 64rpx;
+			position: relative;
+
+			text {
+				color: #fff;
+				font-size: 22rpx;
+				left: 73rpx;
+				position: absolute;
+				top: 18rpx;
+			}
+		}
+
+		.xui-dating-image {
+			margin-top: 24rpx;
+			width: 182rpx;
+			height: 182rpx;
+			border-radius: 14rpx;
+		}
+	}
+}
+
+.background-suren {
+	background-color: #e6e6e6;
+}
+
+.background-yiqing {
+	background-color: #7c7c7c;
+}
+
+.background-yangsheng {
+	background-color: #303030;
+}
+
+.background-shengyan {
+	background-color: #000;
+}
+</style>
+<template>
+	<view class="xui-dating .background-{{dating.type}}" @tap="onTapEnterGroupChat({{dating.id}}, {{dating.chatroom_id}}, {{dating.status}})" @longpress="longpressDating({{dating.id}})">
+		<view class="x-i-redDot" wx:if="{{dating.user_join && dating.user_join.need_notify}}"></view>
+		<view class="xui-info">
+			<view class="xui-title .xui-title-{{dating.type}}">{{dating.topic}}<text class="x-i-verify" wx:if="{{!dating.has_verify}}">审核中</text></view>
+			<view class="xui-time">
+				<image lazy-load="true" src="http://resource.vxiaocheng.com/mercury/dating_time{{type2img[dating.type]}}.png" />
+				<text class="xui-text-{{dating.type}}">时间: {{dating.time}}</text>
+			</view>
+			<view class="xui-address">
+				<image lazy-load="true" src="http://resource.vxiaocheng.com/mercury/dating_address{{type2img[dating.type]}}.png" />
+				<text class="xui-text-{{dating.type}}">地址: {{dating.showAddress}}</text>
+			</view>
+			<view class="xui-distance">
+				<!-- <image lazy-load="true" src="http://resource.vxiaocheng.com/mercury/dating_address{{type2img[dating.type]}}.png" /> -->
+				<text class="xui-text-{{dating.type}}">距离：{{dating.distance}}KM</text>
+			</view>
+			<view class="xui-founder">
+				<image lazy-load="true" mode="aspectFill" src="{{dating.user.avatar}}" />
+				<view class="xui-founder-info">
+					<view class="xui-founder-name xui-name-{{dating.type}}">{{dating.user.name}}</view>
+					<view class="xui-dating-info">
+						<view class="xui-dating-count">{{dating.visit_count}}人进入</view>
+						<view class="xui-dating-status xui-status-{{status2img[dating.status]}}">
+							<image lazy-load="true" class="xui-status-image" src="http://resource.vxiaocheng.com/mercury/dating_status_{{status2img[dating.status]}}.png" />
+							<text>{{dating.status}}</text>
+						</view>
+					</view>
+				</view>
+			</view>
+		</view>
+		<view class="xui-img">
+			<image lazy-load="true" class="xui-dating-type" src="http://resource.vxiaocheng.com/mercury/daing/dating_type_{{dating.type}}.png" mode="aspectFill">
+				<text>{{dating.dating_type.name}}</text>
+			</image>
+			<image lazy-load="true" class="xui-dating-image" src="{{dating.images[0].url}}" mode="aspectFill"></image>
+		</view>
+	</view>
+</template>
+<script>
+import wepy from 'wepy'
+const app = getApp()
+import DatingService from '../services/dating_service'
+import AccountService from '../services/account_service'
+import _ from '../lib/mptool'
+
+export default class Dating extends wepy.component {
+	props = {
+		dating: {
+			type: Object,
+			twoWay: true,
+			default: null
+		}
+	}
+
+	data = {
+		type2img: {
+			'suren': '1',
+			'yiqing': '2',
+			'yangsheng': '3',
+			'shengyan': '4',
+		},
+		status2img: {
+			"已结束": 'finish',
+			"已开局": 'open',
+			"报名中": 'ing',
+		},
+		selfId: 0,
+	}
+
+	methods = {
+		async onTapEnterGroupChat(id, chatroom_id) {
+			app.aldstat.sendEvent("查看组约详情", {
+				"用户ID": this.selfId + "",
+				"时间": _.getAldTime()
+			})
+			
+			console.log("dating_id", id, "chatroom_id", chatroom_id)
+			if (this.dating.user_join) {
+				this.dating.user_join.need_notify = false;
+			}
+			let data = await DatingService.checkEnterPermission(id);
+			if (data.status == "ongoing" || (data.status == "closed") && data.has_enter_permission) {
+				wx.navigateTo({
+					url: `/package/pages/chatroom/groupchatroom?id=${id}&groupid=${chatroom_id}`
+				});
+			} else {
+				wx.navigateTo({
+					url: `/package/pages/dating/outsider_dating?id=${id}`
+				});
+			}
+		},
+		//长按编辑组局
+		longpressDating(id) {
+			this.$emit('moreOptionsShow', id)
+		}
+	}
+
+	onLoad() {
+		this.selfId = AccountService.getSelfId();
+	}
+}
+</script>

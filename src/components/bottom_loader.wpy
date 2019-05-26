@@ -1,0 +1,47 @@
+<style lang="less">
+	.x-bottomLoader {
+		text-align: center;
+		padding: 20rpx 0px;
+		color: #8F8F8F;
+		font-size: 0.8em;
+		clear: both;
+	}
+</style>
+
+<template>
+<view class="x-bottomLoader">
+	<view>{{isFinishLoad ? "我是有底线的" : "加载数据..."}}</view>
+</view>
+</template>
+
+<script>
+import wepy from 'wepy'
+
+export default class BottomLoader extends wepy.component {
+	props = {
+		isFinishLoad: {
+			type: Boolean,
+			default: false
+		}
+	}
+
+	data = {
+	}
+
+	events = {
+
+	}
+
+	watch = {
+
+	}
+
+	methods = {
+		
+	}
+
+	onLoad () {
+
+	}
+}
+</script>

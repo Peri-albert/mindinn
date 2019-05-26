@@ -1,0 +1,262 @@
+<style lang="less">
+page {
+	overflow-x: hidden;
+
+	image {
+		display: block;
+	}
+	.setBirthday-container {
+		.top {
+			background-color: #fff1de;
+			background-color: #fff;
+			height: 40vh;
+			position: relative;
+			width: 100vw;
+
+			.pic {
+				bottom: 0;
+				height: 355.5rpx;
+				left: 0;
+				position: absolute;
+				width: 100%;
+			}
+
+			.pass {
+				font-size: 24rpx;
+				opacity: .4;
+				position: absolute;
+				right: 10vw;
+				top: 2vh;
+			}
+		}
+
+		.bottom {
+			background-color: #fff;
+			box-sizing: border-box;
+			height: 60vh;
+			padding-top: 4vh;
+			position: relative;
+
+			.inputs {
+				box-sizing: border-box;
+				display: flex;
+				justify-content: space-around;
+				padding: 0 5%;
+				width: 100vw;
+
+				.year-input, .month-input, .day-input {
+					align-items: center;
+					background-color: #f5f5f5;
+					border-radius: 10rpx;
+					color: #cfcfcf;
+					display: flex;
+					height: 60rpx;
+					justify-content: center;
+					width: 153rpx;
+
+					view.confirm {
+						color: #000;
+					}
+				}
+			}
+
+			.next-btn {
+				background-color: #ededed;
+				bottom: 36vh;
+				color: #cfcfcf;
+				height: 100rpx;
+				left: 0;
+				line-height: 100rpx;
+				position: absolute;
+				text-align: center;
+				width: 100%;
+
+				&.highlight {
+					background-color: #ffe411;
+					color: #000;
+				}
+			}
+
+			.keyboard {
+				background-color: #f5f5f5;
+				bottom: 0;
+				display: flex;
+				flex-wrap: wrap;
+				left: 0;
+				position: absolute;
+				width: 100vw;
+
+				.key {
+					align-items: center;
+					box-sizing: border-box;
+					display: flex;
+					height: 9vh;
+					justify-content: center;
+					line-height: 9vh;
+					text-align: center;
+					width: calc(100% / 3);
+
+					&.tapped {
+						background-color: #ffe411;
+					}
+
+					&.del::after {
+						border-top: 15rpx solid transparent;
+						border-right: 20rpx solid #000;
+						border-bottom: 15rpx solid transparent;
+						border-left: 20rpx solid transparent;
+						content: '';
+						height: 0;
+						transform: translateX(-20rpx);
+						width: 0;
+					} 
+				}
+			}
+		}
+	}
+}
+</style>
+<template>
+	<view class="setBirthday-container">
+		<view class="top">
+			<image class="pic" src="/images/sex_{{sex ? sex : 'unknow'}}.png"></image>
+			<view class="pass" @tap.stop="tapPass">跳过 ></view>
+		</view>
+		<view class="bottom">
+			<view class="inputs">
+				<view class="year-input">
+					<view class="{{dateNumArray[0] ? 'confirm' : ''}}">{{dateNumArray[0] ? dateNumArray[0] : 1}}</view>
+					<view class="{{dateNumArray[1] ? 'confirm' : ''}}">{{dateNumArray[1] ? dateNumArray[1] : 9}}</view>
+					<view class="{{dateNumArray[2] ? 'confirm' : ''}}">{{dateNumArray[2] ? dateNumArray[2] : 9}}</view>
+					<view class="{{dateNumArray[3] ? 'confirm' : ''}}">{{dateNumArray[3] ? dateNumArray[3] : 9}}</view>
+				</view>
+
+				<view class="month-input">
+					<view class="{{dateNumArray[4] ? 'confirm' : ''}}">{{dateNumArray[4] ? dateNumArray[4] : 0}}</view>
+					<view class="{{dateNumArray[5] ? 'confirm' : ''}}">{{dateNumArray[5] ? dateNumArray[5] : 1}}</view>
+				</view>
+
+				<view class="day-input">
+					<view class="{{dateNumArray[6] ? 'confirm' : ''}}">{{dateNumArray[6] ? dateNumArray[6] : 0}}</view>
+					<view class="{{dateNumArray[7] ? 'confirm' : ''}}">{{dateNumArray[7] ? dateNumArray[7] : 1}}</view>
+				</view>
+			</view>
+
+			<view class="next-btn {{canToNext ? 'highlight' : ''}}" @tap.stop="tapToNext">下一步</view>
+			<view class="keyboard">
+				<view class="key {{tapNum == 1 ? 'tapped' : ''}}" catchtouchstart="startTouch(1)" catchtouchend="tapInput(1)">1</view>
+				<view class="key {{tapNum == 2 ? 'tapped' : ''}}" catchtouchstart="startTouch(2)" catchtouchend="tapInput(2)">2</view>
+				<view class="key {{tapNum == 3 ? 'tapped' : ''}}" catchtouchstart="startTouch(3)" catchtouchend="tapInput(3)">3</view>
+				<view class="key {{tapNum == 4 ? 'tapped' : ''}}" catchtouchstart="startTouch(4)" catchtouchend="tapInput(4)">4</view>
+				<view class="key {{tapNum == 5 ? 'tapped' : ''}}" catchtouchstart="startTouch(5)" catchtouchend="tapInput(5)">5</view>
+				<view class="key {{tapNum == 6 ? 'tapped' : ''}}" catchtouchstart="startTouch(6)" catchtouchend="tapInput(6)">6</view>
+				<view class="key {{tapNum == 7 ? 'tapped' : ''}}" catchtouchstart="startTouch(7)" catchtouchend="tapInput(7)">7</view>
+				<view class="key {{tapNum == 8 ? 'tapped' : ''}}" catchtouchstart="startTouch(8)" catchtouchend="tapInput(8)">8</view>
+				<view class="key {{tapNum == 9 ? 'tapped' : ''}}" catchtouchstart="startTouch(9)" catchtouchend="tapInput(9)">9</view>
+				<view class="key" @tap.stop="tapClearAll"> </view>
+				<view class="key {{tapNum == 0 ? 'tapped' : ''}}" catchtouchstart="startTouch(0)" catchtouchend="tapInput(0)">0</view>
+				<view class="key del" @tap.stop="tapDelete"> </view>
+			</view>
+		</view>
+	</view>
+</template>
+
+<script>
+import wepy from 'wepy'
+
+export default class SetBirthday extends wepy.page {
+  config = {
+	navigationBarTitleText: '请输入出生年月'
+  }
+  components = {
+  }
+
+  data = {
+	  sex: 'unknow',
+	  tapNum: 'none',
+	  dateNumIndex: 0,
+	  dateNumArray: [false, false, false, false, false, false, false, false],
+	  canToNext: false
+  }
+
+  computed = {
+  }
+
+  methods = {
+	  tapPass() {
+		wx.navigateTo({
+			url: `pick_community?sex=${this.sex}`
+		})
+	  },
+	  startTouch(num) {
+		  this.tapNum = num
+	  },
+	  tapInput(num) {
+		this.tapNum = 'none'
+		if (this.dateNumIndex == 0 && num > 2) return;
+		if ((this.dateNumIndex == 1 && this.dateNumArray[0] == 1 && num != 9) || (this.dateNumIndex == 1 && this.dateNumArray[0] == 2 && num != 0)) return;
+		if (this.dateNumIndex == 2 && this.dateNumArray[0] == 2 && num > 1) return;
+		if (this.dateNumIndex == 3 && this.dateNumArray[0] == 1 && num < 1) return;
+		if (this.dateNumIndex == 4 && num > 1) return;
+		if (this.dateNumIndex == 5 && ((this.dateNumArray[4] == 1 && num > 2) || (this.dateNumArray[4] == 0 && num == 0))) return;
+		if (this.dateNumIndex == 6 && num > 3) return;
+		if (this.dateNumIndex == 7 && ((this.dateNumArray[6] == 3 && num > 1) || (this.dateNumArray[6] == 0 && num == 0))) return;
+		//2月份判断
+		if (this.dateNumIndex == 6 && this.dateNumArray[4] == 0 && this.dateNumArray[5] == 2 && num > 2) return;
+		//小月份判断
+		if (this.dateNumIndex == 7) {
+			if (((this.dateNumArray[4] == 0 && (this.dateNumArray[5] == 4 || this.dateNumArray[5] == 6 || this.dateNumArray[5] == 9)) || (this.dateNumArray[4] == 1 && this.dateNumArray[5] == 1)) && this.dateNumArray[6] == 3) {
+				if (num > 0) return;
+			}
+			//平年判断
+			const year = this.dateNumArray[0] * 1000 + this.dateNumArray[1] * 100 + this.dateNumArray[2] * 10 + this.dateNumArray[3]
+			if (year % 4 && this.dateNumArray[4] == 0 && this.dateNumArray[5] == 2 && this.dateNumArray[6] == 2 && num > 8) return;
+		}
+		if (this.dateNumIndex < 7) {
+			this.dateNumArray[this.dateNumIndex] = num
+			this.dateNumIndex++
+		}else {
+			this.dateNumArray[this.dateNumIndex] = num
+			this.canToNext = true
+		}
+	  },
+	  tapDelete() {
+		  if (this.dateNumIndex == 7) {
+			if (this.dateNumArray[7]) {
+				this.dateNumArray[this.dateNumIndex] = false
+			}else {
+				this.dateNumIndex--
+		  		this.dateNumArray[this.dateNumIndex] = false
+			}
+		  }else if (this.dateNumIndex > 0) {
+			this.dateNumIndex--
+		  	this.dateNumArray[this.dateNumIndex] = false
+		  }
+		  this.canToNext = false
+	  },
+	  tapToNext() {
+		  if (this.canToNext) {
+			  wx.navigateTo({
+				url: `pick_community?sex=${this.sex}`
+			  })
+		  }
+	  },
+	  tapClearAll() {
+		  this.dateNumIndex = 0
+		  this.dateNumArray = [false, false, false, false, false, false, false, false]
+		  this.canToNext = false
+	  }
+  }
+
+  events = {
+
+  }
+
+  onLoad(query) {
+	console.log('onLoad()', query)
+	this.sex = query.sex
+	this.$apply()
+	wx.setStorageSync('logined', true)
+  }
+}
+</script>

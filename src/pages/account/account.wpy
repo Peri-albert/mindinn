@@ -1,0 +1,618 @@
+<style lang="less">
+@import "../../base";
+page {
+	background-color: rgb(235, 235, 235);
+
+	.container {
+		.x-i-message {
+			font-size: 20rpx;
+			color: orange;
+			text-align: center;
+			line-height: 2em;
+			margin-top: 10rpx;
+		}
+
+		.xui-account-head {
+			width: 100%;
+			height: 220px;
+			background-color: #f3f3f3;
+
+			.xui-account-card-withdraw {
+				width: 670rpx;
+				height: 269rpx;
+				margin: 0 auto;
+				background-image: url("http://resource.vxiaocheng.com/mercury/account_background_wallet.png");
+				background-size: 670rpx 269rpx;
+				position: relative;
+
+				.xui-card-point {
+					position: absolute;
+					width: 60%;
+					height: 100%;
+					top: 0;
+					left: 0;
+					color: #fff;
+
+					.xui-point-text {
+						position: absolute;
+						left: 70rpx;
+						top: 54rpx;
+						font-size: 36rpx;
+						font-weight: 600;
+					}
+
+					.xui-point-eye {
+						position: absolute;
+						left: 156rpx;
+						top: 66rpx;
+						width: 16px;
+						height: 10px;
+					}
+
+					.xui-point-switch {
+						position: absolute;
+						left: 166rpx;
+						top: 54rpx;
+						font-size: 15px;
+					}
+
+					.xui-point-count {
+						position: absolute;
+						left: 70rpx;
+						bottom: 50rpx;
+						font-size: 60rpx;
+						font-weight: 600;
+						color: #f3f3f3;
+					}
+				}
+
+				.xui-account-action {
+					position: absolute;
+					width: 40%;
+					height: 100%;
+					top: 0;
+					right: 0;
+					color: #fff;
+
+					.xui-action-withdraw {
+						position: absolute;
+						top: 31rpx;
+						right: 44rpx;
+						border: 1px solid #fff;
+						border-radius: 50rpx;
+						font-size: 30rpx;
+						width: 163rpx;
+						height: 75rpx;
+						line-height: 75rpx;
+						text-align: center;
+					}
+
+					.xui-action-detail {
+						position: absolute;
+						bottom: 50rpx;
+						right: 44rpx;
+						view {
+							display: inline-block;
+							font-size: 26rpx;
+							color: #fff2e4;
+							margin-right: 28rpx;
+							vertical-align: top;
+						}
+						image {
+							width: 17rpx;
+							height: 31rpx;
+							vertical-align: top;
+						}
+					}
+				}
+			}
+
+			.xui-account-card-xd {
+				width: 670rpx;
+				height: 269rpx;
+				margin: 10rpx auto 30rpx;
+				background-image: url("http://resource.vxiaocheng.com/mercury/account_background_mpcoin.png");
+				background-size: 670rpx 269rpx;
+				position: relative;
+
+				.xui-card-point {
+					position: absolute;
+					width: 60%;
+					height: 100%;
+					top: 0;
+					left: 0;
+					color: #fff;
+
+					.xui-point-text {
+						position: absolute;
+						left: 70rpx;
+						top: 54rpx;
+						font-size: 36rpx;
+						font-weight: 600;
+						color: #b38f51;
+					}
+
+					.xui-point-eye {
+						position: absolute;
+						left: 224rpx;
+						top: 68rpx;
+						width: 16px;
+						height: 10px;
+					}
+
+					.xui-point-switch {
+						position: absolute;
+						left: 232rpx;
+						top: 56rpx;
+						font-size: 15px;
+					}
+
+					.xui-point-count {
+						position: absolute;
+						left: 70rpx;
+						bottom: 50rpx;
+						font-size: 60rpx;
+						font-weight: 600;
+						color: #e5cfa4;
+					}
+				}
+
+				.xui-account-action {
+					position: absolute;
+					width: 40%;
+					height: 100%;
+					top: 0;
+					right: 0;
+					color: #fff;
+
+					.xui-action-withdraw {
+						position: absolute;
+						top: 31rpx;
+						right: 44rpx;
+						border: 1px solid #fff;
+						border-radius: 50rpx;
+						font-size: 30rpx;
+						width: 163rpx;
+						height: 75rpx;
+						line-height: 75rpx;
+						text-align: center;
+					}
+
+					.xui-action-detail {
+						position: absolute;
+						bottom: 50rpx;
+						right: 44rpx;
+						view {
+							display: inline-block;
+							font-size: 26rpx;
+							color: #9a9281;
+							margin-right: 28rpx;
+							vertical-align: top;
+						}
+						image {
+							width: 17rpx;
+							height: 31rpx;
+							vertical-align: top;
+						}
+					}
+				}
+			}
+
+			.xui-account-detail {
+				width: 100%;
+				background: #fff;
+
+				.xui-detail-tab {
+					position: relative;
+					width: 100%;
+					height: 100rpx;
+					padding: 5px 10px;
+					border-bottom: 1px solid rgb(235, 235, 235);
+
+					.xui-tab-avatar {
+						width: 76rpx;
+						height: 76rpx;
+						margin: 12rpx;
+						border-radius: 50%;
+					}
+
+					.xui-tab-content {
+						position: absolute;
+						top: 18px;
+						left: 72px;
+						font-size: 30rpx;
+						color: #363636;
+						max-width: 70%;
+						white-space: nowrap;
+						overflow: hidden;
+						text-overflow: ellipsis;
+					}
+
+					.xui-tab-time {
+						position: absolute;
+						top: 80rpx;
+						right: 50rpx;
+						font-size: 22rpx;
+						color: #989898;
+					}
+				}
+			}
+		}
+
+		.xui-i-layer {
+			position: fixed;
+			width: 100%;
+			height: 100%;
+			top: 0px;
+			left: 0px;
+			z-index:999;
+			background-color:rgba(0,0,0,0.5);
+
+			.xui-i-main {
+				margin: 30px auto;
+				width: 80%;
+				padding: 10px;
+				background-color: #fff;
+				text-align: center;
+				font-family: "微软雅黑";
+
+				.xui-i-title {
+					font-size: 40rpx;
+					margin-bottom: 10px;
+				}
+
+				.xui-i-text {
+					font-size: 30rpx;
+					margin-bottom: 10px;
+				}
+
+				.xui-i-image {
+					display: block;
+					width: 150px;
+					height: 150px;
+					margin: 10px auto;
+				}
+
+				.xui-i-button {
+					display: block;
+					margin: 0 auto;
+					width: 60%;
+					height: 15px;
+					padding: 5px;
+					border-radius: 4px;
+					font-size: 30rpx;
+					line-height: 15px;
+					border: 1px solid #666;
+					text-align: center;
+				}
+			}
+		}
+	}
+}
+</style>
+
+<template>
+	<view class="container">
+		<view class="x-i-message" wx:if="{{isiPhoneUser}}">*由于相关规范，iOS端暂不支持支付功能，您可将秀点余额转到钱包提现</view>
+		<view class="xui-account-head">
+			<view class="xui-account-card-xd">
+				<view class="xui-card-point">
+					<view class="xui-point-text" @tap="onTapShowXd">剩余秀点</view>
+					<image src="../../images/eyes.png" class="xui-point-eye" @tap="onTapShowXd"/>
+					<text class="xui-point-switch" hidden="{{showXd}}">/</text>
+					<view class="xui-point-count" hidden="{{!showXd}}">{{xd}}</view>
+				</view>
+				<view class="xui-account-action">
+					<view class="xui-action-withdraw" @tap="onTapRecharge" wx:if="{{!isiPhoneUser}}">充值</view>
+					<view class="xui-action-withdraw" @tap="onTapDoTransfer" wx:else>转到钱包</view>
+					<view class="xui-action-detail" @tap="onTapRechargeDetail">
+						<view>交易明细</view>
+						<image mode="aspectFill" src="http://resource.vxiaocheng.com/mercury/account_to_detail.png"></image>
+					</view>
+				</view>
+			</view>
+			<view class="xui-account-card-withdraw">
+				<view class="xui-card-point">
+					<view class="xui-point-text" @tap="onTapShowBalance">钱包</view>
+					<image src="../../images/eyes.png" class="xui-point-eye" @tap="onTapShowBalance"/>
+					<text class="xui-point-switch" hidden="{{showBalance}}">/</text>
+					<view class="xui-point-count" hidden="{{!showBalance}}">¥ {{balance}}</view>
+				</view>
+				<view class="xui-account-action">
+					<view class="xui-action-withdraw" @tap="onTapWithdraw">提现</view>
+					<view class="xui-action-detail" @tap="onTapWithdrawDetail">
+						<view>钱包明细</view>
+						<image mode="aspectFill" src="http://resource.vxiaocheng.com/mercury/account_to_detail.png"></image>
+					</view>
+				</view>
+			</view>
+			
+		
+			<!-- <view class="xui-account-detail">
+				<repeat for="{{incomeDetail}}" key="{{income.id}}" item="income" index="index" wx:if="{{incomeDetail.length > 0}}"> 
+					<view class="xui-detail-tab">
+						<image mode="aspectFill" src="{{income.user.avatar}}" class="xui-tab-avatar" @tap.stop="onTapEnterUser({{income.user_id}})"></image>
+						<text class="xui-tab-content">收到{{income.money}}元 "{{income.product}}" -{{income.user.name}}</text>
+						<text class="xui-tab-time">{{income.created_at}}</text>
+					</view>
+				</repeat>
+				<bottomloader :isFinishLoad.sync="isFinishLoad"></bottomloader>
+			</view> -->
+		</view>   
+		<view class="xui-i-layer" wx:if="{{showCode}}" @tap="onTapCancel">
+			<view class="xui-i-main">
+				<view class="xui-i-title">关注提醒</view>
+				<view class="xui-i-text">系统检测您还未关注“每屏秀秀”微信公众号，关注“每屏秀秀”微信公众号之后方可进行提现。</view>
+				<image class="xui-i-image" src="http://resource.vxiaocheng.com/mercury/common/mpxx.jpg" />
+				<text class="xui-i-button" @tap.stop="onTapCancel">关闭</text>
+			</view>
+		</view> 
+	</view>
+</template>
+
+<script>
+import wepy from 'wepy'
+import UserService from '../../services/user_service'
+import AccountService from '../../services/account_service'
+import IMoneyService from '../../services/imoney_service'
+import OrderService from '../../services/order_service'
+import LoadMoreService from '../../services/loadmore_service'
+import BottomLoader from '../../components/bottom_loader';
+import StorageService from '../../services/storage_service';
+
+export default class Account extends wepy.page {
+	config = {
+		navigationBarTitleText: "我的账户"
+	}
+
+	components = {
+		bottomloader: BottomLoader,
+	}
+
+	mixins = []
+
+	data = {
+		selfId: 0,
+		userInfo: {},
+		navigationBarTitleText: "我的账户",
+		showCode: false,
+		showBalance: true,
+		showXd: true,
+		balance: 0,
+		xd: 0,
+		incomeDetail: [],
+		userIds: [],
+		isFinishLoad: false,
+		isiPhoneUser: false,
+	}
+
+	methods = {
+		onTapEnterUser(id) {
+			wx.navigateTo({
+				url: '/pages/paoypao/paoypao_friend?id=' + id,
+			})
+		},
+		
+		onTapCancel() {
+			this.showCode = false;
+			this.$apply();
+		},
+		
+		onTapRecharge() {
+			wx.navigateTo({
+				url: '/pages/mpcoin/mpcoin',
+			})
+		},
+
+		async onTapDoTransfer() {
+			if (this.xd <= 0) {
+				return;
+			}
+			
+			try {
+				let data = await AccountService.doAccountTransfer();
+				if (data.isSuccess) {
+					wx.showToast({
+						title: '转移账户成功',
+						duration: 2000
+					})
+				} else {
+					wx.showToast({
+						title: '转移账户失败，请稍后再试',
+						icon: 'none',
+						duration: 2000
+					})
+				}
+			} catch(e) {
+				wx.showToast({
+					title: '转移账户失败，请稍后再试',
+					icon: 'none',
+					duration: 2000
+				})
+			} finally {
+				this.loadBalance();
+				this.loadXd();
+			}
+		},
+		
+		onTapShowBalance() {
+			this.showBalance = !this.showBalance;
+			this.$apply();
+		},
+
+		onTapShowXd() {
+			this.showXd = !this.showXd;
+			this.$apply(); 
+		},
+
+		onTapWithdraw() {
+			if (this.userInfo.mp_openid == "") {
+				this.showCode = true;
+				this.$apply();
+				return;
+			} else {
+				wx.showToast({
+					title: '暂不开放',
+					icon: 'none',
+				})
+				// wx.navigateTo({
+				// 	url: '/pages/account/withdraw',
+				// })
+			}
+		},
+
+		onTapWithdrawDetail() {
+			wx.navigateTo({
+				url: '/pages/account/withdraw_detail',
+			})
+		},
+
+		onTapRechargeDetail() {
+			wx.navigateTo({
+				url: '/pages/account/recharge_detail',
+			})
+		}
+	}
+		
+	loadBalance() {
+		IMoneyService.getBalance("pp_cash").then(
+			data => {
+				this.balance = data;
+				this.$apply();
+			}
+		)
+	}
+
+	loadXd() {
+		IMoneyService.getBalance("mpcoin").then(
+			data => {
+				this.xd = data;
+				this.$apply();
+			}
+		)
+	}
+
+	loadIncomeInfo(reset=false, count=8) {
+		if (reset) {
+			OrderService.reset();
+			this.incomeDetail = [];
+			this.$apply();
+		}
+		
+		OrderService.getIncomeInfo().then(
+			data => {
+				if (data.length < count) {
+					this.isFinishLoad = true;
+					this.$apply();
+				} 
+				
+				if (data.length == 0) {
+					if (reset) {
+						this.incomeDetail = [];
+						this.$apply();
+					}
+				} else {
+					let bids = [],
+						bid2amount = {},
+						bid2time = {};
+					for (let i=0; i<data.length; i++) {
+						let bid = data[i].origin_action.split("bid_")[1];
+						bids.push(bid);
+						bid2amount[bid] = data[i].dest_amount;
+						bid2time[bid] = data[i].created_at;
+					}
+					this.getOrders(reset, bids, bid2amount, bid2time);
+				}
+			}
+		)
+	}
+
+	getOrders(reset, bids, bid2amount, bid2time) {
+		OrderService.getOrderByBids(bids).then(
+			orders => {
+				for (let i=0; i<orders.length; i++) {
+					let order = orders[i];
+					let customType = order.custom_type,
+						money = bid2amount[order.bid],
+						createdAt = bid2time[order.bid],
+						product = "";
+
+					if (customType == "honeycomb:gift" || customType == "virtual_product") {
+						if (order.product_names[0] == "lucky_money") {
+							product = "红包";
+						} else if(order.product_names[0] == "lure") {
+							product = order.extra_data.gift.name;
+						} else if(order.product_names[0] == "reward_blog") {
+							product = "悬赏";
+						} else if(order.product_names[0] == "call_up") {
+							product = "召唤令红包";
+						} else {
+							product = order.product_names[0]
+						}
+						
+						let data = {
+							"id": order.id,
+							"product": product,
+							"money": money,
+							"user_id": order.user_id,
+							"created_at": createdAt
+						}
+						this.incomeDetail.push(data);
+						this.userIds.push(order.user_id);
+						this.$apply();
+					}
+				}
+				this.getUsersInfo();
+			}
+		)
+	}
+
+	getUserIds() {
+		return Array.from(new Set(this.userIds));
+	}
+
+	getUsersInfo() {
+		let ids = this.getUserIds();
+		AccountService.getUsers(ids).then(
+			res => {
+				let id2user = {};
+				for (let i=0; i<res.length; i++) {
+					id2user[res[i].id] = res[i];
+				}
+
+				for (let i=0; i<this.incomeDetail.length; i++) {
+					let id = this.incomeDetail[i].user_id;
+					this.incomeDetail[i].user = id2user[id];
+				}
+				this.$apply();
+				console.log(this.incomeDetail);
+			}
+		)
+	}
+
+	loadUserInfo() {
+		UserService.getMoreUserInfo(this.selfId).then(
+			data => {
+				this.userInfo = data;
+				this.$apply();
+			}
+		)
+	}
+
+	events = {
+		
+	}
+
+	onLoad() {
+		this.selfId = AccountService.getSelfId();
+		this.isiPhoneUser = StorageService.get('isiPhoneUser');
+		this.$apply();
+	}
+
+	onShow() {
+		this.loadBalance();
+		this.loadXd();
+		this.loadUserInfo();
+	}
+}
+</script>

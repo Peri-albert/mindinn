@@ -1,0 +1,49 @@
+<style lang="less">
+page {
+	.content {
+		box-sizing: border-box;
+		font-size: 26rpx;
+		padding: 30rpx 50rpx 70rpx;
+		
+		text {
+			display: block;
+			margin-bottom: 8rpx;
+			text-indent: 2em;
+		}
+	}
+}
+</style>
+
+<template>
+	<view class="content">
+		<block  wx:for="{{content}}">
+			<text>{{item}}</text>
+		</block>
+	</view>
+</template>
+
+<script>
+import wepy from 'wepy'
+import UserService from '../../services/user_service'
+
+export default class Agreement extends wepy.page {
+	config = {
+		navigationBarTitleText: '《享趣社区用户协议》'
+	}
+
+	data = {
+		content: ['《享趣社区用户协议》详细内容加载中···']
+	}
+
+	computed = {}
+
+	methods = {}
+
+	onLoad() {
+		UserService.getUserAgreement().then(res => {
+			this.content = res.split('\n')
+			this.$apply()
+		})
+	}
+}
+</script>

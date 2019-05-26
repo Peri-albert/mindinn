@@ -1,0 +1,159 @@
+<style lang="less">
+.container {
+    position: absolute;
+    width:100%;
+    height: 100%;
+}
+</style>
+
+<template>
+<view class="container">
+	<view style="z-index:1;width: 100%; height: calc(100% - 300rpx);margin-top: 100rpx;">
+        <canvas style="width: 100%; height: 100%;" canvas-id="cardCanvas"></canvas>
+    </view>
+    <cover-view @tap='savimg' style="height:74rpx;line-height:74rpx;width: 524rpx;position: fixed;margin-left: 116rpx;bottom: 100rpx;background: #f623a1;border-radius: 34rpx;text-align:center;">分享此图
+    </cover-view>
+</view>
+<apply-scope></apply-scope>
+</template>
+
+<script>
+import wepy from 'wepy';
+import DatingService from '../../../services/dating_service'
+import CanvasService from '../../../services/canvas_service'
+import ApplyScope from '../../../components/apply_scope'
+
+export default class DatingShare extends wepy.page {
+  config = {
+    navigationBarTitleText: '泡泡海报',
+    disableScroll: true
+  };
+  components = {
+    "apply-scope" : ApplyScope
+  };
+
+	data = {
+        title:'泡泡海报',
+        dating: {},
+        winWidth: 0,
+        winHeight: 0,
+        context: {},
+        scale: 0,
+        imgcode: {},
+        res: {},
+	};
+
+	methods = {
+        savimg(){
+            let self=this;
+            function saveImage(){
+                wx.canvasToTempFilePath({
+                    canvasId: 'cardCanvas',
+                    success: function(res) {
+                        wx.saveImageToPhotosAlbum({
+                            filePath: res.tempFilePath,
+                            success: function(res) {
+                                wx.showToast({
+                                    title: `保存成功`,
+                                    icon: 'none',
+                                    duration: 1500
+                                });
+                            },
+                            fail: function(res) {
+                            }
+                        })
+                    } 
+                })
+            }
+		    self.$broadcast('apply-scope', {scope:'scope.writePhotosAlbum'}, saveImage);
+        }
+    };
+	
+    events = {};
+    
+    async onLoad(options) {
+        let datingId = options.id;
+        if(!datingId){
+            datingId = 96;
+        }
+        let systeminfo = await CanvasService.getwxSystemInfo();
+        this.winWidth = parseInt(systeminfo.windowWidth);
+        this.winHeight = parseInt(systeminfo.windowHeight);
+        this.scale = this.winWidth/750;
+        this.canvasHeight = this.winHeight - this.scale*300;
+        let w = 750/1334*this.canvasHeight;
+        this.canvasWidth = this.winWidth;
+        if(w < this.winWidth){
+            this.canvasWidth = w;
+        }
+        this.canvasLeft = (this.winWidth - this.canvasWidth)/2;
+        console.log(this.winWidth, this.winHeight, this.canvasLeft, this.canvasWidth, this.canvasHeight);
+        let self = this;
+        wx.showLoading({
+            title: '正在制作卡片',
+            mask: false
+        });
+        let dating = await DatingService.getDating(datingId)
+        this.$apply();
+        this.dating = dating;
+
+        let avatarArray = this.dating.user.avatar.split("://");
+        let avatar = "https://" + avatarArray[1];
+
+        self.userimg = await CanvasService.getwxImageInfo(avatar);
+        self.appcode = await CanvasService.getwxImageInfo(`https://api.vxiaocheng.com/skep/resource/qrcode_image/?data=http://preapi.vxiaocheng.com/todatingpage?id=${self.dating.id}&groupid=${self.dating.chatroom_id}`);
+        self.drawCanvas();
+        wx.hideLoading();
+    }
+    drawCanvas(){
+        let self = this;
+        let context = wx.createCanvasContext('cardCanvas');
+        self.context = context;
+        //绘制图片
+        context.drawImage("../../images/baoba.png", self.canvasLeft, 0, self.canvasWidth, self.canvasHeight);
+        let scale = self.canvasHeight / 1334;
+        context.drawImage("../../images/paopao.png", self.canvasLeft+(750-334)/2*scale, (256-52)/2*scale, 334*scale, 52*scale);
+
+        context.save();
+        context.arc((262+232/2)*scale+self.canvasLeft, (256+232/2)*scale, 192/2*scale, 0, 2*Math.PI);
+        // 从画布上裁剪出这个圆形
+        context.clip();
+        context.drawImage(self.userimg.path, (262+20)*scale+self.canvasLeft, (256+20)*scale, 192*scale, 192*scale);
+        context.restore();
+
+        context.beginPath()
+        context.setLineWidth(2*scale);
+        context.setStrokeStyle('#2aebfc');
+        context.setLineDash([25*scale, 5*scale], 5*scale);
+        context.arc((262+232/2)*scale+self.canvasLeft, (256+232/2)*scale, 232/2*scale, 0, 2*Math.PI);
+        context.closePath();
+        context.stroke()
+
+        context.setFontSize(40*scale);
+        context.setTextAlign("center");
+        context.setFillStyle("white");
+        context.fillText(self.dating.user.name, self.canvasLeft+self.canvasWidth/2, (256+232+32+20)*scale, self.canvasWidth)
+        
+        context.setFontSize(32*scale);
+        context.setTextAlign("right");
+        context.setFillStyle("#5bf7f5");
+        context.fillText('发起一个', self.canvasLeft+292*scale, (256+232+32+20+104)*scale, 262*scale)
+        
+        context.setFontSize(58*scale);
+        context.setTextAlign("left");
+        context.setFillStyle("#fea801");
+        context.fillText(`"${self.dating.dating_type.name}"`, self.canvasLeft+292*scale, (256+232+32+20+104)*scale, (750-262)*scale)
+        
+        context.setFontSize(26*scale);
+        context.setTextAlign("center");
+        context.setFillStyle("#fefeff");
+        context.fillText(`${self.dating.topic}`, self.canvasLeft+self.canvasWidth/2, (256+232+32+20+104+29+36+13)*scale, self.canvasWidth)
+
+        context.drawImage(self.appcode.path, self.canvasLeft+280*scale, 937*scale, 196*scale, 196*scale);
+
+        context.draw();
+
+    }
+}
+</script>
+

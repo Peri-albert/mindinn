@@ -1,0 +1,657 @@
+<style lang="less">
+.x-tantan {
+	.lineOverEllipsis {
+		display: block;
+		overflow: hidden;
+		text-overflow: ellipsis;
+		white-space: nowrap;
+	}
+
+	movable-area {
+		height: 300vh;
+		width: 300vw;
+		position: fixed;
+		left: -100vw;
+		top: -100vh;
+
+		movable-view {
+			height: 810rpx;
+			width: 643rpx;
+			left: 107.74vw;
+			position: absolute;
+			top: 107.960199vh;
+			z-index: 999;
+		}
+
+		.like {
+			animation: like .3s linear forwards;
+		}
+
+		.dislike {
+			animation: dislike .3s linear forwards;
+		}
+
+		.content {
+			background-color: #fff;
+			border-radius: 24rpx;
+			box-shadow: 0 5rpx 10rpx #ddd;
+			overflow: hidden;
+			position: absolute;
+			//top: 6.74663vh;
+			width: 643rpx;
+
+			.pic_num {
+				align-items: center;
+				background-color: rgba(0, 0, 0, .9);
+				border-radius: 20rpx;
+				color: #fff;
+				display: flex;
+				font-size: 24rpx;
+				height: 42rpx;
+				justify-content: center;
+				position: absolute;
+				right: 17rpx;
+				top: 19rpx;
+				width: 90rpx;
+
+				image {
+					height: 25rpx;
+					margin-right: 7rpx;
+					width: 25rpx;
+				}
+			}
+
+			//封面大图
+			.cover_pic {
+				align-items: center;
+				display: flex;
+				height: 50vh;
+				justify-content: center;
+				width: 100%;
+				position: relative;
+
+				image {
+					min-height: 100%;
+					min-width: 100%;
+				}
+
+				.x-i-footprint {
+					background-color: rgba(0, 0, 0, 0.6);
+					color: #FFF;
+					position: absolute;
+					bottom: 20rpx;
+					border-radius: 30rpx;
+					font-size: 0.7em;
+					padding: 10rpx 20rpx;
+					width: 86%;
+					overflow: hidden;
+					text-overflow:ellipsis;
+					white-space: nowrap;
+				}
+			}
+
+			.name {
+				margin: 3.3167495854vh 0 2.48761194vh 40rpx;
+				position: relative;
+
+				.nick_name {
+					color: #2f2f30;
+					font-size: 34rpx;
+					font-weight: bold;
+					width: 70%;
+					.lineOverEllipsis;
+				}
+			}
+
+			.simple-info {
+				display: flex;
+				justify-content: space-between;
+				margin-bottom: 2.8192371vh;
+				padding: 0 52rpx 0 42rpx;
+
+				//年龄星座信息
+				.info {
+					display: flex;
+					margin-right: -20rpx;
+
+					.age,
+					.sex,
+					.constellation {
+						background: linear-gradient(to top, #2E2D2F, #787777);
+						border-radius: 50%;
+						color: #fff;
+						display: block;
+						font-size: 20rpx;
+						font-weight: bold;
+						height: 46rpx;
+						line-height: 46rpx;
+						margin-right: 20rpx;
+						text-align: center;
+						width: 46rpx;
+					}
+				}
+
+				//地址
+				.address {
+					align-items: flex-end;
+					color: #767676;
+					display: flex;
+					font-size: 20rpx;
+					max-width: 30vw;
+					.lineOverEllipsis;
+					.distance {
+						color: #535252;
+						font-size: 24rpx;
+					}
+				}
+			}
+
+			.x-i-visitSameBar {
+				box-sizing: border-box;
+				height: 50rpx;
+				position: absolute;
+				right: 28rpx;
+				bottom: 127rpx;
+				.txt {
+					background-color: #000;
+					border-radius: 50rpx;
+					box-sizing: border-box;
+					color: #fff;
+					font-size: 24rpx;
+					height: 50rpx;
+					line-height: 50rpx;
+					position: relative;
+					padding: 5rpx 25rpx;
+					z-index: 1;
+				}
+				.jianer {
+					bottom: 48rpx;
+					background-color: #000;
+					height: 15rpx;
+					overflow: hidden;
+					position: absolute;
+					left: 40rpx;
+					width: 30rpx;
+				}
+				.jianer::after, .jianer::before {
+					background-color: #fff;
+					border-radius: 50%;
+					content: '';
+					height: 30rpx;
+					left: -15rpx;
+					position: absolute;
+					top: -15rpx;
+					width: 30rpx;
+				}
+				.jianer::after {
+					left: 15rpx;
+				}
+			}
+		}
+
+		.move-div {
+			transform-origin: 50% 100%;
+			position: absolute;
+		}
+
+		.cover {
+			position: fixed;
+			left: 0;
+			top: 50%;
+			width: 100%;
+			height: 150rpx;
+			display: flex;
+			justify-content: center;
+			z-index: 999;
+
+			cover-view {
+				align-items: center;
+				border-radius: 50%;
+				display: flex;
+				justify-content: center;
+				opacity: .9;
+				width: 150rpx;
+				height: 150rpx;
+
+				cover-image {
+					height: 100%;
+					width: 100%;
+				}
+			}
+		}
+	}
+
+	@keyframes like {
+		100% {
+			transform: translateX(600px) rotate(80deg);
+			opacity: 0;
+		}
+	}
+
+	@keyframes dislike {
+		100% {
+			transform: translateX(-600px) rotate(-80deg);
+			opacity: 0;
+		}
+	}
+}
+
+.x-tantan.longscreen {
+	movable-area {
+		// height:300vh;
+		/*height: 980rpx;*/
+
+		movable-view {
+			height: 980rpx;
+		}
+
+		.content {
+			.cover_pic {
+				height: 53vh;
+			}
+		}
+	}
+}
+
+.danmu-hidden {
+	visibility: hidden;
+}
+</style>
+<template>
+	<view class="x-tantan {{longScreen ? 'longscreen' : ''}}">
+		<movable-area>
+			<block wx:for="{{users}}" wx:key="index">
+				<movable-view direction="all" x="{{item.x}}" y="{{item.y}}" damping="100" @tap.stop="tapEnterCard" catchtouchend="onCancel" catchtouchmove="onChange" disabled="{{cannotMove || onShowIndex != index}}" style="z-index: {{-index}};" wx:if="{{!item.hasShown}}">
+					<view class="content move-div {{item.like ? 'like' : ''}} {{item.dislike ? 'dislike' : ''}}">
+						<!-- 封面大图 -->
+						<view class="cover_pic">
+							<!--
+							<image mode="aspectFill" src="{{item.coverPicUrl}}"></image>
+							-->
+							<image mode="aspectFill" src="{{item.displayAvatar}}" binderror="onLoadImageError({{item}})"></image>
+							<view class="x-i-footprint" wx:if="{{item.visits.length > 0}}">
+								足迹: {{item.displayVisits}}
+							</view>
+						</view>
+						<view class="pic_num">
+							<image src="https://resource.vxiaocheng.com/mercury/paoypao/imgs_icon.png"></image>
+							<text>{{item.picNum}}</text>
+						</view>
+						<view class="name">
+							<text class="nick_name">{{item.username}}</text>
+						</view>
+						<view class="simple-info">
+							<!-- 地址 -->
+							<view class="address">
+								<text class="distance">{{item.distance}} km</text> {{item.address}}
+							</view>
+							<!-- 年龄星座信息 -->
+							<view class="info">
+								<image class="sex" src="https://resource.vxiaocheng.com/mercury/paoypao/{{item.sex}}.png"></image>
+								<view class="age">{{item.age}}</view>
+								<image wx:if="{{item.asterism.image}}" class="constellation" src="https://vxiaocheng-jh.oss-cn-beijing.aliyuncs.com/mercury/me/asterism_{{item.asterism.image}}.png"></image>
+							</view>
+						</view>
+						<view class="x-i-visitSameBar" wx:if="{{item.isVisitSameBar}}">
+							<view class="jianer"></view>
+							<view class="txt">Ta与你去过相同酒吧</view>
+						</view>
+					</view>
+					<!-- 弹幕 -->
+					<danmu wx:if="{{onShowIndex == index && !moveHideDanmu}}" class="{{danmuShow ? '' : 'danmu-hidden'}}"></danmu>
+				</movable-view>
+			</block>
+			<cover-view wx:if="{{like}}" class="cover">
+				<cover-view style="background-color: #de0b52;">
+					<cover-image src="https://vxiaocheng-jh.oss-cn-beijing.aliyuncs.com/mercury/paoypao/like_btn.png" />
+				</cover-view>
+			</cover-view>
+			<cover-view class="cover" wx:if="{{dislike}}">
+				<cover-view style="background-color: #8e8e8e;">
+					<cover-image src="https://vxiaocheng-jh.oss-cn-beijing.aliyuncs.com/mercury/paoypao/dislike_btn.png" />
+				</cover-view>
+			</cover-view>
+		</movable-area>
+	</view>
+
+	<!--
+	<view style="position:absolute;bottom:100rpx;left:10rpx;padding:10rpx;background-color:#FFF;">
+	{{mode}}
+	</view>
+	-->
+</template>
+<script>
+import wepy from 'wepy'
+import Danmu from './danmu'
+import UserService from '../services/user_service'
+import AccountService from '../services/account_service'
+
+export default class Tantan extends wepy.component {
+	props = {
+		paoypaoHasChosen: {
+			type: Boolean,
+			default: false,
+			twoWay: true
+		}
+	}
+
+	components = {
+		danmu: Danmu
+	}
+
+	data = {
+		x: 0,
+		y: 0,
+		like: false,
+		dislike: false,
+		hasSelected: false, //标记是否进行了选择
+		onShowIndex: 0,
+		distance: 50, //判断距离
+		longScreen: false, //判断是否是长屏幕
+		users: [],
+
+		loadTriggerCount: 4,
+		isLoadingMore: false,
+
+		mode: 'normal',
+		moveX: [],
+		cannotMove: false,  //强行禁止用户滑动过快
+		userChangeTimeout: '',  //用户滑动延时判断喜欢状态
+		wxChangeTimeout: '',  //小程序自动滑动触发的延时
+		userCancelTimeout: '',  //用户抬手延时恢复mode
+		danmuShow: true,
+		moveHideDanmu: false
+	}
+
+	events = {
+		'show-danmu': (v) => {
+			this.danmuShow = v
+			this.$apply()
+		}
+	}
+
+	methods = {
+		onLoadImageError(item, e) {
+			if (item.avatar != item.originalAvatar) {
+				let users = this.users.filter(user => user.id == item.id);
+				if (users.length > 0) {
+					let user = users[0];
+					user.displayAvatar = user.originalAvatar;
+				}
+			}
+		},
+
+		tapEnterCard(e) {
+			if (this.onShowIndex >= this.users.length) {
+				return;
+			}
+
+			let user = this.users[this.onShowIndex]
+			this.$emit('tap-item', user)
+		},
+
+		onChange(e) {
+			clearTimeout(this.userCancelTimeout)
+			if (this.cannotMove) return;
+			// this.moveHideDanmu = true
+			if (!this.moveX.length && e.touches[0].clientX !== undefined) {  //获取移动时的初始X坐标
+				this.moveX.push(e.touches[0].clientX)
+			}
+
+			const dX = e.touches[0].clientX - this.moveX[0]
+
+			if (dX < -this.distance) {
+				if (this.dislike == true && this.like == false) return;
+				this.dislike = true
+				this.like = false
+			}else if (dX > this.distance) {
+				if (this.dislike == false && this.like == true) return;
+				this.dislike = false
+				this.like = true
+			}else {
+				if (this.dislike == false && this.like == false) return;
+				this.dislike = false
+				this.like = false
+			}
+		},
+
+		onCancel(e) {
+			//离手重置移动初始位置及喜欢与否状态
+			this.moveX = []
+			// this.moveHideDanmu = false
+
+			const curItem = this.users[this.onShowIndex]
+
+			if (this.like) {
+				this.likeOrNot('like')
+			} else if (this.dislike) {
+				this.likeOrNot('dislike')
+			} else {
+				curItem.x += 0.00000000000000001
+				curItem.y += 0.00000000000000001
+			}
+
+			this.like = this.dislike = false
+			this.$apply()
+
+			this.userCancelTimeout = setTimeout(() => {
+				this.like = this.dislike = false
+				this.$apply();
+			}, 1000)
+		}
+	}
+
+	likeOrNot(like) {
+		this.cannotMove = true
+		this.like = this.dislike = false
+		this.$apply()
+		
+		let isLike = (like == 'like')
+		let curItem = this.users[this.onShowIndex]
+
+		if (isLike) {
+			this.like = this.dislike = false
+			if (!this.isProfileInitialized) {
+				this.$emit('trigger-perfecting')
+				curItem.x += 0.00000000000000001
+				curItem.y += 0.00000000000000001
+				this.cannotMove = false
+				return ;
+			}
+			curItem.like = true;
+			this.$emit('like-item', curItem);
+		} else {
+			this.like = this.dislike = false
+			curItem.dislike = true;
+			this.$emit('dislike-item', curItem);
+		}
+
+		this.like = this.dislike = false
+		this.stepForward();
+	}
+
+	stepForward() {
+		setTimeout(() => {
+			let users = [...this.users];
+			users[this.onShowIndex].hasShown = true;
+			this.users = users;
+			this.onShowIndex++;
+			if (this.users.length - this.onShowIndex <= this.loadTriggerCount) {
+				if (!this.isLoadingMore) {
+					this.isLoadingMore = true;
+					this.$emit('add-images');
+				}
+			}
+			this.like = this.dislike = this.hasSelected = this.paoypaoHasChosen = this.cannotMove = false
+			this.mode = 'normal';
+			this.getDanmus(this.users[this.onShowIndex].id)
+			this.$apply()
+
+			let user = this.users[this.onShowIndex]
+
+			this.$emit('focus-user', user)
+		}, 500)
+	}
+
+	onLoad(e) {
+		const that = this
+		wx.getSystemInfo({
+			success: function(res) {
+				that.longScreen = (res.screenHeight / res.screenWidth) > 2 ? true : false
+				that.$apply()
+			}
+		})
+		UserService.isProfileInitialized().then(isProfileInitialized => {
+			this.isProfileInitialized = isProfileInitialized
+			this.$apply()
+		})
+	}
+
+	addUsers(users) {
+		users.forEach(user => {
+			let avatar = user.coverPicUrl;
+			user.originalAvatar = avatar;
+			user.displayAvatar = avatar;
+			let isWeixinAvatar = (avatar.indexOf('resource.vxiaocheng.com') == -1);
+			if (isWeixinAvatar) {
+				let length = avatar.length;
+				if (length > 4) {
+					if (avatar[length-1] == '2' && avatar[length-2] == '3' && avatar[length-3] == '1' && avatar[length-4] == '/') {
+						user.displayAvatar = avatar.substr(0, length-3)
+					}
+				}
+			}
+		})
+		this.users = [...this.users, ...users];
+		this.$apply();
+		setTimeout(() => {
+			this.isLoadingMore = false;
+		}, 500)
+	}
+
+	resetUsers(users) {
+		this.users = [];
+		this.onShowIndex = 0;
+		this.isLoadingMore = false;
+		this.addUsers(users);
+		const temporary = setInterval(() => {
+			if (this.users.length) {
+				let user = this.users[this.onShowIndex]
+				this.$emit('focus-user', user)
+				this.getDanmus(user.id)
+				clearInterval(temporary)
+			}
+		}, 500)
+	}
+
+	updateDistances(key2distance) {
+		this.users.forEach(user => {
+			if (user.distance == '...') {
+				let key = `${user.lat}_${user.lng}`;
+				let distance = key2distance[key];
+				if (typeof(distance) == "number") {
+					if (distance == 0) {
+						user.distance = 0.5;
+					} else {
+						user.distance = (distance / 1000.0).toFixed(2);
+					}
+				}
+			}
+			this.$apply();
+		})
+	}
+
+	updateAddress(key2address) {
+		this.users.forEach(user => {
+			if (user.region == undefined) {
+				let key = `${user.lat}_${user.lng}`;
+				let region = key2address[key];
+				if (region) {
+					user.address = region;
+				}
+			}
+			this.$apply();
+		})
+	}
+
+	updateImageCount(user2count) {
+		this.users.forEach(user => {
+			let userId = user.id;
+			if (user2count.hasOwnProperty(userId)) {
+				user.picNum = user2count[userId];
+			}
+		})
+
+		this.$apply();
+	}
+
+	updateVisitSameBarUsers(userIds) {
+		let userMap = {}
+		if (!userIds) return;
+		userIds.forEach(userId => {
+			userMap[userId] = true
+		})
+		this.users.forEach(user => {
+			if (!user.isVisitSameBar) {
+				user.isVisitSameBar = !!userMap[user.id]
+			}
+		})
+
+		this.$apply();
+	}
+
+	updateUserVisits(user2visits) {
+		this.users.forEach(user => {
+			if (user.visits != undefined) {
+				return
+			}
+
+			console.log(user.id + '>>>>>>>>>>')
+			user.visits = user2visits[user.id]
+
+			if (user.visits.length > 0) {
+				let corpNames = []
+				let visitCount = user.visits.length;
+				for (let i = 0; i < visitCount; ++i) {
+					if (i >= 4) {
+						corpNames.push(`...`)
+						break;
+					}
+					corpNames.push(user.visits[i].corp_name);
+				}
+
+				user.displayVisits = corpNames.join('、')
+			}
+		})
+
+		this.$apply();
+	}
+
+	updateProfileInitialized() {
+		this.isProfileInitialized = true;
+		this.$apply();
+	}
+
+	getDanmus(userId) {
+		let barrages = []
+		AccountService.getDanmu(userId).then(res => {
+			res.barrages.forEach(e => {
+				let ele = {}
+				ele.avatar = e.sender.avatar
+				ele.name = e.sender.name
+				ele.content = e.content.slice(0, 20)
+				barrages.push(ele)
+			})
+			this.$broadcast('get-danmus', barrages)
+		})
+	}
+
+	addDanmu(user, content) {
+		let barrage = {}
+		barrage.avatar = user.avatar
+		barrage.name = user.name
+		barrage.content = content.slice(0, 20)
+		this.$broadcast('add-danmu', barrage)
+	}
+}
+</script>

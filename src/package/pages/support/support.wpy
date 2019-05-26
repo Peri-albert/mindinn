@@ -1,0 +1,195 @@
+<style lang="less">
+.container {
+	background-color: #EFEFEF;
+	min-height: 100vh;
+	height: 100vh;
+	overflow-x: hidden;
+	padding-top: 20rpx;
+	width: 100%;
+
+	.x-textarea {
+		background-color: #FFF;
+		width: 95%;
+		height: 540rpx;
+		margin: 0 auto 80rpx;
+		textarea{
+			width: 100%;
+			color: rgb(65,65,65);
+			padding: 30rpx;
+			font-size: 30rpx;
+		}
+	}
+
+	.x-actions {
+		.xui-submitButton {
+			width: 90%;
+			height: 90rpx;
+			line-height: 90rpx;
+			background-color: #000;
+			color: #fff;
+			text-align: center;
+			border-radius: 45rpx;
+		}
+	}
+
+	.x-infos {
+		position: fixed;
+		bottom: 64rpx;
+		display: flex;
+		flex-direction: row;
+		width: 100vw;
+
+		.x-i-info {
+			flex-grow: 1;
+			font-size: 0.7em;
+			display: flex;
+			flex-direction: row;
+			color: rgb(124, 124, 124);
+		}
+
+		.x-i-phone {
+			justify-content: flex-end;
+			padding-right: 20rpx;
+		}
+
+		.x-i-weixin {
+			padding-left: 20rpx;
+			justify-content: flex-start;
+		}
+
+		.x-i-link {
+			color: #707070;
+			margin-left: 10rpx;
+		}
+	}
+}
+</style>
+
+<template>
+<view class="container">
+	<view class="x-textarea">
+		<textarea 
+			value="{{content}}"
+			style="font-size:0.8em;" 
+			@input="onInputContent"
+			placeholder="请输入您的宝贵意见，我们将不断优化" 
+		/>
+	</view>
+
+	<view class="x-actions">
+		<button type="primary" class="xui-submitButton" @tap="onTapSubmit">确认提交</button>
+	</view>
+
+	<view class="x-infos">
+		<view class="x-i-info x-i-phone">
+			<view class="x-i-text">客服电话: </view>
+			<view class="x-i-phone x-i-link" @tap="onTapPhone">400-000-5583</view>
+		</view>
+
+		<view class="x-i-info x-i-weixin">
+			<view class="x-i-text">客服微信: </view>
+			<view class="x-i-phone x-i-link" @tap="onTapWeixin">xiaochengLYJ</view>
+		</view>
+	</view>
+</view>
+</template>
+
+<script>
+import wepy from 'wepy';
+import Validator from '../../../lib/validator'
+import Resource from '../../../lib/resource'
+
+export default class Support extends wepy.page {
+  config = {
+    navigationBarTitleText: '联系我们'
+  };
+  components = {};
+
+	data = {
+		content: ''
+	};
+
+	methods = {
+		onTapBack(){
+			wx.navigateBack({
+				delta:1
+			})
+		},
+		onInputContent: function(e) {
+			this.content = e.detail.value;
+		},
+
+		onTapPhone: function(e) {
+			wx.makePhoneCall({
+				phoneNumber:"4000005583"
+			})
+		},
+
+		onTapWeixin: function(e) {
+			wx.showToast({
+				title: '请关注微信号，联系客服',
+				icon: 'none',
+				duration: 1500
+			});
+		},
+
+		onTapSubmit: function(e) {
+			let errMsg = null;
+			if (!Validator.isString(this.content)) {
+				errMsg = '请输入您的意见';
+			}
+
+			if (errMsg != null) {
+				wx.showToast({
+					title: errMsg,
+					icon: 'none',
+					duration: 1500
+				});
+				return;
+			}
+
+			let data = {
+				type: 'mercury',
+				content: this.content
+			}
+			console.log(JSON.stringify(data));
+
+			wx.showLoading({
+				title: '提交反馈...',
+				mask: true
+			});
+			Resource.put({
+				service: 'gaia',
+				resource: 'system.feedback',
+				data: data
+			}).then(data => {
+				this.content = '';
+				this.$apply();
+				wx.hideLoading();
+				wx.showToast({
+					title: '反馈提交成功，感谢您的宝贵意见',
+					icon: 'none',
+					duration: 1500
+				});
+				console.log(data);
+			}, res => {
+				console.log(res);
+				wx.hideLoading();
+				let title = '反馈提交失败，请稍后再试';
+				if (res.data && res.data.errMsg) {
+					title = res.data.errMsg;
+				}
+
+				wx.showToast({
+					title: title,
+					icon: 'none',
+					duration: 2000
+				});
+			});
+		}
+	};
+	
+	events = {};
+}
+</script>
+

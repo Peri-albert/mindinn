@@ -1,0 +1,1076 @@
+<style lang="less">
+@import "../../base";
+
+@videoHeight: 270rpx;
+@activityHeight: 400rpx;
+@avatarHeight: 160rpx;
+@imageWidth: 31.8vw;
+
+page {
+	background-color: #f3f3f3;
+	padding-bottom: 20rpx;
+	.container {
+		.mt10{
+			margin-top: 0rpx;
+		}
+		
+		.xui-item-header {
+			font-size: 34rpx;
+			color: #333;
+			padding: 10rpx 20rpx;
+
+			display: flex;
+			flex-direction: row;
+		}
+		.xui-item {
+			background-color: white;
+			display: flex;
+			min-height: 92rpx;
+			align-items: center;
+			justify-content: space-between;
+			font-size: 28rpx;
+			padding: 0rpx 10rpx 0rpx 40rpx;
+			position: relative;
+			.xui-text {
+				width: 25%;
+			}
+			.xui-show-tags{
+				position: absolute;
+				right: 30px;
+				top: 15px;
+
+				.xui-show-tag {
+					color: #8811c0;
+					border: 1px solid #8811c0;
+					border-radius: 5rpx;
+					padding: 2px;
+					font-size: 25rpx;
+					text-align: center;
+					margin: 0 10px 10px 0;
+				}	
+			}
+			.xui-other{
+				color:#8F8F8F;
+				text-align: right;
+				font-size: 26rpx;
+				width: 200rpx;
+			}
+		
+			.xui-label {
+				display: flex;
+				flex-direction: row;
+			}
+			.xui-radio {
+				font-size: 28rpx;
+				margin: 5px;
+			}
+			.xui-input {
+				flex-grow: 1;
+				font-size: 26rpx;
+				margin-left: 24rpx;
+			}
+			.xui-arrow {
+				width: 40rpx;
+				height: 40rpx;
+				margin-left: 20rpx;
+			}
+			.xui-tag-arrow {
+				width: 40rpx;
+				height: 40rpx;
+			}
+			.xui-picker{
+				text-align: right;
+				width: 300rpx;
+				font-size: 28rpx;
+				margin-right: 24rpx;
+			}
+			.xui-iteminput {
+				flex-grow: 1;
+				font-size: 26rpx;
+				margin-left: 24rpx;
+			}
+			.input-itemplaceholder {
+				color: #999999;
+				font-size: 28rpx;
+			}
+			
+			.x-i-salaryUnitPicker {
+				background-color: #dd0973;
+				color: #FFF;
+			}
+
+			.x-i-tags {
+				padding: 0rpx;
+				height: 60rpx;
+				margin: 0rpx 0rpx 10rpx 0rpx;
+				max-width: 500rpx;
+				width: 500rpx;
+				display: flex;
+				flex-direction: row;
+				align-items: center;
+				flex-wrap: wrap;
+				justify-content: flex-end;
+				overflow: hidden;
+
+				.x-i-tag {
+					background: linear-gradient(-90deg,#5941e1, #c241de);
+					color: #FFF;
+					border-radius: 16rpx;
+					padding: 10rpx 16rpx;
+					margin-right: 10rpx;
+					margin-top: 10rpx;
+					height: 30rpx;
+					line-height: 30rpx;
+					font-size: 26rpx;
+				}
+			}
+
+			.x-avatar {
+				margin: 10px auto;
+				width: 35px;
+				height: 35px;
+				border-radius: 50%;
+			}
+		}
+
+		.xui-tags {
+			width: 95%;
+			padding: 10rpx 0rpx;
+			display: flex;
+			justify-content: flex-end;
+			flex-wrap: wrap;
+			//padding: 30rpx 30rpx 0;
+			
+			.xui-tag {
+				border-radius: 25rpx;
+				padding: 0px 25rpx;
+				font-size: 25rpx;
+				text-align: center;
+				height: 50rpx;
+				line-height: 50rpx;
+				margin-left: 10rpx;
+				margin-bottom: 10rpx;
+			}
+
+			.active {
+				background-color: #000;
+				color: white;
+			}
+		}
+		.xui-item-center {
+			justify-content: center;
+		}
+
+		.x-actions {
+			width: 100%;
+			margin-top:20px;
+			height: 40px;
+
+			.x-i-actionBtn {
+				padding: 0;
+				width: 85%;
+				font-size: 33rpx;
+				color: #fff;
+				height: 40px;
+				border-radius: 3px;
+				background: #8811c0;
+			}
+		}
+
+		.x-tag {
+			padding: 2rpx 6rpx;
+			color: red;
+			font-size: 0.8em;
+			background-color: rgba(255, 255, 255, 0);
+			border-radius: 10rpx;
+			border: solid 1px red;
+		}
+
+		.x-images {
+			background-color: #FFF;
+			margin-top: 20rpx;
+			width: 100%;
+			height: 773rpx;
+
+			image {
+				width: 100%;
+				height: 100%;
+				border-radius: 10rpx;
+			}
+
+			.x-i-row1 {
+				//background-color: rgba(255, 0, 0, 0.8);
+				height: 66.66vw;
+				display: flex;
+				flex-direction: row;
+				margin-bottom: 10rpx;
+
+				.x-i-column1 {
+					position: relative;
+					//background-color: rgba(255, 255, 0, 0.2);
+					.x-i-delete {
+						position: absolute;
+						top: 15rpx;
+						right: 5rpx;
+						width: 50rpx;
+						height: 50rpx;
+					}
+				}
+				.x-i-column2 {
+					//background-color: rgba(255, 0, 255, 0.3);
+					.x-i-img {
+						position: relative;
+						.x-i-delete {
+							position: absolute;
+							top: 3rpx;
+							right: 0rpx;
+							width: 50rpx;
+							height: 50rpx;
+						}
+					}
+				}
+				
+			}
+			.x-i-row2 {
+				//background-color: rgba(0, 0, 255, 0.8);
+				display: flex;
+				flex-direction: row;
+
+				image {
+					width: 247rpx;
+					height: 247rpx;
+					border-radius: 10rpx;
+				}
+				.x-i-img1 {
+					padding: 2rpx 1rpx 2rpx 2rpx;
+					position: relative;
+					.x-i-delete {
+						position: absolute;
+						top: 3rpx;
+						right: 3rpx;
+						width: 50rpx;
+						height: 50rpx;
+					}
+				}
+				.x-i-img2 {
+					padding: 2rpx 1rpx;
+					position: relative;
+					.x-i-delete {
+						position: absolute;
+						top: 3rpx;
+						right: 3rpx;
+						width: 50rpx;
+						height: 50rpx;
+					}
+				}
+				.x-i-img3 {
+					padding: 2rpx;
+					position: relative;
+					.x-i-delete {
+						position: absolute;
+						top: 3rpx;
+						right: 3rpx;
+						width: 50rpx;
+						height: 50rpx;
+					}
+				}
+			}
+			.x-i-column1 {
+				flex: 1;
+				display: flex;
+				flex-direction: row;
+				padding-top: 14rpx;
+				image {
+					width: 496rpx;
+					height: 496rpx;
+					padding: 0 3rpx 2rpx 2rpx;
+					border-radius: 10rpx;
+				}
+			}
+			.x-i-column2 {
+				width: 33.33vw;
+				display: flex;
+				flex-direction: column;
+				padding-top: 14rpx;
+
+				.x-i-img {
+					width: 247rpx;
+					height: 247rpx;
+					margin-bottom: 2rpx;
+					border-radius: 10rpx;
+				}
+			}
+		}
+	}
+}
+</style>
+
+<template>
+	<view class="container">
+
+		<view class="x-images">
+			<view class="x-i-row1">
+				<view class="x-i-column1">
+					<image mode="aspectFill"  @tap="onTapSelectImage(1)" src="{{index2image[1].url}}" />
+					<!-- <image class="x-i-delete" mode="aspectFill" @tap="onTapDeleteImage" src="https://resource.vxiaocheng.com/mercury/me/profile_delete.png" /> -->
+				</view>
+				<view class="x-i-column2">
+					<view class="x-i-img">
+						<image mode="aspectFill" @tap="onTapSelectImage(2)" src="{{index2image[2].url}}" />
+						<image wx:if="{{index2image[2].id !== 0}}" class="x-i-delete" mode="aspectFill" @tap.stop="onTapDeleteImage({{index2image[2]}})" src="https://resource.vxiaocheng.com/mercury/me/profile_delete.png" />
+					</view>
+					<view class="x-i-img">
+						<image mode="aspectFill" @tap="onTapSelectImage(3)" src="{{index2image[3].url}}" />
+						<image wx:if="{{index2image[3].id !== 0}}" class="x-i-delete" mode="aspectFill" @tap.stop="onTapDeleteImage({{index2image[3]}})" src="https://resource.vxiaocheng.com/mercury/me/profile_delete.png" />
+					</view>
+				</view>
+			</view>
+			<view class="x-i-row2">
+				<view class="x-i-img1">
+					<image mode="aspectFill"  @tap="onTapSelectImage(4)" src="{{index2image[4].url}}" />
+					<image wx:if="{{index2image[4].id !== 0}}" class="x-i-delete" mode="aspectFill" @tap.stop="onTapDeleteImage({{index2image[4]}})" src="https://resource.vxiaocheng.com/mercury/me/profile_delete.png" />
+				</view>
+				<view class="x-i-img2">
+					<image mode="aspectFill"  @tap="onTapSelectImage(5)" src="{{index2image[5].url}}" />
+					<image wx:if="{{index2image[5].id !== 0}}" class="x-i-delete" mode="aspectFill" @tap.stop="onTapDeleteImage({{index2image[5]}})" src="https://resource.vxiaocheng.com/mercury/me/profile_delete.png" />
+				</view>
+				<view class="x-i-img3">
+					<image mode="aspectFill"  @tap="onTapSelectImage(6)" src="{{index2image[6].url}}" />
+					<image wx:if="{{index2image[6].id !== 0}}" class="x-i-delete" mode="aspectFill" @tap.stop="onTapDeleteImage({{index2image[6]}})" src="https://resource.vxiaocheng.com/mercury/me/profile_delete.png" />
+				</view>
+			</view>
+		</view>
+
+		<view class="xui-item mb1" style="margin-top:20rpx">
+			<lable class="xui-text">昵称</lable>
+			<view class="xui-item">
+				<input disabled="true" @tap="onTapOpenEditor('name')" class="xui-iteminput" style="text-align:right;margin-right:10px" type="text" value="{{userInfo.name}}" @input="bindValue('name')" placeholder="请填写艺名" placeholder-class="input-itemplaceholder"/>
+			</view>
+		</view>
+		<view class="xui-item mb1" @tap.stop="onTapOpenEditor('sex')">
+			<lable class="xui-text">性别</lable>
+			<view class="xui-item">
+				<input 
+					disabled="true" 
+					class="xui-iteminput" 
+					style="text-align:right;margin-right:10px" 
+					type="text" 
+					value="{{userInfo.sex == 'male' ? '男' : '女'}}" />
+			</view>
+		</view>
+		<view class="xui-item mb1">
+			<lable class="xui-text">生日</lable>
+			<view class="xui-item">
+				<picker bindchange="onChangeBirthday" mode="date" fields="day" value="{{userInfo.birthday.length == 0 ? '1995-01-01' : userInfo.birthday}}">
+					<view class="xui-picker" style="margin-right:0px;color:#8F8F8F" wx:if="{{userInfo.birthday.length == 0}}">请选择</view>
+					<view class="xui-picker" style="margin-right:0px" wx:if="{{userInfo.birthday.length > 0}}">{{userInfo.birthday}}</view>
+				</picker>
+				<image class="xui-arrow" src="../../images/i_xiangyou.png" />
+			</view>
+		</view>
+		<view class="xui-item mb1">
+			<lable class="xui-text">星座</lable>
+			<view class="xui-item">
+				<input disabled="true" class="xui-iteminput" style="text-align:right;margin-right:10px" type="text" value="{{asterism}}" />
+			</view>
+		</view>
+
+		<view class="xui-item mb1" style="margin-top:15px;" @tap="onTapOpenEditor('tag')">
+			<lable class="xui-text">标签</lable>
+			<input 
+				wx:if="{{userTags.length == 0}}"
+				disabled="true" 
+				class="xui-iteminput" 
+				style="text-align:right;margin-right:10px" 
+				type="text" 
+				placeholder="选择标签..." 
+				placeholder-class="input-itemplaceholder"
+			/>
+			<view class="xui-tags" wx:else>
+				<text class="xui-tag active" wx:key="unique" wx:for="{{userTags}}" wx:for-index="idx" wx:for-item="tag" @tap="onTapSelect({{tag}})">{{tag.name}}</text>
+			</view>
+		</view>
+		<view class="xui-item mb1">
+			<lable class="xui-text">个性签名</lable>
+			<view class="xui-item">
+				<input disabled="true" @tap="onTapOpenEditor('slogan')" class="xui-iteminput" style="text-align:right;margin-right:10px" type="text" maxlength="25" value="{{userInfo.slogan}}" @input="bindValue('slogan')" placeholder="请编写个性签名" placeholder-class="input-itemplaceholder"/>
+			</view>
+		</view>
+		<view class="xui-item mb1" @tap="onTapOpenEditor('phone')">
+			<lable class="xui-text">手机</lable>
+			<input 
+				disabled="true" 
+				class="xui-iteminput" 
+				style="text-align:right;margin-right:10px" 
+				type="text"
+				value="{{userInfo.phone}}" 
+				placeholder="绑定手机..." 
+				placeholder-class="input-itemplaceholder"
+			/>
+		</view>
+
+		<view class="xui-video-wrapper" wx:if="{{isShowVideo}}" catchtouchmove="preventDefault">
+			<video src="{{onPlayVideoUrl}}" autoplay>
+				<cover-view class="xui-i-close" @tap="onTapCloseVideo">×</cover-view>
+			</video>
+		</view>
+	</view>
+
+	<mp-widget></mp-widget>
+</template>
+
+<script>
+	import wepy from 'wepy'
+	const app = getApp()
+	import Session from '../../lib/session'
+	import AccountService from '../../services/account_service'
+	import StorageService from '../../services/storage_service'
+	import TagService from '../../services/tag_service'
+	import DateService from '../../services/date_service'
+	import Uploader from '../../lib/uploader'
+	import Validator from '../../lib/validator'
+	import _ from '../../lib/mptool'
+	import LocationService from '../../services/location_service'
+	import UserService from '../../services/user_service'
+	import MPWidget from '../../components/mp_widget'
+	import MP from '../../services/mp_service'
+
+	export default class Profile extends wepy.page {
+		config = {
+			navigationBarTitleText: "个人信息",
+		}
+
+		components = {
+			"mp-widget": MPWidget,
+		}
+
+		mixins = []
+
+		data = {
+			navigationBarTitleText: "个人信息",
+			userInfo: {
+			},
+
+			showTags: false,
+			tags: [],
+			userTags: [],
+
+			index2image: {},
+
+			arrow: "../../images/i_xiangyou.png",
+		}
+
+		computed = {
+			asterism: function() {
+				let asterism = DateService.getAsterism(this.userInfo.birthday);
+				if (asterism) {
+					return asterism.name;
+				} else {
+					return '';
+				}
+			},
+
+			topImages: function() {
+				let images = this.userInfo.images;
+				if (images) {
+					if (images.length <= 3) {
+						return images;
+					} else {
+						return images.slice(0, 3);
+					}
+				} else {
+					return [];
+				}
+			},
+
+			topVideos: function() {
+				let videos = this.userInfo.videos;
+				if (videos) {
+					if (videos.length <= 3) {
+						return videos;
+					} else {
+						return videos.slice(0, 3);
+					}
+				} else {
+					return [];
+				}
+			}
+		}
+
+		methods = {
+			onTapDeleteImage(image) {
+				let index = image.index;
+				UserService.deleteImage(image.id).then(isSuccess => {
+					if (isSuccess) {
+						this.index2image[index] = {
+							'id': 0,
+							'url': 'http://resource.vxiaocheng.com/mercury/me/upload.png'
+						};
+						this.$apply();
+					}
+				})
+			},
+
+			onTapSelect(tag) {
+				let count = 0;
+				for (let i=0; i<this.tags.length; i++) {
+					if (this.tags[i].selected == true) {
+						count = count + 1;
+					}
+				}
+
+				let flag = false;
+				if (count > 4) {
+					flag = true;
+				}
+
+				this.tags.forEach(ftag => {
+					if (ftag.id == tag.id) {
+						ftag.selected = !ftag.selected;
+						if (flag == true && ftag.selected == true) {
+							ftag.selected = false;
+							wx.showToast({
+								title: '最多选5个',
+								icon: 'none',
+							})
+						}
+					}
+				});
+				this.$apply();
+				console.log(this.tags)
+			},
+			bindValue (property, event) {
+				this.userInfo[property] = event.detail.value;
+			},
+
+			onChangeRegion: function(e) {
+				let provinceIndex = e.detail.value[0];
+				let cityIndex = e.detail.value[1];
+				let data = LocationService.getProvinceCityByIndex(provinceIndex, cityIndex);
+
+				this.userInfo.region = `${data.province.name},${data.city.name}`;
+				this.provinceCityIndex = [provinceIndex, cityIndex];
+			},
+
+			onChangeRegionColumn: function(e) {
+				let detail = e.detail;
+				if (detail.column == 0) {
+					let provinceIndex = detail.value;
+					this.provinceCities = LocationService.getProvinceCitiesForProvinceIndex(provinceIndex);
+					this.provinceCityIndex[0] = provinceIndex;
+					this.provinceCityIndex[1] = 0;
+				}
+				console.log(e.detail);
+			},
+
+			onTapEnableOpenInformation: function(e) {
+				let _this = this;
+
+				if (e.detail.value) {
+					let canOpenInformation = (this.userInfo.videos.length > 0) && (this.userInfo.images.length > 0);
+					if (canOpenInformation) {
+						_this.enableOpenInformation(true);
+						_this.enable_open_information = e.detail.value;
+					} else {
+						wx.showModal({
+							title: '资料不完整',
+							content: '上传视频和相册图片后，才能开启求职',
+							showCancel: true,
+							success: function(res) {
+								_this.enable_open_information = e.detail.value;
+								_this.$apply();
+								setTimeout(() => {
+									_this.enable_open_information = !e.detail.value;
+									console.log(_this.data);
+									_this.$apply();
+								}, 300);
+							}
+						})
+					}
+				} else {
+					wx.showModal({
+						title: '提示',
+						content: '关闭后，酒吧老板将不能搜索到你，确定关闭吗？',
+						showCancel: true,
+						success: function(res) {
+							if (res.confirm) {
+								console.log('用户点击确定')
+								_this.enableOpenInformation(false);
+								_this.enable_open_information = e.detail.value;
+								_this.$apply();
+							} else if (res.cancel) {
+								console.log('用户点击取消');
+								_this.enable_open_information = e.detail.value;
+								_this.$apply();
+								setTimeout(() => {
+									_this.enable_open_information = !e.detail.value;
+									console.log(_this.data);
+									_this.$apply();
+								}, 300);
+							}
+						}
+					})
+				}
+			},
+
+			onTapOpenEditor: async function(type) {
+				let _this = this;
+				let data = null;
+				let item = '';
+				if (type == 'name') {
+					data = {
+						placeholder: '',
+						content: this.userInfo.name,
+						maxlength: 10
+					}
+					item = '昵称';
+				} else if (type == 'sex') {
+					if (Session.getKey("sex_changed")) {
+						return;
+					}else {
+						const exsit = await UserService.checkUserSexChanged().then(res => res.exsit)
+						if (exsit) {
+							Session.setKey("sex_changed", true)
+							data = {}
+							return;
+						}else {
+							data = {
+								curSex: this.userInfo.sex
+							}
+							item = '性别'
+						}
+					}
+				} else if (type == 'slogan') {
+					data = {
+						placeholder: '',
+						content: this.userInfo.slogan,
+						maxlength: 12
+					}
+					item = '个性签名';
+				} else if (type == 'tag') {
+					data = {
+						//tags: this.tags,
+						userTags: this.userTags,
+						gender: this.userInfo.sex || 'female'
+					}
+				} else if (type == 'phone') {
+					data = {
+						phone: this.userInfo.phone
+					}
+					item = '手机号'
+				}
+				console.log('type = ' + type);
+				MP.showProfileEditor({
+					type: type,
+					data: data,
+					complete: function(text) {
+						let userData = {}
+						if (type == 'name') {
+							userData = {
+								name: text
+							}
+						} else if (type == 'slogan') {
+							userData = {
+								slogan: text
+							}
+						} else if (type == 'sex') {
+							userData = {
+								sex: text
+							}
+						} else if (type == 'phone') {
+							userData = {
+								phone: text
+							}
+						}
+
+						if (type == 'tag') {
+							let tags = text;
+							MP.hideProfileEditor();
+							TagService.setUserTags(_this.userInfo.id, tags).then(isSuccess => {
+								if (isSuccess) {
+									_this.userTags = tags;
+									_this.$apply();
+								} else {
+									wx.showToast({
+										title: '更新标签失败，请稍后再试!',
+										icon: 'none',
+										duration: 2000
+									})
+								}
+								console.warn(tags);
+							})
+						} else {
+							UserService.updateUserInfo(userData).then(isSuccessOrFailText => {
+								MP.hideProfileEditor();
+								console.warn(isSuccessOrFailText + '>>>>>>>>>>>>>>>>>')
+								if (typeof(isSuccessOrFailText) == "string") {
+									wx.showToast({
+										title: isSuccessOrFailText,
+										icon: 'none',
+										duration: 2000
+									});
+								} else {
+									if (isSuccessOrFailText) {
+										if (type == 'name') {
+											_this.userInfo.name = text;
+										} else if (type == 'slogan') {
+											_this.userInfo.slogan = text;
+										} else if (type == 'sex') {
+											_this.userInfo.sex = text;
+										} else if (type == 'phone') {
+											_this.userInfo.phone = text;
+										}
+										_this.$apply();
+
+										wx.showToast({
+											title: `更新${item}成功`,
+											icon: 'none',
+											duration: 1500
+										});
+									} else {
+										wx.showToast({
+											title: `更新${item}失败，请稍后再试`,
+											icon: 'none',
+											duration: 1500
+										});
+									}
+								}
+							})
+						}
+					}
+				})
+			},
+
+			onChangeSex: function(e) {
+				this.userInfo.sex = e.detail.value;
+			},
+
+			onChangeHeight: function(e) {
+				this.heightIndex = e.detail.value;
+				this.isSelectHeight = true;
+				console.log(this.heightIndex);
+			},
+
+			onChangeWeight: function(e) {
+				this.weightIndex = e.detail.value;
+				this.isSelectWeight = true;
+				console.log(this.weightIndex);
+			},
+
+			onChangeBWHValue: function(e) {
+				this.bwhIndex[0] = e.detail.value[0];
+				this.bwhIndex[1] = e.detail.value[1];
+				this.bwhIndex[2] = e.detail.value[2];
+
+				this.isSelectBWH = true;
+				console.log("change bwh value");
+				console.log(e.detail);
+			},
+
+			onChangeBWHColumn: function(e) {
+				// let column = e.detail.column;
+				// let index = e.detail.value;
+
+				// this.bwhIndex[column] = index;
+				console.log("change bwh column");
+				console.log(e.detail);
+			},
+
+			onChangeBirthday: function(e) {
+				UserService.updateUserInfo({
+					birthday: e.detail.value
+				}).then(isSuccess => {
+					if (isSuccess) {
+						wx.showToast({
+							title: '更新生日成功',
+							icon: 'success',
+							duration: 1500
+						})
+						this.userInfo.birthday = e.detail.value;
+						this.$apply();
+					} else {
+						wx.showToast({
+							title: '更新生日失败，请稍后再试',
+							duration: 2000
+						})
+					}
+				})
+			},
+
+			// onChangeRegion: function(e) {
+			// 	this.userInfo.region = e.detail.value;
+			// 	console.log(this.userInfo.region);
+			// },
+
+			onTapSelectImage: function(index) {
+				var _this = this;
+				var _idx = parseInt(index);
+				wx.chooseImage({
+					count: 1,  
+					sizeType: ['original', 'compressed'],
+					sourceType: ['album', 'camera'],
+					success: res => {
+						Uploader.uploadImages(res.tempFilePaths).then(urls => {
+							let url = urls[0];
+							if (url.indexOf("wxfile:") != -1) {
+								wx.showToast({
+									title: '头像图片无效, 请重新上传头像',
+									icon: 'none',
+									duration: 1500
+								})
+								return
+							}
+							UserService.uploadImage(index, url).then(id => {
+								if (typeof(id) == "string") {
+									wx.showToast({
+										title: id,
+										icon: 'none',
+										duration: 2000
+									});
+								} else {
+									if (id) {
+										_this.index2image[_idx] = {
+											'id': id,
+											'index': _idx,
+											'url': url
+										};
+										_this.$apply();
+
+										wx.showToast({
+											title: "上传图片成功",
+											icon: 'none',
+											duration: 1500
+										});
+									} else {
+										wx.showToast({
+											title: "上传图片失败，请稍后再试",
+											icon: 'none',
+											duration: 1500
+										});
+									}
+								}
+							})
+						}, res => {});
+					}
+				})
+			},
+
+			onTapChangeAvatar() {
+				var _this = this;
+				wx.chooseImage({
+					count: 1,  
+					sizeType: ['original', 'compressed'],
+					sourceType: ['album', 'camera'],
+					success: res => {
+						Uploader.uploadImages(res.tempFilePaths).then(urls => {
+							let url = urls[0];
+							UserService.updateUserInfo({
+								avatar: url
+							}).then(isSuccess => {
+								if (isSuccess) {
+									_this.userInfo.avatar = url;
+									_this.$apply();
+
+									wx.showToast({
+										title: "更新头像成功",
+										icon: 'none',
+										duration: 1500
+									});
+								} else {
+									wx.showToast({
+										title: "更新头像失败，请稍后再试",
+										icon: 'none',
+										duration: 1500
+									});
+								}
+							})
+						}, res => {});
+					}
+				})
+			},
+
+			onTapSelectJobTags() {
+				let selectedTagsJson = JSON.stringify(this.userInfo.job_tags);
+				let url="/package/pages/select_job_tags/select_job_tags?selectedTags="+selectedTagsJson;
+				wx.navigateTo({
+					url: url
+				})
+			},
+
+			onTapCloseVideo() {
+				this.isShowVideo = false;
+				this.onPlayVideoUrl = '';
+			},
+
+			onTapAddImage() {
+				var _this = this;
+				wx.chooseImage({
+					count: 9,  
+					sizeType: ['original', 'compressed'],
+					sourceType: ['album', 'camera'],
+					success: res => {
+						Uploader.uploadImages(res.tempFilePaths).then(urls => {
+							UserService.uploadImages(JSON.stringify(urls)).then(data => {
+								_this.onLoad();
+							}, res=>{
+								console.log('upload image fail');
+							});
+						}, res => {});
+					}
+				})
+			},
+
+			onPreviewImage(url) {
+				let urls = this.userInfo.images.map(image => image.url);
+				wx.previewImage({
+					current: url,
+					urls: urls
+				})
+			}
+		}
+
+		events = {
+		}
+
+		onLoad(query) {
+			let editor = query.editor;
+
+			this.loadUserInfo();
+			this.loadUserTags();
+			this.loadImages();
+
+			app.aldstat.sendEvent("编辑资料", {
+				"用户ID": this.userInfo.id + "",
+				"时间": _.getAldTime()
+			})
+		}
+
+		async loadUserInfo() {
+			let user = await UserService.getUserInfo();
+			let selfId = AccountService.getSelfId();
+			if (selfId !== user.id) {
+				user = await UserService.getUserInfo(0);
+			}
+			
+			this.userInfo = {
+				...user,
+				images: [],
+				videos: []
+			};
+
+			if (!this.userInfo.avatar) {
+				this.userInfo.avatar = 'http://resource.vxiaocheng.com/mercury/default_avatar.png';
+			}
+
+			this.$apply();
+			this.checkProfileInitialization();
+			// if (editor) {
+			// 	this.methods.onTapOpenEditor.bind(this)(editor);
+			// }
+		}
+
+		loadUserTags() {
+			TagService.getUserTags().then(
+				tags => {
+					this.userTags = tags;
+					this.$apply();
+				},
+				res => {
+					console.error(res)
+				}
+			)
+		}
+
+		checkProfileInitialization() {
+			let _this = this;
+			UserService.isProfileInitialized().then(isProfileInitialized => {
+				if (!isProfileInitialized) {
+					MP.showProfileEditor({
+						type: 'init',
+						data: {
+							avatar: this.userInfo.avatar
+						},
+						complete: function(profileData) {
+							UserService.initProfile(profileData).then(isSuccess => {
+								MP.hideProfileEditor();
+								if (isSuccess) {
+									_this.index2image[1] = profileData.avatar;
+									_this.userInfo.sex = profileData.sex;
+									_this.userTags = profileData.tags;
+									_this.$apply();
+									wx.showToast({
+										title: '更新信息成功',
+										icon: 'none',
+										duration: 1500
+									})
+								} else {
+									wx.showToast({
+										title: '更新信息失败，请稍后再试!',
+										icon: 'none',
+										duration: 1500
+									})
+								}
+							})
+						}
+					})
+				}				
+			})
+		}
+
+		onShow() {
+			MP.bind(this);
+
+			/*
+			setTimeout(() => {
+				MP.showProfileEditor({
+					type: 'phone',
+					data: {
+						phone: ''
+					},
+					complete: (phone) => {
+						console.log(phone);
+						UserService.updateUserInfo({
+							phone: phone
+						}).then(isSuccess => {
+							console.log(isSuccess);
+						})
+					}
+				})
+			}, 500);
+			*/
+
+			// console.log('on show');
+			// let jobTags = StorageService.get('job-tags');
+			// if (jobTags) {
+			// 	this.userInfo.job_tags = jobTags;
+			// }
+
+			// let personalTags = StorageService.get('personal-tags');
+			// console.log(personalTags);
+			// if (personalTags) {
+			// 	this.userInfo.personal_tags = personalTags;
+			// }
+		}
+
+		loadImages() {
+			console.log('in load images');
+			UserService.getImages().then(images => {
+				images.forEach(image => {
+					this.index2image[image.index] = image;
+				})
+
+				for (var i = 1; i < 7; ++i) {
+					let image = this.index2image[i];
+					if (!image) {
+						this.index2image[i] = {
+							'id': 0,
+							'url': 'http://resource.vxiaocheng.com/mercury/me/upload.png'
+						}
+					}
+				}
+				this.$apply();
+			})
+		}
+
+	}
+</script>

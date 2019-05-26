@@ -1,0 +1,61 @@
+<style lang="less">
+
+button::after{
+    border:none;
+}
+.x-btn{
+    padding-left: 0rpx;
+    padding-right: 0rpx;
+    display: inherit;
+    box-sizing: inherit;
+    text-align: left;
+    line-height: 100%;
+    background-color: transparent;
+}
+</style>
+
+<template>
+    <form report-submit="true" bindsubmit="setformid" bindreset="cleanInput">
+        <button @tap="btnClick"  hover="true" class="x-btn" hover-class="btnhover" formType="submit">
+            <slot name="content"></slot>
+        </button>
+    </form>
+</template>
+
+<script>
+import wepy from 'wepy'
+import AccountService from '../services/account_service'
+
+export default class FormSender extends wepy.component {
+	props = {
+	}
+
+	data = {
+	}
+
+	events = {
+	}
+
+	watch = {
+
+	}
+
+	methods = {
+        setformid: function (e) {
+            console.warn(e.detail.formId);
+            if(e.detail.formId != "the formId is a mock one"){
+
+                AccountService.setFormid(e.detail.formId);
+                this.$apply();
+            }
+        },
+        btnClick() {
+            this.$emit("btnclick")
+        }
+	}
+
+	onLoad () {
+
+	}
+}
+</script>

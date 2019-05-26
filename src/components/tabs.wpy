@@ -1,0 +1,89 @@
+<style lang="less">
+.xui-tabs {
+	display: flex;
+	font-size: 28rpx;
+	border-bottom: 1px solid #e1e1e1;
+	height: 80rpx;
+	line-height: 80rpx;
+	width: 100%;
+	background-color: #fff;
+	z-index: 10;
+	position: relative;
+	.xui-i-item {
+		text-align: center;
+		font-size: 30rpx;
+		color: #717171;
+	}
+	.xui-title-slider {
+		position: absolute;
+		bottom: 0;
+		transition: left .5s;
+	}
+	.xui-title-slider::after {
+		position: absolute;
+		bottom: 1px;
+		left: 50%;
+		transform: translateX(-50%);
+		width: 30%;
+		height: 2px;
+		content: '';
+		background-color: #8a0cc3;
+		border-radius: 10rpx;
+	}
+}
+.xui-tabs-fixed {
+	box-shadow: 0px 1px 10px #999;
+	position: fixed;
+	left: 0;
+	top: 0rpx;
+}
+</style>
+
+<template>
+  <view class="xui-tabs {{isFixed ? 'xui-tabs-fixed' : ''}}">
+    <view wx:for="{{tabs}}" class="xui-i-item" @tap="onSwitchTab({{index}})" wx:key="index" style="width: {{width}}%">{{item}}</view>
+    <view class="xui-title-slider" style="width: {{width}}%; left: {{titleSliderLeft}}%;"></view>
+  </view>
+</template>
+
+<script>
+  import wepy from 'wepy'
+
+  export default class Tabs extends wepy.component {
+    props = {
+      tabs: {
+        type: Object,
+        twoWay: true,
+        default: {}
+      },
+	  isFixed: {
+		type: Boolean,
+		default: true
+	  }
+    }
+
+    data = {
+      titleSliderLeft: 0,
+      width: 50
+    }
+
+    events = {
+
+    }
+
+    watch = {
+
+    }
+
+    methods = {
+      onSwitchTab (id) {
+        this.titleSliderLeft = this.width * id;
+        this.$emit('switch-tab', id);
+      }
+    }
+
+    onLoad () {
+    	this.width = parseFloat(100/this.tabs.length);
+    }
+  }
+</script>

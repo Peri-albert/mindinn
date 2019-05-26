@@ -1,0 +1,232 @@
+<style lang="less">
+.xui-container {
+	position: fixed;
+	bottom: 0;
+	left: 0;
+	width: 100%;
+	height: 108rpx;
+	z-index: 999;
+	background-color: #fff;
+	display: flex;
+	justify-content: space-around;
+
+	.xui-item {
+		text-align: center;
+		margin-top: 4px;
+		position: relative;
+
+		.xui-image {
+			display: block;
+			width: 60rpx;
+			height: 60rpx;
+		}
+
+		.xui-image-pub {
+			display: block;
+			height: 84rpx;
+			width: 84rpx;
+		}
+
+		view {
+			font-size: 20rpx;
+			color: #000;
+		}
+
+		.x-i-badge {
+			right: -4px;
+			top: 0px;
+			width: 6px;
+			height: 6px;
+			border-radius: 50%;
+			background-color: red;
+			position: absolute;
+		}
+	}
+}
+</style>
+
+<template>
+<view class="xui-container" catchtouchmove="doNothing">
+	<findFormSender @btnclick.user="onTapFind">
+		<view slot="content" class="xui-item">
+			<image class="xui-image" src="../images/{{current == 'find' ? 'find_active.png' : 'find.png'}}">
+			<view>首页</view>
+		</view>
+	</findFormSender>
+
+
+	<starFormSender @btnclick.user="onTapStar">
+		<view slot="content" class="xui-item">
+			<image class="xui-image" src="../images/{{current == 'star' ? 'dating_active.png' : 'dating.png'}}">
+			<view>圈子</view>
+			<!-- <view wx:if="{{hasNewDatingNotify}}" class="x-i-badge"></view> -->
+		</view>
+	</starFormSender>
+
+
+	<pubFormSender @btnclick.user="onTapPaoPao">
+		<view slot="content" class="xui-item">
+			<image class="xui-image-pub" src="../images/paopao.png">
+		</view>
+	</pubFormSender>
+
+
+	<msgFormSender @btnclick.user="onTapMsg">
+		<view slot="content" class="xui-item">
+			<image class="xui-image" src="../images/{{current == 'challenge' ? 'challenge_active.png' : 'challenge.png'}}">
+			<view>聊天</view>
+			<!-- <view wx:if="{{hasNewNotify}}" class="x-i-badge"></view> -->
+		</view>
+	</msgFormSender>
+
+
+	<myFormSender @btnclick.user="onTapMe">
+		<view slot="content" class="xui-item">
+			<image class="xui-image" src="../images/{{current == 'my' ? 'me_active.png' : 'me.png'}}">
+			<view>我的</view>
+		</view>
+	</myFormSender>
+</view>
+</template>
+
+<script>
+import wepy from 'wepy'
+const app = getApp()
+import UserService from '../services/user_service';
+import AccountService from '../services/account_service';
+import WebIMService from '../services/webim_service';
+import formSender from './form_sender';
+import _ from '../lib/mptool';
+import Session from '../lib/session';
+
+export default class BottomNavi extends wepy.component {
+	props = {
+		current: {
+			type: String,
+			default: "",
+		}
+	}
+	components = {
+		findFormSender: formSender,
+		starFormSender: formSender,
+		pubFormSender: formSender,
+		msgFormSender: formSender,
+		myFormSender: formSender
+	};
+
+	data = {
+		hasNewNotify: false,
+		hasNewDatingNotify: false,
+		selfId: 0,
+	}
+
+	events = {
+		'update-bottom-navi': function() {
+			this.checkNotify();
+		}
+	}
+
+	watch = {
+
+	}
+
+	methods = {
+		doNothing() {},
+		onTapPaoPao() {
+			this.onTapEnterTab("paopao");
+		},
+		onTapFind(){
+			this.onTapEnterTab('find')
+		},
+		onTapStar(){
+			this.onTapEnterTab('star')
+			const ID = AccountService.getSelfId()
+			app.aldstat.sendEvent("查看圈子酒吧列表", {
+				"用户ID": ID + "",
+				"时间": _.getAldTime()
+			})
+		},
+		onTapMsg(){
+			this.onTapEnterTab('challenge')
+		},
+		onTapMe(){
+			this.onTapEnterTab('me')
+		}
+	}
+
+	onTapEnterTab(tabName) {
+		if (this.data.current == tabName) {
+			return;
+		}
+		let togo = "",
+			event = "";
+		
+		if (tabName == 'find') {
+			togo = 'blogs/new_blogs';
+			event = "浏览'发现'页面";
+		} else if (tabName == 'star') {
+			togo = 'group/bars';
+			event = "浏览'圈子'页面";
+		} else if (tabName == 'challenge') {
+			togo = 'challenge/challenge';
+			event = "浏览'消息'页面";
+		} else if (tabName == 'me'){
+			togo = 'me/me';
+			event = "浏览'我的'页面"
+		} else {
+			togo = 'paoypao/paoypao';
+			event = "浏览'泡一泡'页面"
+		}
+
+		app.aldstat.sendEvent(event, {
+			"用户ID": this.selfId + "",
+			"时间": _.getAldTime()
+		})
+
+		wx.switchTab({
+			url: '/pages/' + togo
+		})
+	}
+
+	async checkNotify() {
+		this.hasNewNotify = await UserService.checkHasNewNotify()
+		this.$apply();
+
+		WebIMService.loadUnReadMsgs();
+
+		let data = WebIMService.Queue.getLists()
+		for (let i=0; i<data.length; i++) {
+			console.log(data, data[i].unread_count);
+			if (parseInt(data[i].self_id) == this.selfId) {
+				if(data[i].unread_count>0){
+					this.hasNewNotify = true;
+					this.$apply();
+					return
+				}
+			}
+		}
+
+		UserService.getCounters(['dating_notify']).then(counter => {
+			this.hasNewDatingNotify = (counter.dating_notify > 0);
+			this.$apply();
+			console.log(counter);
+		})	
+	}
+
+	checkUserIdentity() {
+		let token = Session.get();
+		if (!token || token.length <= 1) {
+			Session.clear();
+			wx.redirectTo({
+				url: '/pages/login/login'
+			});
+		}
+	}
+
+	onLoad () {
+		this.checkUserIdentity();
+		// this.checkNotify();
+		this.selfId = AccountService.getSelfId();
+	}
+}
+</script>

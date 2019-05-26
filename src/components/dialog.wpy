@@ -1,0 +1,120 @@
+<style lang="less">
+.container {
+    .dialog-layer {
+        position: fixed;
+        width: 100%;
+        height: 100%;
+        top: 0px;
+        left: 0px;
+        z-index: 666;
+        background-color: rgba(0, 0, 0, 0.5);
+
+        .xui-dialog {
+            border-radius: 24rpx;
+            width: 90%;
+            margin: 150px auto;
+            background-color: #fff;
+            overflow: hidden;
+            padding-top: 30px;
+
+            .xui-dialog-text {
+                width: 90%;
+                padding: 10px;
+                font-size: 36rpx;
+                text-align: center;
+                margin: 0 0 30px 0;
+            }
+
+            .xui-dialog-btns {
+                box-sizing: border-box;
+                width: 100%;
+                height: 40px;
+                display: flex;
+                justify-content: space-between;
+                margin-bottom: 50rpx;
+                padding: 0 50rpx;
+
+                .xui-dialog-btn {
+                    background-color: #000;
+                    border-radius: 40px;
+                    height: 40px;
+                    line-height: 40px;
+                    width: 45%;
+                    color: #fff;
+                    font-size: 35rpx;
+                    text-align: center;
+                }
+            }
+        }
+    }
+}
+</style>
+
+<template>
+<view class="container" wx:if="{{showDialog}}" @tap="onTapCancelDialog">
+    <view class="dialog-layer">
+        <view class="xui-dialog">
+            <view class="xui-dialog-text" @tap.stop="doNothing">{{message}}</view>
+            <view class="xui-dialog-btns">
+                <text class="xui-dialog-btn" @tap="onTapYes">是</text>
+                <text class="xui-dialog-btn" @tap="onTapCancelDialog">否</text>
+            </view>
+        </view>
+    </view>
+</view>
+</template>
+
+<script>
+import wepy from 'wepy'
+import GiftService from '../services/gift_service'
+import IMoneyService from '../services/imoney_service'
+import BlogService from '../services/blog_service'
+
+export default class SendGift extends wepy.component {
+	props = {
+        
+	}
+
+	data = {
+        showDialog: false,
+        message: "",
+        id: 0,
+	}
+
+	events = {
+        'dialog-choice': function(message, id) {
+            this.showDialog = true;
+            this.message = message;
+            this.id = id;
+            this.$apply();
+        }
+	}
+
+	watch = {
+
+	}
+
+	methods = {
+        onTapYes() {
+            this.$emit('dialog-yes', this.id);
+            this.message = "";
+            this.showDialog = false;
+            this.$apply();
+        },
+
+        doNothing() {
+            return;
+        },
+
+        onTapCancelDialog() {
+            this.message = "";
+            this.showDialog = false;
+            this.$apply();
+        }
+	}
+
+	onLoad () {
+
+	}
+}
+</script>

@@ -1,0 +1,535 @@
+<style lang="less">
+page {
+	min-height: 100vh;
+	overflow-x: hidden;
+
+	//flex居中
+	.flexCenter {
+		align-items: center;
+		display: flex;
+		justify-content: center;
+	}
+	image {
+		display: block;
+	}
+	.annaulSummaryPoster-container {
+		background: url(https://vxiaocheng-jh.oss-cn-beijing.aliyuncs.com/mercury/annaul_summary/annaul_summary_poster_bg.png) no-repeat 0 0;
+		background-size: 100%;
+		box-sizing: border-box;
+		display: flex;
+		flex-direction: column;
+		height: 100vh;
+		overflow-x: hidden;
+		padding: 20rpx 35rpx 0;
+		width: 100vw;
+
+		.annaul-poster {
+			height: 1040rpx;
+			width: 680rpx;
+		}
+
+		.save-poster-wrapper {
+			flex: 1;
+			.flexCenter;
+
+			.save-poster-btn {
+				background-color: #becfff;
+				border-radius: 10rpx;
+				color: #1c2545;
+				font-size: 36rpx;
+				height: 74rpx;
+				line-height: 74rpx;
+				text-align: center;
+				width: 342rpx;
+			}
+		}
+
+		.tip {
+			background: rgba(0, 0, 0, .7);
+			border-radius: 10rpx;
+			color: #fff;
+			font-size: 24rpx;
+			height: 70rpx;
+			left: 50%;
+			line-height: 70rpx;
+			position: fixed;
+			text-align: center;
+			top: 50%;
+			transform: translate(-50%, -50%);
+			width: 199rpx;
+		}
+	}
+}
+</style>
+
+<template>
+	<view class="annaulSummaryPoster-container">
+		<canvas canvas-id="myPoster" class="annaul-poster"></canvas>
+
+		<view class="save-poster-wrapper">
+			<view class="save-poster-btn" @tap.stop="tapSavePoster">保存海报</view>
+		</view>
+
+		<cover-view wx:if="{{tipShow}}" class="tip">{{tipMessage}}</cover-view>
+	</view>
+
+	<apply-scope></apply-scope>
+</template>
+
+<script>
+import wepy from 'wepy'
+import AccountService from '../../../services/account_service'
+import ChallengeService from '../../../services/challenge_service'
+import UserService from '../../../services/user_service'
+import ApplyScope from '../../../components/apply_scope'
+
+export default class AnnualSummaryPoster extends wepy.page {
+	config = {
+		navigationBarTitleText: "年度报告"
+	}
+
+	components = {
+		'apply-scope' : ApplyScope
+	}
+
+	data = {
+		selfInfo: {},
+		ratio: 1,
+		canvasBackground: '',
+		dotsPosition: {
+			drink: [[341, 384], [341, 401], [341, 421], [341, 439], [341, 456], [341, 476], [341, 497]],
+			money: [[522, 518], [505, 521], [485, 526], [466, 531], [448, 535], [427, 539], [405, 544]],
+			active: [[454, 734], [443, 717], [430, 697], [418, 678], [407, 661], [394, 641], [380, 619]],
+			night: [[225, 732], [237, 715], [249, 696], [262, 677], [273, 661], [286, 641], [300, 619]],
+			charm: [[157, 517], [174, 521], [195, 526], [214, 530], [233, 534], [254, 539], [276, 543]]
+		},
+		summaryDocuments: {
+			random: [
+				'游离于酒吧世界之外的灵魂，或凝神，或发呆；喝酒只是一个习惯，酒局之中的“局外人”，在哪喝，都是一个味道',
+				'什么都新鲜，什么都想试试，什么都不会，但就是玩的很开心。为什么开心我不知道，老子乐意啊',
+				'去哪个酒吧都有人认识，每次换场都能碰见熟人，我只是酒量好，我没有去很多'
+			],
+			highFive: [
+				'一年有365天都在喝酒，有364天都喝醉了，剩下的那一天烂醉如泥',
+				'喜欢花钱，不是因为有钱，而是只有在花钱的那个瞬间，我才觉得钱真是使我快乐啊',
+				'我所有的欢呼跃雀，频繁出现，重复留言，都是为了，让坐在角落的那个Ta留意我一次',
+				'每次习惯性晚睡，弥留到深夜，不是因为喜欢熬夜，只是对属于自己的时间过于眷恋',
+				'没办法，好看的人去哪里都有人喜欢。跟撩过我的所有人说声对不起，你们实在是，配不上我 Skr~'
+			],
+			five: [
+				'一年365天都在喝酒，一半时光挣扎在喝醉和烂醉之中，剩下的那一半在喝酒的路上',
+				'这一年泡吧的身影走遍大街小巷，随缘霸屏，随性打赏，让人捉摸不透的花钱晴雨表',
+				'组局凑局的小能手，流连于各大泡吧场景，卡座散台舞池都与人熟稔，蕴藏的能量无法想象',
+				'熬过的夜，喝过的酒，加在一起都换不回一个能泡的妞',
+				'泡吧人中的弄潮儿，光彩夺目的出现传播着时尚的气息，经常被异性勾搭，聚焦全场的目光'
+			],
+			lowFive: [
+				'酒场的小萌新，半杯被撂倒，浅尝辄止的味道长留心头，这一年去喝酒的日子屈指可数',
+				'仙踪难觅的酒场玩家，点点金光留下一丝泡吧痕迹，除了钱好像一无所有，酒吧只知道曾经来过',
+				'潜进水底的泡吧人，酒吧中若有若无的存在，偶尔的活跃却让人历历在目，活跃的基因深藏血脉',
+				'酒场新人，寻找泡吧圈子的路上偶尔落单，酒吧熬过的夜是一年中少有的几次脚步停歇',
+				'酒吧中的潜力股，将好奇和个性藏在心底，对异性的关注视若无睹，这一年刚刚开启泡吧之路'
+			]
+		},
+		summaryData: {},
+		tipShow: true,
+		tipMessage: '海报制作中···'
+	}
+
+	computed = {
+	}
+
+	methods = {
+		tapSavePoster() {
+			if (!this.tipShow) {
+				this.$broadcast('apply-scope', {scope:'scope.writePhotosAlbum'}, this.saveToPoster)
+				this.tipShow = true
+				this.tipMessage = '海报生成中···'
+				this.$apply()
+			}
+		}
+	}
+
+	events = {
+
+	}
+
+	async onLoad(query) {
+		this.ratio = wx.getSystemInfoSync().windowWidth / 750
+		this.selfInfo = await UserService.getUserInfo(AccountService.getSelfId())
+		if (this.selfInfo.name.length > 6) {
+			this.selfInfo.name = this.selfInfo.name.slice(0, 8)
+		}
+		//头像
+		this.selfInfo.avatarPicUrl = await this.toUrl(this.selfInfo.avatar.replace('http', 'https'))
+		//背景
+		this.canvasBackground = await this.toUrl(`https://resource.vxiaocheng.com/mercury/annaul_summary/annaul_summary_poster_pic.png`)
+		//报告数据
+		try {
+			this.summaryData = await ChallengeService.getAnnaulSummary()
+
+			if (this.summaryData.corp_count || this.summaryData.consume_points || this.summaryData.message_count || this.summaryData.last_message_created_at || this.summaryData.private_message_count) {
+			const nigthTime = this.calcNightTime(this.summaryData.last_message_created_at)
+
+			this.calcRank(true, this.summaryData.corp_count, this.summaryData.consume_points, this.summaryData.message_count, nigthTime, this.summaryData.private_message_count)
+			}else {
+				this.calcRank(false)
+			}
+		} catch(e) {
+			this.calcRank(false)
+		}
+	}
+
+	onShow() {
+		
+	}
+
+	drawCanvas(x1, y1, x2, y2, x3, y3, x4, y4, x5, y5, text) {
+		const _this = this
+		const myPoster = wx.createCanvasContext('myPoster')
+
+		//绘制背景
+		myPoster.drawImage(_this.canvasBackground, 0, 0, _this.toPx(680), _this.toPx(1040))
+
+		//绘制头像
+		myPoster.save()
+		myPoster.beginPath()
+		myPoster.arc(_this.toPx(92), _this.toPx(100), _this.toPx(52), 0, 2 * Math.PI)
+		myPoster.clip()
+		myPoster.drawImage(_this.selfInfo.avatarPicUrl, _this.toPx(40), _this.toPx(48), _this.toPx(104), _this.toPx(104))
+		myPoster.restore()
+		myPoster.draw()
+
+		//绘制昵称
+		myPoster.setFontSize(_this.toPx(22))
+		myPoster.setFillStyle('#fff')
+		myPoster.setTextAlign('center')
+		myPoster.fillText(_this.selfInfo.name.replace(/[^a-zA-Z0-9\_,\u4e00-\u9fa5]/g, ''), _this.toPx(253), _this.toPx(118))
+		myPoster.draw(true)
+
+		//绘制面积
+		myPoster.moveTo(_this.toPx(x1), _this.toPx(y1))
+		myPoster.lineTo(_this.toPx(x2), _this.toPx(y2))
+		myPoster.lineTo(_this.toPx(x3), _this.toPx(y3))
+		myPoster.lineTo(_this.toPx(x4), _this.toPx(y4))
+		myPoster.lineTo(_this.toPx(x5), _this.toPx(y5))
+		myPoster.setFillStyle('rgba(171, 155, 255, .35)')
+		myPoster.fill()
+		myPoster.draw(true)
+
+		//绘制点
+		myPoster.setFillStyle('#fff')
+		myPoster.arc(_this.toPx(x1), _this.toPx(y1), _this.toPx(5), 0, 2 * Math.PI)
+		myPoster.fill('#fff')
+		myPoster.draw(true)
+
+		myPoster.arc(_this.toPx(x2), _this.toPx(y2), _this.toPx(5), 0, 2 * Math.PI)
+		myPoster.fill('#fff')
+		myPoster.draw(true)
+
+		myPoster.arc(_this.toPx(x3), _this.toPx(y3), _this.toPx(5), 0, 2 * Math.PI)
+		myPoster.fill('#fff')
+		myPoster.draw(true)
+
+		myPoster.arc(_this.toPx(x4), _this.toPx(y4), _this.toPx(5), 0, 2 * Math.PI)
+		myPoster.fill('#fff')
+		myPoster.draw(true)
+
+		myPoster.arc(_this.toPx(x5), _this.toPx(y5), _this.toPx(5), 0, 2 * Math.PI)
+		myPoster.fill('#fff')
+		myPoster.draw(true)
+
+		//绘制文案
+		myPoster.setFontSize(_this.toPx(24))
+		myPoster.setFillStyle('#080534')
+		myPoster.setTextAlign('left')
+		_this.ctxTextNewline(myPoster, text, _this.toPx(73), _this.toPx(880), _this.toPx(540))
+		myPoster.draw(true)
+
+		_this.tipShow = false
+		_this.$apply()
+	}
+
+	saveToPoster() {
+		const _this = this
+		wx.canvasToTempFilePath({
+				canvasId: 'myPoster',
+				success(res) {
+					wx.saveImageToPhotosAlbum({
+						filePath: res.tempFilePath,
+						success(res) {
+							wx.showToast({
+								title: '保存成功',
+								icon: 'success',
+								duration: 1000
+							})
+							setTimeout(() => {
+								wx.switchTab({
+									url: '/pages/challenge/challenge'
+								})
+							}, 1000)
+						}
+					})
+				}
+			})
+	}
+
+	toPx(count) {
+		return count * this.ratio
+	}
+
+	async toUrl(url) {
+		return new Promise((resolve, reject) => {
+			wx.getImageInfo({
+				src: url,
+				success(res) {
+					resolve(res.path)
+				}
+			})
+		})
+	}
+
+	calcRank(isHaveData, drinkNum, moneyNum, activeNum, nightNum, charmNum) {
+		if (!isHaveData) {
+			const drinkRank = Math.floor(Math.random() * 7)
+			const moneyRank = Math.floor(Math.random() * 7)
+			const activeRank = Math.floor(Math.random() * 7)
+			const nightRank = Math.floor(Math.random() * 7)
+			const charmRank = Math.floor(Math.random() * 7)
+			const x1 = this.dotsPosition.drink[6 - drinkRank][0]
+			const y1 = this.dotsPosition.drink[6 - drinkRank][1]
+			const x2 = this.dotsPosition.money[6 - moneyRank][0]
+			const y2 = this.dotsPosition.money[6 - moneyRank][1]
+			const x3 = this.dotsPosition.active[6 - activeRank][0]
+			const y3 = this.dotsPosition.active[6 - activeRank][1]
+			const x4 = this.dotsPosition.night[6 - nightRank][0]
+			const y4 = this.dotsPosition.night[6 - nightRank][1]
+			const x5 = this.dotsPosition.charm[6 - charmRank][0]
+			const y5 = this.dotsPosition.charm[6 - charmRank][1]
+			const text = this.calcDocument(false, drinkRank, moneyRank, activeRank, nightRank, charmRank)
+
+			this.drawCanvas(x1, y1, x2, y2, x3, y3, x4, y4, x5, y5, text)
+			return;
+		}
+
+console.log('drinkNum', drinkNum, 'moneyNum', moneyNum, 'activeNum', activeNum, 'nightNum', nightNum, 'charmNum', charmNum )
+
+		let drinkRank = 0
+		let moneyRank = 0
+		let activeRank = 0
+		let nightRank = 0
+		let charmRank = 0
+
+		switch (true) {
+			case drinkNum >= 6:
+				drinkRank = 6
+				break;
+			case drinkNum == 5:
+				drinkRank = 5
+				break;
+			case drinkNum == 4:
+				drinkRank = 4
+				break;
+			case drinkNum == 3:
+				drinkRank = 3
+				break;
+			case drinkNum == 2:
+				drinkRank = 2
+				break;
+			case drinkNum == 1:
+				drinkRank = 1
+				break;
+			default:
+				drinkRank = 0
+				break;
+		}
+
+		switch (true) {
+			case moneyNum >= 600:
+				moneyRank = 6
+				break;
+			case moneyNum >= 500:
+				moneyRank = 5
+				break;
+			case moneyNum >= 400:
+				moneyRank = 4
+				break;
+			case moneyNum >= 300:
+				moneyRank = 3
+				break;
+			case moneyNum >= 200:
+				moneyRank = 2
+				break;
+			case moneyNum >= 100:
+				moneyRank = 1
+				break;
+			default:
+				moneyRank = 0
+				break;
+		}
+
+		switch (true) {
+			case activeNum >= 24:
+				activeRank = 6
+				break;
+			case activeNum >= 20:
+				activeRank = 5
+				break;
+			case activeNum >= 16:
+				activeRank = 4
+				break;
+			case activeNum >= 12:
+				activeRank = 3
+				break;
+			case activeNum >= 8:
+				activeRank = 2
+				break;
+			case activeNum >= 4:
+				activeRank = 1
+				break;
+			default:
+				activeRank = 0
+				break;
+		}
+
+		switch (true) {
+			case nightNum < 30:
+				nightRank = 0
+				break;
+			case nightNum < 60:
+				nightRank = 1
+				break;
+			case nightNum < 90:
+				nightRank = 2
+				break;
+			case nightNum < 120:
+				nightRank = 3
+				break;
+			case nightNum < 150:
+				nightRank = 4
+				break;
+			case nightNum < 180:
+				nightRank = 5
+				break;
+			case nightNum <= 360:
+				nightRank = 6
+				break;
+			default:
+				nightRank = 0
+				break;
+		}
+
+		switch (true) {
+			case charmNum >= 12:
+				charmRank = 6
+				break;
+			case charmNum >= 10:
+				charmRank = 5
+				break;
+			case charmNum >= 8:
+				charmRank = 4
+				break;
+			case charmNum >= 6:
+				charmRank = 3
+				break;
+			case charmNum >= 4:
+				charmRank = 2
+				break;
+			case charmNum >= 2:
+				charmRank = 1
+				break;
+			default:
+				charmRank = 0
+				break;
+		}
+
+		const x1 = this.dotsPosition.drink[6 - drinkRank][0]
+		const y1 = this.dotsPosition.drink[6 - drinkRank][1]
+		const x2 = this.dotsPosition.money[6 - moneyRank][0]
+		const y2 = this.dotsPosition.money[6 - moneyRank][1]
+		const x3 = this.dotsPosition.active[6 - activeRank][0]
+		const y3 = this.dotsPosition.active[6 - activeRank][1]
+		const x4 = this.dotsPosition.night[6 - nightRank][0]
+		const y4 = this.dotsPosition.night[6 - nightRank][1]
+		const x5 = this.dotsPosition.charm[6 - charmRank][0]
+		const y5 = this.dotsPosition.charm[6 - charmRank][1]
+		const text = this.calcDocument(true, drinkRank, moneyRank, activeRank, nightRank, charmRank)
+
+
+console.log('drinkRank', drinkRank, 'moneyRank', moneyRank, 'activeRank', activeRank, 'nightRank', nightRank, 'charmRank', charmRank , 'text', text)
+
+		this.drawCanvas(x1, y1, x2, y2, x3, y3, x4, y4, x5, y5, text)
+	}
+
+	calcDocument(isHaveData, drinkRank, moneyRank, activeRank, nightRank, charmRank) {
+		const rankArray = [drinkRank, moneyRank, activeRank, nightRank, charmRank]
+		const maxRank = Math.max(drinkRank, moneyRank, activeRank, nightRank, charmRank)
+		let canBeChosen = []
+
+		rankArray.forEach((e, i) => { e == maxRank ? canBeChosen.push(i) : ''})
+
+		const randomI = canBeChosen[Math.floor(Math.random() * canBeChosen.length)]
+
+		if (isHaveData) {
+			if (rankArray[randomI] >= 4) {
+				return this.summaryDocuments.highFive[randomI]
+			} else if (rankArray[randomI] >= 2) {
+				return this.summaryDocuments.five[randomI]
+			} else {
+				return this.summaryDocuments.lowFive[randomI]
+			}
+		}else {
+			if (rankArray[randomI] >= 0 && rankArray[randomI] <= 1) {
+				return this.summaryDocuments.random[0]
+			}else if (rankArray[randomI] <= 3) {
+				return this.summaryDocuments.random[1]
+			}else {
+				return this.summaryDocuments.random[2]
+			}
+		}
+	}
+
+	calcNightTime(timeString) {
+		const date = new Date(timeString.replace(/-/g, '/'))
+
+		return date.getHours() * 60 + date.getMinutes()
+	}
+
+	ctxTextNewline(ctx, str, x, y, width) {
+		if (ctx.measureText(str).width < width) {
+			ctx.fillText(str, x, y, width)
+			return this.rewardTextHeight = y
+		}
+		let rows = []
+		let row = ''
+
+		str.split('').forEach(e => {
+			if(ctx.measureText(row).width < width) {
+				row += e
+			}else {
+				rows.push(row)
+				row = e
+			}
+		})
+		row ? rows.push(row) : ''
+
+		rows.forEach((e, i) => {
+			if (i == 0) {
+				ctx.fillText(e, x, y, width)
+			}else {
+				ctx.fillText(e, x, y + this.toPx(32) * i, width)
+			}
+		})
+		
+		this.rewardTextHeight = y + this.toPx(32) * (rows.length - 1)
+	}
+
+	onShareAppMessage(e) {
+		return {
+			title: '查看2018我的泡吧年度总结',
+			path: '/pages/login/login?redirect=' + encodeURIComponent(`/pages/challenge/challenge`),
+			imageUrl: 'https://vxiaocheng-jh.oss-cn-beijing.aliyuncs.com/mercury/annaul_summary/annaul_summary_share_pic.jpg'
+		}
+	}
+}
+</script>

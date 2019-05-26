@@ -1,0 +1,40 @@
+<template>
+    <web-view src="{{url}}"> </web-view>
+</template>
+
+
+<script>
+	import wepy from 'wepy'
+
+	export default class WebAd extends wepy.page {
+		config = {
+			navigationBarTitleText: "广告"
+		}
+
+		components = {
+
+		}
+
+		mixins = []
+
+		data = {
+			url: '',
+		}
+
+		computed = {
+			
+		}
+
+		methods = {
+		}
+
+		events = {
+			
+		}
+		
+
+		onLoad(option) {
+            this.url = option.url;
+		}
+	}
+</script>

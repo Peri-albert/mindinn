@@ -1,0 +1,179 @@
+<style lang="less">
+.x-authModal{
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  top: 0px;
+  left: 0px;
+  z-index:999;
+  background-color:rgba(0,0,0,0.5);
+
+  .x-layer-toast{
+    width: 80%;
+    transform: translateX(-50%);
+    margin-left:50%;
+    margin-top:50%;
+    display:flex;
+    background: white;
+    flex-direction: column;
+    .x-toast-title{
+      font-size: 36rpx;
+      margin-top: 36rpx;
+      width: 100%;
+      height: 40rpx;
+      line-height: 40rpx;
+      width: 100%;
+      text-align: center;
+	  font-weight: bold;
+      &.x-color{
+        color: rgb(89, 89, 89);
+      }
+      &.x-hasclose{
+        margin-top: -40rpx;
+      }
+    }
+    .x-close{
+      width: 50rpx;
+      height: 50rpx;
+      margin-top:36rpx;
+      margin-left:36rpx;
+      color: rgb(174,174,174);
+      line-height: 50rpx;
+    }
+    .x-toast-name{
+      margin-top: 30px;
+      justify-content:center;
+      display:flex;
+      .x-toast-input{
+        width: 90%;
+        text-align:left;
+        font-size: 36rpx;
+        border-bottom: 1px solid rgb(248, 248, 248);
+      }
+    }
+    .x-toast-buttons{
+      display: flex;
+      justify-content: space-around;
+      margin-top: 30px;
+	  background-color: #EFEFEF;
+      .x-toast-button{
+        color: rgb(89, 89, 89);
+        width: 50%;
+        height: 50px;
+        line-height: 50px;
+        background: #EFEFEF;
+        border: 1px solid rgb(248, 248, 248);
+        border-radius: 0;
+        text-align:center;
+        font-size: 36rpx;
+        &.x-color{
+		  color: rgb(73, 185, 32);
+        }
+        &.x-allwidth{
+          width: 100%;
+        }
+      }
+    }
+    .x-toast-content{
+      justify-content:center;
+      flex-direction: column;
+      align-content: space-between;
+      display: flex;
+      text-align: center;
+      margin: 40rpx 0rpx;
+      .x-data{
+        color: rgb(174,174,174);
+        font-size: 32rpx;
+        display: flex;
+        margin: auto;
+        white-space:nowrap;
+        overflow:hidden;
+        text-overflow:ellipsis;
+      }
+    }
+  }
+}
+</style>
+
+<template>
+<view class="x-authModal {{inbar.isshow ? '' : 'x-hidden'}}">
+	<view class="x-layer-toast">
+		<!--
+		<view @tap="hiddenInbar" class="x-close">×</view>
+		-->
+		<view class="x-toast-title x-color">
+			登录并授权
+		</view>
+		<view class="x-toast-content">
+			<view class="x-data">申请获取以下权限</view>
+			<view class="x-data mt10">获得你的公开信息（昵称，头像）</view>
+		</view>
+		<view style="margin-top:0px;" class="x-toast-buttons">
+			<button bindgetuserinfo="onGotUserInfo" class="x-toast-button x-color x-allwidth" type="primary" open-type="getUserInfo"> 允许 </button>
+		</view>
+	</view>
+</view>
+</template>
+
+<script>
+import wepy from 'wepy'
+import AccountService from '../services/account_service'
+import Session from '../lib/session'
+
+export default class ImageWall extends wepy.component {
+	props = {
+		appid: {
+			type: String,
+			default: ''
+		}
+	}
+
+	data = {
+	}
+
+	events = {
+
+	}
+
+	watch = {
+		images: function(newValue, oldValue) {
+			console.log('images changed');
+			console.log(newValue);
+		},
+
+		enable: function(newValue, oldValue) {
+			console.log('enable changed');
+		},
+
+		startId: function(newValue, oldValue) {
+			console.log('startId change to ' + newValue);
+		}
+	}
+
+	methods = {
+		onGotUserInfo(data) {
+			let detail = data.detail;
+			if (detail.errMsg.indexOf('deny') != -1) {
+				console.log('detail', detail);
+			} else {
+				console.log('detail', detail);
+				this.$emit('bind-wxuser', '');
+				let shouldCompleteProfile = (detail.userInfo.gender !== 1);
+        this.$emit('finish-bind-wxuser', shouldCompleteProfile)
+        Session.update('123456978')
+        Session.setKey('uid', 94)
+				// AccountService.bindWxUser(this.appid, detail, {
+				// 	success: () => {
+				// 		this.$emit('finish-bind-wxuser', shouldCompleteProfile);
+				// 	}
+				// });
+			}
+		}
+	}
+
+	onLoad () {
+		console.log('-*-');
+		console.log(this.appid);
+	}
+}
+</script>

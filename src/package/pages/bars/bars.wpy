@@ -1,0 +1,98 @@
+<style lang="less">
+@import "../../../base";
+page {
+	.xui-bars {
+        width: 100%;
+        margin-top: 0rpx;
+        display: flex;
+		flex-direction: column;
+
+        .xui-bar {
+            padding: 10px;
+            position: relative;
+			font-size: 0.8em;
+			border-bottom: solid 1px #DFDFDF;
+        }
+    }
+}
+
+</style>
+
+<template>
+<view class="container">
+	<view class="xui-bars">
+		<repeat for="{{bars}}" key="{{bar.id}}" index="index" item="bar"> 
+			<view class="xui-bar" @tap="onTapVisit({{bar.id}})">
+				<text class="xui-bar-name">{{bar.name}}</text>
+			</view>
+		</repeat>
+	</view>  
+</view>
+</template>
+
+<script>
+import wepy from 'wepy'
+import BarService from '../../../services/bar_service'
+
+export default class Users extends wepy.page {
+	config = {
+		navigationBarTitleText: '酒吧'
+	}
+
+	components = {
+
+	}
+
+	mixins = []
+
+	data = {
+		type: '',
+		bars: [],
+	}
+
+	computed = {
+
+	}
+
+	methods = {
+		onTapVisit(id) {
+			BarService.visitBar(id).then(isSuccess => {
+				if (isSuccess) {
+					wx.showToast({
+						title: '访问成功',
+						icon: 'none',
+						duration: 2000
+					});
+				} else {
+					wx.showToast({
+						title: '访问失败!!!!',
+						icon: 'none',
+						duration: 2000
+					});
+				}
+			})
+		}
+	}
+
+	events = {
+		'tap-user': (id) => {
+			AccountService.doMockLogin(id, {
+				success: () => {
+					wx.navigateBack();
+				}
+			});
+		}
+	}
+
+	onLoad (query) {
+		this.loadUsers();
+	}
+
+	loadUsers () {
+		BarService.getBars().then(bars => {
+			this.bars = bars;
+			this.$apply();
+		})
+	}
+}
+</script>

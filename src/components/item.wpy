@@ -1,0 +1,92 @@
+<style lang="less">
+  .xui-item {
+    display: flex;
+    align-items: center;
+    border-bottom: 1px solid #e1e1e1;
+    height: 160rpx;
+    width: 100%;
+    .xui-i-avatar {
+      padding: 0 15px;
+      image {
+        border-radius: 50%;
+        width: 120rpx;
+        height: 120rpx;
+      }
+    }
+    .xui-i-text {
+      flex: 1;
+      .xui-i-name {
+        font-size: 32rpx;
+      }
+    }
+    .icon {
+      width: 10%;
+      font-size: 52rpx;
+    }
+  }
+</style>
+
+<template>
+  <view class="xui-item" @tap="onTapItem({{id}}, {{url}})">
+    <view class="xui-i-avatar">
+      <image src="{{image}}" />
+    </view>
+    <view class="xui-i-text">  
+      <view class="xui-i-name">{{text}}</view>
+    </view>
+    <view class="icon iconfont icon-more"></view>
+  </view>
+</template>
+
+<script>
+  import wepy from 'wepy'
+
+  export default class Item extends wepy.component {
+    props = {
+      url: {
+        type: String,
+        default: ''
+      },
+      text: {
+        type: String,
+        default: ''   
+      },
+      image: {
+        type: String,
+        default: ''       
+      },
+	  id: {
+		  type: String,
+		  default: ''
+	  }
+    }
+
+    data = {
+
+    }
+
+    events = {
+
+    }
+
+    watch = {
+
+    }
+
+    methods = {
+		onTapItem: function(id, url) {
+			if (url.length == 0) {
+				this.$emit('tap-user', id)
+			} else {
+				wx.navigateTo({
+					url: url
+				})
+			}
+		}
+    }
+
+    onLoad () {
+
+    }
+  }
+</script>

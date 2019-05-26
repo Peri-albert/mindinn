@@ -1,0 +1,468 @@
+<style lang="less">
+page{
+	background: rgb(235, 235, 235);
+
+	.container {
+	height: 100%;
+	width: 100%;
+	margin-bottom: 108rpx;
+	overflow: hidden;
+	.x-message-item{
+		width:100%;
+		height:120rpx;
+		position:relative;
+		left:0;
+		top:0;
+		overflow:hidden;
+		margin-bottom: 2px;
+
+		.xui-tab {
+			position:absolute;
+			z-index:100;
+			width:100%;
+			flex: 1;
+			height: 120rpx;
+			position: relative;
+			background-color: white;
+
+			.xui-tab-avatar {
+				position: absolute;
+				top: 10px;
+				left: 15px;
+				width: 40px;
+				height: 40px;
+				border-radius: 50%;
+			}
+
+			.xui-tab-title {
+				position: absolute;
+				top: 20px;
+				left: 70px;
+				font-size: 30rpx;
+			}
+
+			.xui-tab-name {
+				position: absolute;
+				top: 10px;
+				left: 70px;
+				font-size: 28rpx;
+			}
+
+			.xui-tab-emoji {
+				position: absolute;
+				top: 35px;
+				left: 70px;
+				width: 70%;
+				white-space: nowrap;
+				overflow: hidden;
+				text-overflow: ellipsis;
+				font-size: 25rpx;
+
+				.xui-msg-emoji {
+					display: inline-block;
+					width: 20px;
+					height: 20px;
+				}
+
+				.xui-msg-txt {
+					display: inline-block;
+				}
+			}
+
+			.xui-tab-content {
+				position: absolute;
+				top: 33px;
+				left: 70px;
+				font-size: 25rpx; 
+				width: 70%;
+				white-space: nowrap;
+				overflow: hidden;
+				text-overflow: ellipsis;
+				color: rgb(156, 156, 156);
+			}
+
+			.xui-tab-time {
+				position: absolute;
+				top:8px;
+				right: 10px;
+				font-size: 24rpx;
+				color: rgb(156, 156, 156);
+			}
+
+			.x-i-badge {
+				right: 20px;
+				top: 34px;
+				width: 6px;
+				height: 6px;
+				border-radius: 50%;
+				background-color: red;
+				position: absolute;
+			}
+		}
+		.x-message-hide{
+			position:absolute;
+			width:100%;
+			height:120rpx;
+			left:0;
+			top:0;
+			z-index:0;
+			background: white;
+			.x-show-delete{
+				position:absolute;
+				width:150rpx;
+				height:117rpx;
+				top:1rpx;
+				right:0;
+				background-color:rgb(255, 58, 50);
+				color:#FFF;
+				text-align:center;
+				line-height:100rpx;
+				font-size: 16px;
+
+			}
+		}
+	}
+
+		.xui-msg {
+			text-align: center;
+			padding-bottom: 15rpx;
+			font-size: 30rpx;
+		}
+	// }
+}
+}
+
+</style>
+
+<template>
+<view class="container">
+
+	<view class="x-message-item">
+		<view class="xui-tab" @tap="onTapNaviToSystem('system')">
+			<image class="xui-tab-avatar" mode="scaleToFill" src="https://vxiaocheng-jh.oss-cn-beijing.aliyuncs.com/mercury/notification/systemMessage_icon.png">
+			<text class="xui-tab-name">系统通知</text>
+			<text class="xui-tab-content">{{systemNotification.message}}</text>
+			<text class="xui-tab-time">{{systemNotification.created_at}}</text>
+			<view wx:if="{{hasUnreadSM}}" class="x-i-badge"></view>
+		</view>
+	</view>
+	
+	<repeat for="{{messages}}" key="{{message.id}}" index="index" item="message"> 
+		<view class="x-message-item">
+			<view  animation="{{message.animation}}" bindtouchstart="touchStart({{message}})" bindtouchend="touchEnd({{message}})" class="xui-tab"  @tap="onTapEnterChatroom({{message.user}})">
+				<image class="xui-tab-avatar" mode="aspectFill" src="{{message.user.avatar ? message.user.avatar : defaultAvatar}}">
+				<text class="xui-tab-name">{{message.user.name}}</text>
+				<view class="xui-tab-emoji" wx:if="{{message.type == 'emoji'}}">
+					<block wx:for="{{message.message}}" wx:for-item="msg" wx:key="unique">
+						<image wx:if="{{msg.type == 2}}" class="xui-msg-emoji" src="{{msg.data}}" />
+						<text wx:else class="xui-msg-txt">{{msg.data}}</text>
+					</block>
+				</view>
+				<text class="xui-tab-content" wx:if="{{message.type != 'emoji'}}">{{message.message}}</text>
+				<text class="xui-tab-time">{{message.time}}</text>
+				<view wx:if="{{message.count > 0}}" class="x-i-badge"></view>
+			</view>
+			<view class="x-message-hide"><view @tap="onTapDelete({{message}})" class="x-show-delete">删除</view></view>
+		</view>
+	</repeat>
+</view>
+
+</template>
+
+<script>
+import wepy from 'wepy'
+import _ from '../../../lib/mptool'
+import BottomLoader from '../../../components/bottom_loader'
+import NotificationService from '../../../services/notification_service'
+import AccountService from '../../../services/account_service'
+import UserService from '../../../services/user_service'
+import Session from '../../../lib/session'
+import IMService from '../../../services/webim_service'
+import LoadMoreService from '../../../services/loadmore_service'
+
+export default class Notification extends wepy.page {
+	config = {
+		navigationBarTitleText: "通知中心"
+	}
+
+	components = {
+	}
+
+	data = {
+		selfId: 0,
+		current: 'msg',
+		messages: [],
+		counter: {},
+		time: 0,
+		touchDot: 0,
+		interval: "",
+		flag_hd: true,
+		hasUnreadSM: false,
+		systemNotification: {},
+		followNotification: {},
+		giftNotification: {},
+		enableMP: false,
+		defaultAvatar: '/images/default_avatar.png'
+	}
+
+	computed = {
+
+	}
+
+	methods = {
+		onTapNaviToSystem(type) {
+			wx.navigateTo({
+				url: 'system_notification?type=' + type,
+			})
+		},
+
+		onTapEnterChatroom(user) {
+			wx.navigateTo({
+				url: '/package/pages/chatroom/chatroom?touserid=' + user.id,
+			})
+		},
+		onTapDelete(msg) {
+			if(msg.id){
+				IMService.Queue.remove(msg.id)
+			}
+			this.onShow();
+		},
+		// 触摸开始事件
+		touchStart(message, e) {
+			this.touchDot = e.touches[0].pageX; // 获取触摸时的原点
+			// 使用js计时器记录时间    
+			this.interval = setInterval(function () {
+				this.time++;
+			}, 100);
+		},
+		// 触摸结束事件
+		touchEnd(message, e) {
+			var touchMove = e.changedTouches[0].pageX;
+			// 向左滑动
+			if (touchMove - this.touchDot <= -40 && this.time < 10 && this.flag_hd == true) {
+				this.flag_hd = false;
+				this.messages.forEach(msg => {
+					msg.animation = wx.createAnimation({duration:500})
+					msg.animation.translateX(0).step();
+					if(msg.id==message.id){
+						msg.animation = wx.createAnimation({duration:500})
+						msg.animation.translateX(-100).step();
+					}
+				});
+			}
+			// 向右滑动   
+			if (touchMove - this.touchDot >= 40 && this.time < 10 && this.flag_hd == true) {
+				this.flag_hd = false;
+				this.messages.forEach(msg => {
+					msg.animation = wx.createAnimation({duration:500})
+					msg.animation.translateX(0).step();
+				});
+			}
+			this.$apply();
+			clearInterval(this.interval); // 清除setInterval
+			this.touch_reset();
+		},
+	}
+
+	events = {
+
+	}
+
+	// onReachBottom () {
+	//     this.loadNextNotifications();
+	// }
+
+	// onPullDownRefresh() {
+	//     wx.showLoading({
+	//         mask: true
+	//     });
+	//     this.loadNextNotifications(true);
+	// }
+
+	// finishRefresh() {
+	//     wx.stopPullDownRefresh();
+	//     wx.hideLoading();
+	// }
+
+	getCounters() {
+		UserService.getCounters(["new_follower", "new_receive_gift", "new_receive_comment"]).then(
+			res => {
+				console.log(res)
+				this.counter = res;
+				this.$apply();
+			},
+			res => {
+				console.log(res)
+			}
+		)
+	}
+
+	setMessageContent(msg) {
+		if (msg.type == "txt") {
+			return msg.data[0].data;
+		} else if (msg.type == "emoji") {
+			let content = [];
+			for (let i=0; i<msg.data.length; i++) {
+				if (msg.data[i].type == "txt") {
+					content.push({"type": 1, "data": msg.data[i].data});
+				} else if (msg.data[i].type == "emoji") {
+					content.push({"type": 2, "data": "https://resource.vxiaocheng.com/mercury/faces/" + msg.data[i].data});
+				}
+			}
+			return content;
+		} else if (msg.type == "audio") {
+			return "语音消息";
+		} else if (msg.type == "img") {
+			return "图片消息";
+		} else if (msg.type == "gift") {
+            if(msg.from = this.selfId){
+                return '送出一个礼物 ' + msg.data[0].data;
+            }else if(msg.to = this.selfId){
+                return '送给你一个礼物 ' + msg.data[0].data;
+            }
+		}
+		return "";
+	}
+
+	loadUnreadSMInfo() {
+		UserService.getUnreadSMInfo(this.selfId).then(
+			data => {
+				this.hasUnreadSM = data.has_unread;
+				this.$apply();
+			}
+		)
+	}
+
+	onShareAppMessage() {
+		return {
+			title: '你有故事我有酒，泡吧撩妹，这里都有',
+			path: '/pages/login/login',
+			imageUrl: 'http://resource.vxiaocheng.com/mercury/share/paopao.jpg'
+		}
+	}
+
+	async getMessage() {
+        let messages = []
+        let data = IMService.Queue.getLists()
+        console.warn("IMService.Queue================", data)
+        let uids = data.map(x=>{return x.user_id})
+        let userinfos = await this.loadUsers(uids)
+		for (let i=0; i<data.length; i++) {
+			try {
+                if (parseInt(data[i].self_id) == this.selfId && parseInt(data[i].user_id) > 0) {
+                    let msg = data[i].last_chat;
+                    if(msg.type=="txt"&&msg.data.length>1){
+                        msg.type = 'emoji';
+                    }
+                    let content = this.setMessageContent(msg);
+                    let ctime = "";
+                    try {
+                        ctime = _.calculateTime(data[i].last_chat.time);
+                    } catch (error) {
+                        ctime = "";
+                    }
+                    let message = {
+                        "userId": parseInt(data[i].user_id),
+                        "message": content,
+                        "user": userinfos[data[i].user_id.toString()],
+                        "time": ctime,
+                        "type": msg.type,
+                        "id": data[i].id,
+                        "count": data[i].unread_count,
+                        "index": i
+                    }
+                    messages.push(message)
+                }
+            } catch (error) {
+                console.log(error);
+            }
+        }
+        this.messages = messages
+        console.warn(this.messages)
+		this.$apply();
+	}
+
+	async loadUsers(uids) {
+        uids = Array.from(new Set(uids))
+        let reqUids = IMService.Queue.getUnloadUids(uids)
+        if(reqUids.length > 0){
+            reqUids = reqUids.map(parseInt)
+            let data = await AccountService.getUsers(reqUids);
+            data = data.map(info => {
+                return {
+                    id: info.id,
+                    name: info.name,
+                    avatar: info.avatar
+                }
+            });
+            IMService.Queue.updateUinfos(data)
+        }
+		return IMService.Queue.getCachedUserInfos(uids)
+	}
+
+	async loadLatestNotification() {
+			let systemNotification = await NotificationService.getLatestNofitication("system");
+			let followNotification = await NotificationService.getLatestNofitication("follow");
+			let giftNotification = await NotificationService.getLatestNofitication("gift");
+
+			if (systemNotification) {
+				systemNotification.created_at = _.calculateTime(systemNotification.created_at);
+			}
+
+			if (followNotification && followNotification.sender) {
+				followNotification.body = '"' + followNotification.sender.name + '" 喜欢了你!';
+				followNotification.created_at = _.calculateTime(followNotification.created_at);
+			}
+
+			if (giftNotification && giftNotification.sender) {
+				giftNotification.body = '"' + giftNotification.sender.name + '" 送了你 "' + giftNotification.gift_name + '" X1';
+				giftNotification.created_at = _.calculateTime(giftNotification.created_at);
+			}
+
+			this.systemNotification = systemNotification;
+			this.followNotification = followNotification;
+			this.giftNotification = giftNotification;
+			this.$apply();
+	}
+
+	async onShow() {
+		this.loadLatestNotification();
+		this.getCounters();
+		this.loadUnreadSMInfo();
+		UserService.checkCount();
+		this.$broadcast('update-bottom-navi');
+		this.getMessage();
+	}
+
+	onLoad () {
+		wx.hideTabBar({})
+		this.selfId = AccountService.getSelfId();
+
+		// 被拉黑用户直接清除缓存重定向至登录页面
+		AccountService.checkUserBlock().then(
+			data => {
+				if (data.is_block) {
+					Session.clear();
+					wx.redirectTo({
+						url: '/pages/login/login'
+					});
+				}
+			}
+		)
+
+		UserService.getUserInfo().then(
+			data => {
+				this.enableMP = data.enable_mpcoin;
+				this.$apply();
+			}
+		)
+	}
+	
+	touch_reset(){
+		this.time = 0;
+		this.touchDot =  0;
+		this.interval =  "";
+		this.flag_hd = true;
+	}
+}
+</script>

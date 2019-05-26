@@ -1,0 +1,1741 @@
+<style lang="less">
+page {
+	background-color: #5E13A8;
+	.container {
+		.xui-arrow-shade {
+			position: fixed;
+			width: 100%;
+			height: 100%;
+			top: 0px;
+			left: 0px;
+			z-index:10;
+			background-color: rgba(0, 0, 0, 0.3);
+			image {
+				position: absolute;
+				right: 70rpx;
+				top: 0;
+				width: 606rpx;
+				height: 379rpx;
+			}
+			text {
+				font-size: 40rpx;
+				font-weight: bold;
+				position: absolute;
+				right: 50px;
+				top: 150px;
+				color: #fff;
+				letter-spacing:8rpx;
+			}
+		}
+
+		.x-dating-info {
+			height: 220rpx;
+			width: 100%;
+			top: 0;
+			left: 0;
+			z-index: 1;
+			position: fixed;
+			background-image: linear-gradient(to bottom, #600baa,#5E13A8);
+			.x-dating-top {
+				height: 110rpx;
+				display: flex;
+				.x-founder-avatar {
+					image {
+						width: 90rpx;
+						height: 90rpx;
+						border-radius: 50%;
+						margin-right: 20rpx;
+						margin-top: 24rpx;
+						margin-left: 22rpx;
+					}
+				}
+
+				.x-dating-detail {
+					flex: 1;
+					.x-dating-title {
+						margin-top: 40rpx;
+						position: relative;
+						font-size: 32rpx;
+						height:50%;
+						height:40rpx;
+						line-height:40rpx;
+						color: #ffdcff;
+						view {
+							position: absolute;
+							top: -10rpx;
+							right: 10rpx;
+							padding: 10rpx;
+							background-color: #169bd5;
+							color: #fff;
+						}
+					}
+					.x-dating-body {
+						color: #d4aaff;
+						height: 50%;
+						margin-top:6rpx;
+						.x-dating-date {
+							float: left;
+							font-size: 22rpx;
+							width: 50%;
+							overflow: hidden;
+							text-overflow: ellipsis;
+							white-space: nowrap;
+						}
+						.x-dating-address {
+							width: 50%;
+							font-size: 22rpx;
+							float: right;
+							overflow: hidden;
+							text-overflow: ellipsis;
+							white-space: nowrap;
+						}
+					}
+				}
+
+				.x-dating-more {
+					margin-top: 20rpx;
+					margin-left: 30rpx;
+					margin-right: 20rpx;
+					font-size: 20rpx;
+					display: flex;
+					flex-direction: column;
+					justify-content: space-between;
+					image{
+						width:126rpx;
+						height:50rpx;
+					}
+					.x-detail{
+						margin-top: 8rpx;
+						font-size: 22rpx;
+						text-align:right;
+						color: #d4aaff;
+					}
+				}
+			}
+			.x-line{
+				margin-top: 24rpx;
+				height:1px;
+				width:90%;
+				margin-left: 5%;
+				border-bottom:1px dashed #903FD5;
+			}
+			.x-dating-bottom {
+				width: 100%;
+				height: 60rpx;
+				position: relative;
+				margin-top: 20rpx;
+				.x-dating-join-count {
+					position: absolute;
+					top: 0;
+					left: 0;
+					width: 108rpx;
+					height: 58rpx;
+					background-color: #ed12a9;
+					color: #fff;
+					font-size: 24rpx;
+					line-height: 60rpx;
+					border-top-right-radius: 10rpx;
+					border-bottom-right-radius: 10rpx;
+					margin-right: 30rpx;
+					text-align:center;
+				}
+				.x-dating-joiner {
+					display: inline-block;
+					width: 80%;
+					height: 60rpx;
+					white-space: nowrap;
+					margin-left: 130rpx;
+					image {
+						width: 60rpx;
+						height: 60rpx;
+						margin-right: 20rpx;
+						border-radius: 50%;
+					}
+				}
+			}
+		}
+		.x-gift{
+			width: 114rpx;
+			height: 114rpx;
+			z-index: 2;
+			position:fixed;
+			bottom: 100rpx;
+			right: 20rpx;
+		}
+		.x-main {
+			.x-modal {
+				position: absolute;
+				top: 0;
+				right: 0;
+				left: 0;
+				bottom: 0;
+				width: 100%;
+				height: 100%;
+				display: flex;
+				justify-content: center;
+				align-items: center;
+			}
+
+			.x-modal-record {
+				.x-modal-body {
+					width: 304rpx;
+					height: 260rpx;
+					background-color:#000;
+					display: flex;
+					flex-direction: column;
+					justify-content: center;
+					align-items: center;
+					border-radius: 24rpx;
+					z-index: 999;
+					opacity: 0.6;
+					.x-desc {
+						color: #fff;
+						font-size: 22rpx;
+						margin-top: 190rpx;
+					}
+					.x-loading{
+						width: 144rpx;
+						height: 144rpx;
+						display: flex;
+						flex-direction: column;
+						position: absolute;
+						margin-top:-20rpx;
+						.x-dot {
+							width: 140rpx;
+							height: 140rpx;
+							display: flex;
+							justify-content: center;
+							align-items: center;
+							.x-icon-mic {
+								width: 75rpx;
+								height: 105rpx;
+							}
+						}
+						.x-wrapper{
+							width: 144rpx;
+							height: 144rpx;
+							top:0;
+							position: absolute;
+							overflow: hidden;
+							.x-Progress{
+								top: 4rpx;
+								left: 4rpx;
+								width: 132rpx;
+								height: 132rpx;
+								border-radius: 50%;
+								position: absolute;
+								-webkit-transform: rotate(-135deg);
+							}
+							.x-leftcircle{
+								border-bottom:4rpx solid #ec99ff;
+								border-left:4rpx solid #ec99ff;
+								border-top:4rpx solid white;
+								border-right:4rpx solid white;
+								-webkit-animation: circleProgressLoad_left 60s linear infinite;
+							}
+							.x-rightcircle{
+								border-bottom:4rpx solid white;
+								border-left:4rpx solid white;
+								border-top:4rpx solid #ec99ff;
+								border-right:4rpx solid #ec99ff;
+								-webkit-animation: circleProgressLoad_right 60s linear infinite;
+							}
+							@-webkit-keyframes circleProgressLoad_right{
+								0%{
+									-webkit-transform: rotate(-135deg);
+								}
+								50%,100%{
+									-webkit-transform: rotate(45deg);
+								}
+							}
+							@-webkit-keyframes circleProgressLoad_left{
+								0%,50%{
+									-webkit-transform: rotate(-135deg);
+								}
+								100%{
+									-webkit-transform: rotate(45deg);
+								}
+							}
+						}
+						.x-right{
+							z-index: 1;
+						}
+						.x-left{
+							width: 73rpx;
+							z-index: 2;
+						}
+					}
+				}
+			}
+			.x-msg-container {
+				width: 100%;
+				margin-top: 220rpx;
+				margin-bottom: 200rpx;
+
+				.x-scroll_view {
+				width: 100%;
+				left: 0;
+				top: 0;
+				right: 0;
+				// bottom: 75px;
+				background-image: linear-gradient(to bottom, #5E13A8,#8a63eb);
+
+				.x-message {
+					width: 92%;
+					height: auto;
+					padding: 0 30rpx 30rpx;
+					.x-time {
+						text-align: center;
+						text {
+							display: inline-block;
+							padding: 3px 10px 0 10px;
+							font-size: 12px;
+							color: #a94cee;
+							line-height: 14px;
+						}
+					}
+					.message-main{
+						position: relative;
+
+						.x-audio-time{
+							border-radius: 27rpx;
+							color: #fff;
+							display: inline-block;
+							padding: 4px;
+							max-width: calc(85% - 40px);
+							font-size: 26rpx;
+							overflow: hidden;
+							text-align: left;
+							word-break: break-all;
+							margin-top:60rpx;
+
+						}
+						.x-avatar {
+							width: 102rpx;
+							height: 102rpx;
+							margin: 0 10px 0 0;
+							border-radius: 50%;
+							float: left;
+						}
+						.x-nickname {
+							color: #b86dfa;
+							display: flex;
+							font-size: 22rpx;
+							left: 126rpx;
+							position: absolute;
+							top: 14rpx;
+
+							.host-icon {
+								border: 2rpx solid #0ff;
+								border-radius: 27rpx;
+								border-top-left-radius: 8rpx;
+								box-sizing: border-box;
+								color: #9BFDFE;
+								font-size: 17rpx;
+								height: 28rpx;
+								line-height: 25rpx;
+								margin-right: 10rpx;
+								text-align: center;
+								width: 50rpx;
+							}
+						}
+						.x-msg {
+							display: inline-block;
+							padding: 5px 10px;
+							max-width: calc(85% - 40px);
+							font-size: 26rpx;
+							color: #fff;
+							overflow: hidden;
+							text-align: left;
+							word-break: break-all;
+							background-color: #521093;
+							border-radius: 27rpx;
+							border-top-left-radius: 8rpx;
+							margin-top: 60rpx;
+							.x-template {
+								display: inline;
+							}
+						}
+						.x-imagemsg{
+							border-radius: 27rpx;
+							border-top-left-radius: 8rpx;
+							display: inline-block;
+							padding: 4px;
+							max-width: calc(85% - 40px);
+							font-size: 26rpx;
+							color: #fff;
+							overflow: hidden;
+							text-align: left;
+							word-break: break-all;
+							background-color: #521093;
+							margin-top: 60rpx;
+							.x-template {
+								display: inline;
+							}
+						}
+					}
+					.message-self {
+
+						.x-msg, .x-imagemsg {
+							background-color: #8752CD;
+						}
+
+						.x-msg :before {
+							right: inherit;
+							left: 100%;
+							border-right-color: transparent;
+							border-left-color: #a94cee;
+						}
+					}
+				}
+			}
+			}
+			
+			.x-room_bar {
+				width: 100%;
+				height: auto;
+				bottom: 0;
+				right: 0;
+				z-index: 1;
+				background-image: linear-gradient(to bottom, #865DE1,#8a63eb);
+				position: fixed;
+				.x-f-row{
+					width: 100%;
+					height: 88rpx;
+					display: flex;
+					justify-content: space-between;
+					.x-news {
+						box-sizing: border-box;
+						width: 512rpx;
+						height: 60rpx;
+						border-radius: 35rpx;
+						font-size: 14px;
+						padding-left: 4px;
+						background: transparent;
+						margin-top: 11rpx;
+						margin-right:-5rpx;
+						border: 1px solid #90fffe;
+					}
+					.x-send_btn{
+						width: 92rpx;
+						height: 60rpx;
+						line-height: 60rpx;
+						font-size: 14px;
+						color: #000;
+						padding: 0;
+						background-color: #fff;
+						margin-top: 10rpx;
+						margin-left: 8rpx;
+					}
+					.x-other-item {
+						width: 80rpx;
+						height: 80rpx;
+						display: flex;
+						align-items: center;
+						justify-content: center;
+						overflow: hidden;
+					}
+				}
+				.emoji_list{
+					margin-top: 30px;
+					width: 100%;
+					height: 115px;
+					background-color: #dddddd;
+					padding-top: 10px;
+					padding-left: 3%;
+					display: none;
+					.emoji_item {
+						display: flex;
+						justify-content: space-around;
+						margin-right: 20px;
+					}
+				}
+
+				.showEmoji {
+					width: 100%;
+					height: 115px;
+					background-color: #dddddd;
+					padding-top: 10px;
+					padding-left: 3%;
+					display: block;
+				}
+				.x-emoji-send{
+					height: 30px;
+					width:100%;
+					.x-send-btn{
+						height:24px;
+						line-height: 24px;
+						margin-top:3px;
+						right: 3px;
+						text-align:center;
+						width:48px;
+						background:#8f2af1;
+						position:absolute;
+						color:white;
+						font-size:12px;
+					}
+				}
+
+				.x-dating-enroll {
+					width: 100%;
+					height: 80rpx;
+					bottom: 100rpx;
+					right: 0;
+					z-index: 1;
+					position: fixed;
+					view {
+						width: 90%;
+						height: 80rpx;
+						background-color: rgb(22, 155, 213);
+						border-radius: 16rpx;
+						text-align: center;
+						margin: 0 auto;
+						color: #fff;
+						font-size: 30rpx;
+						line-height: 80rpx;
+
+						.x-i-tip {
+							position: absolute;
+							display: block;
+							width: 40rpx;
+							height: 40rpx;
+							line-height: 40rpx;
+							top: 20rpx;
+							right: 200rpx;
+							color: #fff;
+							background-color: red;
+							font-size: 20rpx;
+							border-radius: 50%;
+						}
+					}
+				}
+
+				.x-dating-action {
+					width: 50px;
+					bottom: 300rpx;
+					right: 30rpx;
+					z-index: 1;
+					position: fixed;
+
+					image {
+						width: 106rpx;
+						height: 106rpx;
+						// border: 1px solid black;
+						margin-bottom: 20rpx;
+						margin-right: 20rpx;
+						position: relative;
+					}
+
+					button {
+						width: 106rpx;
+						height: 106rpx;
+						padding: 0;
+						background-color: inherit;
+						margin-bottom: 30rpx;
+						margin-right: 20rpx;
+						position: relative;
+
+						image {
+							width: 106rpx;
+							height: 106rpx;
+						}
+					}
+				}
+			}
+		}
+	}
+
+	.msg text {
+	line-height: 1.5;
+	}
+
+	.msg :before {
+	content: " ";
+	position: absolute;
+	top: 9px;
+	right: 100%;
+	border: 6px solid transparent;
+	border-right-color: #EDEDED;
+	}
+	.audio {
+	width: 4.5%;
+	height: 40%;
+	border: 1px solid rgb(135, 152, 164);
+	border-radius: 50px;
+	padding: 3px 4px;
+	margin-left: 10px;
+	}
+	.emoj {
+	width: 6.8%;
+	height: 60%;
+	margin-right: 10px;
+	}
+	.emoji_list image, .showEmoji image {
+	width: 26px;
+	height: 26px;
+	margin: 5px 2%;
+	}
+	.emoji {
+	width: 26px;
+	height: 26px;
+	margin: 0 0;
+	}
+	//开局弹窗
+	.masklayer {
+		background-color: rgba(0, 0, 0, .4);
+		display: flex;
+		height: 100vh;
+		justify-content: center;
+		left: 0;
+		overflow: hidden;
+		position: fixed;
+		top: 0;
+		width: 100vw;
+		z-index: 99;
+
+		.masklayer-content {
+			background: url('https://vxiaocheng-jh.oss-cn-beijing.aliyuncs.com/mercury/chatroom/starting_bgpic.png') no-repeat;
+			background-color: #fff;
+			background-size: 100%;
+			border-radius: 20rpx;
+			box-sizing: border-box;
+			height: 372rpx;
+			margin-top: 380rpx;
+			padding: 104rpx 0 0;
+			position: relative;
+			width: 652rpx;
+
+			text {
+				color: #610dae;
+				display: block;
+				font-size: 26rpx;
+				line-height:44rpx;
+				margin: 0 auto;
+				text-align: center;
+				width: 500rpx;
+			}
+
+			.content-btns {
+				bottom: 30rpx;
+				display: flex;
+				height: 90rpx;
+				justify-content: space-between;
+				left: 0;
+				margin: auto;
+				position: absolute;
+				right: 0;
+				width: 548rpx;
+
+				view {
+					background-color: #7128CA;
+					border-radius: 99rpx;
+					color: #fff;
+					font-size: 33rpx;
+					height: 90rpx;
+					line-height: 90rpx;
+					opacity: .5;
+					text-align: center;
+					width: 256rpx;
+				}
+
+				view:first-child {
+					opacity: 1;
+				}
+			}
+		}
+	}
+	//分享弹出
+	.sharepicker-wrapper {
+		height: 100vh;
+		left: 0;
+		position: fixed;
+		top: 100vh;
+		transition: .1s;
+		width: 100vw;
+		z-index: 99;
+
+		.close-bg {
+			height: 100%;
+			left: 0;
+			position: absolute;
+			top: 0;
+			width: 100%; 
+		}
+
+		.sharepicker-btns {
+			align-items: center;
+			background-color: #fff;
+			bottom: 0;
+			display: flex;
+			height: 208rpx;
+			justify-content: space-around;
+			position: absolute;
+			width: 100%;
+
+			button {
+				background-color: #fff;
+				align-items: center;
+				display: flex;
+				flex-direction: column;
+				padding: 10rpx 30rpx;
+
+				image {
+					display: block;
+					height: 82rpx;
+					width: 82rpx;
+				}
+
+				text {
+					color: #5b5b5c;
+					font-size: 20rpx;
+				}
+			}
+		}
+		
+	}
+	.sharepicker-wrapper.show {
+		top: 0;
+	}
+}
+
+</style>
+
+<template>
+<view class="container">
+	<view class="x-dating-info">
+		<view class="x-dating-top">
+			<view class="x-founder-avatar">
+				<image mode="aspectFill" src="{{datingInfo.user.avatar}}" @tap.stop="tapEnterFounderDetail" />
+			</view>
+			<view class="x-dating-detail">
+				<view class="x-dating-title">
+					<text>{{datingInfo.topic}}</text>
+					<!-- <view>{{}}</view> -->
+				</view>
+				<view class="x-dating-body">
+					<text class="x-dating-date">{{datingInfo.time}}</text>
+					<text class="x-dating-address">{{datingInfo.showAddress}}</text>
+				</view>
+			</view>
+			<view class="x-dating-more" @tap="onTapEnterDetail">
+				<image src="{{DATINGIMG[datingInfo.dating_type.name]}}" />
+				<view class="x-detail">查看详情>></view>
+			</view>
+		</view>
+		<view class="x-line"></view>
+		<view class="x-dating-bottom">
+			<view class="x-dating-join-count">已入局{{datingInfo.join_count}}</view>
+			<view class="x-dating-joiner">
+				<scroll-view scroll-x style="width:100%;">
+					<repeat for="{{joiners}}" key="{{joiner.id}}" index="index" item="joiner"> 
+						<image mode="aspectFill" src="{{joiner.avatar}}" @tap.stop="tapEnterJoinerDetail({{joiner.id}})"/>
+					</repeat>
+				</scroll-view>
+			</view>
+		</view>
+	</view>
+	<view class="x-main">
+		<view wx:if="{{recordStatus != RecordStatus.HIDE&&recordStatus != RecordStatus.SHOW}}" class="x-modal x-modal-record" bindtap="toggleRecordModal">
+			<view class="x-modal-body">
+				<view class="x-loading">
+					<view class="x-dot">
+						<image class="x-icon-mic" src="http://resource.vxiaocheng.com/mercury/chating.png"/>
+					</view>
+					<view class="x-wrapper x-left">
+						<view class="x-Progress x-leftcircle"></view>
+					</view>
+					<view class="x-wrapper x-right">
+						<view class="x-Progress x-rightcircle"></view>
+					</view>
+				</view>
+				<text class="x-desc">{{RecordDesc[recordStatus]}}</text>
+			</view>
+		</view>
+		<view style="margin-bottom: {{show == 'emoji_list' ? bottombar_height : bottombar_height+147}}px" class="x-msg-container">
+			<scroll-view style="height: {{chatheight}}px" scroll-y="true" class="x-scroll_view" bindtap="cancelEmoji" scroll-into-view="{{ toView }}">
+			<view class="x-message" wx:for="{{ chatMsg }}" wx:key="" id="{{ item.mid }}">
+				<view wx:if="{{item.time}}" class="x-time">
+					<text>{{item.time}}</text>
+				</view>
+				<view class="message-main {{item.style=='self' ? 'message-self': '' }}">
+					<!-- 头像 -->
+					<image mode="aspectFill" wx:if="{{item.style=='self'}}" class="x-avatar" src="{{fromuserInfo.avatar}}"/>
+					<image mode="aspectFill" wx:else class="x-avatar" src="{{id2user[item.info.from].avatar}}"/>
+					<!-- 昵称 -->
+					<view class="x-nickname">
+						<view class="host-icon" wx:if="{{owner == item.info.from}}">房主</view>{{item.style=='self' ?fromuserInfo.name : id2user[item.info.from].name}}
+					</view>
+					<!-- 消息内容 -->
+					<view wx:if="{{ item.msg.type == 'img' || item.msg.type == 'audio' || item.msg.type == 'video'}}" class="x-imagemsg" style="background-color: {{item.msg.type == 'img' ? 'transparent' : ''}}">
+						<template is="{{ item.msg.type }}" data="{{ item, msgView }}"/>
+					</view>
+					<view wx:elif="{{ item.msg.type == 'txt' || item.msg.type == 'emoji' }}" class="x-msg">
+						<view class="x-template" wx:for="{{ item.msg.data }}" wx:key="">
+							<template is="{{ item.type }}" data="{{ item }}"/>
+						</view>
+					</view>
+					<!-- 语音时间 -->
+					<view wx:if="{{item.msg.duration}}" class="x-audio-time">{{item.msg.duration}}''</view>
+				</view>
+			</view>
+			</scroll-view>
+		</view>
+
+		<template name="txt">
+			<text style="float: left;margin-top: 2px;">{{ item.data }}</text>
+		</template>
+		<template name="audio">
+			<view @tap.stop="tapPlayAudio({{item}})" style="width: {{item.msg.duration >= 60 ? 320 : 100+2*item.msg.duration}}rpx;display: flex;align-items: center;height: 40rpx;box-sizing: border-box;padding-left: 15rpx">
+				<image src="https://vxiaocheng-jh.oss-cn-beijing.aliyuncs.com/mercury/chatroom/audioinput_icon.png" style="width: 24rpx;height: 24rpx;" />
+			</view>
+		</template>
+		<template name="emoji">
+			<image class="avatar" src="{{'../../images/faces/' + item.data }}"
+				style="width: 25px;height: 25px;margin: 0 0 2px 0;float: left;"/>
+		</template>
+		<template name="img">
+				<image mode="widthFix" src="{{ item.msg.data }}" style="border-radius: 8rpx;width: 90px;margin-bottom: -5px;" bindtap="previewImage" data-url="{{ item.msg.data }}"/>
+		</template>
+
+		<view class="x-room_bar">
+				<view class="x-f-row">
+					<view class="x-other-item">
+						<audioFormSender class="x-other-item" @btnclick.user="toggleRecordModal">
+							<view wx:if="{{recordStatus == RecordStatus.HIDE}}" slot="content" style="background: url('http://resource.vxiaocheng.com/mercury/chatroom/voice.png');background-size: 39rpx 49rpx;background-repeat: no-repeat;width: 39rpx;height:49rpx;"></view>
+							<view wx:else slot="content" style="background: url('http://resource.vxiaocheng.com/mercury/chatroom/jianpan.png');background-size: 50rpx 47rpx;background-repeat: no-repeat;width: 50rpx;height:47rpx;"></view>
+						</audioFormSender>
+					</view>
+						<view wx:if="{{recordStatus == RecordStatus.HIDE}}" style="position: relative;">
+							<view style="box-sizing: border-box;border-radius: 35rpx;border: 1px solid #90fffe;padding-right: 80rpx;">
+								<input bindconfirm="sendMessage" class="x-news" style="border: 0;width: 432rpx;" type="text" value="{{ inputMessage }}"
+								placeholder="输入新消息" confirm-type="send" placeholder-style="color:#b369f7;padding-left:5px;" bindinput="bindMessage" @tap="focus"/>
+								<image src="https://vxiaocheng-jh.oss-cn-beijing.aliyuncs.com/mercury/chatroom/send_icon.png" style="display: block;height: 44rpx;width: 39rpx;position: absolute;right: 15rpx;top: 19rpx;" @tap.stop="sendMessage"></image>
+							</view>
+							<!-- <sendFormSender @btnclick.user="sendMessage">
+								<view slot="content" style="background: transparent;width: 56rpx;height:60rpx;margin-top:11rpx;border-radius: 5px;margin-left:-4rpx;">
+									<image src="http://resource.vxiaocheng.com/mercury/send.png" style="height: 44rpx;width: 44rpx;margin-top: 8rpx;margin-left:12rpx;" />
+								</view>
+							</sendFormSender> -->
+						</view>
+
+						<view wx:else class="x-news" catchtouchstart="handleRecording" catchtouchmove="handleRecordingMove" catchtouchend="handleRecordingStop" catchtouchcancel="handleRecordingStop" style="font-size: 30rpx;width: 512rpx;line-height:60rpx;text-align:center;color:#b369f7;">按住说话</view>
+					<view class="x-other-item">
+						<imgFormSender  @btnclick.user="sendImage">
+							<view slot="content" style="background: url('http://resource.vxiaocheng.com/mercury/chatroom/image.png');background-size: 50rpx 44rpx;background-repeat: no-repeat;width: 50rpx;height:44rpx"></view>
+						</imgFormSender>
+					</view>
+					<view class="x-other-item">
+						<emojiFormSender @btnclick.user="openEmoji">
+								<view slot="content" style="background: url('http://resource.vxiaocheng.com/mercury/chatroom/emoji.png');background-size: 52rpx 49rpx;background-repeat: no-repeat;width: 52rpx;height:49rpx">
+								</view>
+						</emojiFormSender>
+					</view> 
+				</view>
+				<swiper class="emoji_list" class=" {{ show }}" duration="{{duration}}">
+					<block>
+						<swiper-item>
+							<view class="emoji_item">
+								<image wx:for="{{ emojiObj.map1 }}" src="{{ emojiObj.path + item }}" wx:key=""
+									bindtap="sendEmoji" data-emoji="{{ index }}"/>
+							</view>
+							<view class="emoji_item">
+								<image wx:for="{{ emojiObj.map2 }}" src="{{ emojiObj.path + item }}" wx:key=""
+									bindtap="sendEmoji" data-emoji="{{ index }}"/>
+							</view>
+							<view class="emoji_item">
+								<image wx:for="{{ emojiObj.map3 }}" src="{{ emojiObj.path + item }}" wx:key=""
+									bindtap="sendEmoji" data-emoji="{{ index }}"/>
+							</view>
+						</swiper-item>
+					</block>
+					<block class="x-second">
+						<swiper-item>
+							<view class="emoji_item">
+								<image wx:for="{{ emojiObj.map4 }}" src="{{ emojiObj.path + item }}" wx:key=""
+									bindtap="sendEmoji" data-emoji="{{ index }}"/>
+							</view>
+							<view class="emoji_item">
+								<image wx:for="{{ emojiObj.map5 }}" src="{{ emojiObj.path + item }}" wx:key=""
+									bindtap="sendEmoji" data-emoji="{{ index }}"/>
+							</view>
+							<view class="emoji_item">
+								<image wx:for="{{ emojiObj.map6 }}" src="{{ emojiObj.path + item }}" wx:key=""
+									bindtap="sendEmoji" data-emoji="{{ index }}"/>
+							</view>   
+						</swiper-item>
+					</block>
+				</swiper>
+				<view class="x-dating-action">
+					<!-- // 分享 -->
+					<button @tap.stop="tapOnShareBtn">
+						<image src="http://resource.vxiaocheng.com/mercury/chatroom/share.png"/>
+					</button>
+					<!-- // 最小化 -->
+					<!-- <image src="http://resource.vxiaocheng.com/mercury/chatroom/minist.png" @tap.stop="onTapShowArrow"/> -->
+					<!-- // 开局 -->
+					<image src="http://resource.vxiaocheng.com/mercury/chatroom/begin.png" wx:if="{{selfId == userId && !isOpen}}" @tap.stop="onTapCloseDating" />
+					<!-- // 结束 -->
+					<image src="http://resource.vxiaocheng.com/mercury/chatroom/over.png" wx:if="{{selfId == userId && isOpen}}" @tap.stop="onTapFinishDating" />
+					<!-- // 关注 -->
+					<image src="http://resource.vxiaocheng.com/mercury/chatroom/add.png" wx:if="{{!followed && selfId !=userId}}" @tap.stop="onTapFollowDating" />
+					<!-- // 取消关注 -->
+					<image src="http://resource.vxiaocheng.com/mercury/chatroom/noadd.png" wx:if="{{followed}}" @tap.stop="onTapUnFollowDating" />
+					<!-- // 审批 -->
+					<image src="http://resource.vxiaocheng.com/mercury/chatroom/charge.png" wx:if="{{selfId == userId}}" @tap.stop="onTapEnterVerify" />
+					<!-- // 报名 -->
+					<image src="http://resource.vxiaocheng.com/mercury/chatroom/join.png" wx:if="{{!isOpen && selfId != userId && joinText == '报名参与'}}" @tap.stop="onTapJoinDating" />
+					<!-- // 已报名-->
+					<image src="http://resource.vxiaocheng.com/mercury/chatroom/has_join.png" wx:if="{{!isOpen && selfId != userId && joinText == '已报名'}}"/>
+				</view>
+				<view wx:if="{{show!='emoji_list'}}" class="x-emoji-send">
+					<view @tap="sendMessage" class="x-send-btn">发送</view>
+				</view>
+		</view>
+	</view>
+	<view class="xui-arrow-shade" wx:if="{{show_arrow}}" @tap="onTapHideArrow">
+		<image src="http://resource.vxiaocheng.com/mercury/chatroom/chatroom_minimize.png" mode="aspectFit"></image>
+	</view>
+</view>
+<!--开局弹窗-->
+<view class="masklayer" wx:if="{{masklayerShow}}">
+	<view class="masklayer-content">
+		<text>开局后此群将成为私密群，除报名成功者，其他好友不能直接进入群聊，确认开局？</text>
+		<view class="content-btns">
+			<view @tap.stop="tapStartJu">确 认</view>
+			<view @tap.stop="tapCancelJu">取 消</view>
+		</view>
+	</view>
+</view>
+<!--分享弹出层-->
+<view class="sharepicker-wrapper {{sharewrapperShow ? 'show' : ''}}">
+	<view class="close-bg" @tap.stop="closeSharelayer"></view>
+	<view class="sharepicker-btns">
+		<button open-type="share">
+			<image src="https://vxiaocheng-jh.oss-cn-beijing.aliyuncs.com/mercury/chatroom/wx_icon.png"></image>
+			<text>分享到微信群</text>
+		</button>
+		<button @tap.stop="tapCreatePoster">
+			<image src="https://vxiaocheng-jh.oss-cn-beijing.aliyuncs.com/mercury/chatroom/poster_icon.png"></image>
+			<text>生成分享海报</text>
+		</button>
+	</view>
+</view>
+<mp-widget></mp-widget>
+</template>
+
+<script>
+import wepy from 'wepy';
+const app = getApp();
+import formSender from '../../../components/form_sender';
+import UserService from '../../../services/user_service';
+import AccountService from '../../../services/account_service';
+import DatingService from '../../../services/dating_service';
+import Uploader from '../../../lib/uploader'
+import WebIMService from '../../../services/webim_service'
+import AudioService from '../../../services/audio_service'
+import MD5 from '../../../lib/md5';
+import _ from '../../../lib/mptool';
+import MPWidget from '../../../components/mp_widget'
+import MP from '../../../services/mp_service'
+import WxNotifyService from '../../../services/weixin_notify_service'
+
+export default class Support extends wepy.page {
+	config = {
+        navigationBarTitleText: "群聊-用户",
+        enablePullDownRefresh: true
+	};
+	components = {
+		audioFormSender: formSender,
+		sendFormSender: formSender,
+		imgFormSender: formSender,
+		emojiFormSender: formSender,
+		"mp-widget": MPWidget,
+	};
+
+	data = {
+        receiveMsg: '',
+		chatheight: 0,
+		bottombar_height: 0,
+		title: '聊天',
+		chatMsg: [],
+		emojiStr: '',
+		fromuserInfo: {},
+		myName: '',
+		sendInfo: '',
+		userMessage: '',
+		inputMessage: '',
+		indicatorDots: true,
+		autoplay: false,
+		interval: 5000,
+		duration: 1000,
+		show: 'emoji_list',
+		showEnroll: true,
+		view: 'scroll_view',
+		toView: '',
+		emoji: WebIMService.Emoji.EmojiList,
+		emojiObj: WebIMService.Emoji.EmojiObj,
+		msgView: {},
+		RecordStatus: {
+			SHOW: 0,
+			HIDE: 1,
+			HOLD: 2,
+			SWIPE: 3,
+			RELEASE: 4
+		},
+		RecordDesc: {
+			0: '长按开始录音',
+			2: '手指上滑，取消发送',
+			3: '松开手取消',
+		},
+		recordStatus: 1,
+		sendJSON: "",
+		formid: '',
+		usernames: [],
+		id2user: {},
+		userId: 0,
+		selfId: 0,
+		datingId: 0,
+		chatroomId: 0,
+		datingInfo: {},
+		joiners: [],
+		joinText: "报名参与",
+		followed: false,
+		isOpen: false,
+		applyCount: 0,
+		DATINGIMG: {
+			"素人局": "https://resource.vxiaocheng.com/mercury/dating_type_suren.png",
+			"怡情局": "https://resource.vxiaocheng.com/mercury/dating_type_yiqing.png",
+			"养生局": "https://resource.vxiaocheng.com/mercury/dating_type_yangsheng.png",
+			"盛宴豪局": "https://resource.vxiaocheng.com/mercury/dating_type_shengyan.png"
+		},
+		week2day: {
+			'0': '日',
+			'1': '一',
+			'2': '二',
+			'3': '三',
+			'4': '四',
+			'5': '五',
+			'6': '六',
+		},
+		//弹窗层显隐
+		masklayerShow: false,
+		//分享弹出显隐
+		sharewrapperShow: false,
+		show_arrow: false,
+	};
+
+	methods = {
+		onTapShowArrow() {
+			this.show_arrow = true;
+		},
+
+		onTapHideArrow() {
+			this.show_arrow = false;
+		},
+
+		onTapFinishDating() {
+			DatingService.FinishDating(this.datingId).then(
+				(data) => {
+					wx.switchTab({
+						url: '/pages/dating/datings'
+					})
+				}
+			)
+		},
+
+		onTapCloseDating() {
+			this.masklayerShow = true
+		},
+		onTapFollowDating() {
+			DatingService.followDating(this.datingId).then(
+				data => {
+					this.followed = true;
+					this.$apply();
+					wx.showToast({
+						title: '已关注',
+						icon: 'none'
+					})
+				}
+			)
+		},
+
+		onTapUnFollowDating() {
+			DatingService.unfollowDating(this.datingId).then(
+				data => {
+					this.followed = false;
+					this.$apply();
+					wx.showToast({
+						title: '取消关注成功',
+						icon: 'none'
+					})
+				}
+			)
+			
+		},
+
+		onTapJoinDating() {
+			app.aldstat.sendEvent("报名组约", {
+				"用户ID": this.fromuserInfo.id + "",
+				"时间": _.getAldTime()
+			})
+
+			console.log(this.fromuserInfo);
+			let checkPhone = (function(callback) {
+				if (this.fromuserInfo.phone == "") {
+					MP.showProfileEditor({
+						type: 'phone',
+						data: {
+							phone: '',
+							help: '参加组约，需要您的联系信息'
+						},
+						complete: (phone) => {
+							this.fromuserInfo.phone = phone;
+							this.$apply();
+							MP.hideProfileEditor();
+							setTimeout(() => {
+								callback();
+							}, 500)
+							UserService.updateUserInfo({
+								phone: phone,
+								hideLoading: true
+							}).then(isSuccess => {
+								console.log(isSuccess);
+							})
+						}
+					})
+				} else {
+					callback.bind(this)();
+				}
+			}).bind(this)
+
+			let doJoin = (function() {
+				if (this.joinText == "报名参与") {
+					DatingService.joinDating(this.datingId).then(
+						data => { 
+							this.joinText = "已报名";
+							this.$apply();
+							let content = '局主大人，又有新的泡友想加入您的"' + this.datingInfo.topic + '"局，快去处理一下~';
+							setTimeout(() => {
+								WxNotifyService.sendPendingApprovalNotice(this.datingInfo.user_id, content, this.fromuserInfo.name).then(
+									data => {console.log(data)},
+									res => {console.log(res)}
+								)	
+							}, 1000);
+						}
+					)
+				} else {
+					return;
+				}
+			}).bind(this)
+
+			checkPhone(doJoin);
+		},
+
+		onTapEnterVerify() {
+			wx.navigateTo({
+				url: `/pages/dating/dating_join_verify?id=${this.datingId}&topic=${this.datingInfo.topic}`,
+			})
+		},
+
+		onTapEnterDetail() {
+		  wx.navigateTo({
+			url: `/package/pages/dating/outsider_dating?id=${this.datingId}`
+		  });
+		},
+
+		tapPlayAudio(item){
+			let self = this;
+			let mindex = 0;
+			let num=0;
+			self.chatMsg.forEach(msg => {
+				if(item.mid==msg.mid){
+					mindex = num;
+				}
+				num+=1;
+			});
+			let stopevent = () => {
+				self.innerAudioContext.stop();
+				clearTimeout(self.chatMsg[mindex].timeout);
+				setTimeout(() => {
+					if(self.chatMsg[mindex].style=="self"){
+						self.chatMsg[mindex].audioimg='../../images/voice/left00.png'
+
+					}else{
+						self.chatMsg[mindex].audioimg='../../images/voice/right00.png'
+
+					}
+					self.chatMsg[mindex].audioplay = 0;
+					self.$apply();
+				}, 500);
+			}
+			let playevnet = () => {
+				if(self.innerAudioContext.paused){
+					stopevent();
+					return
+				}
+				if(self.chatMsg[mindex].audioplay>=3){
+					self.chatMsg[mindex].audioplay = 1;
+				}else{
+					self.chatMsg[mindex].audioplay += 1;
+				}
+				if(self.chatMsg[mindex].style=="self"){
+					self.chatMsg[mindex].audioimg=`../../images/voice/left0${self.chatMsg[mindex].audioplay}.png`
+
+				}else{
+					self.chatMsg[mindex].audioimg=`../../images/voice/right0${self.chatMsg[mindex].audioplay}.png`
+
+				}
+				self.$apply();
+				self.chatMsg[mindex].timeout = setTimeout(playevnet, 300);
+			}
+			if(self.chatMsg[mindex].audioplay==0){
+				self.innerAudioContext.stop();
+				self.chatMsg.forEach(msg => {
+					if(msg.timeout){
+						clearTimeout(msg.timeout);
+						setTimeout(() => {
+
+							if(msg.style=="self"){
+								msg.audioimg='../../images/voice/left00.png'
+
+							}else{
+								msg.audioimg='../../images/voice/right00.png'
+
+							}
+							msg.audioplay = 0;
+							self.$apply();
+						}, 500);
+					}
+				});
+				self.innerAudioContext.src = self.chatMsg[mindex].msg.data;
+				self.innerAudioContext.play();
+				self.chatMsg[mindex].timeout = setTimeout(playevnet, 300);
+			}else{
+				stopevent();
+			}
+		},
+		audioerror(e){
+			console.log("audioerror........");
+			console.log(e);
+		},
+		bindMessage: function (e) {
+			this.userMessage = e.detail.value;
+			this.inputMessage = e.detail.value;
+		},
+		sendMessage: async function (e) {
+			this.cleanInput();
+			if (!this.userMessage.trim()) return;
+			
+			var time = WebIMService.Time.getFormatTime()
+			this.sendJSON = {
+				"type" : "txt",
+				"time": time,
+				"data": this.sendInfo,
+				"from": this.username,
+				"to": this.groupname
+			}
+
+			var self = this
+			var msgData = await WebIMService.sendGroupMsg(this.sendJSON, self.groupname);
+			self.refreshChat(msgData);
+			self.userMessage = '';
+			self.$apply();
+		},
+		openEmoji() {
+			this.show = 'showEmoji'
+			this.chatheight = this.chatheightWithEmogi;
+			this.showEnroll = false;
+			this.$apply();
+		},
+		sendEmoji(event) {
+			var self = this
+			var emoji = event.target.dataset.emoji
+			var msglen = self.userMessage.length - 1
+			if (emoji && emoji != '[del]') {
+				var str = self.userMessage + emoji
+			} else if (emoji == '[del]') {
+				var start = self.userMessage.lastIndexOf('[')
+				var end = self.userMessage.lastIndexOf(']')
+				var len = end - start
+				if (end != -1 && end == msglen && len >= 3 && len <= 4) {
+					var str = self.userMessage.slice(0, start)
+				} else {
+					var str = self.userMessage.slice(0, msglen)
+				}
+			}
+			this.userMessage = str
+			this.inputMessage = str
+		},
+		focus() {
+			// this.show = 'emoji_list'
+			this.chatheight = this.chatheightWithoutEmogi;
+			this.$apply();
+		},
+		cancelEmoji() {
+			this.show = 'emoji_list';
+			this.showEnroll = true;
+			this.chatheight = this.chatheightWithoutEmogi;
+			console.log(this.show);
+			this.$apply();
+		},
+		sendImage() {
+			var self = this
+			this.noEmoji();
+			wx.chooseImage({
+				count: 1,
+				sizeType: ['original', 'compressed'],
+				success: function (res) {
+					self.methods.upLoadImage(res, self)
+				}
+			})
+		},
+		async upLoadImage(res, self) {
+			var tempFilePaths = res.tempFilePaths
+			wx.getImageInfo({
+				src: res.tempFilePaths[0],
+				success: async function (res) {
+					var allowType = {
+						'jpg': true,
+						'gif': true,
+						'png': true,
+						'bmp': true
+					};
+					var width = res.width
+					var height = res.height
+					var index = res.path.lastIndexOf('.')
+					if (index != -1) {
+						var filetype = res.path.slice(index + 1)
+					}
+					if (filetype.toLowerCase() in allowType) {
+						let urls = await Uploader.uploadImages([tempFilePaths[0]]);
+						var data = res.data
+
+						var time = WebIMTime.getFormatTime()
+						self.sendJSON = {
+							"type" : "img",
+							"time": time,
+							"data": urls[0],
+							"from": self.username,
+							"to": self.groupname,
+							"width": width,
+							"height": height
+						}
+						var msgData = await WebIMService.sendGroupMsg(self.sendJSON, self.groupname);
+						self.refreshChat(msgData);
+						
+					}
+				}
+			})
+		},
+		previewImage: function (event) {
+			var url = event.target.dataset.url
+			wx.previewImage({
+				urls: [url]  // 需要预览的图片http链接列表
+			})
+		},
+		toggleRecordModal: function (e) {
+			this.recordStatus = this.recordStatus == this.RecordStatus.HIDE ? this.RecordStatus.SHOW : this.RecordStatus.HIDE;
+		},
+		handleRecordingMove: function (e) {
+			var touches = e.touches[0]
+			var changedTouches = this.changedTouches
+
+			if (!this.changedTouches) {
+				return
+			}
+			if (this.recordStatus == this.RecordStatus.SWIPE) {
+				if (changedTouches.pageY - touches.pageY < 20) {
+					this.recordStatus = this.RecordStatus.HOLD
+				}
+			}
+			if (this.recordStatus == this.RecordStatus.HOLD) {
+				if (changedTouches.pageY - touches.pageY > 20) {
+					this.recordStatus = this.RecordStatus.SWIPE
+				}
+			}
+
+		},
+		handleRecording: function (e) {
+			var self = this
+			this.changedTouches = e.touches[0]
+			this.recordStatus = this.RecordStatus.HOLD
+			
+			AudioService.start();
+		},
+		async handleRecordingStop (){
+			let duration = await AudioService.stop();
+			let self = this;
+			if (this.recordStatus == this.RecordStatus.SWIPE) {
+				this.recordStatus = this.RecordStatus.RELEASE
+			} else {
+				this.recordStatus = this.RecordStatus.HIDE
+			}
+			if (self.recordStatus == self.RecordStatus.RELEASE) {
+				console.log('user canceled')
+				this.recordStatus = this.RecordStatus.SHOW
+				this.$apply();
+				return
+			}else{
+				this.recordStatus = this.RecordStatus.HIDE
+				this.$apply();
+			}
+			if(duration<1){
+				return
+			}
+			let url = await AudioService.upload();
+
+			var time = WebIMService.Time.getFormatTime()
+			this.sendJSON = {
+				"type" : "audio",
+				"time": time,
+				"data": url,
+				"from": this.username,
+				"to": this.groupname,
+				"duration": duration
+			}
+			var myName = self.username
+			var msgData = await WebIMService.sendGroupMsg(this.sendJSON, self.groupname);
+			self.refreshChat(msgData);
+		},
+		//开局弹窗确定
+		tapStartJu() {
+			DatingService.closeDating(this.datingId).then(
+				() => {
+					this.isOpen = true;
+					this.masklayerShow = false;
+					this.$apply();
+				}
+			);
+		},
+		//开局弹窗取消
+		tapCancelJu() {
+			this.masklayerShow = false
+		},
+		//分享按钮
+		tapOnShareBtn() {
+		   this.sharewrapperShow = true 
+		},
+		//生成分享海报按钮
+		tapCreatePoster() {
+			wx.navigateTo({
+				url: `/package/pages/dating/dating_share?id=${this.datingId}`,
+			})
+		},
+		closeSharelayer() {
+			this.sharewrapperShow = false
+		},
+		tapEnterFounderDetail() {
+			wx.navigateTo({
+				url: `/pages/paoypao/paoypao_friend?id=${this.datingInfo.user.id}`
+			})
+		},
+		tapEnterJoinerDetail(id) {
+			wx.navigateTo({
+				url: `/pages/paoypao/paoypao_friend?id=${id}`
+			})
+		}
+	}
+
+	noEmoji() {
+		this.show = 'emoji_list'
+		this.showEnroll = true;
+		this.chatheight = this.chatheightWithoutEmogi;
+		this.$apply();
+	}
+	cleanInput () {
+		this.sendInfo = this.userMessage;
+		this.inputMessage = '';
+		this.$apply();
+	}
+	
+	events = {};
+	refreshChat(msgData, unshift=false){
+		var self = this;
+		var myName = self.username
+		if(msgData.msg.type=='audio'){
+			if(msgData.style=="self"){
+				msgData.audioimg = "../../images/voice/left00.png" 
+				msgData.audioplay = 0
+			}else{
+				msgData.audioimg = "../../images/voice/right00.png" 
+				msgData.audioplay = 0
+			}
+		}
+        msgData.msgtime = msgData.time;
+        if(!msgData.msgtime){
+            return
+        }
+		if(self.chatMsg.length > 0&&msgData.msgtime.split(":").slice(0, -1).join(":") == self.chatMsg[self.chatMsg.length-1].msgtime.split(":").slice(0, -1).join(":")){
+			msgData.time="";
+		}
+        if(unshift){
+		    self.chatMsg.unshift(msgData)
+        }else{
+		    self.chatMsg.push(msgData)
+        }
+		var myName = self.username
+		wx.setStorage({
+			key: self.groupname,
+			data: self.chatMsg,
+			success: function () {
+				self.chatMsg = self.chatMsg
+				setTimeout(function () {
+					self.toView = self.chatMsg[self.chatMsg.length - 1].mid
+					self.$apply();
+				}, 10)
+			}
+		})
+	}
+	initAudioContext(){
+		this.innerAudioContext = wx.createInnerAudioContext()
+		this.innerAudioContext.onError((res) => {
+			console.log(res.errMsg)
+			console.log(res.errCode)
+		})
+		this.innerAudioContext.onPlay(() => {
+			console.log('开始播放')
+		})
+	}
+	addUsersInfo(usernames){
+        let self = this;
+        let userids = [];
+        usernames.forEach(username => {
+            userids.push(parseInt(WebIMService.getIdByName(username)))
+        });
+		UserService.getMutliUserInfo(userids).then(users=>{
+            users.forEach(user => {
+                self.id2user[WebIMService.getLoginName(user.id)] = {
+                    avatar: user.avatar,
+                    name: user.name
+                }
+            });
+			self.$apply();
+		});
+	}
+
+	async loadDatingInfo() {
+		let data = await DatingService.getDating(this.datingId)
+        data.time = this.getDatingTime(data.time);
+        this.datingInfo = data;
+        this.groupname = data.chatroom_id;
+        this.userId = data.user_id;
+        this.owner = WebIMService.getLoginName(data.user_id);
+        if (data.user_join && data.user_join.is_agree == false && data.user_join.is_deleted == false) {
+            this.joinText = "已报名";
+        }
+        if (data.user_join && data.user_join.is_agree == true && data.user_join.is_deleted == false) {
+            this.joinText = "已报名";
+        }
+        if (data.has_followed) {
+            this.followed = true;
+        }
+        this.datingInfo.showAddress = data.address.split("@")[0];
+        this.isOpen = data.is_closed;
+        this.$apply();
+	}
+
+	getDatingTime(time) {
+	  let t = time.split(/[/ :-]/);
+
+	  let month = t[1];
+	  let day = t[2];
+	  let ctime = t[3] + ':' + t[4];
+	  let date = new Date(t[0], t[1]-1, t[2], t[3], t[4], t[5]);
+	  let week = this.week2day[date.getDay()];
+
+	  let res = month + "月" + day + "日 星期" + week;
+	  return res;
+	}
+
+	loadDatingJoiners() {
+		DatingService.getDatingJoiners(this.datingId, true).then(
+			data => {
+				this.joiners = data.joiners;
+				this.$apply();
+				console.log(data.joiners);
+			}
+		)
+	}
+
+	visitDating() {
+		DatingService.visitDating(this.datingId).then(
+			() => {},
+			res => {console.log(res)}
+		)
+	}
+
+	getApplyCount() {
+		DatingService.getApplyCount(this.datingId).then(
+			data => {
+				this.applyCount = data.apply_count;
+				this.$apply();
+				console.log(data);
+			}
+		)
+	}
+
+	onShareAppMessage(e) {
+		let base = '/pages/login/login?redirect=';
+		let target = encodeURIComponent(`/package/pages/chatroom/groupchatroom?id=${this.datingInfo.id}&groupid=${this.chatroomId}`);
+		return {
+			title: '这局贼嗨，铁子错过别怪我没告诉你！',
+			path: base + target,
+			imageUrl: "http://resource.vxiaocheng.com/mercury/share/join_dating.jpg",
+		}
+	}
+
+	async checkIsUserAllowEnterRoom() {
+		let data = await DatingService.checkEnterPermission(this.datingId);
+		if ((data.status == "closed" && !data.has_enter_permission) || data.status == "finished" || data.status == "deleted") {
+			wx.showToast({
+				title: '你无法参与该组局!',
+				icon: 'none',
+			})
+			setTimeout(() => {
+				wx.redirectTo({
+					url: `/package/pages/dating/outsider_dating?id=` + this.datingId,
+				});
+			}, 1500);
+		}
+	}
+
+	onShow() {
+		MP.bind(this);
+		this.loadDatingJoiners();
+		this.getApplyCount();
+	}
+
+	async onLoad(options) {
+		this.datingId = options.id;
+		this.chatroomId = options.groupid;
+		console.log(">>>>>>>>>>>>>>>>>>>", this.datingId, this.chatroomId)
+
+		this.selfId = AccountService.getSelfId();
+		this.$apply();
+
+		this.checkIsUserAllowEnterRoom();
+
+		this.visitDating();
+		await this.loadDatingInfo();
+		this.loadDatingJoiners();
+		let self = this;
+		wx.getSystemInfo({
+			success: function (res) {
+				let statusBarHeight = parseInt(res.statusBarHeight);
+				let tabHeight = 46
+				if(res.model.indexOf('iPhone')>=0){
+					tabHeight = 44
+				}
+				self.chatheight = res.windowHeight - res.windowWidth/750*88;
+				self.bottombar_height = res.windowWidth/750*86;
+				self.chatheightWithoutEmogi = self.chatheight;
+				self.chatheightWithEmogi = res.windowHeight - res.windowWidth/750*88 - 145;
+			}
+		})
+		this.initAudioContext();
+		this.fromuserInfo = await UserService.getUserInfo();
+		this.username = WebIMService.getLoginName(this.fromuserInfo.id);
+		this.$apply();
+		if(this.selfId == this.userId){
+			wx.setNavigationBarTitle({
+				title: "群聊-房主"
+			})
+		}
+
+		var value = wx.getStorageSync(this.groupname)
+		if (value) {
+            this.chatMsg = value;
+            let infofroms = []
+			this.chatMsg.forEach((msg, index) => {
+				if(this.usernames.indexOf(msg.info.from) < 0){
+                    this.usernames.push(msg.info.from)
+                    infofroms.push(msg.info.from)
+				}
+				if(msg.msg.type=='audio'){
+					if(msg.style=="self"){
+						msg.audioimg = "../../images/voice/left00.png" 
+						msg.audioplay = 0
+					}else{
+						msg.audioimg = "../../images/voice/right00.png" 
+						msg.audioplay = 0
+					}
+				}
+				msg.msgtime = msg.time;
+				if(index>0 && msg.msgtime.split(":").slice(0, -1).join(":") == this.chatMsg[index-1].msgtime.split(":").slice(0, -1).join(":")){
+					msg.time="";
+				}
+            });
+            this.addUsersInfo(_.unique(infofroms))
+			this.toView = this.chatMsg[this.chatMsg.length - 1].mid
+			this.$apply();
+		}
+        this.receiveMsg = setInterval(async ()=>{
+            let fromid = 0;
+            if(self.chatMsg.length>0 && this.chatMsg[self.chatMsg.length-1].id){
+                fromid = this.chatMsg[self.chatMsg.length-1].id
+            }
+            let newMsgs = await WebIMService.loadUnReadGroupMsgs(self.selfId, self.groupname, fromid);
+            let newNames = []
+            newMsgs.forEach(msgData  => {
+                if(self.usernames.indexOf(msgData.info.from) < 0){
+                    self.usernames.push(msgData.info.from)
+                    newNames.push(msgData.info.from)
+                }
+                if (msgData.info.from == self.username) {
+                    msgData.style = 'self'
+                } else {
+                    msgData.style = ''
+                }
+                self.refreshChat(msgData);
+            });
+            if(newNames.length>0){
+			    self.addUsersInfo(_.unique(newNames))
+            }
+        }, 5000);
+
+		if (this.datingInfo.user_join) {
+			DatingService.updateUserJoinInfo(this.datingInfo.user_join.id).then(
+				() => {},
+				res => {console.log(res)}
+			)
+		}
+	}
+    onUnload(){
+        clearInterval(this.receiveMsg);
+    }
+    async onPullDownRefresh() {
+		wx.showLoading({
+			mask: true
+        })
+        let self = this;
+        let fromid=0
+        if(this.chatMsg.length>0&&this.chatMsg[0].id){
+            fromid = this.chatMsg[0].id
+        }
+        let newMsgs = await WebIMService.getHistroyGroupMsgs(this.groupname, this.selfId,fromid)
+        let newNames = []
+        newMsgs.forEach(msgData  => {
+            if(self.usernames.indexOf(msgData.info.from) < 0){
+                self.usernames.push(msgData.info.from)
+                newNames.push(msgData.info.from)
+            }
+            if (msgData.info.from == self.username) {
+                msgData.style = 'self'
+            } else {
+                msgData.style = ''
+            }
+            self.refreshChat(msgData, true);
+        });
+        if(newNames.length>0){
+            self.addUsersInfo(_.unique(newNames))
+        }
+        this.finishRefresh();
+	}
+
+	finishRefresh() {
+		wx.stopPullDownRefresh()
+		wx.hideLoading()
+	}
+}
+</script>
+

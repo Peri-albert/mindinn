@@ -1,0 +1,498 @@
+<style lang="less">
+page {
+	overflow-x: hidden;
+
+	image {
+		display: block;
+	}
+	.pickCommunity-container {
+		box-sizing: border-box;
+		padding-top: 10vh;
+
+		.pass {
+			font-size: 24rpx;
+			opacity: .4;
+			position: fixed;
+			right: 10vw;
+			top: 2vh;
+		}
+
+		.title {
+			align-items: center;
+			box-sizing: border-box;
+			display: flex;
+			margin-bottom: 80rpx;
+			padding-left: 5vw;
+
+			image {
+				border-radius: 50%;
+				height: 150rpx;
+				margin-right: 20rpx;
+				width: 150rpx;
+			}
+
+			.text {
+				display: flex;
+				flex-direction: column;
+				position: relative;
+
+				.txt {
+					font-size: 40rpx;
+					font-weight: bold;
+				}
+
+				.list {
+					color: #999;
+					font-size: 26rpx;
+					height: 45rpx;
+					line-height: 45rpx;
+					overflow: hidden;
+					width: 330rpx;
+
+					image {
+						border-radius: 6rpx;
+						display: inline-block;
+						height: 45rpx;
+						width: 45rpx;
+					}
+				}
+
+				text {
+					bottom: 0;
+					font-size: 94rpx;
+					height: 77rpx;
+					position: absolute;
+					right: -48rpx;
+				}
+			}
+		}
+
+		swiper {
+			height: 436rpx;
+			margin-bottom: 4.14593698vh;
+			white-space: nowrap;
+
+			.squares-wrapper {
+				display: inline-block;
+				height: 100%;
+				width: 100%;
+
+				.squares {
+					align-content: space-between;
+					box-sizing: border-box;
+					display: flex;
+					flex-flow: column wrap;
+					height: 100%;
+					justify-content: space-between;
+					padding: 0 36rpx;
+
+					.square {
+						border-radius: 10rpx;
+						box-sizing: border-box;
+						color: #fff;
+						font-weight: bold;
+						height: 200rpx;
+						overflow: hidden;
+						width: 200rpx;
+
+						.bg {
+							align-items: flex-end;
+							background: rgba(0, 0, 0, .3);
+							box-sizing: border-box;
+							display: flex;
+							height: 100%;
+							padding: 20rpx;
+							width: 100%;
+						}
+					}
+				}
+			}
+		}
+
+		.progress {
+			background-color: #eee;
+			border-radius: 22rpx;
+			display: flex;
+			height: 15rpx;
+			margin: 0 auto 70rpx;
+			overflow: hidden;
+			width: 66vw;
+
+			.progress-value {
+				background-color: #ffe411;
+				border-radius: 22rpx;
+				height: 100%;
+				position: relative;
+				transition: .2s;
+				width: 50%;
+			}
+		}
+
+		.next-btn {
+			align-items: center;
+			background-color: #fff;
+			border-radius: 50%;
+			box-shadow: 0 9rpx 16rpx 6rpx #eee;
+			display: flex;
+			justify-content: center;
+			height: 150rpx;
+			margin: 0 auto 3vh;
+			width: 150rpx;
+
+			image {
+				height: 100rpx;
+				width: 100rpx;
+			}
+		}
+
+		.tip {
+			color: #808080;
+			font-size: 32rpx;
+			text-align: center;
+		}
+	}
+
+	.layer {
+		height: 100vh;
+		left: 0;
+		position: fixed;
+		top: 0;
+		visibility: hidden;
+		width: 100vw;
+
+		.bg {
+			background: rgba(255, 255, 255, .5);
+			height: 100%;
+			margin-bottom: -100vh;
+			width: 100%;
+		}
+
+		.square {
+			border-radius: 30rpx;
+			height: 60vh;
+			margin: 0 auto;
+			overflow: hidden;
+			transition: .3s;
+			transform: translateY(20vh) scale(0);
+			width: 66vw;
+
+			.black-wrapper {
+				background: rgba(0, 0, 0, .5);
+				box-sizing: border-box;
+				height: 100%;
+				padding: 30rpx 20rpx;
+				width: 100%;
+
+				.title_joinAllBtn {
+					align-items: center;
+					display: flex;
+					justify-content: space-between;
+					margin-bottom: 20rpx;
+
+					.title {
+						color: #fff;
+						font-size: 50rpx;
+					}
+
+					.joinAllBtn {
+						color: #ffe411;
+						font-size: 36rpx;
+					}
+				}
+
+				.community {
+					align-items: center;
+					border-bottom: 5rpx solid #999;
+					box-sizing: border-box;
+					display: flex;
+					justify-content: space-between;
+					padding: 4.14593698vh 0 4.975124378vh;
+
+					image {
+						border-radius: 8rpx;
+						height: 90rpx;
+						width: 90rpx;
+					}
+
+					.name_num {
+						.name {
+							color: #fff;
+							font-size: 33rpx;
+						}
+
+						.num {
+							color: #eee;
+							font-size: 30rpx;
+						}
+					}
+
+					.join_btn {
+						background-color: #ffe411;
+						border-radius: 12rpx;
+						font-size: 30rpx;
+						height: 80rpx;
+						line-height: 80rpx;
+						text-align: center;
+						width: 100rpx;
+
+						&.selected {
+							background-color: #eee;
+							color: #999;
+						}
+					}
+
+					&:last-child {
+						border: 0;
+					}
+				}
+			}
+
+			&.show {
+				transform: translateY(20vh) scale(1);
+			}
+		}
+
+		&.show {
+			visibility: visible;
+		}
+	}
+
+	#loading {
+		height: 97.65vw;
+		left: 50%;
+		position: fixed;
+		top: 50%;
+		transform: translate(-50%, -50%);
+		width: 100vw;
+		z-index: 99;
+	}
+}
+</style>
+<template>
+	<view class="pickCommunity-container" wx:if="{{!loadingSwitch}}">
+		<view class="pass" @tap.stop="tapPass">跳过 ></view>
+
+		<view class="title">
+			<image mode="aspectFill" lazy-load="true" src="/images/avatar_{{sex ? sex : 'unknow'}}.png"></image>
+			<view class="text">
+				<view class="txt">最后~找到自己人</view>
+				<view class="list">
+					<block wx:if="{{!selectCommunitiesArray.length}}">试试加入几个圈子</block>
+					<block wx:if="{{selectCommunitiesArray.length}}" wx:for="{{selectCommunitiesArray}}" wx:key="id">
+						<image mode="aspectFill" lazy-load="true" src="{{item.imgUrl}}"></image>
+					</block>
+					<text wx:if="{{selectCommunitiesArray.length > 5}}">...</text>
+				</view>
+			</view>
+		</view>
+
+		<swiper class="c-squares" bindchange="swiperChange">
+			<swiper-item>
+				<view id="wrapper1" class="squares-wrapper">
+					<view class="squares">
+						<view class="square" wx:for="{{squaresArray[0]}}" wx:key="id" style="background: url({{item.imgUrl}}) no-repeat 0 0 / cover;" @tap.stop="tapShowDetail(0, {{item.id}})">
+							<view class="bg">{{item.name}}</view>
+						</view>
+					</view>
+				</view>
+			</swiper-item>
+			<swiper-item>
+				<view id="wrapper2" class="squares-wrapper">
+					<view class="squares">
+						<view class="square" wx:for="{{squaresArray[1]}}" wx:key="id" style="background: url({{item.imgUrl}}) no-repeat 0 0 / cover;" @tap.stop="tapShowDetail(1, {{item.id}})">
+							<view class="bg">{{item.name}}</view>
+						</view>
+					</view>
+				</view>
+			</swiper-item>
+		</swiper>
+
+		<view class="progress">
+			<view class="progress-value" style="left: {{currentIndex ? '50%' : '0'}}"></view>
+		</view>
+
+		<view class="next-btn" @tap.stop="tapToNext">
+			<image mode="aspectFill" lazy-load="true" src="/images/right_arrow_can_next_{{selectCommunitiesArray.length > 1}}.png"></image>
+		</view>
+
+		<view class="tip" wx:if="{{selectCommunitiesArray.length < 2}}">请至少加入 ({{selectCommunitiesArray.length}}/2) 个圈子</view>
+	</view>
+
+	<view class="layer {{layerSquareShow ? 'show' : ''}}">
+		<view class="bg" @tap.stop="tapHideLayer"></view>
+		<view class="square {{layerSquareShow ? 'show' : ''}}" style="background: url({{layerSquare.bgImgUrl}}) no-repeat 0 0 / cover;">
+			<view class="black-wrapper">
+				<view class="title_joinAllBtn">
+					<view class="title">{{layerSquare.name}}</view>
+					<view class="joinAllBtn" wx:if="{{!layerSquare.allSelected}}" @tap.stop="tapJoinAll({{layerSquare.id}})">全部加入</view>
+				</view>
+				<view class="community" wx:for="{{layerSquare.detail}}">
+					<image mode="aspectFill" lazy-load="true" src="{{item.imgUrl}}"></image>
+					<view class="name_num">
+						<view class="name">{{item.title}}</view>
+						<view class="num">10000 人已加入</view>
+					</view>
+					<view class="join_btn {{item.selected ? 'selected' : ''}}" @tap.stop="tapJoin({{layerSquare.id}}, {{item.id}})">加入</view>
+				</view>
+			</view>
+		</view>
+	</view>
+
+	<image id="loading" wx:if="{{loadingSwitch}}" src="/images/loading.gif"></image>
+</template>
+
+<script>
+import wepy from 'wepy'
+
+export default class PickCommunity extends wepy.page {
+  config = {
+	navigationBarTitleText: '选择社区'
+  }
+  components = {
+  }
+
+  data = {
+	publicHobbies: [],
+	maleHobbies: [],
+	femaleHobbies: [],
+	unknowHobbies: [],
+	squaresArray: [[], []],
+	layerSquare: {},
+	layerSquareShow: false,
+	sex: '',
+	scrollLeftArray: [],
+	currentIndex: 0,
+	selectCommunitiesArray: [],
+	loadingSwitch: false
+  }
+
+  computed = {
+  }
+
+  methods = {
+	  tapPass() {
+			this.loading()	
+	  },
+	  swiperChange(e) {
+		  console.log('change e', e)
+		  this.currentIndex = e.detail.current
+	  },
+	  tapShowDetail(i, squareId) {
+		  this.layerSquare = this.squaresArray[i].find(e => e.id == squareId)
+		  console.log('点击细节', this.layerSquare)
+		  this.layerSquareShow = true
+	  },
+	  tapHideLayer() {
+		  this.layerSquareShow = false
+	  },
+	  tapJoin(squareId, squareDetailId, e) {
+		  console.log('tapJoin', 'squareId', squareId, 'squareDetailId', squareDetailId, e)
+		  let square = this.squaresArray[this.currentIndex].find(e => e.id == squareId)
+		  if (this.selectCommunitiesArray.find(e => e.id == squareDetailId)) {
+			  console.log('已存在')
+			  this.selectCommunitiesArray.splice(this.selectCommunitiesArray.findIndex(e => e.id == squareDetailId), 1)
+			  square.detail.find(e => e.id == squareDetailId).selected = false
+			  square.allSelected = false
+			  return;
+		  }
+		  square.detail.find(e => e.id == squareDetailId).selected = true
+		  this.selectCommunitiesArray.unshift({
+			  id: squareDetailId,
+			  imgUrl: square.detail.find(e => e.id == squareDetailId).imgUrl
+		  })
+		  if (!square.detail.find(e => !e.selected)) {
+			  console.log('全选了')
+			  square.allSelected = true
+		  }
+		  this.layerSquare = square
+		  this.$apply()
+	  },
+	  tapJoinAll(squareId) {
+		  this.squaresArray[this.currentIndex].find(e => {
+			  if (e.id == squareId) {
+				  e.allSelected = true
+				  return e
+			  }
+		  }).detail.forEach(e => {
+			  if (!e.selected) {
+				  e.selected = true
+				  this.selectCommunitiesArray.unshift({
+					id: e.id,
+					imgUrl: e.imgUrl
+				  })
+			  }
+		  })
+	  },
+	  tapToNext() {
+		  if (this.selectCommunitiesArray.length > 1) {
+			  console.log('可以进入下一个页面')
+			  this.loading()
+		  }
+	  }
+  }
+
+  events = {
+
+  }
+
+  onLoad(query) {
+	console.log('onLoad()', query)
+	this.sex = query.sex ? query.sex : 'unknow'
+	this.$apply()
+
+	const picPath = 'https://www.mindinn.top/images/hobby'
+	this.publicHobbies = [
+		{id: 1, name: '游戏', imgUrl: `${picPath}/game.jpg`, bgImgUrl: `${picPath}/game_bg.jpg`, detail: [{title: '手游随时随地', imgUrl: `${picPath}/game/mobile_game.jpg`, id: 11, selected: false}, {title: '端游才是正统', imgUrl: `${picPath}/game/pc_game.jpg`, id: 12, selected: false}, {title: '主机血统高贵', imgUrl: `${picPath}/game/host_game.jpg`, id: 13, selected: false}]},
+		{id: 2, name: '萌宠', imgUrl: `${picPath}/pet.jpg`, bgImgUrl: `${picPath}/pet_bg.jpg`, detail: [{title: '主子你大说了算', imgUrl: `${picPath}/pet/cat.jpg`, id: 21, selected: false}, {title: '汪星来客超粘人', imgUrl: `${picPath}/pet/dog.jpg`, id: 22, selected: false}, {title: '神奇动物在哪里', imgUrl: `${picPath}/pet/niche_pet.jpg`, id: 23, selected: false}]},
+		{id: 3, name: '情感', imgUrl: `${picPath}/emotion.jpg`, bgImgUrl: `${picPath}/emotion_bg.jpg`, detail: [{title: '单身狗的日常', imgUrl: `${picPath}/emotion/single.jpg`, id: 31, selected: false}, {title: '碎了我的少女心', imgUrl: `${picPath}/emotion/break_up.jpg`, id: 32, selected: false}, {title: '赶脚自己恋爱了', imgUrl: `${picPath}/emotion/amativeness.jpg`, id: 33, selected: false}]},
+		{id: 4, name: '音乐', imgUrl: `${picPath}/music.jpg`, bgImgUrl: `${picPath}/music_bg.jpg`, detail: [{title: '爵士乡村小蓝调', imgUrl: `${picPath}/music/american_music.jpg`, id: 41, selected: false}, {title: '电音流行纯音乐', imgUrl: `${picPath}/music/pop_music.jpg`, id: 42, selected: false}, {title: 'freestyle串首歌', imgUrl: `${picPath}/music/freestyle.jpg`, id: 43, selected: false}]},
+		{id: 5, name: '美食', imgUrl: `${picPath}/food.jpg`, bgImgUrl: `${picPath}/food_bg.jpg`, detail: [{title: '八大菜系任你挑', imgUrl: `${picPath}/food/chinese_food.jpg`, id: 51, selected: false}, {title: '澳龙牡蛎鱼子酱', imgUrl: `${picPath}/food/western_food.jpg`, id: 52, selected: false}, {title: '炸鸡薯条汉堡包', imgUrl: `${picPath}/food/fast_food.jpg`, id: 53, selected: false}]},
+		{id: 6, name: '影视', imgUrl: `${picPath}/movie.jpg`, bgImgUrl: `${picPath}/movie_bg.jpg`, detail: [{title: '电影“美”一刻', imgUrl: `${picPath}/movie/film.jpg`, id: 61, selected: false}, {title: '国美日韩剧剧剧', imgUrl: `${picPath}/movie/tv_drama.jpg`, id: 62, selected: false}, {title: 'VR“真”体验', imgUrl: `${picPath}/movie/virtual_reality.jpg`, id: 63, selected: false}]},
+		{id: 7, name: '摄影', imgUrl: `${picPath}/photography.jpg`, bgImgUrl: `${picPath}/photography_bg.jpg`, detail: [{title: '走到哪拍到哪', imgUrl: `${picPath}/photography/photography.jpg`, id: 71, selected: false}, {title: '写真造梦师', imgUrl: `${picPath}/photography/portray.jpg`, id: 72, selected: false}, {title: '街拍与搭讪', imgUrl: `${picPath}/photography/street_snap.jpg`, id: 73, selected: false}]},
+		{id: 8, name: '文化', imgUrl: `${picPath}/culture.jpg`, bgImgUrl: `${picPath}/culture_bg.jpg`, detail: [{title: '历史留声机', imgUrl: `${picPath}/culture/history.jpg`, id: 81, selected: false}, {title: '国风美骚年', imgUrl: `${picPath}/culture/chinese_style.jpg`, id: 82, selected: false}, {title: '文艺小清新', imgUrl: `${picPath}/culture/literary.jpg`, id: 83, selected: false}]},
+		{id: 9, name: '旅行', imgUrl: `${picPath}/travel.jpg`, bgImgUrl: `${picPath}/travel_bg.jpg`, detail: [{title: '城里的人真会玩', imgUrl: `${picPath}/travel/city.jpg`, id: 91, selected: false}, {title: '我见过山和大海', imgUrl: `${picPath}/travel/nature.jpg`, id: 92, selected: false}, {title: '袅袅炊烟小茅屋', imgUrl: `${picPath}/travel/rural.jpg`, id: 93, selected: false}]},
+		{id: 10, name: '二次元', imgUrl: `${picPath}/anime.jpg`, bgImgUrl: `${picPath}/anime_bg.jpg`, detail: [{title: 'cosplayer你不懂', imgUrl: `${picPath}/anime/cosplay.jpg`, id: 101, selected: false}, {title: '国漫觉醒祭', imgUrl: `${picPath}/anime/chinese_anime.jpg`, id: 102, selected: false}, {title: '追番吧欧尼酱', imgUrl: `${picPath}/anime/japanese_anime.jpg`, id: 103, selected: false}]}
+	]
+	this.femaleHobbies = [
+		{id: 11, name: '时尚', imgUrl: `${picPath}/fashion.jpg`, bgImgUrl: `${picPath}/fashion_bg.jpg`, detail: [{title: '别急容我补个妆', imgUrl: `${picPath}/fashion/cosmetic.jpg`, id: 111, selected: false}, {title: '女王陛下穿什么', imgUrl: `${picPath}/fashion/outfit.jpg`, id: 112, selected: false}, {title: '轻奢“包”你美', imgUrl: `${picPath}/fashion/luxury.jpg`, id: 113, selected: false}]},
+		{id: 12, name: '娱乐', imgUrl: `${picPath}/entertainment.jpg`, bgImgUrl: `${picPath}/entertainment_bg.jpg`, detail: [{title: '你八卦我吃瓜', imgUrl: `${picPath}/entertainment/gossip.jpg`, id: 121, selected: false}, {title: '综艺大咖秀', imgUrl: `${picPath}/entertainment/variety.jpg`, id: 122, selected: false}, {title: '追不到星誓不休', imgUrl: `${picPath}/entertainment/chase_star.jpg`, id: 123, selected: false}]}
+	]
+	this.maleHobbies = [
+		{id: 13, name: '科技', imgUrl: `${picPath}/technology.jpg`, bgImgUrl: `${picPath}/technology_bg.jpg`, detail: [{title: '搞机圈大小事', imgUrl: `${picPath}/technology/machine.jpg`, id: 131, selected: false}, {title: '潘多拉的魔盒', imgUrl: `${picPath}/technology/artificial_intelligence.jpg`, id: 132, selected: false}, {title: '互联网大佬说', imgUrl: `${picPath}/technology/internet.jpg`, id: 133, selected: false}]},
+		{id: 14, name: '运动', imgUrl: `${picPath}/motion.jpg`, bgImgUrl: `${picPath}/motion_bg.jpg`, detail: [{title: '足球篮球乒乓球', imgUrl: `${picPath}/motion/ball_sports.jpg`, id: 141, selected: false}, {title: '游泳健身呼啦圈', imgUrl: `${picPath}/motion/fitness.jpg`, id: 142, selected: false}, {title: '跳高跳远田径跑', imgUrl: `${picPath}/motion/track_and_field.jpg`, id: 143, selected: false}]}
+	]
+	this.unknowHobbies = [
+		{id: 14, name: '运动', imgUrl: `${picPath}/motion.jpg`, bgImgUrl: `${picPath}/motion_bg.jpg`, detail: [{title: '足球篮球乒乓球', imgUrl: `${picPath}/motion/ball_sports.jpg`, id: 141, selected: false}, {title: '游泳健身呼啦圈', imgUrl: `${picPath}/motion/fitness.jpg`, id: 142, selected: false}, {title: '跳高跳远田径跑', imgUrl: `${picPath}/motion/track_and_field.jpg`, id: 143, selected: false}]},
+		{id: 12, name: '娱乐', imgUrl: `${picPath}/entertainment.jpg`, bgImgUrl: `${picPath}/entertainment_bg.jpg`, detail: [{title: '你八卦我吃瓜', imgUrl: `${picPath}/entertainment/gossip.jpg`, id: 121, selected: false}, {title: '综艺大咖秀', imgUrl: `${picPath}/entertainment/variety.jpg`, id: 122, selected: false}, {title: '追不到星誓不休', imgUrl: `${picPath}/entertainment/chase_star.jpg`, id: 123, selected: false}]}
+	]
+	if (this.sex == 'unknow') {
+		this.squaresArray[0].push(...this.unknowHobbies)
+	}else if (this.sex == 'male') {
+		this.squaresArray[0].push(...this.maleHobbies)
+	}else if (this.sex == 'female') {
+		this.squaresArray[0].push(...this.femaleHobbies)
+	}
+	this.squaresArray[0].push(...this.publicHobbies.slice(0, 4))
+	this.squaresArray[1].push(...this.publicHobbies.slice(4))
+	this.squaresArray.forEach(squares => {
+		squares.forEach(square => {
+			square.allSelected = false
+		})
+	})
+	
+	console.log('this.squaresArray', this.squaresArray)
+  }
+
+  loading() {
+	  this.loadingSwitch = true
+	  wx.setNavigationBarTitle({
+		  title: 'loading···'
+	  })
+	  setTimeout(() => {
+			wx.switchTab({
+				url: `/pages/blogs/new_blogs`
+			})
+	  }, (Math.random() + 2) * 1000)
+  }
+}
+</script>

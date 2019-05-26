@@ -1,0 +1,346 @@
+<style lang="less">
+@import "../../base";
+
+page {
+background: #FAFAFA;
+
+.container {
+	margin-top: 0rpx;
+
+	.x-i-editor {
+		.x-i-title {
+			font-size: 0.8em;
+			color: #AAA;
+			padding: 10px;
+		}
+		.x-i-user {
+			background-color: #FFF;
+			padding: 10px;
+			display: flex;
+			flex-direction: row;
+			align-items: center;
+
+			.x-i-avatar {
+				width: 100rpx;
+				height: 100rpx;
+				border-radius: 50%;
+				overflow: hidden;
+
+				image {
+					width: 100rpx;
+					height: 100rpx;
+				}
+			}
+
+			.x-i-name {
+				margin-left: 20rpx;
+			}
+		}
+		.x-i-textarea {
+			padding: 10px;
+			background: #fff;
+		}
+		.x-i-hint {
+			background: #FFF;
+			color: #AAA;
+			font-size: 0.7em;
+			font-weight: normal;
+			margin-left: 10px;
+			padding-bottom: 5px;
+		}
+	}
+	textarea  {
+		width: 100%;
+		font-size: 28rpx;
+		background: #fff;
+	}
+	
+	.xui-wrapper {
+		padding-left: 10px;
+		background: #fff;
+
+		.xui-i-item {
+			width: 20vw;
+			height: 20vw;
+			margin-right: 10px;
+			float: left;
+			margin-bottom: 10px;
+			position: relative;
+			image {
+				width: 20vw;
+				height: 20vw;
+			}
+			.xui-i-close {
+				position: absolute;
+				right: 0rpx;
+				top: 0rpx;
+				width: 60rpx;
+				height: 60rpx;
+				display: block;
+			}
+		}
+	}
+	.xui-plus {
+		line-height: 20vw;
+		text-align: center;
+		border: 1px solid #e1e1e1;
+		.icon {
+		font-size: 20px;
+		color: #e1e1e1;
+		}
+	}
+
+	.xui-btns {
+		width: 100%;
+		padding: 20rpx;
+
+		button {
+			color: #fff;
+			font-size: 30rpx;
+			width: 200px;
+			margin: 30px auto 0;
+			background-color: #75167e;
+		}
+		
+		.xui-topic-title {
+			font-size: 25rpx;
+			color: #75167e;
+		}
+		
+		.xui-topics {
+			padding: 20rpx;
+			display: flex;
+			flex-wrap: wrap;
+
+			.xui-topic {
+				width: 16%;
+				font-size: 32rpx;
+				padding:5rpx;
+				margin: 20rpx;
+				border: 1px solid #9e2ea8;
+				border-radius: 10rpx;
+				text-align: center;
+				color: #75167e;
+			}
+
+			.active {
+				background-color: #9e2ea8;
+				color: white;
+			}
+		}
+	}
+
+	.x-reasons {
+		display: flex;
+		flex-direction: column;
+		background-color: #FFF;
+
+		.x-i-title {
+			padding: 10px 10px;
+			color: #AAA;
+			font-size: 0.8em;
+			background-color: #FAFAFA;
+		}
+
+		.x-i-reason {
+			font-size: 0.8em;
+			padding: 10px 10px;
+			border-bottom: solid 1px #EFEFEF;
+		}
+	}
+}
+
+}
+
+
+</style>
+
+<template>
+	
+<view class="container mt50">
+	<view wx:if="{{mode == 'select_reason'}}" class="x-reasons">
+		<view class="x-i-title">请选择举报的理由</view>
+		<view 
+			wx:for="{{reasons}}" 
+			wx:for-index="index" 
+			wx:for-item="reason" 
+			wx:key="index" 
+			class="x-i-reason"
+			@tap="onTapReason({{reason}})"
+		>
+			<text>{{reason.text}}</text>
+		</view>
+	</view>
+
+	<form wx:else @submit="onTapFormSubmit" class="mt50 x-i-editor">
+		<view class="x-i-title">举报对象</view>
+		<view class="x-i-user">
+			<view class="x-i-avatar">
+				<image src="{{userAvatar}}" mode="aspectFill" />
+			</view>
+			<view class="x-i-name">{{userName}}</view>
+		</view>
+		
+		<view class="x-i-title">举报详情</view>
+
+		<view class="x-i-textarea">
+			<textarea placeholder="提交聊天记录等证据截图，说明违规详情，有助于管理员快速处理。" name="content" class="mt50"/>
+		</view>
+
+		<block wx:if="{{type === 'video'}}">
+			<view class="xui-wrapper clearfix">
+				<view class="xui-i-item" wx:for="{{resources}}" wx:key="{{item}}">
+					<video class="xui-i-item" src="{{item}}" />
+					<view class="xui-i-close" catchtap="onTapDeleteResource({{item}})">
+						<image class="xui-i-close" mode="widthFix" src="../../images/topright_delete.png" />
+					</view>
+				</view>
+
+				<view class="xui-plus xui-i-item" @tap="chooseVideo" wx:if="{{resources.length < 1}}">
+					<text class="icon iconfont icon-plus"></text>
+				</view>
+			</view>
+		</block>
+		<block wx:else>
+			<view class="xui-wrapper clearfix">
+				<view class="xui-i-item" wx:for="{{resources}}" wx:key="{{item}}">
+					<image src="{{item}}" mode="aspectFill" @tap="onPreviewImg({{item}})" />
+					<view class="xui-i-close" catchtap="onTapDeleteResource({{item}})">
+						<image class="xui-i-close" mode="widthFix" src="../../images/topright_delete.png" />
+					</view>
+				</view>
+				<!--
+				<image class="xui-i-item" wx:for="{{resources}}" wx:key="{{item}}" src="{{item}}" mode="aspectFill" @tap="onPreviewImg({{item}})" />
+				-->
+				<view class="xui-plus xui-i-item" @tap="chooseImage" wx:if="{{resources.length < 9}}">
+					<text class="icon iconfont icon-plus"></text>
+				</view>
+			</view>
+			<view class="x-i-hint">证据截图（选填）</view>
+		</block>
+
+		<view class="xui-btns">
+			<button form-type="submit" hover-class="none"> 提交举报 </button>
+		</view>
+	</form>
+</view>
+</template>
+
+<script>
+import wepy from 'wepy'
+import UserService from '../../services/user_service'
+
+export default class PostBlog extends wepy.page {
+	config = {
+		navigationBarTitleText: "举报"
+	}
+
+	components = {
+	}
+
+	mixins = []
+
+	data = {
+		navigationBarTitleText: "举报",
+		userId: 0,
+		userName: '',
+		userAvatar: '',
+
+		text: '',
+		mode: 'select_reason',
+		resources: [],
+		maxResourceCount: 8,
+
+		reasons: [
+			{text: '广告营销'},
+			{text: '色情低俗'},
+			{text: '恶意骚扰，不文明言语'},
+			{text: '存在欺诈骗钱行为'},
+			{text: '盗用他人资料'},
+			{text: '购物、话费、旅游等各种托'},
+			{text: '收集微信手机、拉人入群'},
+			{text: '拉票拉粉积赞砍价等扰民行为'},
+			{text: '违法违禁行为（黄赌毒、暴恐等）'},
+			{text: '其他'}
+		],
+		selectedReason: null
+	}
+
+	computed = {
+	}
+
+	methods = {
+		onTapReason (reason) {
+			this.selectedReason = reason;
+			this.mode = 'submit';
+		},
+
+		onTapFormSubmit (e) {
+			var detail = e.detail.value.content.trim();
+			if (detail.length == 0) {
+				wx.showToast({
+					title: '请输入举报详情',
+					icon: 'none',
+					duration: 1500
+				});
+				return;
+			}
+
+			UserService.reportOtherUser(this.userId, this.selectedReason.text, detail, this.resources).then(isSuccess => {
+				if (isSuccess) {
+					wx.showToast({
+						title: '感谢您的贡献',
+						icon: 'success',
+						duration: 1500
+					});
+					setTimeout(() => {
+						wx.navigateBack();
+					}, 1700)
+				} else {
+					wx.showToast({
+						title: '举报失败，请稍后再试',
+						duration: 2500
+					});
+				}
+			})
+		},
+
+		chooseImage () {
+			var _this = this;
+			let curCount = 9 - this.resources.length;
+			wx.chooseImage({
+				count: curCount,  
+				sizeType: ['original', 'compressed'],
+				sourceType: ['album', 'camera'],
+				success: res => {
+					this.resources = [...this.resources, ...res.tempFilePaths]
+					this.$apply();
+				}
+			})
+		},
+
+		onPreviewImg (item) {
+			wx.previewImage({
+				current: item,
+				urls: this.resources
+			})
+		},
+
+		onTapDeleteResource(item) {
+			this.resources = this.resources.filter(aItem => {
+				return item != aItem;
+			})
+		}
+	}
+
+	events = {
+
+	}
+
+	onLoad (query) {
+		this.userId = query.userId;
+		this.userName = query.userName;
+		this.userAvatar = query.userAvatar;
+	}
+}
+</script>

@@ -1,0 +1,192 @@
+<style lang="less">
+page {
+	.lineOverEllipsis {
+		display: block;
+		overflow: hidden;
+		text-overflow: ellipsis;
+		white-space: nowrap;
+	}
+	.danmu-paths {
+		height: 100rpx;
+		position: absolute;
+		top: 80rpx;
+		width: 100%;
+		z-index: 999;
+		.danmu-path {
+			height: 54rpx;
+			margin-bottom: 30rpx;
+			overflow-x: hidden;
+			position: relative;
+			width: 100%;
+			.danmu {
+				align-items: center;
+				background: rgba(0, 0, 0, .7);
+				border-radius: 40rpx;
+				display: flex;
+				font-size: 20rpx;
+				height: 40rpx;
+				margin-right: 30rpx;
+				left: 100%;
+				position: absolute;
+				padding: 3rpx 10rpx;
+				top: 50%;
+				transform: translateY(-50%);
+				image {
+					border-radius: 50%;
+					display: block;
+					height: 30rpx;
+					width: 30rpx;
+				}
+				.danmu-name {
+					color: #f8d404;
+					margin: 0 10rpx;
+					white-space: nowrap;
+				}
+				.danmu-content {
+					color: #fff;
+					white-space: nowrap;
+				}
+			}
+		}
+	}
+	@keyframes run {
+		0% {left: 100%;}
+		100% {left: -100%;}
+	}
+}
+</style>
+<template>
+	<view class="danmu-paths">
+		<view class="danmu-path">
+			<block wx:for="{{danmuArray[0]}}">
+				<view class="danmu" style="animation: {{startAnimation ? 'run' : 'none'}} {{item.duration}}s linear {{item.delay}}s;">
+					<image class="danmu-avatar" src="{{item.avatar}}"></image>
+					<view class="danmu-name">{{item.name}}: </view>
+					<view class="danmu-content">{{item.content}}</view>
+				</view>
+			</block>
+		</view>
+		<view class="danmu-path">
+			<block wx:for="{{danmuArray[1]}}">
+				<view class="danmu" style="animation: {{startAnimation ? 'run' : 'none'}} {{item.duration}}s linear {{item.delay}}s;">
+					<image class="danmu-avatar" src="{{item.avatar}}"></image>
+					<view class="danmu-name">{{item.name}}: </view>
+					<view class="danmu-content">{{item.content}}</view>
+				</view>
+			</block>
+		</view>
+		<view class="danmu-path">
+			<block wx:for="{{danmuArray[2]}}">
+				<view class="danmu" style="animation: {{startAnimation ? 'run' : 'none'}} {{item.duration}}s linear {{item.delay}}s;">
+					<image class="danmu-avatar" src="{{item.avatar}}"></image>
+					<view class="danmu-name">{{item.name}}: </view>
+					<view class="danmu-content">{{item.content}}</view>
+				</view>
+			</block>
+		</view>
+		<view class="danmu-path">
+			<block wx:for="{{danmuArray[3]}}">
+				<view class="danmu" style="animation: {{startAnimation ? 'run' : 'none'}} {{item.duration}}s linear {{item.delay}}s;">
+					<image class="danmu-avatar" src="{{item.avatar}}"></image>
+					<view class="danmu-name">{{item.name}}: </view>
+					<view class="danmu-content">{{item.content}}</view>
+				</view>
+			</block>
+		</view>
+	</view>
+</template>
+<script>
+import wepy from 'wepy'
+
+export default class Danmu extends wepy.component {
+	props = {
+	}
+
+	data = {
+		danmus: [],
+		danmuArray: [],
+		startAnimation: true,
+		loop: '',
+		startTime: ''
+	}
+
+	events = {
+		'get-danmus': (danmus) => {
+			this.danmus = danmus
+			this.$apply()
+			this.startRunning()
+		},
+		'add-danmu': (danmu) => {
+			let maxTimeArray = []
+			danmu.duration = 12 - danmu.content.length * .2
+			danmu.delay = 0
+			this.danmuArray[0].push(danmu)
+			// this.danmuArray.forEach((ele, index) => {
+			// 	if (!ele.length || index == 0) {
+			// 		return maxTimeArray.push(0)
+			// 	}
+			// 	maxTimeArray.push(ele[ele.length - 1].duration + ele[ele.length - 1].delay)
+			// })
+			// const maxTime = Math.max(...maxTimeArray)
+			// let leftTime = (maxTime * 1000 - Date.now() + this.startTime) / 1000
+			// leftTime = leftTime > danmu.duration ? leftTime : danmu.duration
+			// clearInterval(this.loop)
+			// this.loop = setInterval(() => {
+			// 	if (this.danmuArray[0].length) {
+			// 		this.danmuArray[0].forEach((e, i, arr) => {
+			// 			if (i == 0) return;
+			// 			e.delay = arr[i - 1].delay + arr[i - 1].duration * .4
+			// 		})
+			// 	}
+			// 	this.startAnimation = false
+			// 	this.$apply()
+			// 	this.startAnimation = true
+			// 	this.$apply()
+			// 	clearInterval(this.loop)
+			// 	this.loop = setInterval(() => {
+			// 		this.startAnimation = false
+			// 		this.$apply()
+			// 		this.startAnimation = true
+			// 		this.$apply()
+			// 	}, maxTime * 1000)
+			// }, leftTime * 1000)
+		}
+	}
+
+	startRunning() {
+		clearInterval(this.loop)
+		let maxTimeArray = []
+		for (let i = 0; i < 4; i++) {
+			this.danmuArray[i] = []
+		}
+		if (!this.danmus.length) return;  //如果一开始获取弹幕数据为空就return，否则设置duration和delay跑动画
+		this.danmus.forEach(e => {
+			e.duration = 12 - e.content.length * .2
+			this.danmuArray[Math.floor(Math.random() * 3 + 1)].push(e)
+		})
+		this.danmuArray.forEach((ele, index) => {
+			if (!ele.length || index == 0) {
+				return maxTimeArray.push(0)
+			}
+			ele.forEach((e, i, arr) => {
+				if (i == 0) {
+					e.delay = Math.random()
+				}else {
+					e.delay = arr[i - 1].delay + arr[i - 1].duration * .4
+				}
+			})
+			maxTimeArray.push(ele[ele.length - 1].duration + ele[ele.length - 1].delay)
+		})
+		this.startTime = Date.now()
+		let maxTime = Math.max(...maxTimeArray)
+		//设置动画跑完之后循环
+		this.loop = setInterval(() => {
+			this.startAnimation = false
+			this.$apply()
+			this.startAnimation = true
+			this.startTime = Date.now()
+			this.$apply()
+		}, maxTime * 1000)
+	}
+}
+</script>

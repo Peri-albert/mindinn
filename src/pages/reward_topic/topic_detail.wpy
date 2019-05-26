@@ -1,0 +1,433 @@
+<style lang="less">
+page {
+	min-height: 100vh;
+	overflow-x: hidden;
+	//flex居中
+	.flexCenter {
+		align-items: center;
+		display: flex;
+		justify-content: center;
+	}
+	.topicdetail-container {
+		background-color: #eee;
+		box-sizing: border-box;
+		min-height: 100vh;
+		padding: 5rpx 0 0;
+
+		.current-topic-wrapper {
+			background: url(https://vxiaocheng-jh.oss-cn-beijing.aliyuncs.com/mercury/reward_detail/reward_default_bg.png) no-repeat;
+			background-size: 100%;
+			box-sizing: border-box;
+			display: flex;
+			height: 214rpx;
+			padding: 50rpx 0 0;
+			width: 100vw;
+
+			image {
+				display: block;
+				height: 140rpx;
+				margin: 0 24rpx 0;
+				width: 140rpx;
+			}
+
+			.current-topic {
+				color: #fff;
+				display: flex;
+				flex-direction: column;
+				height: 140rpx;
+				justify-content: space-around;
+
+				text {
+					font-size: 20rpx;
+				}
+
+				text:first-child {
+					font-size: 36rpx;
+					font-weight: bold;
+				}
+			}
+		}
+
+		.tabs {
+			align-items: center;
+			background-color: #fff;
+			box-sizing: border-box;
+			display: flex;
+			height: 84rpx;
+			margin: 5rpx 0 16rpx;
+			padding-left: 80rpx;
+
+			.tab {
+				align-items: center;
+				display: flex;
+				font-size: 30rpx;
+				height: 100%;
+				margin-right: 65rpx;
+				&.active {
+					color: #000;
+					font-weight: bold;
+					position: relative;
+				}
+
+				&.active::after {
+					background-color: #000;
+					border-radius: 10rpx;
+					bottom: 0;
+					content: '';
+					height: 8rpx;
+					left: 0;
+					position: absolute;
+					width: 100%;
+					
+				}
+			}
+		}
+
+		.reward-blogs {
+
+		}
+	}
+
+	//回主页及发悬赏
+	.bottom-btns {
+		bottom: 0;
+		display: flex;
+		left: 0;
+		height: 96rpx;
+		position: fixed;
+		width: 100vw;
+		z-index: 99;
+
+		.back-home, .create-reward {
+			color: #fff;
+			font-size: 28rpx;
+			.flexCenter;
+			image {
+				display: block;
+			}
+		}
+
+		.back-home {
+			background-color: #777;
+			width: 170rpx;
+			
+			.back-home-icon {
+				height: 39rpx;
+				margin-right: 22rpx;
+				width: 38rpx;
+			}
+		}
+
+		.create-reward {
+			background-color: #ffe411;
+			flex: 1;
+			
+			.create-reward-icon {
+				height: 32rpx;
+				margin-right: 40rpx;
+				width: 40rpx;
+			}
+		}
+	}
+}
+
+</style>
+	
+<template>
+	<view class="topicdetail-container">
+		<view class="current-topic-wrapper">
+			<image mode="aspectFill" src="{{topicImg}}"></image>
+			<view class="current-topic">
+				<text>{{currentTopic}}</text>
+				<text>动态{{blogCount}}条</text>
+			</view>
+		</view>
+		
+		<view class="tabs">
+			<view class="tab {{currentTab == 'new' ? 'active' : ''}}" @tap.stop="tapSwitchTab('new')">最新</view>
+			<view class="tab {{currentTab == 'hot' ? 'active' : ''}}" @tap.stop="tapSwitchTab('hot')">最热</view>
+		</view>
+
+		<view class="reward-blogs">
+			<repeat for="{{blogs}}" key="" item="blog">
+				<new-blog :blog.sync="blog"></new-blog>
+			</repeat>
+		</view>
+		<!-- 数据加载提示条 -->
+		<bottom-loader :isFinishLoad.sync="isFinishLoad"></bottom-loader>
+	</view>
+	<!-- 回主页及发悬赏 -->
+	<view class="bottom-btns">
+		<!-- <view class="back-home" @tap.stop="tapBackHome">
+			<image class="back-home-icon" src="https://vxiaocheng-jh.oss-cn-beijing.aliyuncs.com/mercury/topic_detail/back_home_icon.png"></image>
+			<text>主页</text>
+		</view> -->
+		<view class="create-reward" @tap.stop="tapCreateTrends">
+			<image class="create-reward-icon" src="https://vxiaocheng-jh.oss-cn-beijing.aliyuncs.com/mercury/topic_detail/create_reward_icon.png"></image>
+			<text>发布话题</text>
+		</view>
+	</view>
+</template>
+
+<script>
+import wepy from 'wepy'
+import NewBlog from '../../components/new_blog'
+import _ from '../../lib/mptool'
+import BlogService from '../../services/blog_service'
+import BlogCommentService from '../../services/blog_comment_service'
+import LoadMoreService from '../../services/loadmore_service'
+import BottomLoader from './../../components/bottom_loader'
+import UserService from '../../services/user_service'
+
+export default class TopicDetail extends wepy.page {
+	config = {
+		navigationBarTitleText: "话题详情",
+		enablePullDownRefresh: true
+	}
+
+	components = {
+		'new-blog': NewBlog,
+		'bottom-loader': BottomLoader
+	}
+
+	mixins = []
+
+	data = {
+		topicId: 0,
+		topicImg: "",
+		blogCount: 0,
+		currentTopic: '',
+		currentTab: 'new',
+		blogs: [],
+		isFinishLoad: false,
+		innerAudioContext: {},
+		audioPlaying: '',
+		audioPlayingExtraInfo: {},
+		selfInfo: ''
+	}
+
+	computed = {
+
+	}
+
+	methods = {
+		//tab切换
+		tapSwitchTab(tabTxt) {
+			this.isFinishLoad = false;
+			this.currentTab = tabTxt == 'new' ? 'new' : 'hot';
+			this.blogs = [];
+			this.loadNextBlogs(true);
+		},
+		//返回主页
+		tapBackHome() {
+			wx.switchTab({
+				url: `/pages/blogs/new_blogs`
+			})
+		},
+		//创建新悬赏
+		tapCreateTrends() {
+			wx.navigateTo({
+				url: `/pages/post_blog/post_newblog?type=dating&topicId=${this.topicId}&topicTitle=${this.currentTopic}`
+			})
+		}
+	}
+
+	events = {
+		'fitOneImage': (blogId, property) => {
+			this.blogs.find(e => e.id == blogId)[property] = true
+		},
+		'tap-upvote': function(blogId) {
+			let curBlog = this.blogs.find(e => e.id == blogId)
+			if (!curBlog.is_liked_by_current_user) {
+				UserService.likeBlog(blogId).then(res => {
+					curBlog.like_count += 1
+					curBlog.is_liked_by_current_user = true
+					this.$apply()
+				})
+			}else {
+				UserService.unlikeBlog(blogId).then(res => {
+					curBlog.like_count -= 1
+					curBlog.is_liked_by_current_user = false
+					this.$apply()
+				})
+			}
+		},
+		'play-video': function(blogId) {
+			this.blogs.forEach(e => {
+				e.playVideo = false
+				if (e.id == blogId) {
+					e.playVideo = true
+				}
+			})
+			this.innerAudioContext.stop()
+			this.blogs.forEach(e => e.audioActive = false)
+			this.$apply()
+		},
+		'play-audio': function(blogId) {
+			this.blogs.forEach(e => e.playVideo = false)
+			this.$apply()
+			if (this.audioPlaying.id == blogId) {
+				if (this.innerAudioContext.paused) {
+					this.innerAudioContext.play()
+					this.audioPlaying.audioActive = true
+					console.log('点击播放')
+				}else {
+					this.innerAudioContext.stop()
+					this.audioPlaying.audioActive = false
+					clearTimeout(this.audioPlayingExtraInfo.timeOut)
+					console.log('点击停止')
+				}
+				this.$apply()
+				return
+			}
+			this.audioPlaying = this.blogs.find(e => e.id == blogId)
+			this.blogs.forEach(e => e.audioActive = false)
+			this.audioPlaying.audioActive = true
+			this.innerAudioContext.src = this.audioPlaying.resources[0].url
+			this.innerAudioContext.play()		
+			this.$apply()
+		},
+		'delete-blog': (blog) => {
+			this.blogs = this.blogs.filter(blg => {
+				return blg.id != blog.id;
+			});
+			this.$apply();
+		},
+		'blog-input-change': (blogId, txt) => {
+			this.selfInfo ? '' : UserService.getUserInfo().then(res => this.selfInfo = res)
+
+			if (this.blogs.find(e => e.id == blogId)) {
+				this.blogs.find(e => e.id == blogId).inputValue = txt
+			}else {
+				wx.showToast({
+					title: '查无此blog',
+					icon: 'none',
+					duration: 1500
+				})
+				console.log('查无此blog')
+			}
+		},
+		'send-comment': (blogId) => {
+			if (this.blogs.find(e => e.id == blogId)) {
+				const blog = this.blogs.find(e => e.id == blogId)
+				const inputValue = blog.inputValue
+				const params = {
+					'type': 'blog',
+					'toUser': blog.author.id,
+					'name': this.selfInfo.name,
+					'topic': blog.content
+				}
+
+				if (!blog.inputValue || !blog.inputValue.trim()) {
+					wx.showToast({
+						title: '请输入评论内容',
+						icon: 'none',
+						duration: 1500
+					})
+					return;
+				}
+
+				BlogCommentService.commentBlog(blog.id, blog.inputValue, 0, params).then(res => {
+					if (res.isSuccess) {
+						blog.comments.unshift({
+							id: Math.ceil(Math.random() * 1000),
+							author: {name: this.selfInfo.name},
+							content: inputValue,
+							contentData: [{data: inputValue, type: 'txt'}]
+						})
+						blog.inputValue = ''
+						this.$apply()
+					} else {
+						let msg = res.title;
+						wx.showToast({
+							title: msg,
+							icon: 'none',
+							duration: 1500
+						})
+						console.log('评论失败')
+						return;
+					}
+				})
+			}else {
+				wx.showToast({
+					title: '请先输入评论内容',
+					icon: 'none',
+					duration: 1500
+				})
+			}
+		}
+	}
+
+	loadNextBlogs(reset) {
+		BlogService.getTopicBlogs(reset, this.topicId, this.currentTab).then(
+			blogs => {
+				this.isFinishLoad = LoadMoreService.isFinishLoad();
+				if (blogs.length === 0) {
+					if (reset) {
+						this.blogs = [];
+					}
+				} else {
+					if (reset) {
+						this.blogs = [...blogs];
+					} else {
+						this.blogs = [...this.blogs, ...blogs];
+					}
+				}
+				this.$apply();
+				wx.hideLoading();
+				wx.stopPullDownRefresh();
+				console.log(this.blogs);
+			}
+		)
+	}
+
+	onLoad(query) {
+		console.log(query)
+		this.topicId = +query.topicId;
+		this.currentTopic = query.topicTitle;
+		this.topicImg = query.imgUrl;
+		this.blogCount = query.blogCount;
+		this.loadNextBlogs(true);
+
+		// 创建音频对象
+		this.innerAudioContext = wx.createInnerAudioContext()
+		this.innerAudioContext.onError(e => {
+			console.log('innerAudioContext.onError(e) => e', e)
+		})
+		this.innerAudioContext.onPlay(e => {
+			console.log('innerAudioContext.onPlay(e) => e', e)
+			clearTimeout(this.audioPlayingExtraInfo.timeOut)
+			this.audioPlayingExtraInfo.timeOut = setTimeout(() => {
+				this.innerAudioContext.stop()
+				this.audioPlaying.audioActive = false
+				this.$apply()
+				console.log(`${+this.audioPlaying.content * 1000}s后停止播放效果，因为onPlay()里的计时器, this.innerAudioContext = ${this.innerAudioContext}`, this.innerAudioContext)
+			}, +this.audioPlaying.content * 1000)
+		})
+
+		if (this.blogCount == 0) {
+			BlogService.getThreeHotTopic().then(
+				topics => {
+					topics.forEach(topic => {
+						if (topic.id == this.topicId) {
+							this.blogCount = topic.reward_count;
+							this.$apply();
+						}
+					});
+				}
+			)
+		}
+
+	}
+
+	onPullDownRefresh() {
+		this.loadNextBlogs(true);
+	}
+
+	onReachBottom() {
+		if (!this.isFinishLoad) {
+			this.loadNextBlogs();
+		}
+	}
+}
+</script>

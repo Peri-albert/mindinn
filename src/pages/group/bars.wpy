@@ -1,0 +1,702 @@
+<style lang="less">
+page {
+	background-color: #fff;
+
+	.container {
+		margin-bottom: 108rpx;
+
+		.x-i-top {
+			height: 300rpx;
+			width: 100%;
+			background: #fff;
+			position: relative;
+			margin: 0 auto 0;
+
+			swiper {
+				margin: 0 auto;
+				transition: .3s;
+				transform-origin: 0 100%;
+
+				swiper-item {
+					.xui-broadcast {
+						position: relative;
+
+						.slide-image {
+							border-radius: 0px;
+						}
+					}
+				}
+			}
+		}
+
+		//霸屏
+		.x-i-top {
+			height: 288rpx;
+			width: 100%;
+			background: #fff;
+			position: relative;
+			margin: 0 auto 0;
+
+			swiper {
+				height: 100%;
+				margin: 0 auto;
+				transition: .3s;
+				transform-origin: 0 100%;
+
+				swiper-item {
+					.xui-broadcast {
+						position: relative;
+
+						.slide-image {
+							border-radius: 0px;
+						}
+
+						.xui-boradcast-content {
+							position: absolute;
+							width: 100%;
+							height: 300rpx;
+							top: 0;
+							left: 0;
+							z-index: 666;
+							color: white;
+							background: rgba(0, 0, 0, 0.5);
+
+							.xui-avatar {
+								position: absolute;
+								left: 52rpx;
+								top: 30rpx;
+								height: 92rpx;
+								width: 92rpx;
+								border-radius: 50%;
+								border: 4rpx solid #fff;
+							}
+
+							.xui-name {
+								position: absolute;
+								left: 180rpx;
+								top: 45rpx;
+								font-size: 32rpx;
+								color: #fff;
+								max-width: 300rpx;
+								overflow: hidden;
+								text-overflow: ellipsis;
+								white-space: nowrap;
+								font-family: "微软雅黑";
+							}
+
+							.xui-msg {
+								position: absolute;
+								left: 180rpx;
+								top: 93rpx;
+								font-size: 24rpx;
+								color: #ECBF23;
+								font-family: "微软雅黑";
+							}
+
+							.xui-horn {
+								width: 20rpx;
+								height: 20rpx;
+								position: absolute;
+								left: 162rpx;
+								top: 95rpx;
+							}
+
+							.xui-content {
+								position: absolute;
+								left: 66rpx;
+								top: 160rpx;
+								font-size: 30rpx;
+								width: 80%;
+								white-space: nowrap;
+								overflow: hidden;
+								text-overflow: ellipsis;
+								font-family: "微软雅黑";
+								color: #F3F3F3;
+							}
+
+							.xui-more-broadcast {
+								position: absolute;
+								bottom: 45rpx;
+								right: 56rpx;
+								font-size: 24rpx;
+								font-family: "微软雅黑";
+								color: #f3f3f3;
+							}
+
+							.xui-broadcast-count {
+								position: absolute;
+								top: 45rpx;
+								right: 53rpx;
+								font-family: "微软雅黑";
+								color: #ECBF23;
+								font-weight: 700;
+
+								text {
+									font-size: 36rpx;
+
+									text {
+										position: absolute;
+										font-size: 28rpx;
+										top: 8rpx;
+										left: -22rpx;
+									}
+								}
+							}
+
+							.xui-broadcast-allCount {
+								position: absolute;
+								top: 84rpx;
+								left: 300rpx;
+								font-size: 24rpx;
+								width: 92rpx;
+								text-align: center;
+								height: 38rpx;
+								line-height: 38rpx;
+								color: #000;
+								padding: 2rpx 8rpx;
+								background: #f5c347;
+								border-radius: 30rpx;
+							}
+						}
+					}
+				}
+			}
+		}
+		
+		.x-i-action {
+			.x-i-info {
+				display: flex;
+				height: 70rpx;
+				justify-content: space-between;
+				background-color: #fff;
+				.x-i-circle, .x-i-location {
+					align-items: center;
+					display: flex;
+
+					view {
+						display: flex;
+						font-size: 24rpx;
+						font-weight: 600;
+
+						text {
+							font-weight: 400;
+							margin-right: 20rpx;
+						}
+					}
+				}
+				image {
+					display: block;
+					width: 52rpx;
+					height: 52rpx;
+					margin: 0 20rpx;
+				}
+			}
+			.x-i-weixin {
+				height: 58rpx;
+				width: 710rpx;
+				margin: 0 auto;
+				line-height: 58rpx;
+				background-image: url("https://vxiaocheng-jh.oss-cn-beijing.aliyuncs.com/mercury/group/group_bg.png");
+				background-size: 710rpx 58rpx;
+				background-repeat: no-repeat;
+				display: flex;
+				justify-content: center;
+				view {
+					font-size: 20rpx;
+					color: #fff;
+					text {
+						color: yellow;
+					}
+				}
+				image {
+					width: 26rpx;
+					height: 26rpx;
+					margin: 16rpx 0rpx;
+				}
+			}
+		}
+
+		.x-i-bar {
+			margin: 20rpx;
+			border: solid 1px #EFEFEF;
+			background-color: #fff;
+			border-radius: 24rpx;
+			box-shadow: 0 5rpx 10rpx #ddd;
+			position: relative;
+
+			.x-i-stickMark {
+				height: 40rpx;
+				left: 18rpx;
+				position: absolute;
+				width: 126rpx;
+				top: -15rpx;
+				z-index: 1;
+			}
+
+			.x-i-cover {
+				height: 300rpx;
+				overflow: hidden;
+				position: relative;
+				border-top-left-radius: 24rpx;
+				border-top-right-radius: 24rpx;
+
+				.x-i-background {
+					position: absolute;
+					top: 0rpx;
+					left: 0rpx;
+					width: 100%;
+					height: 300rpx;
+					background-image: linear-gradient(to bottom, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.5));
+					z-index: 100;
+				}
+
+				image {
+					width: 100%;
+				}
+
+				.x-i-distance {
+					position: absolute;
+					left: 20rpx;
+					bottom: 10rpx;
+					color: #FFF;
+					font-size: 0.7em;
+					z-index: 200;
+				}
+
+				.x-i-visitors {
+					position: absolute;
+					right: 20rpx;
+					bottom: 10rpx;
+					color: #FFF;
+					font-size: 0.7em;
+					z-index: 200;
+
+					.x-i-count {
+						font-size: 1.1em;
+						color: #ffd200;
+						display: inline;
+					}
+				}
+			}
+
+			.x-i-info {
+				height: 88rpx;
+				background-color: #FFF;
+				padding: 0rpx 20rpx;
+				font-size: 0.8em;
+				color: #333;
+				display: flex;
+				flex-direction: row;
+				align-items: center;
+				border-bottom-left-radius: 24rpx;
+				border-bottom-right-radius: 24rpx;
+
+				.x-i-name {
+					flex: 1;
+				}
+
+				.x-i-btn1 {
+					height: 58rpx;
+					width: 150rpx;
+				}
+				
+				.x-i-btn2 {
+					height: 58rpx;
+					width: 134rpx;
+				}
+			}
+		}
+
+	}
+}
+</style>
+<template>
+	<view class="container">
+		<!-- <view class="x-i-top">
+			<swiper duration="500" indicator-dots="true" circular="{{true}}" interval="3000" autoplay>
+				<block wx:for="{{ads}}" wx:key="{{ad.id}}" wx:for-item="ad">
+					<swiper-item @tap.stop="onTapEnterAd({{ad}})">
+						<view class="x-i-ad">
+							<image lazy-load="true" src="{{ad.cover}}" class="slide-image" style="width: 100%; height: 300rpx;" mode="aspectFill"></image>
+						</view>
+					</swiper-item>
+				</block>
+			</swiper>
+		</view> -->
+
+		<view class="x-i-action">
+			<view class="x-i-info">
+				<view class="x-i-circle" @tap.stop="onTapSelectBars">
+					<image src="https://vxiaocheng-jh.oss-cn-beijing.aliyuncs.com/mercury/group/group_select.png"></image>
+					<view>圈子:<text>{{circle}}</text></view>
+				</view>
+				<view class="x-i-location">
+					<image src="https://vxiaocheng-jh.oss-cn-beijing.aliyuncs.com/mercury/group/group_location.png"></image>
+					<view>当前位置:<text>{{city}}</text></view>
+				</view>
+			</view>
+			<!-- <view class="x-i-weixin" @tap.stop="onTapJoinGroup">
+				<view>加入<text>{{city}}</text>酒吧圈玩家微信群</view>
+				<image src="https://vxiaocheng-jh.oss-cn-beijing.aliyuncs.com/mercury/group/group_code.png"></image>
+			</view> -->
+		</view>
+		
+		<!-- bars -->
+		<view class="x-i-bar" wx:for="{{bars}}" wx:key="{{bar.id}}" wx:for-item="bar" @tap="onTapBar({{bar}})">
+			<image lazy-load="true" wx:if="{{bar.is_sticked}}" class="x-i-stickMark" src="https://vxiaocheng-jh.oss-cn-beijing.aliyuncs.com/mercury/bars/stickmark_pic.png"></image>
+			<view class="x-i-cover">
+				<view class="x-i-background">
+				</view>
+				<image lazy-load="true" mode="aspectFill" src="{{bar.cover}}" />
+				<view class="x-i-distance">距离: {{bar.distance}}km</view>
+				<view class="x-i-visitors"><view class="x-i-count">{{bar.visitor_count != undefined ? bar.visitor_count : '...'}}</view> 人去过</view>
+			</view>
+			<view class="x-i-info">
+				<view class="x-i-name">{{bar.name}}</view>
+				<image class="x-i-btn1" src="../../images/history.png"></image>
+				<image wx:if="{{!isiPhoneUser}}" src="../../images/join.png" class="x-i-btn2" style="margin-left:10rpx;" @tap.stop="onTapEnterCall({{bar.id}})"></image>
+			</view>
+		</view>
+		
+		<!-- 底线信息 -->
+		<bottomloader :isFinishLoad.sync="isFinishLoad"></bottomloader>
+	</view>
+	<bottomnavi :current.sync="current"></bottomnavi>
+</template>
+<script>
+import wepy from 'wepy'
+const app = getApp()
+import _ from '../../lib/mptool'
+import BottomNavi from '../../components/bottom_navi'
+import BlogService from '../../services/blog_service'
+import AccountService from '../../services/account_service'
+import Session from '../../lib/session'
+import AdService from '../../services/ad_service'
+import BarService from '../../services/bar_service'
+import UserService from '../../services/user_service'
+import StorageService from '../../services/storage_service'
+import LocationService from '../../services/location_service'
+import LoadMoreService from '../../services/loadmore_service'
+import BottomLoader from '../../components/bottom_loader'
+
+let KM_50 = 50;
+let KM_100 = 100;
+
+export default class Corps extends wepy.page {
+	config = {
+		navigationBarTitleText: "圈子",
+		enablePullDownRefresh: true
+	}
+	components = {
+		bottomnavi: BottomNavi,
+		bottomloader: BottomLoader,
+	}
+
+	data = {
+		//霸屏数据
+		broadcastBlogs: [],
+		userInfo: {},
+		bars: [],
+		ads: [],
+		distance: KM_50,
+		current: 'star',
+		isFinishLoad: false,
+		city: "",
+		circle: "全部",
+		groups: "",
+		currentGroup: "0",
+		withGroupId: false,
+		isiPhoneUser: false,
+	}
+
+	methods = {
+		//点击霸屏进入霸屏列表
+		onTapEnterBroadcastBlogs() {
+			wx.navigateTo({
+				url: '/pages/blogs/broadcast_blogs'
+			})
+		},
+		onTapEnterAd(ad) {
+			// if (ad.url) {
+			// 	let url = '/package/pages/ad/web_ad?url=' + ad.url;
+			// 	if (ad.url.indexOf("mercury@") !== -1) {
+			// 		url = ad.url.split("@")[1];
+			// 	}
+			// 	if (url == "/pages/group/bars" || url == "/pages/challenge/challenge") {
+			// 		wx.switchTab({
+			// 			url: url
+			// 		})
+			// 	} else {
+			// 		wx.navigateTo({
+			// 			url: url,
+			// 		})
+			// 	}
+			// } else {
+			// 	wx.navigateTo({
+			// 		url: '/package/pages/ad/rxt_ad?id=' + ad.id,
+			// 	})
+			// }
+		},
+		onTapSelectBars() {
+			if (this.groups.length > 0) {
+				wx.navigateTo({
+					url: '/pages/group/select_bars?city=' + this.city,
+				})
+			}
+		},
+
+		onTapJoinGroup() {
+	
+		},
+		
+		onTapEnterCall(id) {
+			wx.navigateTo({
+				url: "/pages/group/call?id=" + id
+			})
+		},
+
+		onTapEnterMyDatings() {
+			wx.navigateTo({
+				url: '/pages/dating/my_datings',
+			})
+		},
+
+		//发局按钮触发
+		onTapBar(bar) {
+			wx.navigateTo({
+				url: `/pages/group/bar?bar=${JSON.stringify(bar)}`,
+			})
+		},
+
+		//广告跳转
+		tapToAnotherPage(ad) {
+			// if (ad.url) {
+			// 	wx.navigateTo({
+			// 		url: '/package/pages/ad/web_ad?url=' + ad.url,
+			// 	})
+			// }else {
+			// 	wx.navigateTo({
+			// 		url: '/package/pages/ad/rxt_ad?id=' + ad.id,
+			// 	})
+			// }
+			return;
+		}
+	}
+
+	onShareAppMessage() {
+		let base = '/pages/login/login?redirectToTab=';
+		let target = encodeURIComponent(`/pages/group/bars`);
+		return {
+			title: '你有故事我有酒，泡吧撩妹，这里都有',
+			path: base + target,
+			imageUrl: 'http://resource.vxiaocheng.com/mercury/share/paopao.jpg'
+		}
+	}
+
+	loadAds() {
+		AdService.getAds('group').then(ads => {
+			this.ads = ads;
+			this.$apply()
+		})
+	}
+
+	async loadNearbyBars(reset) {
+
+	}
+
+	loadGroupBars(reset) {
+		wx.showLoading({
+			title: '加载数据中...'
+		})
+
+		BarService.getGroupBars(reset, this.currentGroup).then(bars => {
+			if (bars == null || this.isFinishLoad) {
+				return;
+			}
+
+			if (bars.length == 0) {
+				if (reset) {
+					this.bars = [];
+				}
+			} else {
+				this.isFinishLoad = true
+				if (bars.length < 10) {
+					this.isFinishLoad = true;
+					this.$apply();
+				}
+				
+				if (reset) {
+					this.bars = bars;
+				} else {
+					this.bars = [...this.bars, ...bars];
+				}
+			}
+			wx.hideLoading()-
+			this.$apply()
+			console.log('this.bars', this.bars)
+		})
+	}
+
+	loadNextBars(reset=false) {
+		if (reset) {
+			this.bars = [];
+		}
+
+		if (!this.withGroupId) {
+			this.loadGroupBars(reset);
+		} else {
+			this.loadNearbyBars(reset);
+		}
+	}
+
+	loadLocation() {
+		let city = Session.getKey("current_city");
+		let needUpdateLocation = Session.getKey("update_location");
+		if (city && !needUpdateLocation) {
+			this.city = city;
+			this.loadEnabledGroups();
+		} else {
+			LocationService.getLocationAddress().then(
+				data => {
+					this.city = data.address_component.city;
+					this.$apply();
+					Session.setKey("current_city", this.city);
+					Session.setKey("update_location", false);
+					this.loadEnabledGroups();
+				}
+			);
+		}
+	}
+
+	loadEnabledGroups() {
+		console.log("loading groups")
+		BarService.getEnabledGroups(this.city).then(
+			data => {
+				this.groups = data.groups;
+				console.log(this.groups.length)
+				if (this.groups.length == 0) {
+					this.circle = "无";
+				}
+				this.$apply();
+				console.log(this.groups);
+			}
+		)
+	}
+
+	async getStickedBars() {
+		let data = await BarService.getNearbyStickedBars();
+		this.bars = [...data];
+		this.$apply();
+	}
+
+	async onLoad (e) {
+		wx.hideTabBar({})
+		this.userInfo.id = AccountService.getSelfId();
+		this.isiPhoneUser = StorageService.get('isiPhoneUser');
+
+		// 被拉黑用户直接清除缓存重定向至登录页面
+		this.loadLocation();
+		this.loadBroadCast();
+		this.loadNextBars(true);
+		this.loadAds();
+
+		let forceUpdate = StorageService.getAndClear("forceUpdate");
+		if (forceUpdate) {
+			AccountService.updateVersion();
+		}
+	}
+
+	onShow() {
+		this.$broadcast('update-bottom-navi');
+		if (this.city == "") {
+			this.loadLocation();
+		}
+		let groupId = StorageService.getAndClear("group_id");
+		if (groupId !== undefined) {
+			if (groupId == "0") {
+				this.withGroupId = false;
+				this.distance = KM_50;
+			} else {
+				this.withGroupId = true;
+				this.currentGroup = groupId;
+			}
+			this.circle = StorageService.getAndClear("group_name");
+			this.loadNextBars(true);
+		}
+	}
+
+	finishRefresh() {
+		wx.stopPullDownRefresh();
+		wx.hideLoading();
+	}
+
+	onPullDownRefresh() {
+		wx.showLoading({
+			mask: true
+		});
+		this.loadNextBars(true);
+	}
+
+	onReachBottom () {
+		// this.loadNextBars();
+	}
+
+	loadBroadCast() {
+		this.broadcastBlogs = [];
+
+		BlogService.getShowingBroadcastBlogs().then(
+			data => {
+				let blogs = data;
+				for (let i = 0; i < blogs.length; i++) {
+					let extraData = blogs[i].extra_data;
+					if (extraData != "") {
+						let exdata = JSON.parse(extraData)
+						if (exdata.count != undefined) {
+							for (let j = exdata.count; j > 0; j--) {
+								let copydata = this.clone(blogs[i])
+								copydata.count = j;
+								copydata.allCount = exdata.count;
+								copydata.content = copydata.content.replace(/\n/g, ' ')
+								this.broadcastBlogs.push(copydata);
+							}
+						} else {
+							blogs[i].count = 1
+							blogs[i].content = blogs[i].content.replace(/\n/g, ' ')
+							this.broadcastBlogs.push(blogs[i])
+						}
+					} else {
+						blogs[i].count = 1
+						blogs[i].content = blogs[i].content.replace(/\n/g, ' ')
+						this.broadcastBlogs.push(blogs[i])
+					}
+				}
+				this.$apply();
+			}
+		)
+	}
+
+	clone(obj) {
+		if (null == obj || "object" != typeof obj) return obj;
+		if (obj instanceof Date) {
+			var copy = new Date();
+			copy.setTime(obj.getTime());
+			return copy;
+		}
+		if (obj instanceof Array) {
+			var copy = [];
+			for (var i = 0, len = obj.length; i < len; ++i) {
+				copy[i] = this.clone(obj[i]);
+			}
+			return copy;
+		}
+		if (obj instanceof Object) {
+			var copy = {};
+			for (var attr in obj) {
+				if (obj.hasOwnProperty(attr)) copy[attr] = this.clone(obj[attr]);
+			}
+			return copy;
+		}
+		throw new Error("isn't supported.");
+	}
+}
+</script>

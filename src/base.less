@@ -1,0 +1,64 @@
+@red: #FF33FF;
+
+@lightGray: #AFAFAF;
+@darkGray: #8F8F8F;
+@white: #FFF;
+
+@bluePrimary: rgb(65, 136, 242);
+@opacityBluePrimary: rgba(65, 136, 242, 0.8);
+@blueTagBg: rgb(57, 162, 248);
+
+
+button {
+	border: none;
+	font-size: 0.9em; 
+	padding: 5px 14px;
+	border-radius: 0px;
+}
+button::after {
+	border: none;
+}
+button[type="primary"] {
+	background-color: @bluePrimary;
+	color: #FFF;
+}
+
+.x-hide {
+	display: none;
+}
+
+.x-bottomActions {
+	position: fixed;
+	bottom: 0rpx;
+	left: 0rpx;
+	width: 100vw;
+	background-color: #FFF;
+	display: flex;
+	flex-direction: row;
+	border: none;
+	z-index: 100;
+
+	button {
+		border: none;
+		font-size: 0.9em; 
+		padding: 5px 14px;
+		border-radius: 0px;
+	}
+	button[type="primary"] {
+		flex: 1;
+	}
+	button[disabled] {
+		background-color: @opacityBluePrimary !important;
+		color: #FFF !important;
+	}
+
+	.x-i-shareBtn {
+		width: 70px;
+	}
+}
+
+.container {
+}
+
+.container-nomargin {
+}

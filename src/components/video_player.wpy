@@ -1,0 +1,83 @@
+<style lang="less">
+.x-video-player {
+	position: fixed;
+	left: 0;
+	top: 0;
+	transition: all .2s;
+	width: 100%;
+	height: 100%;
+	background-color: rgba(0, 0, 0, 0.6);
+	z-index: 99;
+	video {
+		width: 100%;
+		height: 100%;
+		position: relative;
+		.x-i-close {
+			position: absolute;
+			font-family: Arial;
+			right: 50rpx;
+			top: 50rpx;
+			color: #fff;
+			width: 60rpx;
+			height: 60rpx;
+			line-height: 60rpx;
+			font-size: 60rpx;
+			text-align: center;
+			z-index: 999;
+		}
+	}
+}
+</style>
+
+<template>
+<view class="x-video-player" wx:if="{{url}}" catchtouchmove="preventDefault">
+	<video src="{{url}}" autoplay bindfullscreenchange="tapFullScreenChange">
+		<cover-view class="x-i-close" @tap="onTapCloseVideo">
+			<cover-image src="http://resource.vxiaocheng.com/mercury/verify_close.png" />
+		</cover-view>
+		<!--
+		<view class="x-i-close" @tap.stop="onTapCloseVideo">!</view>
+		-->
+	</video>
+</view>
+</template>
+
+<script>
+import wepy from 'wepy'
+
+export default class VideoPlayer extends wepy.component {
+	props = {
+	}
+
+	data = {
+		url: null
+	}
+
+	events = {
+		'play-video': function(url) {
+			this.url = url;
+			this.$apply();
+		}
+	}
+
+	watch = {
+
+	}
+
+	methods = {
+		onTapCloseVideo: function() {
+			this.url = null;
+			this.$apply();
+			this.$emit('close-video-player');
+		},
+		preventDefault() {},
+		tapFullScreenChange() {
+			wx.hideTabBar({})
+		}
+	}
+
+	onLoad () {
+
+	}
+}
+</script>

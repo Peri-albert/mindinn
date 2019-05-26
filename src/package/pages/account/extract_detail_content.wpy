@@ -1,0 +1,158 @@
+<style lang="less">
+@import "../../../base";
+
+.container {
+    .x-extract-info{
+        display:flex;
+        flex-direction:column;
+        align-items:center;
+        margin:48rpx 0 102rpx 0;
+        .x-i-logo{
+            width: 102rpx;
+            height: 102rpx;
+        }
+        .x-i-type{
+            color: #020202;
+            font-size: 32rpx;
+            margin:36rpx 0 48rpx 0;
+        }
+        .x-i-money{
+            color: #020202;
+            font-size: 48rpx;
+            font-weight: bold;
+        }
+    }
+    .x-extract-detail{
+        margin: 36rpx 62rpx;
+        .x-i-row{
+            display:flex;
+            font-size:26rpx;
+            .x-i-label{
+                width:138rpx;
+                color:#888;
+                padding:16rpx 0;
+            }
+            .x-i-text{
+                color:#333;
+                width:512rpx;
+                padding:16rpx 0;
+                display:flex;
+                align-items:center;
+            }
+        }
+    }
+    .x-contact{
+        display: flex;
+        align-items: center;
+        flex-direction:column;
+        color: #333;
+        font-size: 24rpx;
+        position:absolute;
+        bottom:0;
+        width:100%;
+        padding:10rpx 0;
+        view{
+            margin:5rpx 0;
+        }
+    }
+    .x-line{
+        width:90%;
+        height:1rpx;
+        background:#eee;
+        margin:0 auto;
+    }
+}
+</style>
+
+<template>
+    <view class="container" >
+        <view class="x-extract-info">
+            <image class="x-i-logo" src="https://resource.vxiaocheng.com/robalo/package/pages/income/extract_detail_content/weixin.png"></image>
+            <view class="x-i-type">{{transfer_type2text[extractDetail.type]}}</view>
+            <view class="x-i-money">{{extractDetail.money}}元</view>
+        </view>
+
+        <view class="x-line"></view>
+
+        <view class="x-extract-detail">
+            <view class="x-i-row">
+                <view class="x-i-label">当前状态</view>
+                <view class="x-i-text">{{status2text[extractDetail.status]}}</view>
+            </view>
+            <view class="x-i-row">
+                <view class="x-i-label">时间</view>
+                <view class="x-i-text">{{extractDetail.time}}</view>
+            </view>
+            <view class="x-i-row">
+                <view class="x-i-label">交易单号</view>
+                <view class="x-i-text">{{extractDetail.bid}}</view>
+            </view>
+            <view wx:if="{{extractDetail.transfer_type === 'weixin' && extractDetail.status === 'success'}}" class="x-i-row">
+                <view class="x-i-label">微信单号</view>
+                <view class="x-i-text">{{extractDetail.outer_transfer_id}}</view>
+            </view>
+            <view class="x-i-row">
+                <view class="x-i-label">备注</view>
+                <view class="x-i-text">{{extractDetail.remark}}</view>
+            </view>
+        </view>
+
+        <view class="x-contact">
+            <view>如有疑问，请致电咨询客服</view>
+            <view>客服电话：4000005583</view>
+        </view>
+    </view>
+</template>
+
+<script>
+import wepy from 'wepy';
+import FinanceService from '../../../services/finance_service';
+
+export default class Index extends wepy.page {
+    config = {
+        'navigationBarTitleText': '提现详情'
+    }
+
+    data = {
+        extractDetail: {},
+        status2text: {
+            'success': '提现成功',
+            'rejected': '提现被驳回',
+            'pass': '提现审核中',
+            'waiting': '提现审核中',
+            'failed': '提现审核中',
+            'requesting': '提现审核中'
+        },
+        transfer_type2text: {
+            'weixin': '微信提现',
+            'bank': '银行卡提现'
+        }
+    }
+
+    async onLoad(query) {
+        console.log(query.id)
+        let data = await FinanceService.getRecordById(query.id);
+        this.extractDetail = {
+            "status": data.status,
+            "bid": data.bid,
+            "time": data.finished_at,
+            "outer_transfer_id": data.outer_transfer_id,
+            "money": data.money,
+            "type": data.channel
+        }
+
+        let txt = "";
+        if (data.remark == "sys_auto" || !data.remark) {
+            txt = "无";
+        } else if (data.status !== "success" && data.status !== "rejected") {
+            txt = "您的微信提现申请正在审核中，我们将会在1~2个工作日之内为您处理，请耐心等候。";
+        } else {
+            txt = data.remark;
+        }
+        
+        this.extractDetail.remark = txt;
+        this.$apply();
+        console.log(data);
+    }
+}
+</script>

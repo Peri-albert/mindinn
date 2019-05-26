@@ -1,0 +1,277 @@
+<style lang="less">
+page {
+	min-height: 100vh;
+	overflow-x: hidden;
+	//flex居中
+	.flexCenter {
+		align-items: center;
+		display: flex;
+		justify-content: center;
+	}
+	.rewardlist-container {
+		background-color: #eee;
+		box-sizing: border-box;
+		padding: 5rpx 0 96rpx;
+		min-height: 100vh;
+
+		.tabs {
+			align-items: center;
+			background-color: #fff;
+			box-sizing: border-box;
+			display: flex;
+			height: 98rpx;
+			margin: 0 0 16rpx;
+
+			.tab {
+				align-items: center;
+				box-sizing: border-box;
+				color: #999;
+				display: flex;
+				flex: 1;
+				height: 100%;
+				justify-content: center;
+				transition: .1s;
+
+				&.active {
+					color: #000;
+					font-weight: bold;
+					position: relative;
+				}
+
+				&.active::after {
+					background-color: #000;
+					border-radius: 10rpx;
+					bottom: 0;
+					content: '';
+					height: 4rpx;
+					left: 0;
+					position: absolute;
+					width: 100%;
+					
+				}
+			}
+		}
+
+		.reward-blogs {
+
+		}
+	}
+
+	//回主页及发悬赏
+	.bottom-btns {
+		bottom: 0;
+		display: flex;
+		left: 0;
+		height: 96rpx;
+		position: fixed;
+		width: 100vw;
+		z-index: 99;
+
+		.back-home, .create-reward {
+			color: #fff;
+			font-size: 28rpx;
+			.flexCenter;
+			image {
+				display: block;
+			}
+		}
+
+		.back-home {
+			background-color: #777;
+			width: 170rpx;
+			
+			.back-home-icon {
+				height: 39rpx;
+				margin-right: 22rpx;
+				width: 38rpx;
+			}
+		}
+
+		.create-reward {
+			background-color: #ffe411;
+			flex: 1;
+			
+			.create-reward-icon {
+				height: 32rpx;
+				margin-right: 40rpx;
+				width: 40rpx;
+			}
+		}
+	}
+}
+
+</style>
+	
+<template>
+	<view class="rewardlist-container">		
+		<view class="tabs">
+			<view class="tab {{currentTab == 'unfinished' ? 'active' : ''}}" @tap.stop="tapSwitchTab('unfinished')">进行中</view>
+			<view class="tab {{currentTab == 'finished' ? 'active' : ''}}" @tap.stop="tapSwitchTab('finished')">已结束</view>
+		</view>
+
+		<view class="reward-blogs">
+			<repeat for="{{rewardBlogsArray}}" key="id" item="rewardBlog">
+				<new-blog :blog.sync="rewardBlog"></new-blog>
+			</repeat>
+		</view>
+		<!-- 数据加载提示条 -->
+		<bottom-loader :isFinishLoad.sync="isFinishLoad"></bottom-loader>
+	</view>
+
+	<!-- 回主页及发悬赏 -->
+	<view class="bottom-btns">
+		<!-- <view class="back-home" @tap.stop="tapBackHome">
+			<image class="back-home-icon" src="https://vxiaocheng-jh.oss-cn-beijing.aliyuncs.com/mercury/topic_detail/back_home_icon.png"></image>
+			<text>主页</text>
+		</view> -->
+		<view class="create-reward" @tap.stop="tapCreateReward" wx:if="{{!isiPhoneUser}}">
+			<image class="create-reward-icon" src="https://vxiaocheng-jh.oss-cn-beijing.aliyuncs.com/mercury/topic_detail/create_reward_icon.png"></image>
+			<text>发个悬赏 更牛回复</text>
+		</view>
+	</view>
+</template>
+
+<script>
+import wepy from 'wepy'
+import NewBlog from '../../components/new_blog'
+import _ from '../../lib/mptool'
+import BlogService from '../../services/blog_service'
+import BottomLoader from './../../components/bottom_loader'
+import StorageService from '../../services/storage_service';
+
+export default class RewardList extends wepy.page {
+	config = {
+		navigationBarTitleText: "悬赏",
+		enablePullDownRefresh: true
+	}
+
+	components = {
+		'new-blog': NewBlog,
+		'bottom-loader': BottomLoader
+	}
+
+	data = {
+		topicId: 0,
+		topicImg: "",
+		currentTopic: '',
+		currentTab: 'unfinished',
+		rewardBlogsArray: [],
+		isFinishLoad: true,
+		countdown: '',
+		isiPhoneUser: false,
+	}
+
+	computed = {
+
+	}
+
+	methods = {
+		//tab切换
+		tapSwitchTab(tabTxt) {
+			if (this.currentTab == tabTxt) return;
+			this.isFinishLoad = true
+			this.currentTab = tabTxt == 'unfinished' ? 'unfinished' : 'finished'
+			this.rewardBlogsArray = []
+			const finished = tabTxt == 'unfinished' ? false : true
+			this.getRewardBlogs(true, finished)
+		},
+		//返回主页
+		tapBackHome() {
+			wx.switchTab({
+				url: `/pages/blogs/new_blogs`
+			})
+		},
+		//创建新悬赏
+		tapCreateReward() {
+			wx.navigateTo({
+				url: `/pages/post_blog/post_newblog?type=reward&topicId=${this.topicId}`
+			})
+		}
+	}
+
+	events = {
+		'fitOneImage': (blogId, property) => {
+			this.rewardBlogsArray.find(e => e.id == blogId)[property] = true
+		}
+	}
+
+	onLoad(query) {
+		this.topicId = +query.topicId
+		this.currentTopic = query.topicTitle
+		this.topicImg = query.imgUrl;
+		this.isiPhoneUser = StorageService.get('isiPhoneUser');
+		//获取进行中悬赏列表
+		const param = {
+			reset: true,
+			finished: false
+		}
+		this.getRewardBlogs(param.reset, param.finished)		
+	}
+
+	onPullDownRefresh() {
+		this.rewardBlogsArray = []
+		clearInterval(this.countdown)
+		const finished = this.currentTab == 'unfinished' ? false : true
+		BlogService.getRewardBlogs(true, finished).then(res => {console.log('res',res)
+			res.blogs.forEach(e => {
+				this.rewardBlogsArray.push(e)
+			})
+			if (!finished) {
+				clearInterval(this.countdown)
+				this.countdown = setInterval(() => {
+					this.calcCountdown(this.rewardBlogsArray)
+					this.$apply()
+				}, 999)
+				this.$apply()
+			}
+			this.$apply()
+			wx.stopPullDownRefresh()
+		})
+	}
+
+	onReachBottom() {
+		if (!this.isFinishLoad) {
+			clearInterval(this.countdown)
+			const finished = this.currentTab == 'unfinished' ? false : true
+			this.getRewardBlogs(false, finished)
+		}
+	}
+
+	getRewardBlogs(reset, finished) {
+		BlogService.getRewardBlogs(reset, finished).then(res => {console.log('res',res)
+			res.has_next ? '' : this.isFinishLoad = true
+			if (res.blogs.length) {
+				res.blogs.forEach(e => {
+					this.rewardBlogsArray.push(e)
+				})
+			}
+			this.$apply()
+			if (!finished) {
+				clearInterval(this.countdown)
+				this.countdown = setInterval(() => {
+					this.calcCountdown(this.rewardBlogsArray)
+					this.$apply()
+				}, 999)
+				this.$apply()
+			}
+		})
+	}
+
+	//倒计时
+	calcCountdown(blogs) {
+		blogs.forEach(blog => {
+			if (!blog.is_finished) {
+				const leftTime = Math.floor((Date.parse(blog.created_at.replace(/-/g, '/')) + blog.duration * 86400000 - Date.now()) / 1000)
+				if (leftTime <= 0) {
+					blogs.splice(blogs.findIndex(e => e.id == blog.id), 1)
+				}
+				blog.leftTime = leftTime
+				blog.left_time_days = leftTime > 86400 ? Math.floor(leftTime / 86400) : 0
+				blog.left_time_hours = leftTime % 86400 > 3600 ? Math.floor((leftTime % 86400) / 3600) : 0
+				blog.left_time_minutes = (leftTime % 86400) % 3600 > 60 ? Math.floor(((leftTime % 86400) % 3600) / 60) : 0
+				blog.left_time_seconds = leftTime >= 0 ? Math.floor(((leftTime % 86400) % 3600) % 60) : 0
+			}
+		})
+	}
+}
+</script>

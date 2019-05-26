@@ -1,0 +1,796 @@
+<style lang="less">
+@import "../../base";
+page {
+	background-color: #FAFAFA;
+}
+.container {
+}
+.xui-blog {
+	margin-bottom: 0;
+}
+.xui-members {
+	display: flex;
+	align-items: center;
+	overflow: hidden;
+	padding: 5px 10px;
+	background-color: #fff;
+
+	.x-i-avatar {
+		width: 46rpx;
+		height: 46rpx;
+		border-radius: 50%;
+		display: block;
+		margin-right: 6rpx;
+	}
+	.x-i-icon {
+		width: 28rpx;
+		height: 24rpx;
+		margin-right: 14rpx;
+	}
+}
+.xui-comments {
+	margin-bottom: 40px;
+	position: relative;
+	padding: 5px 10px;
+	background-color: #fff;
+	.xui-commentsContent {
+		display: flex;
+		.x-i-icon {
+			width:28rpx;
+			height:24rpx;
+			margin-right:15rpx;
+			margin-top:52rpx;
+		}
+		.x-i-content {
+			flex: 1;
+			.xui-i-comment {
+				display: flex;
+				align-items: flex-start;
+				min-height: 122rpx;
+				padding-top: 10rpx;
+				position: relative;
+				border-bottom: solid 1px #EFEFEF;
+
+				.xui-i-avatarContent {
+					display: flex;
+					align-items: center;
+					margin-right: 10rpx;
+					image {
+						width: 86rpx;
+						height: 86rpx;
+						border-radius: 50%;
+					}
+				}
+				.xui-i-mainContent {
+					flex: 1;
+					padding-bottom: 30rpx;
+					position: relative;
+
+					.x-i-top {
+						display: flex;
+						justify-content: space-between;
+						.xui-i-name {
+							color: #000;
+							font-size: 28rpx;
+							display: block;
+							max-width: 400rpx;
+							overflow: hidden;
+							text-overflow: ellipsis;
+							white-space: nowrap;
+						}
+						.xui-i-time {
+							align-items: center;
+							display: flex;
+							font-size: 20rpx;
+							color: #a3a3a4;
+
+							.xui-i-like {
+								margin-right: 16rpx;
+								image {
+									width: 30rpx;
+									height: 30rpx;
+								}
+								text {
+									font-size: 20rpx;
+									color: #a3a3a4;
+								}
+							}
+						}
+						
+					}
+					.xui-i-content {
+						display: flex;
+						font-size: 28rpx;
+						margin-top: 5rpx;
+						color: #535455;
+						width: 600rpx;
+						text {
+							// width: 100%;
+							word-break: break-all;
+						}
+						.x-i-at-user {
+							display: inline;
+						}
+					}
+					.xui-i-action {
+						position: absolute;
+						right: 10rpx;
+						bottom: 0;
+						font-size: 20rpx;
+						color: #a3a3a4;
+					}
+				}
+			}
+		}
+	}
+}
+.xui-room-bar {
+	width:100%;
+	height:auto;
+	bottom:0;
+	right:0;
+	z-index:1;
+	background-color:#FFFFFF;
+	position:fixed;
+	.xui-input-wrapper {
+		width: 100%;
+		height: 96rpx;
+		display: flex;
+		background: #fff;
+		justify-content: space-between;
+		align-items: center;
+
+		.x-i-send {
+			width: 68rpx;
+			height: 68rpx;
+			margin: 0 25rpx;
+		}
+		.x-i-emoji {
+			width: 50rpx;
+			height: 50rpx;
+			margin: 0 25rpx;
+		}
+
+		view {
+			position: relative;
+			flex: 1;
+
+			input {
+				border: 2px solid #000;
+				box-sizing: border-box;
+				height: 74rpx;
+				line-height: 74rpx;
+				padding: 0 30rpx;
+				color: #a7a0ed;
+				font-size: 26rpx;
+				border-radius: 80rpx;
+			}
+
+			text {
+				position: absolute;
+				left: 30rpx;
+				top: 0rpx;
+				font-size: 24rpx;
+				height: 74rpx;
+				line-height: 74rpx;
+				color: #999;
+			}
+		}
+		
+	}
+}
+.input-placeholder {
+	color: #a7a0ed; 
+	font-size: 26rpx;
+	line-height: 60rpx;
+}
+.icon {
+	font-size: 34rpx;
+	color: #bbb;
+}
+.emoji_list{
+	margin-top: 30px;
+	width: 100%;
+	height: 290rpx;
+	background-color: #dddddd;
+	display: none;
+}
+.emoji_item {
+	display: flex;
+	margin-top:10rpx;
+}
+.showEmoji {
+	width: 100%;
+	height: 290rpx;
+	background-color: #dddddd;
+	display: block;
+}
+.emoji_list image, .showEmoji image {
+  width: 52rpx;
+  height: 52rpx;
+  margin: 10rpx 28rpx;
+}
+.x-loadComments {
+	color: #888;
+	text-align: center;
+	font-size: 24rpx;
+	padding: 20rpx;
+}
+</style>
+
+<template>
+
+<view class="container">
+	<view wx:if="{{blog}}" style="background-color:#FFF; padding-bottom:10rpx;"> 
+		<blog-item :blog.sync="blog" :isDetail="true" :enableMP.sync="enableMP" :enableShare="enableShare" :showComment="showComment"></blog-item>
+	</view>
+
+	<view class="xui-members" wx:if="{{blog && blog.type === 'dating'}}">
+		<text>{{blog.content.join_count}}人参与组约</text>
+		<view class="clearfix">
+			<image class="x-i-avatar" wx:for="{{datingMembers}}" src="{{item.avatar}}">
+		</view>
+	</view>
+	<block wx:else>
+		<view class="separation-line" style="border-top: 1rpx solid #eee;margin: 0 auto;width: 90%;"></view>
+		<view class="xui-members clearfix" wx:if="{{likeUsers && likeUsers.length > 0}}">
+			<view class="clearfix" style="display: flex;width: 100%;">
+				<image mode="aspectFill" class="x-i-avatar" wx:for="{{likeUsers}}" wx:key="{{item.id}}" src="{{item.avatar+'?x-oss-process=image/resize,m_lfit,s_100/quality,q_90'}}" @tap.stop="onTapEnterUser({{item.id}})">
+				<view wx:if="{{likeUsers.length >= 12}}">···</view>
+			</view>
+		</view>
+	</block>
+
+	<view class="xui-comments mt10" wx:if="{{comments && comments.length > 0}}">
+		<view class="xui-commentsContent">
+			<image class="x-i-icon" mode="widthFix" src="../../images/comment_icon2.png" />
+			<view class="x-i-content">
+				<view class="xui-i-comment" wx:for="{{comments}}" wx:key="{{comment.id}}" wx:for-item="comment">
+					<view class="xui-i-avatarContent">
+						<image mode="aspectFill" src="{{comment.author.avatar+'?x-oss-process=image/resize,m_lfit,s_100/quality,q_90'}}" class="xui-i-avatar" @tap.stop="onTapEnterUser({{comment.author.id}})"/>
+					</view>
+
+					<view class="xui-i-mainContent" @tap="onTapAtUser({{comment.author}})">
+						<view class="x-i-top">
+							<view class="xui-i-name">{{comment.author.name}}</view>
+							<view class="xui-i-time">
+								<view class="xui-i-like">
+									<image src="https://vxiaocheng-jh.oss-cn-beijing.aliyuncs.com/mercury/new_blog/upvote_icon.png" @tap.stop="onTapLikeComment({{comment}})" wx:if="{{!comment.has_liked}}">
+									<image src="https://vxiaocheng-jh.oss-cn-beijing.aliyuncs.com/mercury/new_blog/upvoted_icon.png" @tap.stop="onTapUnLikeComment({{comment}})" wx:if="{{comment.has_liked}}">
+								</view>
+								{{comment.created_at}}</view>
+						</view>
+						<view class="xui-i-content">
+							<view class="x-i-at-user" wx:if="{{comment.at_user.id != undefined}}">回复 
+								<text style="color:#000;word-break:normal;" @tap.stop="onTapAtUser({{comment.at_user}})">{{comment.at_user.name}}</text> :
+							</view>
+							<block wx:for="{{comment.contentData}}">
+								<image wx:if="{{item.type === 'emoji'}}" class="avatar" src="{{'https://resource.vxiaocheng.com/mercury/faces/' + item.data }}"
+									style="width: 20px;height: 20px;"/>
+								<text wx:if="{{item.type === 'txt'}}">{{ item.data }}</text>
+							</block>
+						</view>
+
+						<view class="xui-i-action" wx:if="{{comment.author.id == selfId}}">
+						<view @tap.stop="onTapDeleteComment({{comment}})">
+							<text>删除</text>
+						</view>
+					</view>
+					</view>
+				</view>
+			</view>
+		</view>
+		<bottomloader :isFinishLoad.sync="isFinishLoad"></bottomloader>
+	</view>
+	<view wx:if="{{comments == null}}" class="x-loadComments">
+		加载评论
+	</view>
+	<view class="x-loadComments" wx:if="{{comments && comments.length == 0}}">
+		暂无评论，快来占沙发吧
+	</view>
+
+	<view class="xui-room-bar" wx:if="{{showCommentInput}}">
+		<view class="xui-input-wrapper">
+			<image id="emoji" class="x-i-emoji" mode="widthFix" src="https://vxiaocheng-jh.oss-cn-beijing.aliyuncs.com/mercury/blog_detail/emoji_btn.png" @tap="openEmoji">
+			<view>
+				<input type="text" name="comment" value="{{commentContent}}" focus="{{focus}}" bindinput="onInputChange" bindblur="onBlurResetAtUser" cursor-spacing="10">
+				<text class="x-i-placeholder">{{placeholder}}</text>
+			</view>
+			<image class="x-i-send" mode="widthFix" @tap="formSubmit" src="https://vxiaocheng-jh.oss-cn-beijing.aliyuncs.com/mercury/blog_detail/send_btn.png">
+		</view>
+		<swiper class="emoji_list" class="{{ show }}" indicator-dots="true" duration="500">
+			<block>
+				<swiper-item>
+					<view class="emoji_item">
+						<image wx:for="{{ emojiObj.map1 }}" src="{{ emojiObj.path + item }}" wx:key=""
+							bindtap="sendEmoji" data-emoji="{{ index }}"/>
+					</view>
+					<view class="emoji_item">
+						<image wx:for="{{ emojiObj.map2 }}" src="{{ emojiObj.path + item }}" wx:key=""
+							bindtap="sendEmoji" data-emoji="{{ index }}"/>
+					</view>
+					<view class="emoji_item">
+						<image wx:for="{{ emojiObj.map3 }}" src="{{ emojiObj.path + item }}" wx:key=""
+							bindtap="sendEmoji" data-emoji="{{ index }}"/>
+					</view>
+				</swiper-item>
+			</block>
+			<block class="x-second">
+				<swiper-item>
+					<view class="emoji_item">
+						<image wx:for="{{ emojiObj.map4 }}" src="{{ emojiObj.path + item }}" wx:key=""
+							bindtap="sendEmoji" data-emoji="{{ index }}"/>
+					</view>
+					<view class="emoji_item">
+						<image wx:for="{{ emojiObj.map5 }}" src="{{ emojiObj.path + item }}" wx:key=""
+							bindtap="sendEmoji" data-emoji="{{ index }}"/>
+					</view>
+					<view class="emoji_item">
+						<image wx:for="{{ emojiObj.map6 }}" src="{{ emojiObj.path + item }}" wx:key=""
+							bindtap="sendEmoji" data-emoji="{{ index }}"/>
+					</view>   
+				</swiper-item>
+			</block>
+		</swiper>
+	</view>
+	<mp-widget></mp-widget>
+</view>
+
+
+
+</template>
+
+<script>
+import wepy from 'wepy'
+const app = getApp()
+import BlogService from '../../services/blog_service'
+import GiftService from '../../services/gift_service'
+import BlogCommentService from '../../services/blog_comment_service'
+import StorageService from '../../services/storage_service'
+import Blog from '../../components/blog'
+import MPWidget from '../../components/mp_widget'
+import MP from '../../services/mp_service'
+import BottomLoader from '../../components/bottom_loader'
+import LoadMoreService from '../../services/loadmore_service'
+import AccountService from '../../services/account_service'
+import UserService from '../../services/user_service'
+import WebIMService from '../../services/webim_service'
+import _ from '../../lib/mptool'
+
+export default class BlogDetail extends wepy.page {
+	config = {
+		navigationBarTitleText: '动态详情',
+		enablePullDownRefresh: false
+	}
+
+	components = {
+		"blog-item": Blog,
+		'mp-widget': MPWidget,
+		bottomloader: BottomLoader,
+	}
+
+	mixins = []
+
+	data = {
+		showCommentInput: false,
+		navigationBarTitleText: '动态详情',
+		blogId: 0,
+		blog: null,
+		datingMembers: [],
+		likeUsers: [],
+		comments: null,
+		enableComment: false,
+		showComment: false,
+		selfId: 0,
+		selectGiftId: 0,
+		commentContent: "",
+		atUser: {},
+		emoji: WebIMService.Emoji.EmojiList,
+		emojiObj: WebIMService.Emoji.EmojiObj,
+		isFinishLoad: false,
+		show: 'emoji_list',
+		placeholder: "发表评论",
+		focus: false,
+		userInfo: {},
+		enableMP: false,
+		enableShare: true,
+		relatedUser: {},
+		innerAudioContext: '',
+		audioPlayingExtraInfo: {}
+	}
+
+	computed = {
+
+	}
+
+	methods = {
+		onTapLikeComment(comment) {
+			BlogCommentService.likeComment(comment.id).then(
+				() => {
+					this.comments.forEach(com => {
+						if (com.id == comment.id) {
+							com.has_liked = true;
+							com.like_count += 1;
+							this.$invoke("blog-item", 'updateBlogCommentLikeInfo', comment, true)
+							this.$apply();
+						}
+					})
+				}
+			)
+		},
+
+		onTapUnLikeComment(comment) {
+			BlogCommentService.unlikeComment(comment.id).then(
+				() => {
+					this.comments.forEach(com => {
+						if (com.id == comment.id) {
+							com.has_liked = false;
+							com.like_count -= 1;
+							this.$invoke("blog-item", 'updateBlogCommentLikeInfo', comment, false)
+							this.$apply();
+						}
+					})
+				}
+			)
+		},
+
+		onTapEnterUser(id) {
+			wx.navigateTo({
+				url: '/pages/paoypao/paoypao_friend?id=' + id,
+			})
+		},
+
+		onBlurResetAtUser(e) {
+			if(this.commentContent.length == 0 && !this.relatedUser.id) {
+				this.atUser = {};
+				this.placeholder = "发表评论";
+			} else {
+				return;
+			}
+			this.focus = false;
+		},
+
+		onTapAtUser(user) {
+			this.placeholder = "@ " + user.name;
+			this.atUser = user;
+			this.commentContent = "";
+			this.focus = true;
+		},
+		
+		onInputChange(e) {
+			this.commentContent = e.detail.value;
+			this.checkCommentLength();
+		},
+
+		formSubmit (e) {
+			let content = this.commentContent.trim();
+			if (content.length == 0) {
+				wx.showToast({
+					title: '请输入评论内容',
+					icon: 'none',
+					duration: 1500
+				});
+				return;
+			}
+
+			let params = {
+				'type': 'blog',
+				'toUser': this.blog.author.id,
+				'name': this.userInfo.name,
+				'topic': this.blog.content
+			}
+
+			BlogCommentService.commentBlog(this.blog.id, content, this.atUser.id, params).then(res => {
+				if (res.isSuccess) {
+					console.log(this.atUser)
+					let comment = res.data;
+					if (comment) {
+						wx.showToast({
+							title: '评论成功',
+							icon: 'success',
+							duration: 1500
+						});
+						this.atUser = {};
+						this.relatedUser = {};
+						this.show = 'emoji_list';
+						this.placeholder = "发表评论";
+						this.focus = false;
+						comment.created_at = "刚刚";
+						comment.contentData = WebIMService.Emoji.parseEmoji(comment.content);
+						this.comments = [comment, ...this.comments];
+						this.blog.comment_count = this.blog.comment_count + 1;
+						this.commentContent = "";
+						StorageService.set('update_blog', {
+							"id": this.blog.id,
+							"count": this.blog.comment_count
+						});
+						// this.$invoke("blog-item", 'updateComment')
+						this.$apply();
+
+						// WebIMService.sendCommentNofitication(this.blog.author.id, this.userInfo.name, "您有新的动态留言，请查收", this.blog.content);
+						//如送给运营则put
+						UserService.getIsOperater(this.blog.author.id).then(res => {
+							if (res.exist) {
+								UserService.putMessagesToDo(this.blog.author.id, 'op_blog_comment', this.blog.id)
+							}
+						})
+					}
+				} else {
+					let msg = res.title;
+					wx.showToast({
+						title: msg,
+						icon: 'none',
+						duration: 1500
+					});
+					return;
+				}
+			})
+		},
+
+		onTapDeleteComment (comment) {
+			BlogCommentService.deleteComment(comment.id).then(isSuccess => {
+				if (isSuccess) {
+					this.blog.comment_count = this.blog.comment_count - 1;
+					this.comments = this.comments.filter(aComment => {
+						return aComment.id != comment.id;
+					})
+					this.$apply();
+				}
+			})
+		},
+		openEmoji(e) {
+			this.relatedUser = this.atUser;
+			if (this.show === 'emoji_list') {
+				this.show = 'showEmoji';
+			} else {
+				this.show = 'emoji_list';
+			}
+		},
+		sendEmoji(event) {
+			var that = this
+			var emoji = event.target.dataset.emoji
+			var msglen = that.commentContent.length - 1
+			if (emoji && emoji != '[del]') {
+				var str = that.commentContent + emoji
+			} else if (emoji == '[del]') {
+				var start = that.commentContent.lastIndexOf('[')
+				var end = that.commentContent.lastIndexOf(']')
+				var len = end - start
+				if (end != -1 && end == msglen && len >= 3 && len <= 4) {
+					var str = that.commentContent.slice(0, start)
+				} else {
+					var str = that.commentContent.slice(0, msglen)
+				}
+			}
+			this.commentContent = str
+			this.checkCommentLength()
+		}
+	}
+
+	events = {
+		'update-blog': () => {
+			console.log('update blog');
+			this.loadBlogLikers();
+		},
+		'delete-blog': () => {
+			wx.showToast({
+				title: '删除成功',
+				icon: 'success',
+				duration: 1500
+			})
+			setTimeout(() => {
+				wx.navigateBack()
+			}, 1700)
+		},
+		'tap-video': (url) => {
+			MP.playVideo({
+				url: url,
+				complete: () => {
+					console.log('complete in blog_detail');
+				}
+			})
+		},
+		'tap-gift': (blog) => {
+			MP.sendGift({
+				userId: blog["author"]["id"],
+				complete: (success=false, gift=null) => {
+					this.showGift = false;
+					this.selectGiftId = 0;
+					if(success){
+						GiftService.accostUser(blog["author"]["id"]).then(data=>{
+							this.$broadcast('update-accost', blog.id)
+						});
+						if(gift){
+							WebIMService.sendGiftMsg(blog["author"]["id"], gift.name, this.userInfo)
+						}
+						app.aldstat.sendEvent("完成泡TA", {
+							"用户ID": this.selfId + "",
+							"时间": _.getAldTime()
+						})
+					}
+				}
+			});
+		},
+		'play-video': (blog) => {
+			this.blog.playVideo = true
+			this.$apply()
+		},
+		'play-audio': (blog) => {
+			this.innerAudioContext.src ? '' : this.innerAudioContext.src = this.blog.resources[0].url
+			if (this.innerAudioContext.paused) {
+				this.innerAudioContext.play()
+				this.blog.audioActive = true
+				console.log('点击播放')
+			}else {
+				this.innerAudioContext.stop()
+				this.blog.audioActive = false
+				clearTimeout(this.audioPlayingExtraInfo.timeOut)
+				console.log('点击停止')
+			}
+			this.$apply()
+		},
+		'mark-blog-image': (blog) => {
+			this.blog.resources[0].bigImage = true
+		}
+	}
+
+	onLoad (query) {
+		this.blogId = JSON.parse(query.id);
+		this.selfId = AccountService.getSelfId();
+		BlogService.checkBlogValidity(query.id).then(
+			data => {
+				if (data) {
+					if (!data.is_valid) {
+						wx.showToast({
+							title: '该动态无法查看',
+							icon: 'none',
+						})
+						wx.switchTab({
+							url: '/pages/blogs/blogs'
+						})
+					}
+				}
+			}
+		)
+		this.loadBlog();
+
+		setTimeout(() => {
+			UserService.getUserInfo().then(userInfo => {
+				this.enableMP = userInfo.enable_mpcoin;
+				this.userInfo = userInfo;
+				this.$apply();
+			})
+
+			this.showCommentInput = true;
+			this.$apply();
+		}, 500)
+
+		// 创建音频对象
+		this.innerAudioContext = wx.createInnerAudioContext()
+		this.innerAudioContext.onError(e => {
+			console.log('innerAudioContext.onError(e) => e', e)
+		})
+		this.innerAudioContext.onPlay(e => {
+			console.log('innerAudioContext.onPlay(e) => e', e)
+			clearTimeout(this.audioPlayingExtraInfo.timeOut)
+			this.audioPlayingExtraInfo.timeOut = setTimeout(() => {
+				this.innerAudioContext.stop()
+				this.blog.audioActive = false
+				this.$apply()
+				console.log(`${+this.blog.content * 1000}s后停止播放效果，因为onPlay()里的计时器, this.innerAudioContext =`, this.innerAudioContext)
+			}, +this.blog.content * 1000)
+		})
+	}
+
+	onShow() {
+		MP.bind(this);
+	}
+
+	updateAccost() {
+		GiftService.hasAccostUser(this.blog.author.id).then(
+			res => {
+				this.blog.is_accost = res.is_accost;
+				this.$apply();
+			}
+		)
+	}
+
+	checkCommentLength() {
+		if (this.commentContent.length > 0) {
+			this.placeholder = "";
+		} else if (this.commentContent.length == 0) {
+			if (this.atUser.id) {
+				this.placeholder = "@ " + this.atUser.name;
+			} else {
+				this.placeholder = "发表评论"
+			}
+		}
+	}
+
+	loadBlog () {
+		BlogService.getBlog(this.blogId).then(blog => {
+			blog.created_ago = blog.created_at ? _.calculateTime(blog.created_at) : ''
+			this.blog = blog;
+			this.blog.spreaded = true
+			this.$apply();
+			console.log('this.blog', this.blog);
+
+			setTimeout(() => {
+				this.updateAccost();
+				this.loadBlogLikers();
+				this.loadNextBlogComments(true);
+			})
+		})
+	}
+
+	async loadBlogSync () {
+		//this.blog = {"id":111,"type":"image","source":"user","like_count":0,"comment_count":0,"content":"不想单身了","topic":"求约","is_allow_comment":true,"is_deleted":false,"resources":[{"id":114,"type":"image","url":"http://resource.vxiaocheng.com/upload/honeycomb_image/1062241/2018_11_06_05_08_59.38230.jpg"}],"comments":[],"author":{"id":1062241,"name":"单身小学妹","avatar":"http://resource.vxiaocheng.com/upload/bacchus/image/3/1541471484066_754.jpg","region":"北京 昌平","cover":"","sex":"female"},"user_data":{"like":{"is_liked":false,"created_at":""}},"created_at":"23小时前","extra_data":{"address":""},"has_verify":true,"is_liked_by_current_user":false,"showingContent":["不想单身了"],"address":"","is_accost":false}
+		let blog = await BlogService.getBlog(this.blogId);
+		this.blog = blog;
+
+		setTimeout(() => {
+			this.updateAccost();
+			this.loadBlogLikers();	
+			this.loadNextBlogComments(true);
+		})
+	}
+
+	loadBlogLikers() {
+		let likerUsers = BlogService.getLikers(this.blog.id, 5, true);
+		likerUsers.then(likeUsers => {
+			this.likeUsers = likeUsers;
+			this.$apply();
+		})
+	}
+
+	loadNextBlogComments (reset=false) {
+		if (reset) {
+			BlogCommentService.reset();
+		}
+		let comments = null;
+
+		comments = BlogCommentService.getComments(this.blog.id);
+		comments.then(data => {
+			this.isFinishLoad = LoadMoreService.isFinishLoad();
+			if (data.length === 0) {
+				if (reset) {
+					this.comments = [];
+				}
+			} else {
+				data.forEach((comment) => {
+					let date = new Date(comment.created_at);
+					if (comment.created_at.indexOf(":") !== -1) {
+						comment.created_at = _.calculateTime(comment.created_at);
+					}
+					if (!comment.contentData) {
+						comment.contentData = WebIMService.Emoji.parseEmoji(comment.content);
+					}
+				});
+				if (reset) {
+					this.comments = [...data];
+					console.log(this.comments)
+				} else {
+					this.comments = [...this.comments, ...data];
+					console.log(this.comments)
+				}
+			}
+			this.$apply();
+		})
+		
+	}
+
+	onShareAppMessage() {
+		let base = '/pages/login/login?redirect=';
+		let target = encodeURIComponent(`/pages/blog_detail/blog_detail?id=${this.blog.id}`);
+		return {
+			title: '这条动态相当奶思！我建议给TA个赞~',
+			path: base + target,
+			imageUrl: this.blog.author.avatar,
+		}
+	}
+
+	onReachBottom () {
+		this.loadNextBlogComments();
+	}
+}
+</script>

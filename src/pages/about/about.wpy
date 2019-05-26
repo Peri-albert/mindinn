@@ -1,0 +1,112 @@
+<style lang="less">
+page {
+	background-color: #f3f3f3;
+	min-height: 100vh;
+	.container {
+		margin-bottom: 118rpx;
+		//banner
+		.banner {
+			height: 31.73156586578vh;
+			width: 100vw;
+
+			image {
+				display: block;
+				height: 100%;
+				width: 100%;
+			}
+		}
+		//关于内容
+		.content {
+			color: #272727;
+			margin: 2.07296849vh 0 17.7446102819vh;
+			width: 100vw;
+
+			.title {
+				display: block;
+				font-size: 30rpx;
+				font-weight: bold;
+				margin: 0 0 2.98507462687vh 25rpx;
+			}
+
+			.txt {
+				font-size: 22rpx;
+				line-height: 32rpx;
+				margin: 0 116rpx;
+				text-indent: 44rpx;
+			}
+		}
+		//《享趣社区用户协议》
+		.user-agreement {
+			color: #69469F;
+			font-size: 26rpx;
+			text-align: center;
+			width: 100vw;
+		}
+	}
+}
+</style>
+
+<template>
+	<view class="container">
+		<!-- banner -->
+		<view class="banner">
+			<image mode="aspectFill" src="https://vxiaocheng-jh.oss-cn-beijing.aliyuncs.com/mercury/about/%E4%B8%B4%E6%97%B6%E5%9B%BE%E7%89%87.png"></image>
+		</view>
+		<!-- 关于内容 -->
+		<view class="content">
+			<text class="title">关于享趣社区</text>
+			<view class="txt">
+				欢迎加入享趣社区，这里是全球娱乐爱好者的黄金圣地，我们在为你创建一个仅属于你在娱乐场景社交互动的领地。
+			</view>
+			<view class="txt">
+				你可以在这里发生很多美妙奇遇记：
+				混一场高级体面的盛宴豪局；
+				交一些志同道合的“酒肉好友”；
+				共同消磨深夜寂寂时光；
+				约撩另一个被孤独笼罩的灵魂......
+			</view>
+			<view class="txt">
+				昏暗的环境，拥挤的人群
+				我也许在霓虹闪烁中看不清你的脸
+				但一定能在享趣社区遇到同趣的灵魂
+			</view>
+			<view class="txt">
+				组局一键达成，喝酒不再孤单；
+				喜欢就右划，解脱无处安放的灵魂。
+				在享趣社区，一切都有可能发生......
+			</view>
+		</view>
+		<view class="user-agreement" @tap="tapUserAgreement">
+			《享趣社区用户协议》
+		</view>
+	</view>
+</template>
+
+<script>
+import wepy from 'wepy';
+
+export default class Like extends wepy.page {
+	config = {
+		navigationBarTitleText: '关于享趣社区',
+	}
+
+	components = {
+
+	}
+
+	data = {
+
+	}
+
+	methods = {
+		tapUserAgreement() {
+			wx.navigateTo({
+				url: 'agreement'
+			})
+		}
+	}
+
+	onLoad () {
+	}
+  }
+</script>

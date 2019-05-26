@@ -1,0 +1,445 @@
+<style lang="less">
+page {
+	//单行省略
+	.lineOverEllipsis {
+		display: block;
+		overflow: hidden;
+		text-overflow: ellipsis;
+		white-space: nowrap;
+	}
+
+	//flex居中
+	.flexCenter {
+		align-items: center;
+		display: flex;
+		justify-content: center;
+	}
+
+	.container {
+		background-color: #fff;
+		height: 100vh;
+		overflow: hidden;
+		position: relative;
+		width: 100vw;
+
+		.index {
+			background-color: #fff;
+			box-sizing: border-box;
+			height: 100%;
+			left: 0;
+			overflow-x: hidden;
+			overflow-y: scroll;
+			padding-bottom: 73rpx;
+			position: absolute;
+			top: 0;
+			transition: .3s;
+			width: 100%;
+		}
+
+		.index::-webkit-scrollbar {
+			display: none;
+		}
+
+		.index-0 {
+			padding-top: 9.950248756vh;
+			.text {
+				color: #444;
+				font-size: 32rpx;
+				font-weight: bold;
+				text {
+					display: block;
+					line-height: 50rpx;
+					text-align: center;
+				}
+			}
+			.upload-avatar-btn {
+				background: url(https://vxiaocheng-jh.oss-cn-beijing.aliyuncs.com/mercury/perfecting_data/uploadAvatar_btn.png) no-repeat;
+				background-size: 100%;
+				height: 448rpx;
+				margin: 8.2918739635vh auto 15.920398vh;
+				width: 448rpx;
+				image {
+					height: 100%;
+					width: 100%;
+				}
+			}
+			.next-btn {
+				background-color: #1a1819;
+				border-radius: 85rpx;
+				color: #fefefe;
+				font-size: 28rpx;
+				height: 84rpx;
+				line-height: 84rpx;
+				margin: 0 auto;
+				text-align: center;
+				width: 560rpx;
+			}
+		}
+
+		.pick-tag {
+			padding-top: 13.9303482587vh;
+			.text {
+				color: #444;
+				font-size: 32rpx;
+				font-weight: bold;
+				text {
+					display: block;
+					line-height: 50rpx;
+					text-align: center;
+				}
+			}
+			.title {
+				color: #999;
+				font-size: 26rpx;
+				margin: 12.1061359867vh auto 4.975124378vh;
+				padding-left: 112rpx;
+				text {
+					color: #444;
+				}
+			}
+			.tags-wrapper {
+				margin: 0 auto;
+				width: 490rpx;
+				.tags {
+					display: flex;
+					flex-wrap: wrap;
+					justify-content: center;
+					margin: 0 -44rpx -22rpx 0;
+					.tag {
+						background-color: #fff;
+						border: 3rpx solid #010101;
+						border-radius: 66rpx;
+						box-sizing: border-box;
+						font-size: 22rpx;
+						height: 60rpx;
+						line-height: 60rpx;
+						margin: 0 20rpx 22rpx 0;
+						padding: 0 46rpx;
+					}
+					.tag.active {
+						background-color: #010101;
+						color: #fff;
+					}
+				}
+			}
+			.page-num-pic {
+				background: url(https://vxiaocheng-jh.oss-cn-beijing.aliyuncs.com/mercury/perfecting_data/page_num_bg.png) no-repeat 0 90%;
+				background-size: 100% 82rpx;
+				height: 206rpx;
+				margin: 9.4527363184vh auto 4.809286898839vh;
+				width: 248rpx;
+				.flexCenter;
+				image {
+					display: block;
+					height: 206rpx;
+					width: 206rpx;
+				}
+			}
+			.ignore-btn {
+				color: #999;
+				font-size: 32rpx;
+				text-align: center;
+			}
+		}
+
+		.index-6 {
+			padding-top: 11.6086235489vh;
+			.text {
+				color: #444;
+				font-size: 32rpx;
+				font-weight: bold;
+				text {
+					display: block;
+					line-height: 50rpx;
+					text-align: center;
+				}
+			}
+			.start-pic {
+				height: 185rpx;
+				margin: 16.41791044776vh auto 12.1061359867vh;
+				width: 363rpx;
+				image {
+					display: block;
+					height: 100%;
+					width: 100%;
+				}
+			}
+			.start-btn {
+				background-color: #1a1819;
+				border-radius: 85rpx;
+				color: #fefefe;
+				font-size: 28rpx;
+				height: 84rpx;
+				line-height: 84rpx;
+				margin: 12.271973466vh auto 0;
+				text-align: center;
+				width: 560rpx;
+			}
+		}
+	}
+}
+</style>
+<template>
+	<view class="container">
+		<view class="index index-6" style="left: {{index6Show ? '0' : '-100vw'}}">
+			<view class="text">
+				<text>可到个人中心修改、完善</text>
+				<text>更多资料</text>
+			</view>
+			<view class="start-pic">
+				<image src="https://vxiaocheng-jh.oss-cn-beijing.aliyuncs.com/mercury/perfecting_data/perfecting_data_start_pic.png"></image>
+			</view>
+			<view style="color: #525252;font-size: 32rpx;text-align: center;">"泡姐"在此代表，泡泡星人欢迎你~</view>
+			<view class="start-btn" @tap.stop="tapStartPaoPao">开启泡泡之旅</view>
+		</view>
+		<view class="index index-5 pick-tag" style="left: {{index5Show ? '0' : '-100vw'}}">
+			<view class="text">
+				<text>最后一题</text>
+				<text>完成啦</text>
+			</view>
+			<view class="title">5.交友目的 <text>(5/5)</text></view>
+			<view class="tags-wrapper">
+				<view class="tags">
+					<block wx:for="{{allTagsObj.friend}}" wx:key="id">
+						<view class="tag {{tagsChecked.friendId == item.id ? 'active' : ''}}" @tap.stop="tapCheck('friend', {{item.id}})">{{item.name}}</view>
+					</block>
+				</view>
+			</view>
+			<view class="page-num-pic">
+				<image src="https://vxiaocheng-jh.oss-cn-beijing.aliyuncs.com/mercury/perfecting_data/page_num_pic5.png"></image>
+			</view>
+		</view>
+		<view class="index index-4 pick-tag" style="left: {{index4Show ? '0' : '-100vw'}}">
+			<view class="text">
+				<text>几个小测试</text>
+				<text>帮你快速找到老铁</text>
+			</view>
+			<view class="title">4.你属于那种蹦迪选手 <text>(4/5)</text></view>
+			<view class="tags-wrapper">
+				<view class="tags">
+					<block wx:for="{{allTagsObj.dance}}" wx:key="id">
+						<view class="tag {{tagsChecked.danceId == item.id ? 'active' : ''}}" @tap.stop="tapCheck('dance', {{item.id}})">{{item.name}}</view>
+					</block>
+				</view>
+			</view>
+			<view class="page-num-pic">
+				<image src="https://vxiaocheng-jh.oss-cn-beijing.aliyuncs.com/mercury/perfecting_data/page_num_pic4.png"></image>
+			</view>
+		</view>
+		<view class="index index-3 pick-tag" style="left: {{index3Show ? '0' : '-100vw'}}">
+			<view class="text">
+				<text>几个小测试</text>
+				<text>帮你快速找到老铁</text>
+			</view>
+			<view class="title">3.你平时喜欢听什么歌 <text>(3/5)</text></view>
+			<view class="tags-wrapper">
+				<view class="tags">
+					<block wx:for="{{allTagsObj.music}}" wx:key="id">
+						<view class="tag {{tagsChecked.musicId == item.id ? 'active' : ''}}" @tap.stop="tapCheck('music', {{item.id}})">{{item.name}}</view>
+					</block>
+				</view>
+			</view>
+			<view class="page-num-pic">
+				<image src="https://vxiaocheng-jh.oss-cn-beijing.aliyuncs.com/mercury/perfecting_data/page_num_pic3.png"></image>
+			</view>
+		</view>
+		<view class="index index-2 pick-tag" style="left: {{index2Show ? '0' : '-100vw'}}">
+			<view class="text">
+				<text>几个小测试</text>
+				<text>帮你快速找到老铁</text>
+			</view>
+			<view class="title">2.尬酒么，喜欢喝什么酒 <text>(2/5)</text></view>
+			<view class="tags-wrapper">
+				<view class="tags">
+					<block wx:for="{{allTagsObj.wine}}" wx:key="id">
+						<view class="tag {{tagsChecked.wineId == item.id ? 'active' : ''}}" @tap.stop="tapCheck('wine', {{item.id}})">{{item.name}}</view>
+					</block>
+				</view>
+			</view>
+			<view class="page-num-pic">
+				<image src="https://vxiaocheng-jh.oss-cn-beijing.aliyuncs.com/mercury/perfecting_data/page_num_pic2.png"></image>
+			</view>
+		</view>
+		<view class="index index-1 pick-tag" style="left: {{index1Show ? '0' : '-100vw'}}">
+			<view class="text">
+				<text>带上标签</text>
+				<text>更容易在人群中互相找到哦</text>
+			</view>
+			<view class="title">1.你属于哪种类型小哥哥/小姐姐 <text>(1/5)</text></view>
+			<view class="tags-wrapper">
+				<view class="tags">
+					<block wx:for="{{allTagsObj.looks}}" wx:key="id">
+						<view class="tag {{tagsChecked.looksId == item.id ? 'active' : ''}}" @tap.stop="tapCheck('looks', {{item.id}})">{{item.name}}</view>
+					</block>
+				</view>
+			</view>
+			<view class="page-num-pic">
+				<image src="https://vxiaocheng-jh.oss-cn-beijing.aliyuncs.com/mercury/perfecting_data/page_num_pic1.png"></image>
+			</view>
+			<view class="ignore-btn" @tap.stop="tapIgnore">跳过</view>
+		</view>
+		<view class="index index-0" style="left: {{index0Show ? '0' : '-100vw'}}">
+			<view class="text">
+				<text>上传真实靓照</text>
+				<text>增加300%配对成功几率</text>
+			</view>
+			<view class="upload-avatar-btn" @tap.stop="tapUploadAvatar">
+				<image mode="aspectFill" src="{{avatar}}"></image>
+			</view>
+			<view class="next-btn" @tap.stop="tapTargetToIndex1">下一步</view>
+		</view>
+	</view>
+</template>
+<script>
+import wepy from 'wepy'
+import TagService from '../../services/tag_service'
+import UserService from '../../services/user_service'
+import AccountService from '../../services/account_service'
+import StorageService from '../../services/storage_service'
+
+export default class PerfectingData extends wepy.page {
+		config = {
+			navigationBarTitleText: "完善资料"
+		}
+		components = {}
+
+		data = {
+			index0Show: true,
+			index1Show: true,
+			index2Show: true,
+			index3Show: true,
+			index4Show: true,
+			index5Show: true,
+			index6Show: true,
+			avatar: '',
+			sex: '',
+			allTagsObj: {
+				looks: [],
+				wine: [],
+				music: [],
+				dance: [],
+				friend: []
+			},
+			tagsChecked: {
+				looksId: 0,
+				wineId: 0,
+				musicId: 0,
+				danceId: 0,
+				friendId: 0
+			},
+			tags: []
+		}
+
+		methods = {
+			tapUploadAvatar() {
+				const _this = this
+				wx.chooseImage({
+					count: 1,
+					sizeType: ['original', 'compressed'],
+					sourceType: ['album', 'camera'],
+					success(res) {
+						_this.avatar = res.tempFilePaths[0]
+						_this.$apply()
+					}
+				})
+			},
+			tapTargetToIndex1() {
+				if (!this.avatar) {
+					wx.showToast({
+						title: '请先上传头像',
+						icon: 'none',
+						duration: 1500
+					})
+					return;
+				}
+				this.index0Show = false
+				let data = {}
+				data.avatar = this.avatar
+				data.sex = this.sex
+				console.warn("now init profile");
+				UserService.initProfile(data)
+			},
+			tapIgnore() {
+				this.index1Show = this.index2Show = this.index3Show = this.index4Show = this.index5Show = false
+			},
+			tapCheck(type, id) {
+				switch (type) {
+					case 'looks':
+						this.tagsChecked.looksId = id
+						this.tags.push(this.allTagsObj.looks.find(e => e.id == id))
+						setTimeout(() => {
+							this.index1Show = false
+							this.$apply()
+						}, 500)
+						break;
+					case 'wine':
+						this.tagsChecked.wineId = id
+						this.tags.push(this.allTagsObj.wine.find(e => e.id == id))
+						setTimeout(() => {
+							this.index2Show = false
+							this.$apply()
+						}, 500)
+						break;
+					case 'music':
+						this.tagsChecked.musicId = id
+						this.tags.push(this.allTagsObj.music.find(e => e.id == id))
+						setTimeout(() => {
+							this.index3Show = false
+							this.$apply()
+						}, 500)
+						break;
+					case 'dance':
+						this.tagsChecked.danceId = id
+						this.tags.push(this.allTagsObj.dance.find(e => e.id == id))
+						setTimeout(() => {
+							this.index4Show = false
+							this.$apply()
+						}, 500)
+						break;
+					case 'friend':
+						this.tagsChecked.friendId = id
+						this.tags.push(this.allTagsObj.friend.find(e => e.id == id))
+						setTimeout(() => {
+							this.index5Show = false
+							this.$apply()
+						}, 500)
+						const userId = AccountService.getSelfId()
+						TagService.setUserTags(userId, this.tags)
+						break;
+				}
+			},
+			tapStartPaoPao() {
+				try {
+					wx.setStorageSync('finished_profile', true)
+				} catch (e) { 
+					console.log(e)
+				}
+				
+				wx.switchTab({
+					url: '/pages/paoypao/paoypao'
+				})
+			}
+		}
+
+		onLoad(query) {
+			const sextype = query.sex == 'female' ? 'female_looks' : 'male_looks'
+			this.sex = query.sex == 'female' ? 'female' : 'male'
+			TagService.getTags().then(tags => {
+				tags.forEach(e => {
+					if (e.type == 'music') {
+						this.allTagsObj.music.push(e)
+					}else if (e.type == 'friend') {
+						this.allTagsObj.friend.push(e)
+					}else if (e.type == 'wine' ) {
+						this.allTagsObj.wine.push(e)
+					}else if (e.type == 'dance') {
+						this.allTagsObj.dance.push(e)
+					}else if (e.type == sextype) {
+						this.allTagsObj.looks.push(e)
+					}
+				})
+				this.$apply()
+			})
+		}
+	}
+</script>

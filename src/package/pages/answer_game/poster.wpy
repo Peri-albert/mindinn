@@ -1,0 +1,246 @@
+<style lang="less">
+page {
+	.container {
+		background: url(https://vxiaocheng-jh.oss-cn-beijing.aliyuncs.com/mercury/challenge/new_challenge_bg.png) no-repeat;
+		background-size: 100%;
+		box-sizing: border-box;
+		min-height: 100vh;
+		overflow: hidden;
+		padding-top: 1.99004975vh;
+		color: #fff;
+		font-family: "苹方";
+		.main {
+			width: 613rpx;
+			height: 883rpx;
+			margin: 50rpx auto 0;
+			background: url(https://resource.vxiaocheng.com/mercury/challenge/poster/body.png) no-repeat;
+			background-size: 100%;
+			padding-top: 40rpx;
+			position: relative;
+			.background {
+				position: absolute;
+				left: 0;
+				top: 3rpx;
+				width: 607rpx;
+				height: 877rpx;
+				border-radius: 30rpx;
+				margin: 0 auto;
+				overflow: hidden;
+				filter: opacity(30%);
+				right: 0;
+			}
+			.body {
+				position: absolute;
+				left: 0;
+				width: 613rpx;
+				height: 883rpx;
+				z-index: 99;
+				.user {
+					margin: 0 0 20rpx 30rpx;
+					width: 492rpx;
+					height: 118rpx;
+					background: url(https://resource.vxiaocheng.com/mercury/challenge/poster/head.png) no-repeat;
+					background-size: 100%;
+					image {
+						width: 86rpx;
+						height: 86rpx;
+						border-radius: 50%;
+						margin: 16rpx 16rpx;
+						vertical-align: middle;
+					}
+					view {
+						font-size: 36rpx;
+						font-weight: 600;
+						display: inline-block;
+						vertical-align: middle;
+						text-indent: 10rpx;
+					}
+				}
+				.title {
+					width: 550rpx;
+					height: 160rpx;
+					background: url(https://resource.vxiaocheng.com/mercury/challenge/poster/title.png) no-repeat;
+					background-size: 100%;
+					margin: 28rpx auto;
+					display: flex;
+					justify-content: center;
+					.left {
+						width: 32rpx;
+						height: 32rpx;
+						transform: rotate(45deg);
+						margin-top: 10rpx;
+					}
+					.right {
+						width: 32rpx;
+						height: 32rpx;
+						transform: rotate(45deg);
+						margin-top: 118rpx;
+					}
+					view {
+						font-size: 80rpx;
+						font-weight: 600;
+						text-shadow: 5rpx 0rpx 5rpx purple, 0rpx 5rpx 5rpx purple, 0rpx -5rpx 5rpx purple, -5rpx 0rpx 5rpx purple;
+						line-height: 160rpx;
+						text-align: center;
+					}
+				}
+				.content {
+					width: 566rpx;
+					height: 478rpx;
+					background: url(https://resource.vxiaocheng.com/mercury/challenge/poster/text.png) no-repeat;
+					background-size: 100%;
+					margin: 30rpx auto;
+					view {
+						width: 92%;
+						margin: 0 auto;
+						padding-top: 28rpx;
+						font-size: 30rpx;
+					}
+				}
+				.score {
+					position: absolute;
+					right: 12rpx;
+					top: -28rpx;
+					font-size: 35rpx;
+					background-image:-webkit-linear-gradient(bottom, #AA6722,#D19E32); 
+					-webkit-background-clip:text; 
+					-webkit-text-fill-color:transparent; 
+					font-weight: 600;
+					text {
+						font-weight: 900;
+						font-size: 65rpx;
+						font-family: "DIN-BlackItalic";
+						font-style: italic;
+						margin: 0 10rpx 0 5rpx;
+					}
+				}
+			}
+		}
+		.btns {
+			width: 80%;
+			margin: 10rpx auto;
+			display: flex;
+			justify-content: space-around;
+			view {
+				background: url(https://resource.vxiaocheng.com/mercury/challenge/poster/button.png) no-repeat;
+				background-size: 100%;
+				width: 257rpx;
+				height: 67rpx;
+				display: flex;
+				line-height: 67rpx;
+				justify-content: center;
+				image {
+					width: 35rpx;
+					height: 35rpx;
+					margin-top: 16rpx;
+					margin-right: 15rpx;
+				}
+				text {
+					font-size: 30rpx;
+					color: #2af5f8;
+				}
+				button {
+					font-size: 30rpx;
+					border: none;
+					padding: 0;
+					margin: 0;
+					background-color: inherit;
+					color: #2af5f8;
+					line-height: 67rpx;
+				}
+			}
+		}
+	}
+}
+</style>
+
+<template>
+	<view class="container">
+		<view class="main">
+			<image mode="aspectFill" class="background" src="{{paramInfo.image ? paramInfo.image : 'https://resource.vxiaocheng.com/mercury/challenge/poster/test.jpg'}}"></image>
+			<view class="body">
+				<view class="user">
+					<image src="{{userInfo.avatar}}" mode="aspectFill"></image>
+					<view>{{userInfo.name}}</view>
+				</view>
+				<view class="title">
+					<image class="left" src="https://resource.vxiaocheng.com/mercury/challenge/poster/left.png" mode="aspectFill"></image>
+					<view>{{paramInfo.title}}</view>
+					<image class="right" src="https://resource.vxiaocheng.com/mercury/challenge/poster/right.png" mode="aspectFill"></image>
+				</view>
+				<view class="content">
+					<view>{{paramInfo.content}}</view>
+				</view>
+				<view class="score">
+					<view>获得<text>{{paramInfo.score}}</text>分</view>
+				</view>
+			</view>
+		</view>
+		<view class="btns">
+			<view>
+				<image src="https://resource.vxiaocheng.com/mercury/challenge/poster/retry.png" mode="aspectFill"></image>
+				<text @tap.stop="onTapRetry">再来一次</text>
+			</view>
+			<view>
+				<image src="https://resource.vxiaocheng.com/mercury/challenge/poster/share.png" mode="aspectFill"></image>
+				<button open-type="share">炫耀一下</button>
+			</view>
+		</view>
+	</view>
+</template>
+
+<script>
+import wepy from 'wepy';
+import UserService from '../../../services/user_service';
+
+export default class Poster extends wepy.page {
+	config = {
+		navigationBarTitleText: '挑战成功',
+	}
+
+	components = {
+
+	}
+
+	data = {
+		userInfo: {},
+		paramInfo: {}
+	}
+
+	methods = {
+		onTapRetry() {
+			wx.switchTab({
+				url: `/pages/challenge/challenge`
+			})
+		}
+	}
+
+	onShareAppMessage() {
+		let title = this.paramInfo.gameType == 'time' ? '是不是酒神，试试就知道了!' : `${this.paramInfo.title}向你发起挑战，你敢应战吗？`
+		return {
+			title: title,
+			path: '/pages/login/login?redirectToTab=' + encodeURIComponent(`/pages/challenge/challenge`)
+		}
+	}
+
+	onLoad(query) {
+		UserService.getUserInfo().then(
+			data => {
+				this.userInfo = data;
+				this.$apply();
+			}
+		)
+
+		this.paramInfo = JSON.parse(query.posterParam)
+		this.paramInfo.score = query.score
+		this.paramInfo.gameType = query.gameType
+		if (this.paramInfo.contents.length > 1) {
+			const i = Math.floor(Math.random() * this.paramInfo.contents.length)
+			this.paramInfo.content = this.paramInfo.contents[i]
+		}else {
+			this.paramInfo.content = this.paramInfo.contents[0]
+		}
+		
+	}
+  }
+</script>

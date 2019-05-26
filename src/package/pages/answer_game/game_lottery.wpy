@@ -1,0 +1,194 @@
+<style lang="less">
+page {
+	min-height: 100vh;
+	overflow-x: hidden;
+
+	//flex居中
+	.flexCenter {
+		align-items: center;
+		display: flex;
+		justify-content: center;
+	}
+	image {
+		display: block;
+	}
+	.gameLottery-container {
+		background: url(https://vxiaocheng-jh.oss-cn-beijing.aliyuncs.com/mercury/challenge/container_bg.png) 0 0 / cover no-repeat;
+		box-sizing: border-box;
+		min-height: 100vh;
+		overflow-x: hidden;
+		padding-top: 20rpx;
+
+		.lottery, .unuseful {
+			background: url(https://vxiaocheng-jh.oss-cn-beijing.aliyuncs.com/mercury/game_lottery/lottery_useful.png) no-repeat;
+			background-size: 100%;
+			box-sizing: border-box;
+			height: 289rpx;
+			margin: 0 auto 18rpx;
+			padding-top: 63rpx;
+			position: relative;
+			width: 706rpx;
+
+			.lottery-name {
+				color: #ff1928;
+				font-size: 36rpx;
+				font-weight: bold;
+				margin: 0 auto;
+				overflow: hidden;
+				text-align: center;
+				text-overflow: ellipsis;
+				max-width: 12em;
+				white-space: nowrap;
+			}
+
+			.logo {
+				border-radius: 50%;
+				bottom: 47rpx;
+				height: 98rpx;
+				left: 66rpx;
+				position: absolute;
+				width: 98rpx;
+			}
+
+			.expiration-date {
+				bottom: 82rpx;
+				color: #fff;
+				font-size: 24rpx;
+				font-weight: bold;
+				left: 186rpx;
+				position: absolute;
+			}
+
+			.get-button {
+				border-radius: 72rpx;
+				bottom: 54rpx;
+				color: #ba000c;
+				font-size: 36rpx;
+				font-weight: bold;
+				height: 72rpx;
+				line-height: 70rpx;
+				position: absolute;
+				right: 76rpx;
+				text-align: center;
+				width: 162rpx;
+			}
+		}
+
+		.unuseful {
+			background: url(https://vxiaocheng-jh.oss-cn-beijing.aliyuncs.com/mercury/game_lottery/lottery_unuseful.png) no-repeat;
+			background-size: 100%;
+
+			.lottery-name {
+				color: #777;
+			}
+		}
+	}	
+}
+</style>
+
+<template>
+	<view class="gameLottery-container">
+
+		<view wx:for="{{lotteries}}" class="lottery">
+			<view class="lottery-name">{{item.lottery.content}}</view>
+			<image class="logo" mode="aspectFill" src="{{item.lottery.logo ? item.lottery.logo : '/images/default_avatar.png'}}"></image>
+			<view class="expiration-date">有效期：{{item.lottery.expiration}}</view>
+			<view class="get-button" @tap.stop="tapGetLottery({{item}})">{{item.is_received ? '已领取' : '领取'}}</view>
+		</view>
+
+		<!-- 已失效奖券 -->
+		<view wx:for="{{unuseful}}" class="unuseful">
+			<view class="lottery-name">{{item.lottery.content}}</view>
+			<image class="logo" mode="aspectFill" src="{{item.lottery.logo ? item.lottery.logo : '/images/default_avatar.png'}}"></image>
+			<view class="expiration-date">有效期：{{item.lottery.expiration}}</view>
+		</view>
+
+	</view>
+</template>
+
+<script>
+import wepy from 'wepy'
+import ChallengeService from '../../../services/challenge_service'
+
+export default class GameLottery extends wepy.page {
+	config = {
+		navigationBarTitleText: "奖品券",
+		enablePullDownRefresh: true
+	}
+
+	components = {
+
+	}
+
+	mixins = []
+
+	data = {
+		lotteries: [],
+		unuseful: []
+	}
+
+	computed = {
+	}
+
+	methods = {
+		tapGetLottery(lottery) {
+			if (!this.lotteries.find(e => e.id == lottery.id).is_received) {
+				this.lotteries.find(e => e.id == lottery.id).is_received = true
+				ChallengeService.postLotteryStateById(lottery.id)
+			}
+
+			if (!lottery.coupon_code) {
+				wx.navigateTo({
+					url: `/package/pages/ad/web_ad?url=${lottery.lottery.url}`
+				})
+			}else {
+				wx.navigateTo({
+					url: `game_lottery_detail?lotteryName=${lottery.lottery.content}&lotteryCode=${lottery.coupon_code}&lotteryInstruction=${lottery.explanation}`
+				})
+			}
+		}
+	}
+
+	events = {
+
+	}
+
+	onLoad() {
+		this.getGameLottery()
+	}
+
+	onShow() {
+		
+	}
+
+	onPullDownRefresh() {
+		this.getGameLottery()
+	}
+
+	getGameLottery() {
+		this.emptyAll()
+		ChallengeService.getGameLottery().then(res => {
+			console.log('获取奖券列表', res)
+			res.user_lotterys.forEach(e => {
+				if (e.lottery) {
+					e.lottery.expiration = e.lottery.expired_time.slice(0, 10).replace(/\//g, '.')
+					if (new Date(e.lottery.expired_time) > new Date()) {
+						this.lotteries.push(e)
+					}else {
+						this.unuseful.push(e)
+					}
+				}
+			})
+			this.$apply()
+			wx.stopPullDownRefresh()
+		})
+	}
+
+	emptyAll() {
+		this.lotteries = []
+		this.unuseful = []
+		this.$apply()
+	}
+
+}
+</script>

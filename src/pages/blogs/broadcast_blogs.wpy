@@ -1,0 +1,410 @@
+<style lang="less">
+page {
+	.container {
+	overflow-x: hidden;
+		.xui-actionBtn {
+			position: fixed;
+			right: 30rpx;
+			bottom: 110rpx;  
+			background-color: #e84c3d;
+			border-radius: 50%;
+			width: 50px;
+			height: 50px;
+			color: #fff;
+			font-size: 44rpx;
+			text-align: center;
+			line-height: 50px;
+			transition: all .5s ease-in-out;
+			&.rotate {
+				transform: rotate(225deg);
+			}
+		}
+		.xui-btnWrap {
+			transition: all .5s;
+			position: fixed;
+			right: 30rpx;
+			bottom: 160rpx;
+			height: 0;
+			overflow: hidden;
+			&.show {
+				height: 200px;
+			}
+			.xui-postBtn {
+				background-color: #ff4181;
+				color: #fff;
+				border-radius: 50%;
+				width: 50px;
+				height: 50px;
+				text-align: center;
+				line-height: 50px;
+				margin-bottom: 10px;
+				.icon {
+				font-size: 44rpx;
+				}
+			}
+		}
+		.xui-video-wrapper {
+			position: fixed;
+			left: 0;
+			top: 0;
+			transition: all .2s;
+			width: 100%;
+			height: 100%;
+			background-color: rgba(0, 0, 0, 0.6);
+			z-index: 99;
+			video {
+				width: 100%;
+				height: 100%;
+			}   
+			.xui-i-close {
+				position: absolute;
+				right: 20rpx;
+				top: 20rpx;
+				color: #fff;
+				width: 30px;
+				height: 30px;
+				line-height: 30px;
+				text-align: center;
+				z-index: 999;
+			}
+		}
+
+		.xui-pub-broadcast {
+			position: fixed;
+			bottom: 80px;
+			right: 20px;
+			width: 148rpx;
+			height: 148rpx;
+			background: url(https://vxiaocheng-jh.oss-cn-beijing.aliyuncs.com/mercury/broadcast_blogs/showToAll_btn.png) no-repeat;
+			background-size: 100%;
+
+			text {
+				position: absolute;
+				top: 12px;
+				left: 18px;
+				display: block;
+				color: #fff;
+				font-size: 32rpx;
+				width:60%;
+			}
+		}
+	}
+}
+</style>
+	
+<template>
+	<view class="container">
+		<view wx:if="{{blogs && blogs.length > 0}}">
+			<repeat for="{{blogs}}" key="{{blog.id}}" item="blog" index="index" wx:if="{{blogs.length > 0}}"> 
+				<broadcast :blog.sync="blog" :enableMP.sync="enableMP"></broadcast>
+			</repeat>
+		</view>
+		<view class="xui-pub-broadcast" @tap="onTapPubBroadcast" wx:if="{{!isiPhoneUser}}"></view>
+		
+	</view>
+	<bottomloader :isFinishLoad.sync="isFinishLoad"></bottomloader>
+	<mp-widget></mp-widget>
+</template>
+
+<script>
+	import wepy from 'wepy'
+	import Blog from '../../components/blog'
+	import BlogService from '../../services/blog_service'
+	import BlogCommentService from '../../services/blog_comment_service'
+	import UserService from '../../services/user_service'
+	import LoadMoreService from '../../services/loadmore_service'
+	import StorageService from '../../services/storage_service'
+	import BottomLoader from '../../components/bottom_loader'
+	import MPWidget from '../../components/mp_widget'
+	import Broadcast from '../../components/broadcast_blog'
+	import MP from '../../services/mp_service'
+    import _ from '../../lib/mptool'
+    import WebIMService from '../../services/webim_service'
+
+	export default class BroadcastBlogs extends wepy.page {
+	config = {
+		navigationBarTitleText: "全网霸屏",
+		enablePullDownRefresh: true
+	}
+
+	components = {
+		"blog-item": Blog,
+		bottomloader: BottomLoader,
+		"mp-widget": MPWidget,
+		broadcast: Broadcast,
+	}
+
+	mixins = []
+
+	data = {
+		blogs: [],
+		userInfo: {},
+		isLoading: false,
+		isRefreshing: false,
+		hasNoMoreData: false,
+		showGift: false,
+
+		enableMP: false,
+		isFinishLoad: false,
+		isiPhoneUser: false,
+	}
+
+	computed = {
+
+	}
+
+	methods = {
+		onTapPubBroadcast() {
+			wx.navigateTo({
+				url: '/pages/post_blog/post_newblog?type=boradcast',
+			})
+		}
+	}
+
+	events = {
+		'switch-tab': (id) => {
+			this.curTab = this.tabType[id];
+			this.blogs = this.tab2blogs[this.curTab];
+			if (this.blogs == undefined) {
+				this.tab2blogs[this.curTab] = [];
+				this.blogs = this.tab2blogs[this.curTab];
+			}
+			this.blogs = [];
+			this.$apply();
+
+			this.loadNextBlogs(true);
+		},
+		'tap-video': (url) => {
+			MP.playVideo({
+				url: url,
+				complete: () => {
+					console.log("play video finished")
+				}
+			});
+		},
+		'comment-blog': (blog) => {
+			console.log("comment-blog.....................")
+			wx.navigateTo({
+				url: '/pages/blog_detail/blog_detail?id=' + blog.id
+			});
+			// MP.showModalEditor({
+			// 	placeholder: `回复: ${blog.author.name}`,
+			// 	complete: (content) => {
+			// 		console.log("receive: " + content);
+			// 		let params = {
+			// 			'type': 'broadcast_blog',
+			// 			'toUser': blog.author.id,
+			// 			'name': this.userInfo.name,
+			// 			'topic': blog.content
+			// 		}
+
+			// 		BlogCommentService.commentBlog(blog.id, content, 0, params).then(isSuccess => {
+			// 			if (isSuccess) {
+			// 				MP.hideModalEditor();
+			// 				wx.showToast({
+			// 					title: '评论成功',
+			// 					icon: 'success',
+			// 					duration: 1000,
+			// 					mask: true
+			// 				});
+			// 				UserService.getUserInfo().then(
+			// 					data => {
+			// 						let comment = {
+			// 							"author": {"name": data.name},
+			// 							"content": content,
+			// 						}
+			// 						this.$broadcast('change-blog-comment', blog.id, 1, comment);
+			// 					}
+			// 				)
+			// 			} else {
+			// 				console.log('评论失败');
+			// 			}
+			// 		});
+			// 	}
+			// })
+		},
+		'update-blog': () => {
+			console.log('update blog');
+		},
+		'tap-gift': (blog) => {
+			MP.sendGift({
+				userId: blog["author"]["id"],
+				complete: (success=false, gift=null) => {
+					this.showGift = false;
+					this.selectGiftId = 0;
+					this.$apply();
+				}
+			})
+		},
+		'tap-blog': (blog) => {
+			wx.navigateTo({
+				url: '/pages/blog_detail/blog_detail?id=' + blog.id
+			});
+		},
+
+		'dialog-yes': (id) => {
+			BlogService.deleteBlog(id).then(
+				res => {
+					this.blogs = this.blogs.filter(aBlog => {
+						return aBlog.id != id;
+					})
+					this.$apply();
+				}
+			)
+		},
+
+		'show-dialog': (blog) => {
+			MP.dialogChoice({
+				message: "是否确认删除此条霸屏，霸屏一旦删除便不可恢复哦",
+				id: blog.id,
+			});
+		},
+
+		'blog-input-change': (blogId, txt) => {
+			this.selfInfo ? '' : UserService.getUserInfo().then(res => this.selfInfo = res)
+
+			if (this.blogs.find(e => e.id == blogId)) {
+				this.blogs.find(e => e.id == blogId).inputValue = txt
+			}else {
+				wx.showToast({
+					title: '查无此blog',
+					icon: 'none',
+					duration: 1500
+				})
+				console.log('查无此blog')
+			}
+		},
+
+		'send-broadcast-comment': (blogId) => {
+			if (this.blogs.find(e => e.id == blogId)) {
+				const blog = this.blogs.find(e => e.id == blogId)
+				const inputValue = blog.inputValue
+				const params = {
+					'type': 'blog',
+					'toUser': blog.author.id,
+					'name': this.selfInfo.name,
+					'topic': blog.content
+				}
+
+				BlogCommentService.commentBlog(blog.id, blog.inputValue, 0, params).then(res => {
+					if (res.isSuccess) {
+						blog.comments.unshift({
+							id: Math.ceil(Math.random() * 1000),
+							author: {name: this.selfInfo.name},
+							content: [{data: inputValue}]
+						})
+						blog.inputValue = ''
+						this.$apply()
+					} else {
+						let msg = res.title;
+						wx.showToast({
+							title: msg,
+							icon: 'none',
+							duration: 1500
+						})
+						console.log('评论失败')
+						return;
+					}
+				})
+			}else {
+				wx.showToast({
+					title: '请先输入评论内容',
+					icon: 'none',
+					duration: 1500
+				})
+			}
+		}
+	}
+
+	onLoad () {
+		wx.showLoading({
+			mask: true
+		});
+		this.isiPhoneUser = StorageService.get('isiPhoneUser');
+		
+		UserService.getUserInfo().then(
+			data => {
+				this.userInfo = data;
+				this.enableMP = data.enable_mpcoin;
+				this.$apply();
+			}
+		)
+		
+		this.loadNextBroadCast(true);
+	}
+
+	onShow() {
+		MP.bind(this);
+		let hasNewBlog = StorageService.getAndClear("new_blog");
+		if (hasNewBlog && hasNewBlog == "true") {
+			this.loadNextBroadCast(true)
+		}
+	}
+
+	loadNextBroadCast(reset=false) {
+		if (reset) {
+			BlogService.reset();
+		}
+		let blogs = null;
+
+		blogs = BlogService.getBroadcastBlogs();
+		blogs.then(
+			data => {
+				this.finishRefresh();
+				this.isFinishLoad = LoadMoreService.isFinishLoad();
+				if (data.length === 0) {
+					if (reset) {
+						this.blogs = [];
+					}
+				} else {
+					for (let i=0; i<data.length; i++) {
+						data[i].created_at = _.calculateTime(data[i].created_at);
+						data[i].content = data[i].content.replace(/\n/g, ' ')
+						console.log(data[i].comments)
+						for (let j=0; j<data[i].comments.length; j++) {
+							data[i].comments[j].content = WebIMService.Emoji.parseEmoji(data[i].comments[j].content);
+						}
+					}
+					if (reset) {
+						this.blogs = [...data];
+					} else {
+						this.blogs = [...this.blogs, ...data];
+					}
+				}
+
+				for (let i=0; i<this.blogs.length; i++) {
+					let extraData = this.blogs[i].extra_data;
+					if (extraData != "") {
+						let data = JSON.parse(extraData)
+						if (data.count != undefined) {
+							this.blogs[i].count = data.count;
+						} else {
+							this.blogs[i].count = 1
+						}
+					} else {
+						this.blogs[i].count = 1
+					}
+				}
+				console.log(this.blogs)
+				this.$apply();
+			}
+		)
+	}
+
+	onReachBottom () {
+		this.loadNextBroadCast();
+	}
+
+	onPullDownRefresh() {
+		wx.showLoading({
+			mask: true
+		});
+		this.loadNextBroadCast(true);
+	}
+
+	finishRefresh() {
+		wx.stopPullDownRefresh();
+		wx.hideLoading();
+	}
+}
+</script>

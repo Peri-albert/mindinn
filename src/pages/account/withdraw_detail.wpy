@@ -1,0 +1,392 @@
+<style lang="less">
+@import "../../base";
+
+.container {
+	.xui-tabs {
+		height: 80rpx;
+		width: 100%;
+		display: flex;
+		background-color: #eee;
+		justify-content: space-between;
+
+		.select {
+			color: gray;
+		}
+
+		view {
+			width: 49.9%;
+			height: 80rpx;
+			font-size: 30rpx;
+			line-height: 80rpx;
+			text-align: center;
+			background-color: #000;
+			color: #fff;
+		}
+	}
+
+	.xui-tab {
+		width: 100%;
+		height: 134rpx;
+		background-color: #fff;
+		border-bottom: 1px solid #f3f3f3;
+
+		.xui-tab-left {
+			float: left;
+			width: 70%;
+
+			image {
+				float: left;
+				width: 86rpx;
+				height: 86rpx;
+				border-radius: 50%;
+				margin: 32rpx 0 0 32rpx;
+			}
+
+			.xui-name {
+				float: left;
+				font-size: 30rpx;
+				color: #666;
+				max-height: 40rpx;
+				margin: 34rpx 0 16rpx 30rpx;
+				overflow: hidden;
+				text-overflow: ellipsis;
+				white-space: nowrap;
+				width: 60%;
+			}
+
+			.xui-time {
+				float: left;
+				font-size: 24rpx;
+				color: #a9a9a9;
+				width: 60%;
+				margin-left: 30rpx;
+			}
+
+			.xui-title {
+				float: left;
+				margin: 30rpx 0 16rpx 30rpx;
+				font-size: 30rpx;
+				font-weight: 700;
+				color: #666;
+				width: 60%;
+			}
+		}
+
+		.xui-tab-right {
+			float: right;
+			width: 30%;
+
+			.xui-product {
+				float: right;
+				font-size: 30rpx;
+				color: #666;
+				margin: 36rpx 32rpx 18rpx 0;
+				width: 100%;
+				text-align: right;
+				font-weight: 600;
+			}
+
+			.xui-price {
+				float: right;
+				font-size: 24rpx;
+				color: #fe615a;
+				width: 100%;
+				margin-right: 32rpx;
+				text-align: right;
+			}
+
+			.xui-status {
+				float: right;
+				font-size: 30rpx;
+				color: #666;
+				margin: 36rpx 32rpx 18rpx 0;
+				width: 100%;
+				text-align: right;
+			}
+
+			.xui-status-success {
+				font-size: 28rpx;
+				color: #6e6e6e;
+				margin-left: 12rpx;
+				text-align: right;
+			}
+
+			.xui-status-other {
+				font-size: 28rpx;
+				color: #d71c44;
+				margin-left: 12rpx;
+				text-align: right;
+			}
+		}
+	}
+}
+</style>
+<template>
+	<view class="container">
+		<view class="xui-tabs">
+			<view class="{{tab == 'income' ? 'select' : ''}}" @tap.stop="onTapChangeTab('income')">收入明细</view>
+			<view class="{{tab == 'withdraw' ? 'select' : ''}}" @tap.stop="onTapChangeTab('withdraw')">提现明细</view>
+		</view>
+		<view wx:if="{{tab == 'income'}}" wx:for="{{incomeDetails}}" wx:for-item="detail" wx:key="{{detail.bid}}">
+			<view class="xui-tab">
+				<view class="xui-tab-left">
+					<image src="{{detail.user.avatar}}" mode="aspectFill"></image>
+					<view class="xui-name">{{detail.user.name}}</view>
+					<view class="xui-time">{{detail.time}}</view>
+				</view>
+				<view class="xui-tab-right">
+					<view class="xui-product">{{detail.product}}</view>
+					<view class="xui-price">+{{detail.amount}}元</view>
+				</view>
+			</view>
+		</view>
+		<view wx:if="{{tab == 'withdraw'}}" wx:for="{{withdrawDetails}}" wx:for-item="detail" wx:key="{{detail.id}}">
+			<view class="xui-tab" @tap.stop="onTapEnterDetail({{detail.id}})">
+				<view class="xui-tab-left">
+					<view class="xui-title">提现</view>
+					<view class="xui-time">{{detail.time}}</view>
+				</view>
+				<view class="xui-tab-right">
+					<view class="xui-status">{{status2text[detail.status]}}</view>
+					<view class="xui-price">{{detail.money}}元</view>
+				</view>
+			</view>
+		</view>
+		<bottomloader :isFinishLoad.sync="isFinishLoad"></bottomloader>
+	</view>
+</template>
+<script>
+import wepy from 'wepy';
+import BottomLoader from '../../components/bottom_loader';
+import OrderService from '../../services/order_service';
+import AccountService from '../../services/account_service';
+import FinanceService from '../../services/finance_service';
+import LoadMoreService from '../../services/loadmore_service'
+
+export default class WithdrawDetail extends wepy.page {
+	config = {
+		'navigationBarTitleText': '钱包明细',
+		enablePullDownRefresh: true
+	}
+
+	components = {
+		bottomloader: BottomLoader
+	}
+
+	data = {
+		tab: "income",
+		code: 'pp_cash',
+		type: 'income',
+		incomeDetails: [],
+		withdrawDetails: [],
+		isFinishLoad: false,
+		status2text: {
+			"success": "提现成功",
+			"rejected": "提现被驳回",
+			"requesting": "审核中",
+			"failed": "审核中",
+			"pass": "审核中",
+			"transferring": "审核中",
+			"waiting": "审核中"
+		},
+	}
+
+	methods = {
+		onTapEnterDetail(id) {
+			wx.navigateTo({
+				url: '/package/pages/account/extract_detail_content?id=' + id,
+			})
+		},
+
+		onTapChangeTab(tab) {
+			this.tab = tab;
+			if (this.tab == "income") {
+				this.loadTransfers(true);
+			} else {
+				this.loadWithdraws(true);
+			}
+		}
+	}
+
+	loadTransfers(reset) {
+		if (reset) {
+			OrderService.reset();
+			this.isFinishLoad = false;
+			this.incomeDetails = [];
+		}
+
+		OrderService.getUserTransfers(this.code, this.type).then(
+			transfers => {
+				let bids = [],
+					count = 0;
+				if (transfers.length < 20) {
+					this.isFinishLoad = true;
+					this.$apply();
+				}
+
+				transfers.forEach(transfer => {
+					let bid = transfer.third_bid;
+					if (!/^[0-9]*$/.test(bid)) {
+						bid = bid.substring(2);
+					}
+					if (bid && transfer.dest_amount > 0) {
+						let detail = {
+							"bid": bid,
+							"amount": transfer.dest_amount,
+							"time": transfer.created_at,
+						}
+						bids.push(bid);
+						this.incomeDetails.push(detail);
+					}
+				});
+				this.$apply();
+				if (count < 12 && !this.isFinishLoad) {
+					setTimeout(() => {
+						this.loadTransfers();
+					}, 2000);
+				}
+				if (bids.length > 0) {
+					this.loadOrders(bids);
+				}
+			}
+		)
+	}
+
+	loadWithdraws(reset) {
+		if (reset) {
+			FinanceService.reset();
+			this.isFinishLoad = false;
+			this.withdrawDetails = [];
+		}
+
+		FinanceService.getWithdrawDetail().then(
+			withdraws => {
+				if (withdraws.length < 20) {
+					this.isFinishLoad = true;
+					this.$apply();
+				}
+
+				withdraws.forEach(withdraw => {
+					this.withdrawDetails.push({
+						"id": withdraw.id,
+						"bid": withdraw.bid,
+						"money": withdraw.money,
+						"status": withdraw.status,
+						"time": withdraw.created_at
+					})
+				});
+
+				this.$apply();
+				wx.stopPullDownRefresh();
+				console.log(this.withdrawDetails);
+			}
+		)
+	}
+
+	loadOrders(bids) {
+		OrderService.getOrderByBids(bids).then(
+			orders => {
+				console.log(orders)
+				let userIds = [];
+				let id2order = {};
+				orders.forEach(order => {
+					id2order[order.bid] = order;
+					userIds.push(order.user_id);
+				});
+
+				this.incomeDetails.forEach(detail => {
+					let order = id2order[detail.bid];
+					if (order) {
+						if (!detail.product) {
+							let product = order.product_display_name;
+							if (product !== "未知") {
+								detail["product"] = product;
+							} else {
+								if (order.custom_type == "honeycomb:gift") {
+									detail["product"] = "礼物";
+								}
+							}
+						}
+						if (!detail.userId) {
+							detail["userId"] = order.user_id;
+						}
+					}
+				});
+				this.$apply();
+				console.log(this.withdrawDetails);
+				this.loadUsers(userIds);
+			}
+		)
+	}
+
+	loadUsers(userIds) {
+		AccountService.getUsers(userIds).then(
+			users => {
+				let id2user = {};
+				for (let i = 0; i < users.length; i++) {
+					id2user[users[i].id] = users[i];
+				}
+
+				this.incomeDetails.forEach(detail => {
+					if (!detail.user) {
+						let user = id2user[detail.userId];
+						if (user) {
+							detail.user = user;
+						}
+					}
+				});
+				this.$apply();
+				wx.stopPullDownRefresh();
+				console.log(this.incomeDetails);
+			}
+		)
+	}
+
+	// getProductName(str) {
+	// 	let product = "";
+	// 	switch (str) {
+	// 		case "reward_blog":
+	// 			product = "悬赏";
+	// 			break;
+	// 		case "broadcast_blog":
+	// 			product = "霸屏";
+	// 			break;
+	// 		case "lucky_money":
+	// 			product = "红包";
+	// 			break;
+	// 		case "call_up":
+	// 			product = "召唤令";
+	// 			break;
+	// 		case "dating_yangsheng":
+	// 			product = "组局";
+	// 			break;
+	// 		case "lure":
+	// 			product = "送礼";
+	// 			break;
+	// 		default:
+	// 			product = str;
+	// 	}
+	// 	return product
+	// }
+
+	onLoad() {
+		this.loadTransfers(true);
+	}
+
+	onReachBottom() {
+		if (this.tab == "income") {
+			this.loadTransfers();
+		} else {
+			this.loadWithdraws();
+		}
+	}
+
+	onPullDownRefresh() {
+		if (this.tab == "income") {
+			this.loadTransfers(true);
+		} else {
+			this.loadWithdraws(true);
+		}
+	}
+}
+</script>

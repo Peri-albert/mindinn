@@ -1,0 +1,336 @@
+<style lang="less">
+  page {
+	  background-color: #f3f3f3;
+	  .container {
+		  height: 100%;
+		  overflow-x: hidden;
+		  width: 100%;
+
+		  .xui-top-tab {
+			  margin-top: 14rpx;
+			  margin-bottom: 26rpx;
+			  width: 100%;
+			  height: 80rpx;
+			  display: flex;
+			  justify-content: left;
+			  background-color: #fff;
+			  padding-left: 40rpx;
+
+			  view {
+				  width: 160rpx;
+				  height: 78rpx;
+				  line-height: 80rpx;
+				  font-size: 24rpx;
+				  background-color: #fff;
+				  text-align: center;
+				  margin-right: 40rpx;
+			  }
+
+			  .active {
+				  font-size: 32rpx;
+				  border-bottom: 2px solid #000;
+			  }
+		  }
+
+		  .xui-body {
+			  width: 100%;
+			  background-color: #eee;
+
+			  .xui-tab-followee {
+				width: 100%;
+				height: 80px;
+				background-color: #fff;
+				border-bottom: 1px solid #f3f3f3;
+				position: relative;
+
+				.xui-tab-image {
+					width: 60px;
+					height: 60px;
+					border-radius: 50%;
+					margin: 10px 20px;
+				}
+				
+				.xui-tab-title {
+					position: absolute;
+					top: 14px;
+					left: 93px;
+
+					.xui-tab-name {
+						font-size: 28rpx;
+						margin-right: 6px;
+					}
+
+					.xui-tab-sex {
+						width: 10px;
+						height: 10px;
+					}
+				}
+
+				.xui-tab-tag {
+					position: absolute;
+					left: 95px;
+					top: 47px;
+					font-size: 20rpx;
+					color: #000;
+					border: 1px solid #000;
+					border-radius: 5px;
+					padding: 0 8px;
+				}
+
+				.xui-btn {
+					position: absolute;
+					top: 19px;
+					right: 10px;
+					padding: 5px 9px;
+					background-color: #000;
+					color: #fff;
+					border-radius: 8px;
+					font-size: 25rpx;
+				}
+			}
+
+			.xui-tab-follower {
+				width: 100%;
+				height: 80px;
+				background-color: #fff;
+				border-bottom: 1px solid #f3f3f3;
+				position: relative;
+
+				.xui-tab-image {
+					width: 60px;
+					height: 60px;
+					border-radius: 50%;
+					margin: 10px 20px;
+				}
+				
+				.xui-tab-title {
+					position: absolute;
+					top: 14px;
+					left: 93px;
+
+					.xui-tab-name {
+						font-size: 28rpx;
+						margin-right: 6px;
+					}
+
+					.xui-tab-sex {
+						width: 10px;
+						height: 10px;
+					}
+				}
+
+				.xui-tab-tag {
+					position: absolute;
+					left: 95px;
+					top: 47px;
+					font-size: 20rpx;
+					color: #000;
+					border: 1px solid #000;
+					border-radius: 5px;
+					padding: 0 8px;
+				}
+
+				.xui-more {
+					position: absolute;
+					top: 34px;
+					right: 17px;
+					width: 8px;
+					height: 14px;
+				}
+			}
+		  }
+	  }
+  }
+</style>
+
+<template>
+	<view class="container">
+		<view class="xui-top-tab">
+			<view class="{{tab == 'i-like' ? 'active': ''}}" @tap="onTapChangeTab('i-like')">我喜欢的</view>
+			<view class="{{tab == 'like-me' ? 'active': ''}}" @tap="onTapChangeTab('like-me')">喜欢我的</view>
+			<view class="{{tab == 'mutual-like' ? 'active': ''}}" @tap="onTapChangeTab('mutual-like')">互相喜欢的</view>
+		</view>
+		<view class="xui-body">
+			<block wx:if="{{tab == 'i-like'}}">
+				<repeat for="{{followees}}" key="{{followee.id}}" index="index" item="followee"> 
+					<view class="xui-tab-followee" @tap="onTapEnterUser({{followee.id}})">
+						<image mode="aspectFill" class="xui-tab-image" src="{{followee.avatar}}" />
+						<view class="xui-tab-title">
+							<text class="xui-tab-name">{{followee.name}}</text>
+							<image class="xui-tab-sex" src="{{followee.sex == 'male' ? '../../images/male.png' : '../../images/female.png'}}" />
+						</view>
+						<view class="xui-tab-tag">{{followee.age}}</view>
+						<view class="xui-btn" @tap.stop="onTapUnfollowUser({{followee.id}})">不喜欢</view>
+					</view>
+				</repeat>
+			</block>
+			<block wx:if="{{tab == 'like-me'}}">
+				<repeat for="{{followers}}" key="{{follower.id}}" index="index" item="follower"> 
+					<view class="xui-tab-follower" @tap="onTapEnterUser({{follower.id}})">
+						<image mode="aspectFill" class="xui-tab-image" src="{{follower.avatar}}" />
+						<view class="xui-tab-title">
+							<text class="xui-tab-name">{{follower.name}}</text>
+							<image class="xui-tab-sex" src="{{follower.sex == 'male' ? '../../images/male.png' : '../../images/female.png'}}" />
+						</view>
+						<view class="xui-tab-tag">{{follower.age}}</view>
+						<image class="xui-more" src="../../images/arrow_right.png" />
+					</view>
+				</repeat>
+			</block>
+			<block wx:if="{{tab == 'mutual-like'}}">
+				<repeat for="{{mutualLikers}}" key="{{liker.id}}" index="index" item="liker"> 
+					<view class="xui-tab-follower" @tap="onTapEnterUser({{liker.id}})">
+						<image mode="aspectFill" class="xui-tab-image" src="{{liker.avatar}}" />
+						<view class="xui-tab-title">
+							<text class="xui-tab-name">{{liker.name}}</text>
+							<image class="xui-tab-sex" src="{{liker.sex == 'male' ? '../../images/male.png' : '../../images/female.png'}}" />
+						</view>
+						<view class="xui-tab-tag">{{liker.age}}</view>
+						<image class="xui-more" src="../../images/arrow_right.png" />
+					</view>
+				</repeat>
+			</block>
+		</view>
+	</view>
+</template>
+
+<script>
+  import wepy from 'wepy';
+  import UserService from '../../services/user_service';
+
+  export default class Like extends wepy.page {
+	config = {
+		navigationBarTitleText: '喜欢',
+		enablePullDownRefresh: true,
+	}
+
+	components = {
+
+	}
+
+	data = {
+		tab: "i-like",
+
+		followees: [],
+		followers: [],
+		mutualLikers: [],
+	}
+
+	methods = {
+		onTapChangeTab(name) {
+			this.tab = name;
+			this.$apply();
+
+			if (name == "i-like") {
+				this.loadFollowees();
+			} else if (name == "like-me") {
+				this.loadFollowers();
+			} else {
+				this.loadMutualLikers();
+			}
+
+			console.log(this.tab)
+		},
+
+		onTapUnfollowUser(id) {
+			UserService.unfollowUser(id).then(isSuccess => {
+				if (isSuccess) {
+					this.loadFollowees();
+					wx.showToast({
+						title: '取消关注成功',
+						icon: 'none',
+					})
+				} else {
+					wx.showToast({
+						title: '取消关注失败',
+						icon: 'none',
+					})
+				}
+			})
+		},
+
+		onTapEnterUser(id) {
+			wx.navigateTo({
+				url: '/pages/paoypao/paoypao_friend?id=' + id,
+			})
+		}
+	}
+
+	calculatUserAge(users) {
+		let now = new Date();
+		users.forEach(user => {
+			if (user) {
+				if (user.birthday) {
+					user.age = now.getFullYear() - user.birthday.substring(0, 4);
+				} else if (user.age == 0) {
+					user.age = 21;
+				}
+			}
+		});
+	}
+
+	loadFollowees() {
+		UserService.getFollowees().then(users => {
+			wx.hideLoading()
+			this.finishRefresh();
+			let filterUser = users.filter(user => {
+				return user != null;
+			})
+			this.calculatUserAge(filterUser);
+			this.followees = filterUser;
+			this.$apply();
+			console.log(this.followees)
+		})
+	}
+
+	loadFollowers() {
+		UserService.getFollowers().then(users => {
+			wx.hideLoading();
+			this.finishRefresh();
+			let filterUser = users.filter(user => {
+				return user != null;
+			})
+			this.calculatUserAge(filterUser);
+			this.followers = filterUser;
+			this.$apply();
+			console.log(this.followers)
+		})
+	}
+
+	loadMutualLikers() {
+		UserService.getMutualLikers().then(users => {
+			wx.hideLoading();
+			this.finishRefresh();
+			let filterUser = users.filter(user => {
+				return user != null;
+			})
+			this.calculatUserAge(filterUser);
+			this.mutualLikers = filterUser;
+			this.$apply();
+			console.log(this.mutualLikers);
+		})
+	}
+
+	onPullDownRefresh() {
+		wx.showLoading({
+			mask: true
+		});
+		if (this.tab == "i-like") {
+			this.loadFollowees(); 
+		} else if (this.tab == 'like-me') {
+			this.loadFollowers();
+		} else {
+			this.loadMutualLikers();
+		}
+	}
+
+	finishRefresh() {
+		wx.stopPullDownRefresh();
+		wx.hideLoading();
+	}
+
+	onLoad () {
+		this.loadFollowees();
+	}
+  }
+</script>

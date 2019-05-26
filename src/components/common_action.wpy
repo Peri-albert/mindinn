@@ -1,0 +1,99 @@
+<style lang="less">
+.x-common-action {
+	position: fixed;
+	left: 0;
+	top: 0;
+	transition: all .2s;
+	width: 100%;
+	height: 100%;
+	background-color: rgba(0, 0, 0, 0.2);
+	z-index: 99;
+
+	.x-i-actions {
+		display: flex !important;
+		flex-direction: row;
+		align-items: center;
+		background-color: #FFF;
+		padding: 20px;
+
+		input {
+			flex: 1;
+			background-color: #EFEFEF;
+			padding: 5px;
+			border: solid 1px #CFCFCF;
+			font-size: 0.8em;
+		}
+
+		button {
+			margin-left: 5rpx;
+			width: 50px;
+			padding: 5px 2px;
+		}
+	}
+}
+</style>
+
+<template>
+<view class="x-modal-editor" wx:if="{{enable}}" @tap="onTapBg">
+	<form bindsubmit="onSubmit" @tap.stop="onTapForm">
+		<view class="x-i-editor">
+			<input name="content" type="text" placeholder="{{placeholder}}"/>
+			<button type="primary" size="mini" form-type="submit">发送</button>
+		</view>
+	</form>
+</view>
+</template>
+
+<script>
+import wepy from 'wepy'
+
+export default class ModalEditor extends wepy.component {
+	props = {
+	}
+
+	data = {
+		enable: false,
+		placeholder: ''
+	}
+
+	events = {
+		'show-modal-editor': function(placeholder) {
+			this.placeholder = placeholder;
+			this.enable = true;
+			this.$apply();
+		},
+
+		'hide-modal-editor': function() {
+			this.placeholder = '';
+			this.enable = false;
+			console.log('hide modal editor');
+			this.$apply();
+		}
+	}
+
+	watch = {
+
+	}
+
+	methods = {
+		onTapBg: function() {
+			this.enable = false;
+			this.placeholder = '';
+			this.$apply();
+		},
+
+		onTapForm: function() {
+			console.log('tap form');
+		},
+
+		onSubmit: function(e) {
+			let content = e.detail.value.content.trim();
+			this.$emit('submit-modal-editor', content);
+		}
+	}
+
+	onLoad () {
+
+	}
+}
+</script>

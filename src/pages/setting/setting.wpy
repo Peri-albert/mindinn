@@ -1,0 +1,109 @@
+<style lang="less">
+page {
+	background-color: #f3f3f3;
+
+	.container {
+		.xui-tab {
+			margin: 10px 0;
+			height: 50px;
+			background-color: #fff;
+			display: flex;
+			justify-content: space-between;
+
+			.xui-tab-text {
+				font-size: 32rpx;
+				height: 50px;
+				line-height: 50px;
+				color: #666;
+				font-family: "微软雅黑";
+				margin-left: 20px;
+			}
+
+			switch {
+				line-height: 45px;
+				margin-right: 10px;
+			}
+		}
+	}
+}
+</style>
+	
+<template>
+	<view class="container">
+		<view class="xui-tab">
+			<text class="xui-tab-text">消息通知</text>
+			<switch checked="{{notifySwtich}}" bindchange="changeMessageNotify" color="purple"/>
+		</view>
+		<view class="xui-tab" @tap="onTapClearCache">
+			<text class="xui-tab-text">清除缓存</text>
+		</view>
+		<view class="xui-tab" @tap="tapEnterAbout">
+			<text class="xui-tab-text">关于享趣社区</text>
+		</view>
+	</view>
+</template>
+
+<script>
+	import wepy from 'wepy'
+	import Session from '../../lib/session'
+	import UserService from '../../services/user_service'
+
+	export default class Setting extends wepy.page {
+	config = {
+		navigationBarTitleText: "设置",
+	}
+
+	components = {
+
+	}
+
+	mixins = []
+
+	data = {
+		notifySwtich: true,
+	}
+
+	computed = {
+
+	}
+
+	methods = {
+		changeMessageNotify(e) {
+			UserService.setUserNotify(e.detail.value).then(
+				() => {},
+				res => {console.log(res)}
+			)
+		},
+
+		onTapClearCache() {
+			Session.clear();
+			wx.redirectTo({
+				url: '/pages/login/login'
+			});
+		},
+		//关于享趣社区
+		tapEnterAbout() {
+			wx.navigateTo({
+				url: '/pages/about/about'
+			})
+		}
+	}
+
+	events = {
+
+	}
+
+	loadUserNotifyInfo() {
+		UserService.getUserNotifyInfo().then(
+			data => {
+				this.notifySwtich = data.with_notify;
+				this.$apply();
+			}
+		)
+	}
+
+	onLoad () {
+		this.loadUserNotifyInfo();
+	}
+}
+</script>

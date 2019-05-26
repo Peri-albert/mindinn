@@ -1,0 +1,739 @@
+<style lang="less">
+@import "../../base";
+
+page {
+	background-color: #fff;
+	.me-container {
+		position: relative;
+		margin-bottom: 108rpx;
+		.xui-person {
+			position: relative;
+			width: 100%;
+			height: 274rpx;
+			background: #fff;
+			text-align: center;
+
+			.xui-i-avatar {
+				margin: 48rpx 0 10rpx;
+
+				view {
+					display: inline-block;
+					margin: 0 auto;
+					width: 160rpx;
+					height: 160rpx;
+					border: 1rpx solid lightgray;
+					border-radius: 50%;
+
+					image {
+						width: 136rpx;
+						height: 136rpx;
+						border-radius: 50%;
+						margin: 12rpx 0;
+					}
+				}
+			}
+
+			.xui-i-name {
+				font-size: 34rpx;
+				color: #f8bf36;
+				font-family: "微软雅黑";
+			}
+
+			.xui-i-code {
+				font-size: 20rpx;
+				color: #fff;
+				margin-top: 5rpx;
+			}
+
+			.xui-i-info {
+				display: flex;
+				justify-content: center;
+				margin: 20rpx 0 30rpx;
+				color: #000;
+				font-size: 16rpx;
+				line-height: 18rpx;
+			    view {
+					color: #000;
+					font-size: 22rpx;
+					padding: 0 18rpx;
+				}
+			}
+
+			.xui-i-hide {
+				position: absolute;
+				width:250rpx;
+				height:200rpx;
+				right:0;
+				top:0;
+			}
+
+			.xui-i-pencil {
+				position: absolute;
+				width: 64rpx;
+				height: 64rpx;
+				top: -10rpx;
+				right: 30rpx;
+			}
+		}
+
+		.xui-action-up-bg {
+			position: absolute;
+			top: 346rpx;
+			left: 0;
+			width: 100%;
+			height: 170rpx;
+			z-index: 99;
+
+			.xui-action-up {
+				width: 90%;
+				height: 170rpx;
+				margin: 0 auto;
+				border-radius: 8px;
+				background-color: #fff;
+				display: flex;
+				justify-content: space-between;
+				border: 1px solid #eee;
+
+				.xui-tab {
+					width: 25%;
+					height: 100%;
+					text-align: center;
+					margin: 20rpx 0;
+					
+					.xui-tab-image {
+						width: 80rpx;
+						height: 80rpx; 
+					}
+
+					.xui-tab-name {
+						font-size: 24rpx;
+						color: #666;
+						margin-top: 8rpx;
+					}
+				}
+			}
+		}
+
+		.xui-menus {
+			width: 100%;
+			margin-top: 140rpx;
+
+			.xui-menu-item {
+				position: relative;
+				width: 100%;
+				height: 104rpx;
+				background: #fff;
+				border-bottom: 1px solid #dcdcdc;
+				padding: 0;
+				line-height: 1em;
+
+				.xui-item-image {
+					width: 35rpx;
+					height: 31rpx;
+					margin: 35rpx 18rpx 35rpx 36rpx;
+				}
+
+				.xui-item-title {
+					position: absolute;
+					top: 32rpx;
+					left: 50rpx;
+					font-size: 28rpx;
+					color: #1a1919;
+					background-color: #fff;
+				}
+
+				.xui-visitor-img {
+					position: absolute;
+					top: 30rpx;
+					left: 150rpx;
+					display: flex;
+					justify-content: start;
+					image {
+						width: 40rpx;
+						height: 40rpx;
+						border-radius: 50%;
+						margin-left: -15rpx;
+					}
+				}
+
+				.xui-more {
+					position: absolute;
+					right: 40rpx;
+					top: 38rpx;
+					width: 12rpx;
+					height: 21rpx;
+					text-align: right;
+				}
+
+				.x-i-badge {
+					left: 180rpx;
+					top: 42rpx;
+					width: 10px;
+					height: 10px;
+					border-radius: 50%;
+					background-color: red;
+					position: absolute;
+				}
+			}
+			.xui-menu-item:first-child {
+				padding-top: 116rpx;
+				position: relative;
+				width: 100%;
+				height: 104rpx;
+				background: #fff;
+				border-bottom: 1px solid #dcdcdc;
+
+				.xui-item-title {
+					position: absolute;
+					top: 146rpx;
+					left: 50rpx;
+					font-size: 28rpx;
+					color: #1a1919;
+				}
+
+				.xui-visitor-img {
+					position: absolute;
+					top: 30rpx;
+					left: 150rpx;
+					display: flex;
+					justify-content: start;
+					image {
+						width: 40rpx;
+						height: 40rpx;
+						border-radius: 50%;
+						margin-left: -15rpx;
+					}
+				}
+
+				.xui-more {
+					position: absolute;
+					right: 40rpx;
+					top: 152rpx;
+					width: 12rpx;
+					height: 21rpx;
+					text-align: right;
+				}
+			}
+		}
+
+		.xui-robalo {
+			position: fixed;
+			display: flex;
+			justify-content: center;
+			bottom: 0;
+			left: 0;
+			width: 100%;
+			height: 50px;
+			z-index:666;
+			background-color: rgba(0, 0, 0, 0.7);
+			
+			.xui-robalo-text {
+				font-size: 28rpx;
+				line-height: 50px;
+				color: rgb(221, 98, 221);
+				font-weight: 600;
+				letter-spacing: 8rpx;
+			}
+
+			.xui-robalo-image {
+				width: 140px;
+				height: 36px;
+				margin: 7px 10px;
+			}
+		}
+	}
+
+	.addMiniPrograme {
+		animation: jumping 1.4s 7;
+		background-color: #ffe411;
+		border-radius: 12rpx;
+		box-sizing: border-box;
+		color: #5c12a7;
+		font-size: 20rpx;
+		padding: 20rpx 22rpx;
+		position: fixed;
+		right: 85rpx;
+		top: 40rpx;
+		width: 212rpx;
+		z-index: 100;
+	}
+	.addMiniPrograme::after {
+		border: 20rpx solid;
+		border-top-color: transparent;
+		border-left: 19rpx solid transparent;
+		border-right: 7rpx solid transparent;
+		border-bottom-color: #ffe411;
+		content: '';
+		display: block;
+		left: 116rpx;
+		position: absolute;
+		top: -36rpx;
+	}
+	.displaynone {
+		display: none;
+	}
+
+	@keyframes jumping {
+		0% {transform: translateY(0)};
+		50% {transform: translateY(10rpx)};
+		100% {transform: translateY(0rpx)};
+	}
+}
+</style>
+
+<template>
+	<view class="me-container">
+		<view class="xui-person">
+			<view class="xui-i-avatar">
+				<view>
+					<image mode="aspectFill" src="{{userInfo.avatar?userInfo.avatar:'http://resource.vxiaocheng.com/mercury/default_avatar.png'}}"/>
+				</view>
+			</view>
+			<view class="xui-i-name">{{userInfo.name}}</view>
+			<view class="xui-i-code">ID:{{userInfo.code}}</view>
+			<view class="xui-i-info">
+				<view>{{userInfo.sex == "female" ? '女' : '男'}}</view>|
+				<view>{{userInfo.age}}</view>|
+				<view>{{userInfo.constellation.name}}</view>
+			</view>
+			<image class="xui-i-pencil" src="http://resource.vxiaocheng.com/mercury/me/me_edit.png"  @tap="onTapEnter('profile')"/>
+		</view>
+
+		<view class="xui-action-up-bg">
+			<view class="xui-action-up">
+				<view class="xui-tab" @tap="onTapEnter('account')" wx:if="{{enableMP}}">
+					<image class="xui-tab-image" src="../../images/datings.png"/>
+					<view class="xui-tab-name">动态</view>
+				</view>
+				<view class="xui-tab" @tap="onTapEnterUser">
+					<image class="xui-tab-image" src="../../images/bars.png"/>
+					<view class="xui-tab-name">圈子</view>
+				</view>
+				<view class="xui-tab" @tap="onTapEnter('like')">
+					<image class="xui-tab-image" src="../../images/collect.png"/>
+					<view class="xui-tab-name">收藏</view>
+				</view>
+				<view class="xui-tab" @tap="onTapEnterGift" wx:if="{{enableMP}}">
+					<image class="xui-tab-image" src="../../images/like.png"/>
+					<view class="xui-tab-name">喜欢</view>
+				</view>
+			</view>	
+		</view>
+
+		<view class="xui-menus">
+			<view class="xui-menu-item" @tap="onTapEnterFootprint">
+				<!-- <image class="xui-item-image" src="http://resource.vxiaocheng.com/mercury/me_foot.png"/> -->
+				<text class="xui-item-title">足迹</text>
+				<image class="xui-more" src="http://resource.vxiaocheng.com/mercury/me/me_enter.png" />
+			</view>
+			<view class="xui-menu-item" @tap="onTapEnter('visitors')">
+				<!-- <image class="xui-item-image" src="http://resource.vxiaocheng.com/mercury/me_visitor.png"/> -->
+				<text class="xui-item-title">访客</text>
+				<view class="xui-visitor-img">
+					<repeat for="{{visitors}}" key="{{visitor.id}}" index="index" item="visitor"> 
+						<image src="{{visitor.visitor.avatar}}" mode="scaleToFill"></image>
+					</repeat>
+					<image wx:if="{{visitorCount > 5}}" src="../../images/x-tabmore.png" style="width:30rpx;height:7rpx;margin-left:4rpx;margin-top:16rpx;"></image>
+				</view>
+				<image class="xui-more" src="http://resource.vxiaocheng.com/mercury/me/me_enter.png" />
+			</view>
+			<view class="xui-menu-item" @tap="onTapEnterMyNotifications">
+				<text class="xui-item-title">消息</text>
+				<image class="xui-more" src="http://resource.vxiaocheng.com/mercury/me/me_enter.png" />
+				<view wx:if="{{hasNewNotify}}" class="x-i-badge"></view>
+			</view>
+			
+			<view class="xui-menu-item" @tap="onTapEnter('setting')" @longpress="onPressShowManager">
+				<!-- <image class="xui-item-image" src="http://resource.vxiaocheng.com/mercury/me_setting.png" /> -->
+				<text class="xui-item-title">设置</text>
+				<image class="xui-more" src="http://resource.vxiaocheng.com/mercury/me/me_enter.png" />
+			</view>
+			<!-- <view class="xui-menu-item">
+				<image class="xui-item-image" src="https://vxiaocheng-jh.oss-cn-beijing.aliyuncs.com/mercury/me/customservice_icon.png" />
+				<text class="xui-item-title">客服中心</text>
+				<image class="xui-more" src="http://resource.vxiaocheng.com/mercury/me_goto.png" />
+			</view> -->
+			
+			
+		</view>
+
+		<!-- <view class="xui-robalo">
+			<text class="xui-robalo-text">我是每屏秀秀艺人</text>
+			<navigator target="miniProgram" open-type="navigate" app-id="wx6f7b41bfd605d0b5" version="release">
+				<image class="xui-robalo-image" src="http://resource.vxiaocheng.com/mercury/to_robalo.png" />
+			</navigator>
+		</view>	 -->
+	</view>
+	<view class="fit-apple-margin" style="height: 10rpx;margin-top: -10rpx;"></view>
+
+	<view class="addMiniPrograme {{ addMiniProgrameShow ? '' : 'displaynone'}}">
+		<text>添加到我的小程序</text>
+		<text>划卡片出CP更快捷</text>
+	</view>
+	<bottomnavi :current.sync="current"></bottomnavi>
+</template>
+
+<script>
+	import wepy from 'wepy'
+	const app = getApp()
+	import _ from '../../lib/mptool'
+	import Session from '../../lib/session'
+	import UserService from '../../services/user_service'
+	import AccountService from '../../services/account_service'
+	import StorageService from '../../services/storage_service'
+	import IMoneyService from '../../services/imoney_service'
+	import FinanceService from '../../services/finance_service'
+	import LocationService from '../../services/location_service'
+	import WebIMService from '../../services/webim_service'
+	import DateService from '../../services/date_service'
+	import Resource from '../../lib/resource'
+	import Uploader from '../../lib/uploader'
+	import BottomNavi from '../../components/bottom_navi'
+
+	export default class Me extends wepy.page {
+		config = {
+			navigationBarTitleText: "我的"
+		}
+
+		components = {
+			bottomnavi: BottomNavi,
+		}
+
+		mixins = []
+
+		data = {
+			hasNewNotify: false,
+			current: 'my',
+			inviteArtist: false,
+			userInfo: {},
+			isMpOperator: false,
+			isDevMode: false,
+			enableMP: false,
+			usercode: '',
+			levelmap: {
+				"再接再厉": 1,
+				"小有成就": 2,
+				"生意兴隆": 3,
+				"门庭若市": 4
+			},
+
+			jwt: '',
+			mpcoinBalance: 0,
+
+			level: null,
+			levels: [],
+			levelImgUrls:["null","../../images/level1.png","../../images/level2.png","../../images/level3.png","../../images/level4.png"],
+			imgUrl:"",
+			inbar:{
+				isshow: false,
+				corpid: 0,
+				corpname: ''
+			},
+
+			counter: {
+				follower: 0,
+				followee: 0,
+				new_follower: 0
+			},
+
+			visitors: [],
+			visitorCount: 0,
+			addMiniProgrameShow: true
+		}
+
+		computed = {
+		}
+
+		methods = {
+			onPressShowManager() {
+				wx.showModal({
+					title: '版本号',
+					content: this.$parent.globalData.version,
+					showCancel: false
+				})
+			},
+
+			onTapEnterFollowees() {
+				wx.navigateTo({
+					url: '/pages/users/followees',
+				})
+			},
+
+			onTapEnterFollowers() {
+				wx.navigateTo({
+					url: '/pages/users/followers',
+				})
+			},
+
+			onTapEnter(name) {
+				if (name == "card") {
+					console.log("doing..........");
+					return;
+				}
+				wx.navigateTo({
+					url: '/pages/' + name + '/' + name,
+				})
+			},
+
+			onTapEnterSupport() {
+				wx.navigateTo({
+					url: '/package/pages/support/support',
+				});
+			},
+
+			onTapEnterMyNotifications() {
+				wx.navigateTo({
+					url: '/package/pages/notification/notification',
+				})
+				app.aldstat.sendEvent("查看我的消息", {
+					"用户ID": this.userInfo.id + "",
+					"时间": _.getAldTime()
+				})
+			},
+
+			onTapEnterMyRewardBlogs() {
+				wx.navigateTo({
+					url: '/pages/my_blogs/my_reward_blogs',
+				})
+			},
+			
+			onTapEnterMyBroadcastBlogs() {
+				wx.navigateTo({
+					url: '/pages/my_blogs/my_broadcast_blogs',
+				})
+			},
+
+			onTapEnterMySummons() {
+				wx.navigateTo({
+					url: '/package/pages/mine/my_summons',
+				})
+			},
+
+			onTapEnterFootprint() {
+				wx.navigateTo({
+					url: 'history_footprint',
+				})
+			},
+
+			onTapEnterUser() {
+				wx.navigateTo({
+					url: '/pages/paoypao/paoypao_friend?id=' + this.userInfo.id
+				})
+			},
+
+			onTapEnterUsers(type) {
+				wx.navigateTo({
+					url: '/pages/users/users?type=' + type,
+				})
+			},
+
+			onClickJWT: function(e) {
+				Session.clear();
+				wx.redirectTo({
+					url: '/pages/login/login'
+				})
+				console.log(Session.get());
+			},
+
+			onTapClearCache() {
+				Session.clear();
+				wx.redirectTo({
+					url: '/pages/login/login'
+				});
+			},
+
+			onTapBindLevel: function(e) {
+				let itemList = this.levels.map(level => level.name);
+				let _this = this;
+				wx.showActionSheet({
+					itemList: itemList,
+					success: function(res) {
+						let level = _this.levels[res.tapIndex];
+						ArtistService.updateArtistLevel(level.id).then(data => {
+							wx.showToast({
+								title: '绑定等级成功',
+								icon: 'none',
+								duration: 1500
+							});
+							_this.level = level;
+							_this.$apply();
+						})
+					},
+					fail: function(res) {
+						console.log(res.errMsg)
+					}
+				})
+			},
+			
+			onTapMockLogin: function() {
+				wx.navigateTo({
+					url: "/pages/users/users?type=mocklogin"
+				})
+			},
+
+			onLongPressManager: function() {
+				wx.navigateTo({
+					url: "/pages/users/users?type=manager"
+				})
+			},
+
+			onTapVisitBar: function() {
+				wx.navigateTo({
+					url: "/package/pages/bars/bars"
+				})
+			},
+
+			onTapGenerateDevUsers: function() {
+				AccountService.generateDevUsers().then(isSuccess => {
+					if (isSuccess) {
+						wx.showToast({
+							title: '创建成功',
+							icon: 'success',
+							duration: 2000
+						})
+					} else {
+						wx.showToast({
+							title: '创建测试用户失败！！！',
+							icon: 'none',
+							duration: 2000
+						})
+					}
+				})
+			},
+
+			onTapEnterGift() {
+				wx.navigateTo({
+					url: "/pages/gift/gifts?id=" + this.userInfo.id,
+				})
+			},
+		}
+
+		events = {
+
+		}
+
+		loadMpcoinBalance() {
+			IMoneyService.getBalance("mpcoin").then(balance => {
+				if (balance) {
+					this.mpcoinBalance = balance;
+					this.$apply();
+				}
+			})
+		}
+
+		async loadUserInfo() {
+			let user = await UserService.getUserInfo();
+			let selfId = AccountService.getSelfId();
+			if (selfId !== user.id) {
+				user = await UserService.getUserInfo(0);
+			}
+
+			this.userInfo = user;
+			this.isMpOperator = UserService.isMpOperator(this.userInfo);
+			this.enableMP = user.enable_mpcoin;
+			if (!this.userInfo.avatar) {
+				this.userInfo.avatar = '../../images/blank_avatar.png'
+			}
+			this.userInfo.constellation = DateService.getAsterism(this.userInfo.birthday);
+			
+			let now = new Date();
+			this.userInfo.age = this.userInfo.birthday ? now.getFullYear() - this.userInfo.birthday.substring(0, 4) : 0;
+			
+			this.$apply();
+			console.log(this.userInfo);
+		}
+
+		loadCounters() {
+			UserService.getCounters(["follower", "new_follower", "followee", "send_gift", "receive_gift"]).then(counter => {
+				if (counter) {
+					this.counter = counter;
+					this.$apply();
+				}
+			})
+		}
+
+		loadVisitors(reset=false) {
+			UserService.getVisitors(reset).then(
+				visitors => {
+					this.visitorCount = visitors.length;
+					this.visitors = visitors.slice(0, 5);
+					this.$apply();
+				}
+			)
+		}
+
+		onShareAppMessage() {
+			return {
+				title: '你有故事我有酒，泡吧撩妹，这里都有',
+				path: '/pages/login/login',
+				imageUrl: 'http://resource.vxiaocheng.com/mercury/share/paopao.jpg'
+			}
+		}
+
+		async checkNotify() {
+			this.hasNewNotify = await UserService.checkHasNewNotify()
+			this.$apply();
+
+			WebIMService.loadUnReadMsgs();
+
+			let data = WebIMService.Queue.getLists()
+			for (let i=0; i<data.length; i++) {
+				console.log(data, data[i].unread_count);
+				if (parseInt(data[i].self_id) == this.selfId) {
+					if(data[i].unread_count>0){
+						this.hasNewNotify = true;
+						this.$apply();
+						return
+					}
+				}
+			}	
+		}
+
+		onShow() {
+			this.loadUserInfo();
+			this.loadMpcoinBalance();
+			this.loadCounters();
+			// UserService.checkCount();
+			this.checkNotify();
+			this.$broadcast('update-bottom-navi');
+		}
+
+		onLoad() {
+			wx.hideTabBar({})
+
+			// 被拉黑用户直接清除缓存重定向至登录页面
+			// AccountService.checkUserBlock().then(
+			// 	data => {
+			// 		if (data.is_block) {
+			// 			Session.clear();
+			// 			wx.redirectTo({
+			// 				url: '/pages/login/login'
+			// 			});
+			// 		}
+			// 	}
+			// )
+
+			// this.loadVisitors();
+			// this.isDevMode = AccountService.isDevMode()
+
+			// LocationService.wxGetLocation(this.$parent.globalData.qqmapKey).then(data => {
+			// 	LocationService.reportLocation().then(isSuccess => {
+			// 		if (isSuccess) {
+			// 			// this.loadNearbyUsers();
+			// 		}
+			// 	})
+			// });
+
+			// let forceUpdate = StorageService.getAndClear("forceUpdate");
+			// if (forceUpdate) {
+			// 	AccountService.updateVersion();
+			// }
+
+			setTimeout(() => {
+				this.addMiniProgrameShow = false
+				this.$apply()
+			}, 11000)
+		}
+
+	}
+</script>

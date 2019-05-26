@@ -1,0 +1,289 @@
+<style lang="less">
+page {
+	height: 100vh;
+	overflow-x: hidden;
+
+	//flex居中
+	.flexCenter {
+		align-items: center;
+		display: flex;
+		justify-content: center;
+	}
+	.myPoster-container {
+		background-color: #080713;
+		box-sizing: border-box;
+		height: 100vh;
+		overflow: hidden;
+		padding-top: 7.29684908789vh;
+
+		.reward-canvas {
+			background-color: #080713;
+			height: 784rpx;
+			margin: 0 auto;
+			width: 618rpx;
+		}
+
+		.save-poster-btn {
+			background: linear-gradient(to bottom, #FBBA53, #FF9F00);
+			border: 4rpx solid #FA9F03;
+			border-top: 2rpx solid #FA9F03;
+			border-bottom: 2rpx solid #FF9F00;
+			border-radius: 90rpx;
+			box-sizing: border-box;
+			color: #000;
+			font-size: 34rpx;
+			height: 88rpx;
+			margin: 6.135986733vh auto 2vh;
+			width: 626rpx;
+			.flexCenter;
+		}
+
+		.back-homepage-btn {
+			background-color: #080713;
+			border: 2rpx solid #FA9F03;
+			border-radius: 90rpx;
+			box-sizing: border-box;
+			color: #fda500;
+			font-size: 35rpx;
+			height: 88rpx;
+			margin: 0 auto;
+			width: 626rpx;
+			.flexCenter;
+		}
+
+		&.long-screen {
+			.save-poster-btn {
+				margin: 9.135986733vh auto 5vh;
+			}
+		}
+	}
+}
+</style>
+
+<template>
+	<view class="myPoster-container {{longScreen ? 'long-screen' : ''}}">
+		<canvas canvas-id="myPoster" class="reward-canvas"></canvas>
+	
+		<view class="save-poster-btn" @tap.stop="tapSavePoster">{{saveBtnTxt}}</view>
+		<view class="back-homepage-btn" @tap.stop="tapBackHomepage">返回首页</view>
+	</view>
+	<apply-scope></apply-scope>
+</template>
+
+<script>
+import wepy from 'wepy'
+import BlogService from '../../../services/blog_service'
+import ApplyScope from '../../../components/apply_scope'
+
+export default class MyPoster extends wepy.page {
+	config = {
+		navigationBarTitleText: "我的海报"
+	}
+
+	components = {
+		'apply-scope' : ApplyScope
+	}
+
+	mixins = []
+
+	data = {
+		saveBtnTxt: '保存海报',
+		blogType: '',
+		blogId: 0,
+		blog: {},
+		ratio: 1,
+		rewardTextHeight: 0,
+		picssrc: {},
+		longScreen: false
+	}
+
+	computed = {
+	}
+
+	methods = {
+		tapSavePoster() {
+			this.$broadcast('apply-scope', {scope:'scope.writePhotosAlbum'}, this.saveToPoster)
+		},
+		tapBackHomepage() {
+			wx.switchTab({
+				url: `/pages/blogs/new_blogs`
+			})
+		}
+	}
+
+	events = {
+
+	}
+
+	async onLoad(query) {
+		this.ratio = wx.getSystemInfoSync().windowWidth / 750
+		this.longScreen = (wx.getSystemInfoSync().screenHeight / wx.getSystemInfoSync().screenWidth) >= 2
+		this.$apply()
+		wx.showLoading({
+			title: '正在生成海报'
+		})
+		this.blogId = query.rewardId
+
+		this.blog = await BlogService.getBlog(this.blogId)
+		this.blog.author.name = this.blog.author.name.length > 8 ? this.blog.author.name.slice(0, 8).concat('...') : this.blog.author.name
+		this.blog.amount = this.blog.amount / 150
+
+		//顶图
+		// this.picssrc.topPicUrl = await this.toUrl('https://resource.vxiaocheng.com/mercury/my_poster/reward_poster_top_pic.png')
+		//头像
+		this.picssrc.avatarPicUrl = await this.toUrl(this.blog.author.avatar.replace('http:', 'https:'))
+		//上引号
+		// this.picssrc.quotationTopPicUrl = await this.toUrl('https://resource.vxiaocheng.com/mercury/my_poster/quotation_top_pic.png')
+		// //下引号
+		// this.picssrc.quotationBottomPicUrl = await this.toUrl('https://resource.vxiaocheng.com/mercury/my_poster/quotation_bottom_pic.png')
+		// //左下角
+		// this.picssrc.leftBottomPicUrl = await this.toUrl('https://resource.vxiaocheng.com/mercury/my_poster/reward_poster_leftbottom_pic.png')
+		// //二维码
+		// this.picssrc.QEcodePicUrl = await this.toUrl('https://resource.vxiaocheng.com/mercury/my_poster/sss.jpg')
+
+		//新海报图
+		this.picssrc.PicUrl = await this.toUrl('https://resource.vxiaocheng.com/mercury/my_poster/new_reward_poster_pic.png')
+
+		this.$apply()
+
+		this.drawCanvas()
+	}
+
+	onShow() {
+		
+	}
+
+	drawCanvas() {
+		const _this = this
+		const myPoster = wx.createCanvasContext('myPoster')
+
+		//绘制新背景
+		myPoster.drawImage(_this.picssrc.PicUrl, 0, 0, _this.toPx(618), _this.toPx(784))
+
+		//绘制各部分图片
+		// myPoster.drawImage(_this.picssrc.topPicUrl, _this.toPx(33), _this.canvasHeight * .0414634146, _this.toPx(393), _this.toPx(136))
+		// myPoster.drawImage(_this.picssrc.quotationTopPicUrl, _this.toPx(30), _this.canvasHeight * .365853658, _this.toPx(30), _this.toPx(20))
+		// myPoster.drawImage(_this.picssrc.leftBottomPicUrl, _this.toPx(0), _this.canvasHeight - _this.toPx(175), _this.toPx(185), _this.toPx(175))
+		// myPoster.drawImage(_this.picssrc.QEcodePicUrl, _this.toPx(300), _this.canvasHeight - _this.toPx(210), _this.toPx(132), _this.toPx(132))
+		// myPoster.draw()
+
+		//绘制头像
+		myPoster.save()
+		myPoster.beginPath()
+		myPoster.arc(_this.toPx(309), _this.toPx(130), _this.toPx(45), 0, 2 * Math.PI)
+		myPoster.clip()
+		myPoster.drawImage(_this.picssrc.avatarPicUrl, _this.toPx(264), _this.toPx(85), _this.toPx(90), _this.toPx(90))
+		myPoster.restore()
+		myPoster.draw(true)
+
+		//绘制昵称及悬赏金额
+		myPoster.setFontSize(_this.toPx(24))
+		myPoster.setTextAlign('center')
+		myPoster.setFillStyle('#da8827')
+		myPoster.fillText(_this.blog.author.name, _this.toPx(308), _this.toPx(220))
+		myPoster.setFillStyle('#fffbe1')
+		myPoster.fillText(_this.blog.author.name, _this.toPx(309), _this.toPx(217))
+		myPoster.setFontSize(_this.toPx(106))
+		myPoster.setFillStyle('#da8827')
+		myPoster.fillText(_this.blog.amount, _this.toPx(308), _this.toPx(395))
+		myPoster.fillText(_this.blog.amount, _this.toPx(309), _this.toPx(395))
+		myPoster.fillText(_this.blog.amount, _this.toPx(308), _this.toPx(396))
+		myPoster.fillText(_this.blog.amount, _this.toPx(309), _this.toPx(396))
+		myPoster.setFillStyle('#fff8c3')
+		myPoster.fillText(_this.blog.amount, _this.toPx(309), _this.toPx(390))
+		myPoster.fillText(_this.blog.amount, _this.toPx(310), _this.toPx(390))
+		myPoster.fillText(_this.blog.amount, _this.toPx(309), _this.toPx(391))
+		myPoster.fillText(_this.blog.amount, _this.toPx(310), _this.toPx(391))
+		myPoster.draw(true)
+
+		//绘制文本
+		// myPoster.setFontSize(_this.toPx(18))
+		// myPoster.setFillStyle('#333')
+		// myPoster.fillText('正在发起悬赏，金额： ', _this.toPx(144), _this.toPx(266))
+		// myPoster.fillText('秀点', _this.toPx(385), _this.toPx(266))
+		// myPoster.setFillStyle('#FF4248')
+		// myPoster.fillText(_this.blog.amount, _this.toPx(328), _this.toPx(266))
+		// myPoster.setFillStyle('#000')
+		// _this.ctxTextNewline(myPoster, _this.blog.content, _this.toPx(50), _this.canvasHeight * .4634146, _this.toPx(338))
+		// myPoster.setFontSize(_this.toPx(20))
+		// myPoster.setTextAlign('center')
+		// myPoster.fillText('长按识别二维码', _this.toPx(366), _this.canvasHeight - _this.toPx(45))
+		// myPoster.fillText('立即参与', _this.toPx(366), _this.canvasHeight - _this.toPx(20))
+		// myPoster.draw(true)
+
+		//绘制下引号
+		// myPoster.drawImage(_this.picssrc.quotationBottomPicUrl, _this.toPx(410), _this.rewardTextHeight + _this.canvasHeight * .0609756, _this.toPx(30), _this.toPx(20))
+		// myPoster.draw(true)
+
+		wx.hideLoading()
+	}
+
+	saveToPoster() {
+		const _this = this
+		wx.canvasToTempFilePath({
+				canvasId: 'myPoster',
+				success(res) {
+					wx.saveImageToPhotosAlbum({
+						filePath: res.tempFilePath,
+						success(res) {
+							wx.showToast({
+								title: '保存海报成功',
+								icon: 'success',
+								duration: 1000
+							})
+							setTimeout(() => {
+								wx.switchTab({
+									url: '/pages/blogs/new_blogs'
+								})
+							}, 1000)
+						}
+					})
+				}
+			})
+	}
+
+	toPx(count) {
+		return count * this.ratio
+	}
+
+	async toUrl(url) {
+		return new Promise((resolve, reject) => {
+			wx.getImageInfo({
+				src: url,
+				success(res) {
+					resolve(res.path)
+				}
+			})
+		})
+	}
+
+	ctxTextNewline(ctx, str, x, y, width) {
+		if (ctx.measureText(str).width < width) {
+			ctx.fillText(str, x, y, width)
+			return this.rewardTextHeight = y
+		}
+		let rows = []
+		let row = ''
+
+		str.split('').forEach(e => {
+			if(ctx.measureText(row).width < width) {
+				row += e
+			}else {
+				rows.push(row)
+				row = e
+			}
+		})
+		row ? rows.push(row) : ''
+
+		rows.forEach((e, i) => {
+			if (i == 0) {
+				ctx.fillText(e, x, y, width)
+			}else {
+				ctx.fillText(e, x, y + this.toPx(24) * i, width)
+			}
+		})
+		
+		this.rewardTextHeight = y + this.toPx(24) * (rows.length - 1)
+	}
+}
+</script>

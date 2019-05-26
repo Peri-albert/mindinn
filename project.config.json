@@ -1,0 +1,127 @@
+{
+	"description": "享趣社区",
+	"setting": {
+		"urlCheck": false,
+		"es6": false,
+		"postcss": false,
+		"minified": false,
+		"newFeature": true
+	},
+	"compileType": "miniprogram",
+	"appid": "wxd425f6ba5b0ab719",
+	"projectname": "mindinn",
+	"miniprogramRoot": "dist/",
+	"libVersion": "2.6.0",
+	"simulatorType": "wechat",
+	"simulatorPluginLibVersion": {},
+	"condition": {
+		"search": {
+			"current": -1,
+			"list": []
+		},
+		"conversation": {
+			"current": -1,
+			"list": []
+		},
+		"plugin": {
+			"current": -1,
+			"list": []
+		},
+		"game": {
+			"list": []
+		},
+		"miniprogram": {
+			"current": 6,
+			"list": [
+				{
+					"id": -1,
+					"name": "share",
+					"pathName": "pages/card/sharecard",
+					"query": ""
+				},
+				{
+					"id": -1,
+					"name": "演出",
+					"pathName": "pages/performance/performances",
+					"query": ""
+				},
+				{
+					"id": -1,
+					"name": "名片",
+					"pathName": "pages/card/card",
+					"query": ""
+				},
+				{
+					"id": -1,
+					"name": "名片分享",
+					"pathName": "pages/card/sharecard",
+					"query": ""
+				},
+				{
+					"id": -1,
+					"name": "海报",
+					"pathName": "package/pages/sharecard/sharecard",
+					"query": ""
+				},
+				{
+					"id": -1,
+					"name": "群聊分享图片",
+					"pathName": "package/pages/dating/dating_share",
+					"query": ""
+				},
+				{
+					"id": 6,
+					"name": "小程序码",
+					"pathName": "pages/login/login",
+					"query": "scene=/pages/account/account",
+					"scene": 1047
+				},
+				{
+					"id": -1,
+					"name": "私聊",
+					"pathName": "package/pages/chatroom/chatroom",
+					"query": "touserid=15"
+				},
+				{
+					"id": 8,
+					"name": "公众号消息",
+					"pathName": "pages/login/login",
+					"query": "redirect=%2Fpages%2Fgroup%2Fbar%3Fid%3D4",
+					"scene": "1043",
+					"referrerInfo": {
+						"appId": "wxd425f6ba5b0ab719"
+					}
+				},
+				{
+					"id": 9,
+					"name": "模版消息",
+					"pathName": "pages/login/login",
+					"query": "redirect=%2Fpages%2Freward_topic%2Freward_detail%3FrewardBlogId%3D413%26accountId%3D15%26iMax%3Dtrue",
+					"scene": "1014"
+				},
+				{
+					"id": -1,
+					"name": "test",
+					"pathName": "pages/login/login",
+					"query": "redirect=%2Fpages%2Freward_topic%2Freward_detail%3Fid%3D413",
+					"scene": "1014"
+				},
+				{
+					"id": -1,
+					"name": "test",
+					"pathName": "pages/card/card",
+					"query": "",
+					"scene": "1036",
+					"referrerInfo": {}
+				},
+				{
+					"id": -1,
+					"name": "test",
+					"pathName": "pages/card/card",
+					"query": "",
+					"scene": "1017"
+				}
+			]
+		}
+	}
+}

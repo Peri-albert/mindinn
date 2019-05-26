@@ -1,0 +1,196 @@
+<style lang="less">
+@import "../../../base";
+
+page {
+	background: #fff;
+	
+	.container {
+		textarea  {
+			width: 76%;
+			font-size:22rpx;
+			padding:50rpx 36rpx 15rpx;
+			background:#fff;
+			color:#b9b9ba;
+			height: 222rpx;
+			margin: 68rpx auto 0;
+			border: 1px solid #424142;
+			border-radius: 24rpx;
+		}
+		.xui-upload-title {
+			font-size: 30rpx;
+			color: #696969;
+			margin: 62rpx 40rpx 60rpx;
+		}
+		.xui-wrapper {
+			padding-left:46rpx;
+			padding-bottom: 30rpx;
+			background: #fff;
+			.xui-i-item {
+				width: 20vw;
+				height: 20vw;
+				margin-right: 10px;
+				float: left;
+				margin-bottom: 10px;
+				position: relative;
+				image {
+					width: 20vw;
+					height: 20vw;
+				}
+				.xui-i-close {
+					position: absolute;
+					right: 0rpx;
+					top: 0rpx;
+					width: 60rpx;
+					height: 60rpx;
+					display: block;
+				}
+			}
+			.x-i-hint {
+				clear: both;
+				font-size: 20rpx;
+				color: #c8c5c5;
+			}
+		}
+		.xui-plus {
+			image {
+				width: 128rpx;
+				height: 128rpx;
+			}
+		}
+		.xui-topic-panel {
+			width: 100%;
+			margin-top: 70rpx;
+			
+			button {
+				width: 80%;
+				height: 80rpx;
+				line-height: 80rpx;
+				background-color: #7127cd;
+				color: #fff;
+				font-size: 30rpx;
+				margin: 0 auto;
+				padding: 0;
+				border-radius: 40rpx;
+			}
+		}	
+	}
+}
+
+
+</style>
+
+<template>
+<view class="container">
+	<form @submit="onSubmitComment" class="mt50">
+		<textarea placeholder="发表您对本局的看法，比如：局长怎么样，小伙子怎么样，玩的开不开心..." name="content"/>
+		<view class="xui-upload-title">上传图片</view>
+		<view class="xui-wrapper clearfix">
+			<view class="xui-i-item" wx:for="{{resources}}" wx:key="{{item}}">
+				<image src="{{item}}" mode="aspectFill" @tap="onPreviewImg({{item}})" />
+				<cover-view class="xui-i-close" catchtap="onTapDeleteResource({{item}})">
+					<cover-image class="xui-i-close" mode="widthFix" src="../../../images/topright_delete.png" />
+				</cover-view>
+			</view>
+			<view class="xui-plus xui-i-item" @tap="chooseImage" wx:if="{{resources.length < maxCount}}">
+				<image src="http://resource.vxiaocheng.com/mercury/dating_comment_img.png" />
+			</view>
+			<view class="x-i-hint">(最多上传6张图片)</view>
+		</view>
+
+		<view class="xui-topic-panel">
+			<button form-type="submit" hover-class="none">评 价</button>
+		</view>
+	</form>
+</view>
+</template>
+
+<script>
+import wepy from 'wepy'
+import DatingService from '../../../services/dating_service'
+import UserService from '../../../services/user_service'
+
+export default class PostBlog extends wepy.page {
+	config = {
+		navigationBarTitleText: "评价"
+	}
+
+	components = {
+	}
+
+	mixins = []
+
+	data = {
+		datingId: 0,
+		text: '',
+		resources: [],
+		maxCount: 6,
+	}
+
+	computed = {
+		
+	}
+
+	methods = {
+		async onSubmitComment (e) {
+			var content = e.detail.value.content.trim();
+			if (content.length == 0) {
+				wx.showToast({
+					title: '评论内容不能为空!',
+					icon: 'none',
+				})
+				return;
+			}
+
+			DatingService.commentDating(this.datingId, content, this.resources).then(comment => {
+				if (comment) {
+					wx.showToast({
+						title: '评论成功，2秒后返回',
+						icon: 'none',
+						duration: 1500
+					});
+					setTimeout(() => {
+						wx.navigateBack({
+							delta: 1
+						})
+					}, 1800)
+				}
+			})
+		},
+
+		onPreviewImg (item) {
+			wx.previewImage({
+				current: item,
+				urls: this.resources
+			})
+		},
+
+		onTapDeleteResource(item) {
+			this.resources = this.resources.filter(aItem => {
+				return item != aItem;
+			})
+		},
+	}
+
+	events = {
+
+	}
+
+	chooseImage () {
+		var _this = this;
+		let curCount = this.maxCount - this.resources.length;
+		wx.chooseImage({
+			count: curCount,  
+			sizeType: ['original', 'compressed'],
+			sourceType: ['album', 'camera'],
+			success: res => {
+				this.resources = [...this.resources, ...res.tempFilePaths]
+				this.$apply();
+			}
+		})
+	}
+
+	onLoad (query) {
+		this.datingId = query.datingId;
+	}
+}
+</script>

@@ -1,0 +1,339 @@
+<style lang="less">
+page {
+	min-height: 100vh;
+	overflow-x: hidden;
+
+	//flex居中
+	.flexCenter {
+		align-items: center;
+		display: flex;
+		justify-content: center;
+	}
+	image {
+		display: block;
+	}
+	.gamePoster-container {
+		background: url(https://resource.vxiaocheng.com/mercury/challenge/container_bg.png) no-repeat 0 0 / cover;
+		box-sizing: border-box;
+		min-height: 100vh;
+		overflow-x: hidden;
+		width: 100vw;
+
+		.canvas-wrapper {
+			align-items: flex-end;
+			display: flex;
+			height: 77vh;
+			margin: 0 auto;
+			width: 590rpx;
+
+			.game-canvas {
+				background: #fff;
+				border-radius: 10rpx;
+				height: 875rpx;
+				overflow: hidden;
+				width: 590rpx;
+			}
+		}
+
+		.btns {
+			align-items: center;
+			display: flex;
+			flex-direction: column;
+			height: 23vh;
+			justify-content: space-around;
+			justify-content: space-evenly;
+			.x-i-share-button {
+				background-color: inherit;
+				padding: none;
+			}
+
+			image {
+				height: 76rpx;
+				width: 510rpx;
+			}
+
+			.share {
+				background: url(https://resource.vxiaocheng.com/mercury/game_poster/share_btn.png) no-repeat 0 0 / cover;
+			}
+
+			.again {
+				background: url(https://resource.vxiaocheng.com/mercury/game_poster/again_btn.png) no-repeat 0 0 / cover;
+			}
+		}
+
+		&.long-screen {
+			.canvas-wrapper {
+				height: 70vh;
+			}
+
+			.btns {
+				height: 28vh;
+			}
+		}
+	}
+
+	// 获得称号奖券弹窗
+	.get-lottery-layer {
+		background: rgba(0, 0, 0, .7);
+		height: 100vh;
+		left: 0;
+		position: fixed;
+		top: 0;
+		width: 100vw;
+		z-index: 99;
+		.flexCenter;
+
+		.get-lottery-content {
+			background: url(https://vxiaocheng-jh.oss-cn-beijing.aliyuncs.com/mercury/game_lottery/lottery_popup.png) no-repeat;
+			background-size: 100%;
+			box-sizing: border-box;
+			height: 680rpx;
+			position: relative;
+			width: 628rpx;
+
+			.bg_pic {
+				height: 100%;
+				left: 0;
+				position: absolute;
+				top: 0;
+				width: 100%;
+			}
+
+			.lottery-name {
+				color: #d75e33;
+				font-size: 26rpx;
+				font-weight: bold;
+				height: 150rpx;
+				left: 166rpx;
+				margin: 0 auto;
+				overflow: hidden;
+				position: absolute;
+				text-align: center;
+				top: 234rpx;
+				width: 10em;
+				.flexCenter;
+			}
+
+			.know-btn {
+				border-radius: 105rpx;
+				bottom: 54rpx;
+				height: 104rpx;
+				left: 106rpx;
+				position: absolute;
+				width: 384rpx;
+			}
+		}
+	}
+}
+</style>
+
+<template>
+	<view class="gamePoster-container {{longScreen ? 'long-screen' : ''}}">
+		<view class="canvas-wrapper">
+			<canvas canvas-id="myPoster" class="game-canvas"></canvas>
+		</view>
+
+		<view class="btns">
+			<button open-type="share" class="x-i-share-button">
+				<image class="share" @tap.stop="tapSavePoster"></image>
+			</button>
+			<image class="again" @tap.stop="tapBackToChallenge"></image>
+		</view>
+	</view>
+
+	<!-- 获得称号奖券弹窗 -->
+	<cover-view wx:if="{{getLotteryLayerShow}}" class="get-lottery-layer">
+		<cover-view class="get-lottery-content">
+			<cover-image class="bg_pic" src="https://vxiaocheng-jh.oss-cn-beijing.aliyuncs.com/mercury/game_lottery/lottery_popup.png"></cover-image>
+			<cover-view class="lottery-name">{{scoreLotteryContent ? scoreLotteryContent : ' '}}</cover-view>
+			<cover-view class="know-btn" @tap.stop="tapIKnow"></cover-view>
+		</cover-view>
+	</cover-view>
+	<apply-scope></apply-scope>
+</template>
+
+<script>
+import wepy from 'wepy'
+import AccountService from '../../../services/account_service'
+import UserService from '../../../services/user_service'
+import ApplyScope from '../../../components/apply_scope'
+
+export default class GamePoster extends wepy.page {
+	config = {
+		navigationBarTitleText: "答题完成"
+	}
+
+	components = {
+		'apply-scope' : ApplyScope
+	}
+
+	mixins = []
+
+	data = {
+		longScreen: false,
+		score: 0,
+		ratio: 1,
+		canvasHeight: 0,
+		bgArray: [
+			"https://resource.vxiaocheng.com/mercury/game_poster/jiuzha_bg.png",
+			"https://resource.vxiaocheng.com/mercury/game_poster/jiuruo_bg.png",
+			"https://resource.vxiaocheng.com/mercury/game_poster/jiunizi_bg.png",
+			"https://resource.vxiaocheng.com/mercury/game_poster/jiugui_bg.png",
+			"https://resource.vxiaocheng.com/mercury/game_poster/jiushen_bg.png",
+		],
+		picssrc: {},
+		selfUserInfo: {},
+		getLotteryLayerShow: false,
+		scoreLotteryContent: ''
+	}
+
+	computed = {
+	}
+
+	methods = {
+		tapIKnow() {
+			this.getLotteryLayerShow = false
+		},
+
+		tapSavePoster() {
+			this.$broadcast('apply-scope', {scope:'scope.writePhotosAlbum'}, this.saveToPoster)
+		},
+
+		tapBackToChallenge() {
+			wx.switchTab({
+				url: '/pages/challenge/challenge'
+			})
+		}
+	}
+
+	events = {
+
+	}
+
+	async onLoad(query) {
+		if (query.scoreLotteryContent) {
+			console.log('因为有分券内容，所以进入到该if,出现弹窗和弹窗内容')
+			this.getLotteryLayerShow = true
+			this.scoreLotteryContent = query.scoreLotteryContent
+			this.$apply()
+		}
+
+		console.log('这里已经开始进入正常生成海报步骤')
+		this.longScreen = wx.getSystemInfoSync().screenHeight / wx.getSystemInfoSync().screenWidth > 2
+		this.$apply()
+
+		wx.showLoading({
+			title: '正在生成游戏海报'
+		})
+		this.selfUserInfo = await UserService.getUserInfo(AccountService.getSelfId())
+		if (this.selfUserInfo.name.length > 6) {
+			this.selfUserInfo.name = this.selfUserInfo.name.slice(0, 6).concat('...')
+		}
+		this.score = +query.score
+		
+		//背景图
+		this.picssrc.bgUrl = await this.toUrl(this.bgArray[this.calcPathIndex(this.score)])
+		//头像
+		let avatarUrl = this.selfUserInfo.avatar.replace('http', 'https');
+		console.log(avatarUrl)
+		this.picssrc.avatarPicUrl = await this.toUrl(avatarUrl);
+		//二维码
+		// this.picssrc.QEcodePicUrl = await this.toUrl('https://resource.vxiaocheng.com/mercury/my_poster/challenge_code.png')
+
+		this.ratio = wx.getSystemInfoSync().windowWidth / 750
+
+		this.drawCanvas()
+	}
+
+	onShow() {
+		
+	}
+
+	drawCanvas() {
+		const _this = this
+		const myPoster = wx.createCanvasContext('myPoster')
+
+		//绘制背景
+		myPoster.drawImage(_this.picssrc.bgUrl, 0, 0, _this.toPx(590), _this.toPx(875))
+		//绘制二维码
+		// myPoster.drawImage(_this.picssrc.QEcodePicUrl, _this.toPx(410), _this.toPx(670), _this.toPx(122), _this.toPx(122))
+		//绘制头像
+		myPoster.save()
+		myPoster.beginPath()
+		myPoster.arc(_this.toPx(295), _this.toPx(175), _this.toPx(75), 0, 2 * Math.PI)
+		myPoster.clip()
+		myPoster.drawImage(_this.picssrc.avatarPicUrl, _this.toPx(220), _this.toPx(100), _this.toPx(150), _this.toPx(150))
+		myPoster.restore()
+		myPoster.draw()
+
+		//绘制昵称
+		myPoster.setFontSize(_this.toPx(34))
+		myPoster.setFillStyle('#656565')
+		myPoster.setTextAlign('center')
+		myPoster.fillText(_this.selfUserInfo.name, _this.toPx(295), _this.toPx(310))
+		myPoster.draw(true)
+
+		myPoster.setFillStyle('white')
+		myPoster.fillRect(_this.toPx(400),_this.toPx(810), _this.toPx(180), _this.toPx(40))
+		myPoster.draw(true)
+
+		wx.hideLoading()
+	}
+
+	saveToPoster() {
+		const _this = this
+		wx.canvasToTempFilePath({
+				canvasId: 'myPoster',
+				success(res) {
+					wx.saveImageToPhotosAlbum({
+						filePath: res.tempFilePath,
+						success(res) {
+							wx.showToast({
+								title: '保存游戏海报成功',
+								icon: 'success',
+								duration: 1000
+							})
+							setTimeout(() => {
+								wx.switchTab({
+									url: '/pages/challenge/challenge'
+								})
+							}, 1000)
+						}
+					})
+				}
+			})
+	}
+
+	toPx(count) {
+		return count * this.ratio
+	}
+
+	calcPathIndex(score) {
+		switch (true) {
+			case score <= 19:
+				return 0
+			case score <= 49:
+				return 1
+			case score <= 69:
+				return 2
+			case score <= 89:
+				return 3
+			case score <= 100:
+				return 4
+			default:
+				return 3
+		}
+	}
+
+	async toUrl(url) {
+		return new Promise((resolve, reject) => {
+			wx.getImageInfo({
+				src: url,
+				success(res) {
+					resolve(res.path)
+				}
+			})
+		})
+	}
+}
+</script>

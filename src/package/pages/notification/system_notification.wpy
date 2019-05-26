@@ -1,0 +1,249 @@
+<style lang="less">
+page {
+	background: #fff;
+
+	.container {
+
+		.xui-body {
+			height: 100%;
+
+			.xui-tab {
+				width: 100%;
+				height: 100%;
+				margin: 35rpx 0 20rpx 0;
+
+				.xui-tab-time {
+					text-align: center;
+					font-size: 20rpx;
+					margin-bottom: 20rpx;
+				}
+				.xui-tab-data {
+					padding: 0 40rpx;
+					position: relative;
+					.xui-wane {
+						position: absolute;
+						top: 0rpx;
+						left: 140rpx;
+						width: 50rpx;
+						height: 40rpx;
+					}
+					.xui-tab-avatar {
+						float: left;
+						width: 70rpx;
+						height: 70rpx;
+						border-radius: 50%;
+						border: 2px solid #000;
+					}
+					.xui-tab-body {
+						float: left;
+						background-color: #000;
+						color: #fff;
+						font-size: 26rpx;
+						line-height: 74rpx;
+						margin-left: 32rpx;
+						border-radius: 50rpx;
+						max-width: 66%;
+						text-align: center;
+						padding: 0 50rpx;
+					}
+				}
+			}
+		}
+
+		.xui-tips {
+			width: 100%;
+			text-align: center;
+			font-size: 30rpx;
+			margin-top: 35rpx;
+		}
+	}
+}
+</style>
+
+<template>
+<view class="container">
+	<view class="xui-body" wx:if="{{notifications.length != 0}}">
+		<repeat for="{{notifications}}" key="notification.id" index="index" item="notification">
+			<view class="xui-tab">
+				<view class="xui-tab-time">
+					<view>{{notification.created_at}}</view>
+				</view>
+				<view class="xui-tab-data">
+					<image mode="aspectFill" wx:if="{{type == 'system'}}" class="xui-tab-avatar" src="http://resource.vxiaocheng.com/mercury/notice.png" />
+					<image mode="aspectFill" wx:else class="xui-tab-avatar" src="{{notification.sender.avatar}}" @tap="onTapEnterUser({{notification.sender.id}})"/>
+					<view class="xui-tab-body">{{notification.body}}</view>
+					<image class="xui-wane" mode="aspectFill" src="http://resource.vxiaocheng.com/mercury/notification/notification_wane.png">
+				</view>
+				<view style="clear:both;width:100%;height:1px;"></view>
+			</view>
+		</repeat>
+		<bottom-loader :isFinishLoad.sync="isFinishLoad"></bottom-loader>
+	</view> 
+
+	<view wx:else class="xui-tips">暂无消息</view>
+</view>
+</template>
+
+<script>
+	import wepy from 'wepy'
+	import _ from '../../../lib/mptool'
+	import BottomLoader from '../../../components/bottom_loader'
+	import NotificationService from '../../../services/notification_service'
+	import AccountService from '../../../services/account_service'
+	import UserService from '../../../services/user_service'
+	import LoadMoreService from '../../../services/loadmore_service'
+
+	export default class SystemNotification extends wepy.page {
+		config = {
+			navigationBarTitleText: "通知",
+			enablePullDownRefresh: true
+		}
+
+		components = {
+			"bottom-loader": BottomLoader,
+		}
+
+		data = {
+			type: '',
+			notifications: [],
+			isFinishLoad: false,
+		}
+
+		computed = {
+
+		}
+
+		methods = {
+			onTapEnterUser(id) {
+				wx.navigateTo({
+					url: '/pages/paoypao/paoypao_friend?id=' + id,
+				})
+			},
+
+			onTapNavigate(notification) {
+				if (this.type == "system") {
+					// this.methods.onTapSystemNotify(notification);
+					return;
+				} else if(this.type == "follow" || this.type == "gift") {
+					this.methods.onTapEnterUser(notification.sender.id);
+				} else {
+					this.methods.onTapEnterBlog(notification.blog_id);
+				}
+			},
+
+			onTapEnterBlog(id) {
+				wx.navigateTo({
+					url: '/pages/blog_detail/blog_detail?id=' + id,
+				})
+			}
+		}
+
+		events = {
+
+		}
+
+		loadNextNotifications(reset=false, type) {
+			if (reset) {
+				NotificationService.reset();
+			}
+
+			NotificationService.getNotifications(10, type).then(
+				res => {
+					res = res.filter(notification => {
+						return notification.sender !== null;
+					})
+
+					this.finishRefresh();
+					this.isFinishLoad = LoadMoreService.isFinishLoad();
+
+					if (res.length < 10) {
+						this.isFinishLoad = true;
+					}
+
+					if (res.length == 0) {
+						if (reset) {
+							this.notifications = [];
+						}
+					} else {
+						for (let i=0; i<res.length; i++) {
+							// res[i].created_at = _.calculateTime(res[i].created_at);
+							res[i] = this.setNotificationParams(res[i]);
+						}
+						if (reset) {
+							this.notifications = [...res]
+						} else {
+							this.notifications = [...this.notifications, ...res]
+						}
+					}
+					console.log(this.notifications)
+					this.$apply();
+				},
+				res => {
+					console.log(res)
+				}
+			)
+		}
+
+		setNotificationParams(notification) {
+			if (this.type == "system") {
+				notification.body = notification.message;
+			} else if(notification.type == "follow") {
+				notification.body = '"' + notification.sender.name + '" 喜欢了你!';
+			} else if(notification.type == "upvote") {
+				notification.body = '"' + notification.sender.name + '" 点赞了你的动态 "' + notification.blog_name + '"';
+			} else if(notification.type == "comment") {
+				notification.body = '"' + notification.sender.name + '" 评论了你的动态 "' + notification.blog_name + '"';
+			} else {
+				notification.body = '"' + notification.sender.name + '" 送了你 "' + notification.gift_name + '" X1';
+			}
+
+			return notification;
+		}
+
+		onReachBottom () {
+			this.loadNextNotifications(false, this.type);
+		}
+
+		onPullDownRefresh() {
+			wx.showLoading({
+				mask: true
+			});
+			this.loadNextNotifications(true, this.type);
+		}
+
+		finishRefresh() {
+			wx.stopPullDownRefresh();
+			wx.hideLoading();
+		}
+
+		resetCounter() {
+			let type = "";
+			if (this.type == "system") {
+				UserService.UpdateUnreadSM(this.userId);
+			} else if (this.type == "follow") {
+				type = "new_follower";
+			} else if (this.type == "comment") {
+				type = "new_receive_comment";
+			} else if (this.type == "upvote") {
+				type = "new_receive_upvote";
+			} else {
+				type = "new_receive_gift";
+			}
+
+			UserService.resetCounter(type).then(
+				() => {},
+				res => {console.log(res)}
+			)
+		}
+
+		onLoad(query) {
+			this.type = query.type;
+			this.userId = AccountService.getSelfId();
+			this.$apply();
+
+			this.loadNextNotifications(true, this.type);
+
+			this.resetCounter();
+		}
+	}
+</script>

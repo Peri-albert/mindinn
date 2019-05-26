@@ -1,0 +1,1978 @@
+<style lang="less">
+page {
+	min-height: 100vh;
+	overflow-x: hidden;
+	//单行省略号
+	.singleLineOmit {
+		overflow: hidden;
+		text-overflow: ellipsis;
+		white-space: nowrap;
+	}
+	//flex居中
+	.flexCenter {
+		align-items: center;
+		display: flex;
+		justify-content: center;
+	}
+	image {
+		display: block;
+	}
+	.post-container {
+		box-sizing: border-box;
+
+		//悬赏块
+		.reward-container {
+			box-sizing: border-box;
+			padding: 24rpx 0;
+
+			.add-topic {
+				align-items: center;
+				display: flex;
+				font-size: 22rpx;
+				margin: 0 30rpx;
+				justify-content: space-between;
+
+				.add-topic-right, .add-topic-time {
+					color: #000;
+
+					text {
+						color: #FF7457;
+					}
+				}
+			}
+
+			.text-wrapper {
+				margin: 19rpx 30rpx 14rpx;
+				position: relative;
+
+				textarea, .fake-textarea {
+					border: 1rpx solid #ccc;
+					border-radius: 4rpx;
+					box-sizing: border-box;
+					color: #313131;
+					font-family: SimHei, Sans Serif;
+					font-size: 30rpx;
+					overflow: hidden;
+					padding: 25px 15px 15px;
+					width: 100%;
+				}
+
+				.topic-picked {
+					color: #6549f2;
+					font-size: 30rpx;
+					left: 30rpx;
+					position: absolute;
+					top: 10rpx;
+				}
+
+				.string-left {
+					bottom: 0;
+					color: #999;
+					font-size: 20rpx;
+					position: absolute;
+					right: 10rpx;
+				}
+			}
+
+			.add-btns {
+				align-items: center;
+				display: flex;
+				font-size: 22rpx;
+				margin: 0 17rpx 40rpx 40rpx;
+				justify-content: space-between;
+
+				.add-btns-left {
+					display: flex;
+
+					image {
+						display: block;
+						height: 48rpx;
+						margin-right: 40rpx;
+						width: 48rpx;
+					}
+				}
+
+				.add-btns-address {
+					align-items: center;
+					background-color: #f8f8f8;
+					border: 1rpx solid #e8e8e8;
+					border-radius: 50rpx;
+					box-sizing: border-box;
+					color: #000;
+					display: flex;
+					font-size: 24rpx;
+					height: 50rpx;
+					line-height: 50rpx;
+					padding: 0 25rpx 0 20rpx;
+
+					image {
+						display: block;
+						height: 28rpx;
+						margin-right: 10rpx;
+						width: 24rpx;
+					}
+
+					text {
+						max-width: 300rpx;
+						.singleLineOmit;
+					}
+
+				}
+			}
+
+			//图片预览区
+			.pics-wrapper {
+				display: flex;
+				flex-wrap: wrap;
+				margin: 0 auto 40rpx;
+				width: 696rpx;
+
+				.pic-wrapper-outer {
+					box-sizing: border-box;
+					height: 225rpx;
+					margin-bottom: 8rpx;
+					width: calc(100% / 3);
+
+					.pic-wrapper-inner {
+						height: 100%;
+						margin: 0 auto;
+						position: relative;
+						width: 225rpx;
+
+						.del-pic-btn {
+							background: url(https://vxiaocheng-jh.oss-cn-beijing.aliyuncs.com/mercury/new_blog/del_pic_btn.png) no-repeat;
+							background-size: 100%;
+							height: 36rpx;
+							position: absolute;
+							right: 0;
+							top: 0;
+							width: 36rpx;
+						}
+
+						image {
+							display: block;
+							height: 100%;
+							width: 100%;
+						}
+					}
+
+					.add-pic {
+						border: 1rpx dashed #666;
+						box-sizing: border-box;
+						height: 225rpx;
+						width: 225rpx;
+						.flexCenter;
+					}
+					.add-pic::after {
+						background-color: #ABABAB;
+						content: '';
+						height: 60rpx;
+						position: absolute;
+						width: 5rpx;
+					}
+					.add-pic::before {
+						background-color: #ABABAB;
+						content: '';
+						height: 5rpx;
+						position: absolute;
+						width: 60rpx;
+					}
+				}
+			}
+
+			//秀点选择
+			.price-pick {
+				display: flex;
+				flex-wrap: wrap;
+				justify-content: space-around;
+				margin: 0 auto 70rpx;
+				width: 690rpx;
+
+				.price-wrapper {
+					display: flex;
+					justify-content: center;
+					width: calc(100% / 3);
+
+					.price {
+						border: 2rpx solid #888;
+						border-radius: 8rpx;
+						box-sizing: border-box;
+						flex-direction: column;
+						height: 104rpx;
+						margin-bottom: 30rpx;
+						width: 190rpx;
+						.flexCenter;
+
+						.RMBprice {
+							color: #000;
+							font-size: 30rpx;
+							margin-bottom: 15rpx;
+						}
+
+						.XDprice {
+							color: #666;
+							font-size: 20rpx;
+						}
+
+						&.picked {
+							border: 2rpx solid #fa7331;
+							color: #fa7331;
+
+							.RMBprice, .XDprice {
+								color: #fa7331;
+							}
+						}
+					}
+				}
+			}
+			//选时、悬赏按钮
+			.pick-duration-btn, .take-reward-btn {
+				background-color: #666;
+				border-radius: 100rpx;
+				color: #fff;
+				font-size: 30rpx;
+				height: 96rpx;
+				line-height: 96rpx;
+				margin: 0 auto 12rpx;
+				text-align: center;
+				width: 625rpx;
+			}
+
+			.take-reward-btn {
+				background-color: #000;
+				margin-bottom: 40rpx;
+			}
+
+			.rule {
+				color: #000;
+				font-size: 22rpx;
+				text-align: center;
+			}
+
+			.duration-layer, .rule-layer {
+				background: rgba(0, 0, 0, .5);
+				box-sizing: border-box;
+				height: 100vh;
+				left: 0;
+				position: fixed;
+				top: 0;
+				width: 100vw;
+				z-index: 99;
+
+				.bg {
+					height: 100%;
+					margin-bottom: -100vh;
+					width: 100%;
+				}
+			}
+			
+			//选择时长弹窗
+			.duration-layer {
+				.picker-wrapper {
+					background-color: #fff;
+					display: flex;
+					flex-direction: column;
+					left: 50%;
+					position: absolute;
+					top: 20%;
+					transform: translateX(-50%);
+					width: 90%;
+
+					.btns {
+						align-items: center;
+						border-bottom: 2rpx solid #ccc;
+						display: flex;
+						height: 80rpx;
+						justify-content: space-between;
+
+						view {
+							color: #36c735;
+							font-size: 36rpx;
+							height: 80rpx;
+							line-height: 80rpx;
+							text-align: center;
+							width: 100rpx;
+						}
+
+						view:first-child {
+							color: #666;
+						}
+					}
+				}
+			}
+
+			//奖励规则弹窗
+			.rule-layer {
+				.flexCenter;
+				.rule-wrapper {
+					align-items: center;
+					background-color: #fff;
+					box-sizing: border-box;
+					border-radius: 10rpx;
+					display: flex;
+					flex-direction: column;
+					justify-content: space-around;
+					padding-top: 26rpx;
+					width: 676rpx;
+
+					.rule-title {
+						color: #000;
+						font-size: 30rpx;
+						font-weight: bold;
+					}
+
+					.rule-text {
+						color: #010101;
+						font-size: 30rpx;
+						margin: 36rpx auto 46rpx;
+						width: 586rpx;
+					}
+
+					.rule-btn {
+						background-color: #000;
+						border-radius: 70rpx;
+						color: #fff;
+						font-size: 26rpx;
+						height: 68rpx;
+						line-height: 68rpx;
+						margin-bottom: 20rpx;
+						text-align: center;
+						width: 276rpx;
+					}
+				}
+			}
+		}
+
+		//动态块
+		.dating-container {
+			padding: 58rpx 0 100rpx;
+
+			.tabs {
+				box-sizing: border-box;
+				display: flex;
+				justify-content: space-between;
+				padding: 0 160rpx;
+				margin-bottom: 40rpx;
+
+				.tab {
+					align-items: center;
+					box-sizing: border-box;
+					display: flex;
+					flex-direction: column;
+
+					image {
+						height: 130rpx;
+						transition: .1s;
+						width: 130rpx;
+
+						&.active {
+							height: 140rpx;
+						}
+					}
+
+					text {
+						color: #999;
+						font-size: 22rpx;
+						transition: .1s;
+
+						&.active {
+							color: #333;
+						}
+					}
+				}
+			}
+
+			.textarea {
+				border: 1rpx solid #ccc;
+				border-radius: 4rpx;
+				box-sizing: border-box;
+				color: #313131;
+				font-family: SimHei, Sans Serif;
+				font-size: 30rpx;
+				height: 150px;
+				margin: 0 auto 16rpx;
+				overflow: hidden;
+				padding: 15px;
+				width: 690rpx;
+
+				textarea {
+					overflow: hidden;
+					width: 100%;
+
+					&.hidden {
+						display: none;
+					}
+				}
+			}
+
+			.topic-address-btns {
+				align-items: center;
+				box-sizing: border-box;
+				display: flex;
+				height: 80rpx;
+				justify-content: space-between;
+				padding: 0 42rpx;
+
+				.address {
+					align-items: center;
+					background-color: #f8f8f8;
+					border: 1rpx solid #e8e8e8;
+					border-radius: 50rpx;
+					box-sizing: border-box;
+					color: #000;
+					display: flex;
+					font-size: 24rpx;
+					height: 50rpx;
+					line-height: 50rpx;
+					padding: 0 25rpx 0 20rpx;
+
+					image {
+						display: block;
+						height: 28rpx;
+						margin-right: 10rpx;
+						width: 24rpx;
+					}
+
+					text {
+						max-width: 150rpx;
+						.singleLineOmit;
+					}
+				}
+
+				.add-topic-btn {
+					background-color: #f8f8f8;
+					border: 1rpx solid #e8e8e8;
+					border-radius: 50rpx;
+					color: #000;
+					font-size: 24rpx;
+					height: 50rpx;
+					line-height: 50rpx;
+					overflow-x: hidden;
+					padding: 0 26rpx;
+					text-overflow: ellipsis;
+					white-space: nowrap;
+					max-width: 10em;
+				}
+			}
+
+			.iconBtns-address {
+				align-items: center;
+				box-sizing: border-box;
+				display: flex;
+				height: 80rpx;
+				justify-content: space-between;
+				padding: 0 42rpx;
+
+				.icon-btns {
+					display: flex;
+					margin-right: -40rpx;
+
+					.icon-btn {
+						display: block;
+						height: 48rpx;
+						margin-right: 40rpx;
+						width: 48rpx;
+					}
+
+				}
+
+				.switch-location {
+					align-items: center;
+					display: flex;
+					font-size: 22rpx;
+
+					switch {
+						margin-left: 20rpx;
+					}
+				}
+
+				.address {
+					align-items: center;
+					background-color: #f8f8f8;
+					border: 1rpx solid #e8e8e8;
+					border-radius: 50rpx;
+					box-sizing: border-box;
+					color: #000;
+					display: flex;
+					font-size: 24rpx;
+					height: 50rpx;
+					line-height: 50rpx;
+					padding: 0 25rpx 0 20rpx;
+
+					image {
+						display: block;
+						height: 28rpx;
+						margin-right: 10rpx;
+						width: 24rpx;
+					}
+
+					text {
+						max-width: 150rpx;
+						.singleLineOmit;
+					}
+				}
+			}
+
+			//图片预览区
+			.pics-wrapper {
+				display: flex;
+				flex-wrap: wrap;
+				margin: 0 auto 40rpx;
+				width: 696rpx;
+
+				.pic-wrapper-outer {
+					box-sizing: border-box;
+					height: 225rpx;
+					margin-bottom: 8rpx;
+					width: calc(100% / 3);
+
+					.pic-wrapper-inner {
+						height: 100%;
+						margin: 0 auto;
+						position: relative;
+						width: 225rpx;
+
+						.del-pic-btn {
+							background: url(https://vxiaocheng-jh.oss-cn-beijing.aliyuncs.com/mercury/new_blog/del_pic_btn.png) no-repeat;
+							background-size: 100%;
+							height: 36rpx;
+							position: absolute;
+							right: 0;
+							top: 0;
+							width: 36rpx;
+						}
+
+						image {
+							display: block;
+							height: 100%;
+							width: 100%;
+						}
+					}
+
+					.add-pic {
+						border: 1rpx dashed #666;
+						box-sizing: border-box;
+						height: 225rpx;
+						width: 225rpx;
+						.flexCenter;
+					}
+					.add-pic::after {
+						background-color: #ABABAB;
+						content: '';
+						height: 60rpx;
+						position: absolute;
+						width: 5rpx;
+					}
+					.add-pic::before {
+						background-color: #ABABAB;
+						content: '';
+						height: 5rpx;
+						position: absolute;
+						width: 60rpx;
+					}
+				}
+			}
+
+			//视频预览区
+			.video-wrapper {
+				margin: 0 auto;
+				position: relative;
+				width: 690rpx;
+
+				.del-video-btn {
+					height: 72rpx;
+					position: absolute;
+					right: 0;
+					top: 0;
+					width: 72rpx;
+					//z-index: 99;
+				}
+
+				video {
+					border-radius: 4rpx;
+					width: 100%;
+				}
+			}
+
+			.add-topic-layer {
+				background: rgba(0, 0, 0, .5);
+				box-sizing: border-box;
+				height: 100vh;
+				left: 0;
+				position: fixed;
+				top: 0;
+				width: 100vw;
+				z-index: 99;
+
+				.bg {
+					height: 100%;
+					margin-bottom: -100vh;
+					width: 100%;
+				}
+			}
+
+			//添加话题弹窗
+			.topics-wrapper {
+				background-color: #eee;
+				bottom: -86vh;
+				height: 86vh;
+				left: 0;
+				position: fixed;
+				transition: .3s;
+				width: 100%;
+				z-index: 100;
+
+				.title {
+					box-sizing: border-box;
+					color: #000;
+					font-size: 24rpx;
+					height: 48rpx;
+					line-height: 48rpx;
+					padding-left: 28rpx;
+				}
+
+				.topics {
+					background-color: #fff;
+					box-sizing: border-box;
+					display: flex;
+					font-size: 22rpx;
+					flex-wrap: wrap;
+					padding: 25rpx 20rpx;
+
+					.topic-wrapper {
+						box-sizing: border-box;
+						margin-bottom: 30rpx;
+						padding: 0 10rpx;
+
+						.topic {
+							background-color: #fff;
+							border: 1rpx solid #000;
+							border-radius: 50rpx;
+							box-sizing: border-box;
+							color: #000;
+							height: 50rpx;
+							line-height: 48rpx;
+							padding: 0 17rpx;
+						}
+					}
+				}
+			}
+
+			//发布投稿按钮
+			.post-contribution {
+				background-color: #ffe411;
+				border-radius: 100rpx;
+				color: #fff;
+				height: 96rpx;
+				margin: 200rpx auto 0;
+				width: 628rpx;
+				.flexCenter;
+			}
+
+			.audio-btns-wrapper {
+				box-sizing: border-box;
+				display: flex;
+				height: 550rpx;
+				justify-content: center;
+				padding-top: 180rpx;
+
+				&.playing-bg {
+					background: url(https://vxiaocheng-jh.oss-cn-beijing.aliyuncs.com/mercury/post_newblog/audio_playing_bg.png) no-repeat center center;
+					background-size: 500rpx 500rpx;
+				}
+
+				.audio-btns {
+					align-items: center;
+					box-sizing: border-box;
+					display: flex;
+					flex-direction: column;
+
+					.audio-btn, .audio-playing-btn {
+						height: 195rpx;
+						margin-bottom: 22rpx;
+						width: 195rpx;
+					}
+
+					.audio-playing-btn {
+						background-color: #e5e8e8;
+						border-radius: 50%;
+						display: flex;
+						overflow: hidden;
+						position: relative;
+
+						.left, .right {
+							height: 100%;
+							overflow: hidden;
+							width: 50%;
+
+							.arc {
+								animation: rotating 30s 30s linear 1 forwards;
+								height: 100%;
+								overflow: hidden;
+								transform: rotate(-180deg);
+								transform-origin: 100% 50%;
+								width: 100%;
+
+								.circle {
+									background-color: #000;
+									border-radius: 50%;
+									height: 100%;
+									width: 200%;
+									.flexCenter;
+								}
+
+								.circle::after {
+									background-color: #e5e8e8;
+									content: '';
+									border-radius: 50%;
+									height: 94%;
+									width: 94%;
+								}
+							}
+						}
+
+						.right {
+							.arc {
+								animation: rotating 30s linear 1 forwards;
+								transform: rotate(-180deg);
+								transform-origin: 0 50%;
+
+								.circle {
+									margin-left: -100%;
+								}
+							}
+						}
+
+						image {
+							height: 152rpx;
+							left: 50%;
+							position: absolute;
+							top: 50%;
+							transform: translate(-50%, -50%);
+							width: 152rpx;
+						}
+
+						@keyframes rotating {
+							0% {transform: rotate(-180deg)}
+							100% {transform: rotate(0)}
+						}
+						
+					}
+
+					text {
+						color: #7b7b7b;
+						font-size: 28rpx;
+						margin-bottom: 34rpx;
+					}
+
+					.time {
+						color: #afafaf;
+						font-size: 26rpx;
+					}
+				}
+			}
+
+			// 重新录制按钮
+			.remakeAudio-btn {
+				border: 1rpx solid #666;
+				border-radius: 100rpx;
+				box-sizing: border-box;
+				height: 96rpx;
+				margin: 44rpx auto 0;
+				width: 628rpx;
+				.flexCenter;
+
+				text {
+					color: #666;
+					font-size: 26rpx;
+					margin-right: 10rpx;
+				}
+
+				image {
+					height: 24rpx;
+					width: 26rpx;
+				}
+			}
+		}
+
+		// 投稿块
+		.contribution-container {
+			padding: 18rpx 0 100rpx;
+
+			.textarea {
+				border: 1rpx solid #ccc;
+				border-radius: 4rpx;
+				box-sizing: border-box;
+				color: #313131;
+				font-family: SimHei, Sans Serif;
+				font-size: 30rpx;
+				height: 150px;
+				margin: 0 auto 16rpx;
+				overflow: hidden;
+				padding: 15px;
+				width: 690rpx;
+
+				textarea {
+					overflow: hidden;
+					width: 100%;
+				}
+			}
+
+			.iconBtns-address {
+				align-items: center;
+				box-sizing: border-box;
+				display: flex;
+				height: 80rpx;
+				justify-content: space-between;
+				padding: 0 42rpx;
+
+				.icon-btns {
+					display: flex;
+					margin-right: -40rpx;
+
+					.icon-btn {
+						display: block;
+						height: 48rpx;
+						margin-right: 40rpx;
+						width: 48rpx;
+					}
+				}
+
+				.address {
+					align-items: center;
+					background-color: #f8f8f8;
+					border: 1rpx solid #e8e8e8;
+					border-radius: 50rpx;
+					box-sizing: border-box;
+					color: #000;
+					display: flex;
+					font-size: 24rpx;
+					height: 50rpx;
+					line-height: 50rpx;
+					padding: 0 25rpx 0 20rpx;
+
+					image {
+						display: block;
+						height: 28rpx;
+						margin-right: 10rpx;
+						width: 24rpx;
+					}
+
+					text {
+						max-width: 150rpx;
+						.singleLineOmit;
+					}
+				}
+			}
+
+			//图片预览区
+			.pics-wrapper {
+				display: flex;
+				flex-wrap: wrap;
+				margin: 0 auto 40rpx;
+				width: 696rpx;
+
+				.pic-wrapper-outer {
+					box-sizing: border-box;
+					height: 225rpx;
+					margin-bottom: 8rpx;
+					width: calc(100% / 3);
+
+					.pic-wrapper-inner {
+						height: 100%;
+						margin: 0 auto;
+						position: relative;
+						width: 225rpx;
+
+						.del-pic-btn {
+							background: url(https://vxiaocheng-jh.oss-cn-beijing.aliyuncs.com/mercury/new_blog/del_pic_btn.png) no-repeat;
+							background-size: 100%;
+							height: 36rpx;
+							position: absolute;
+							right: 0;
+							top: 0;
+							width: 36rpx;
+						}
+
+						image {
+							display: block;
+							height: 100%;
+							width: 100%;
+						}
+					}
+
+					.add-pic {
+						border: 1rpx dashed #666;
+						box-sizing: border-box;
+						height: 225rpx;
+						width: 225rpx;
+						.flexCenter;
+					}
+					.add-pic::after {
+						background-color: #ABABAB;
+						content: '';
+						height: 60rpx;
+						position: absolute;
+						width: 5rpx;
+					}
+					.add-pic::before {
+						background-color: #ABABAB;
+						content: '';
+						height: 5rpx;
+						position: absolute;
+						width: 60rpx;
+					}
+				}
+			}
+
+			//视频预览区
+			.video-wrapper {
+				margin: 0 auto;
+				position: relative;
+				width: 690rpx;
+
+				.del-video-btn {
+					height: 72rpx;
+					position: absolute;
+					right: 0;
+					top: 0;
+					width: 72rpx;
+					//z-index: 99;
+				}
+
+				video {
+					border-radius: 4rpx;
+					width: 100%;
+				}
+			}
+
+			//发布投稿按钮
+			.post-contribution {
+				background-color: #000;
+				border-radius: 100rpx;
+				color: #fff;
+				height: 96rpx;
+				margin: 200rpx auto 0;
+				width: 628rpx;
+				.flexCenter;
+			}
+		}
+
+		//霸屏块
+		.broadcast-container {
+			padding: 18rpx 0 100rpx;
+
+			.textarea {
+				border: 1rpx solid #ccc;
+				border-radius: 4rpx;
+				box-sizing: border-box;
+				color: #313131;
+				font-family: SimHei, Sans Serif;
+				font-size: 30rpx;
+				height: 150px;
+				margin: 0 auto 16rpx;
+				overflow: hidden;
+				padding: 15px;
+				width: 690rpx;
+
+				textarea {
+					overflow: hidden;
+					width: 100%;
+				}
+			}
+
+			.uninterrupted-btns {
+				display: flex;
+				justify-content: space-between;
+				margin: 38rpx auto 50rpx;
+				width: 690rpx;
+
+				.uninterrupted-btn {
+					background-color: #fff;
+					border: 1rpx solid #000;
+					border-radius: 62rpx;
+					box-sizing: border-box;
+					color: #000;
+					font-size: 20rpx;
+					height: 60rpx;
+					line-height: 58rpx;
+					padding: 0 20rpx;
+
+					&.active {
+						background-color: #000;
+						color: #fff;
+					}
+				}
+			}
+
+			.allow-comment {
+				align-items: center;
+				display: flex;
+				justify-content: space-between;
+				margin: 0 auto 166rpx;
+				width: 690rpx;
+
+				text {
+					color: 666;
+					font-size: 20rpx;
+				}
+			}
+
+			.post-broadcast {
+				background-color: #000;
+				border-radius: 100rpx;
+				color: #fff;
+				height: 96rpx;
+				margin: 200rpx auto 0;
+				width: 628rpx;
+				.flexCenter;
+			}
+		}
+	}
+}
+</style>
+
+<template>
+	<view class="post-container">
+		<block wx:if="{{currentTitle == '发布悬赏'}}">
+			<view class="reward-container">
+				<view class="add-topic">
+					<view class="add-topic-time">悬赏时间: <text>{{duration}}天</text></view>
+					<view class="add-topic-right">悬赏: <text>{{pricePicked / 150}}元</text></view>
+				</view>
+				
+				<view class="text-wrapper">
+					<textarea hidden="{{durationLayerShow || addTopicLayerShow}}" maxlength="140" show-confirm-bar="{{false}}" placeholder="输入你想要的回复内容，如：我要漂亮小姐姐的自拍~" placeholder-style="color: #999;font-size: 20rpx;" value="{{blogText}}" bindinput="inputText" style="height: 100px;padding-top: {{topicPicked ? '25px' : '15px'}}"></textarea>
+					<view hidden="{{!durationLayerShow && !addTopicLayerShow}}" class="fake-textarea" style="height: 150px;padding-top: {{topicPicked ? '50rpx' : '20rpx'}};">{{blogText}}</view>
+					<text wx:if="{{1 == '话题从悬赏移步到动态了'}}" class="topic-picked">{{topicPicked}}</text>
+					<text class="string-left">{{140 - blogText.length}}</text>
+				</view>
+
+				<view class="add-btns">
+					<view class="add-btns-left">
+						<image src="https://vxiaocheng-jh.oss-cn-beijing.aliyuncs.com/mercury/post_newblog/upload_pic_btn.png" @tap.stop="tapPickPics"></image>
+						<!-- <image src="https://vxiaocheng-jh.oss-cn-beijing.aliyuncs.com/mercury/post_newblog/emoji_btn.png" @tap.stop="tapPickEmoji"></image> -->
+					</view>
+					<view wx:if="{{1 == '暂时先隐藏'}}" class="add-btns-address" @tap.stop="tapSetLocation">
+						<image src="https://vxiaocheng-jh.oss-cn-beijing.aliyuncs.com/mercury/post_newblog/location_icon.png"></image>
+						当前位置: <text>{{address ? address : '获取中···'}}</text>
+					</view>
+				</view>
+				<!-- 图片预览区 -->
+				<view class="pics-wrapper">
+					<block wx:for="{{pickPicsArray}}" wx:key="index">
+						<view class="pic-wrapper-outer">
+							<view class="pic-wrapper-inner">
+								<view class="del-pic-btn" @tap.stop="tapDelThePic({{index}})"></view>
+								<image mode="aspectFill" src="{{item}}"></image>
+							</view>
+						</view>
+					</block>
+					<view wx:if="{{pickPicsArray.length && pickPicsArray.length < 9}}" class="pic-wrapper-outer" @tap.stop="tapPickPics">
+						<view class="add-pic"></view>
+					</view>
+				</view>
+				<!-- 秀点选择 -->
+				<view class="price-pick">
+					<block wx:for="{{priceArray}}" wx:key="price">
+						<view class="price-wrapper">
+							<view class="price {{pricePicked == item.price ? 'picked' : ''}}" @tap.stop="tapPickPrice({{item.price}})">
+								<view class="RMBprice">{{item.price / 150}}元</view>
+								<view class="XDprice">秀点: {{item.price}}</view>
+							</view>
+						</view>
+					</block>
+				</view>
+				<!-- 选时、悬赏按钮 -->
+				<view class="pick-duration-btn" @tap.stop="tapShowDurationLayer">选择时长</view>
+				<view class="take-reward-btn" @tap.stop="tapTakeReward">发起悬赏</view>
+
+				<view class="rule"><text @tap.stop="tapShowRuleLayer">奖励规则？</text></view>
+				<!-- 选择时长弹窗 -->
+				<view class="duration-layer" wx:if="{{durationLayerShow}}" catchtouchmove="doNothing">
+					<view class="bg" @tap.stop="tapHideDurationLayer"></view>
+					<view class="picker-wrapper">
+						<view class="btns">
+							<view @tap.stop="tapHideDurationLayer">取消</view>
+							<view @tap.stop="tapHideDurationLayer('ok')">确定</view>
+						</view>
+						<picker-view indicator-style="height: 50rpx;" style="height: 700rpx;width: 100%" bindchange="pickDuration">
+							<picker-view-column>
+								<view wx:for="{{[1,2,3]}}" style="height: 50rpx;line-height: 50rpx;text-align: center;">{{item}}天</view>
+							</picker-view-column>
+						</picker-view>
+					</view>
+				</view>
+				<!-- 奖励规则弹窗 -->
+				<view class="rule-layer" wx:if="{{ruleShow}}" catchtouchmove="doNothing">
+					<view class="rule-wrapper">
+						<view class="rule-title">奖励规则</view>
+						<view class="rule-text">{{ruleText}}</view>
+						<view class="rule-btn" @tap.stop="tapHideRuleLayer">我知道了</view>
+					</view>
+				</view>
+			</view>
+		</block>
+		<block wx:if="{{currentTitle == '发布动态'}}">
+			<view class="dating-container">
+				<view class="tabs">
+					<view class="tab" @tap.stop="tapTabs('dating')">
+						<image src="{{currentTab == 'dating' ? 'https://vxiaocheng-jh.oss-cn-beijing.aliyuncs.com/mercury/post_newblog/dating_active_btn.png' : 'https://vxiaocheng-jh.oss-cn-beijing.aliyuncs.com/mercury/post_newblog/dating_btn.png'}}" class="{{currentTab == 'dating' ? 'active' : ''}}"></image>
+						<text class="{{currentTab == 'dating' ? 'active' : ''}}">图文动态</text>
+					</view>
+					<view class="tab" @tap.stop="tapTabs('audio')">
+						<image src="{{currentTab == 'audio' ? 'https://vxiaocheng-jh.oss-cn-beijing.aliyuncs.com/mercury/post_newblog/audio_active_btn.png' : 'https://vxiaocheng-jh.oss-cn-beijing.aliyuncs.com/mercury/post_newblog/audio_btn.png'}}" class="{{currentTab == 'audio' ? 'active' : ''}}"></image>
+						<text class="{{currentTab == 'audio' ? 'active' : ''}}">语音动态</text>
+					</view>
+				</view>
+				<block wx:if="{{currentTab == 'dating'}}">
+					<view class="textarea">
+						<textarea class="{{addTopicLayerShow ? 'hidden' : ''}}" show-confirm-bar="{{false}}" placeholder="让全世界听到你的声音吧！长度不可超过140个字符~" placeholder-style="color: #999;font-size: 20rpx;" maxlength="140" value="{{blogText}}" bindinput="inputText" style="height: 120px;"></textarea>
+					</view>
+				</block>
+				<block wx:if="{{currentTab == 'audio'}}">
+					<view class="audio-btns-wrapper {{audioState == 'playing' ? 'playing-bg' : ''}}">
+						<view class="audio-btns">
+							<image wx:if="{{audioState != 'start'}}" class="audio-btn" src="{{audioExtraInfo.imageBtnSrc}}" @tap.stop="tapChangeAudioState"></image>
+							<view wx:if="{{audioState == 'start'}}" class="audio-playing-btn">
+								<view class="left">
+									<view class="arc">
+										<view class="circle"></view>
+									</view>
+								</view>
+								<view class="right">
+									<view class="arc">
+										<view class="circle"></view>
+									</view>
+								</view>
+								<image src="https://vxiaocheng-jh.oss-cn-beijing.aliyuncs.com/mercury/post_newblog/audio_stop_btn.png" @tap.stop="tapChangeAudioState"></image>
+							</view>
+							<text>{{audioExtraInfo.text}}</text>
+							<view wx:if="{{audioState != 'none'}}" class="time">{{audioExtraInfo.time}}</view>
+						</view>
+					</view>
+				</block>
+				<view class="topic-address-btns">
+					<!-- 添加话题按钮 -->
+					<view class="add-topic-btn" @tap.stop="tapShowAddTopicLayer" style="color: {{topicPicked ? '#6444FF' : '#000'}}">{{topicPicked ? topicPicked : '# 添加一个话题'}}</view>
+					<view wx:if="{{locationBtnShow}}" class="address" @tap.stop="tapSetLocation">
+						<image src="https://vxiaocheng-jh.oss-cn-beijing.aliyuncs.com/mercury/post_newblog/location_icon.png"></image>
+						当前位置: <text>{{address ? address : '获取中···'}}</text>
+					</view>
+				</view>
+				<view class="iconBtns-address">
+					<view class="icon-btns" wx:if="{{currentTab == 'dating'}}">
+						<image class="icon-btn" src="https://vxiaocheng-jh.oss-cn-beijing.aliyuncs.com/mercury/post_newblog/upload_pic_btn.png" @tap.stop="tapPickPics"></image>
+						<image class="icon-btn" src="https://vxiaocheng-jh.oss-cn-beijing.aliyuncs.com/mercury/post_newblog/upload_video_btn.png" @tap.stop="tapPickVideo"></image>
+						<!-- <image class="icon-btn" src="https://vxiaocheng-jh.oss-cn-beijing.aliyuncs.com/mercury/post_newblog/emoji_btn.png"></image> -->
+					</view>
+					<view wx:if="{{currentTab != 'dating'}}"></view>
+					<view class="switch-location">
+						是否显示地理位置： <switch color="#f5c347" checked bindchange="switchChangeLocationShow"/>
+					</view>
+				</view>
+				<block wx:if="{{currentTab == 'dating'}}">
+					<!-- 图片预览区 -->
+					<view class="pics-wrapper">
+						<block wx:for="{{pickPicsArray}}" wx:key="index">
+							<view class="pic-wrapper-outer">
+								<view class="pic-wrapper-inner">
+									<view class="del-pic-btn" @tap.stop="tapDelThePic({{index}})"></view>
+									<image mode="aspectFill" src="{{item}}"></image>
+								</view>
+							</view>
+						</block>
+						<view wx:if="{{pickPicsArray.length && pickPicsArray.length < 9}}" class="pic-wrapper-outer" @tap.stop="tapPickPics">
+							<view class="add-pic"></view>
+						</view>
+					</view>
+					<!-- 视频预览区 -->
+					<view class="video-wrapper" wx:if="{{pickVideoArray[0]}}">
+						<video autoplay="{{pickVideoArray[0]}}" src="{{pickVideoArray[0]}}"></video>
+						<cover-image class="del-video-btn" @tap.stop="tapDelVideo" src="https://vxiaocheng-jh.oss-cn-beijing.aliyuncs.com/mercury/new_blog/del_pic_btn.png"></cover-image>
+					</view>
+				</block>
+				<!-- 发布动态按钮 -->
+				<view class="post-contribution" style="margin-top: {{currentTab == 'dating' ? '200rpx' : '35rpx'}}" @tap.stop="tapPostTrends">发布动态</view>
+				<!-- 重新录制按钮 -->
+				<view wx:if="{{currentTab == 'audio' && audioState != 'start' && audioState != 'none'}}" class="remakeAudio-btn" @tap.stop="tapRemakeAudio">
+					<text>重新录制</text>
+					<image src="https://vxiaocheng-jh.oss-cn-beijing.aliyuncs.com/mercury/post_newblog/remake_audio_icon.png"></image>
+				</view>
+				<!-- 添加话题弹窗 -->
+				<view class="add-topic-layer" wx:if="{{addTopicLayerShow}}" catchtouchmove="doNothing">
+					<view class="bg" @tap.stop="tapHideAddTopicLayer"></view>
+				</view>
+				<view class="topics-wrapper" style="bottom: {{addTopicLayerShow ? '0' : '-86vh'}}">
+					<view class="title">全部话题</view>
+					<view class="topics">
+						<view wx:for="{{topics}}" wx:key="id" class="topic-wrapper">
+							<view class="topic" @tap.stop="tapAddTheTopic({{item.id}})">{{item.title}}</view>
+						</view>
+					</view>
+				</view>
+			</view>
+		</block>
+		<block wx:if="{{currentTitle == '发布投稿'}}">
+			<view class="contribution-container">
+				<view class="textarea">
+					<textarea show-confirm-bar="{{false}}" placeholder="请在此输入文字:____" placeholder-style="color: #999;font-size: 20rpx;" maxlength="140" value="{{blogText}}" bindinput="inputText" style="height: 120px;"></textarea>
+				</view>
+				<view class="iconBtns-address">
+					<view class="icon-btns">
+						<image class="icon-btn" src="https://vxiaocheng-jh.oss-cn-beijing.aliyuncs.com/mercury/post_newblog/upload_pic_btn.png" @tap.stop="tapPickPics"></image>
+						<image class="icon-btn" src="https://vxiaocheng-jh.oss-cn-beijing.aliyuncs.com/mercury/post_newblog/upload_video_btn.png" @tap.stop="tapPickVideo"></image>
+						<!-- <image class="icon-btn" src="https://vxiaocheng-jh.oss-cn-beijing.aliyuncs.com/mercury/post_newblog/emoji_btn.png"></image> -->
+					</view>
+				</view>
+				<!-- 图片预览区 -->
+				<view class="pics-wrapper">
+					<block wx:for="{{pickPicsArray}}" wx:key="index">
+						<view class="pic-wrapper-outer">
+							<view class="pic-wrapper-inner">
+								<view class="del-pic-btn" @tap.stop="tapDelThePic({{index}})"></view>
+								<image mode="aspectFill" src="{{item}}"></image>
+							</view>
+						</view>
+					</block>
+					<view wx:if="{{pickPicsArray.length && pickPicsArray.length < 9}}" class="pic-wrapper-outer" @tap.stop="tapPickPics">
+						<view class="add-pic"></view>
+					</view>
+				</view>
+				<!-- 视频预览区 -->
+				<view class="video-wrapper" wx:if="{{pickVideoArray[0]}}">
+					<video autoplay="{{pickVideoArray[0]}}" src="{{pickVideoArray[0]}}"></video>
+					<cover-image class="del-video-btn" @tap.stop="tapDelVideo" src="https://vxiaocheng-jh.oss-cn-beijing.aliyuncs.com/mercury/new_blog/del_pic_btn.png"></cover-image>
+				</view>
+				<!-- 发布投稿按钮 -->
+				<view class="post-contribution" @tap.stop="tapPostContribution">发布投稿</view>
+			</view>
+		</block>
+		<block wx:if="{{currentTitle == '全网霸屏'}}">
+			<view class="broadcast-container">
+				<view class="textarea">
+					<textarea show-confirm-bar="{{false}}" placeholder="让全世界听到你的声音吧！长度不可超过80个字符~" placeholder-style="color: #999;font-size: 20rpx;" maxlength="80" value="{{blogText}}" bindinput="inputText" style="height: 120px;"></textarea>
+				</view>
+				<!-- 连霸选择 -->
+				<view class="uninterrupted-btns">
+					<view wx:for="{{uninterruptedCountArray}}" class="uninterrupted-btn {{uninterruptedCountPicked == item ? 'active' : ''}}" @tap.stop="tapPickCount({{item}})">
+						连霸{{item}}次
+					</view>
+				</view>
+				<!-- 允许评论与否 -->
+				<view class="allow-comment">
+					<text>喊话是否允许评论</text>
+					<switch checked color="#FFC215" bindchange="switchAllowComment"></switch>
+				</view>
+				<!-- 确认支付按钮 -->
+				<view class="post-broadcast" @tap.stop="tapPostBroadcast">确认支付{{broadcastPrice * uninterruptedCountPicked}}秀点</view>
+			</view>
+		</block>
+	</view>
+	<bottomnavi :current.sync="current"></bottomnavi>
+	<apply-scope></apply-scope>
+</template>
+
+<script>
+import wepy from 'wepy'
+const app = getApp()
+import AudioService from '../../services/audio_service'
+import BlogService from '../../services/blog_service'
+import IMoneyService from '../../services/imoney_service'
+import LocationService from '../../services/location_service'
+import UserService from '../../services/user_service'
+import AccountService from '../../services/account_service'
+import WeixinNotifyService from '../../services/weixin_notify_service'
+import BottomNavi from '../../components/bottom_navi'
+import _ from '../../lib/mptool'
+import ApplyScope from '../../components/apply_scope'
+
+export default class Paoypao extends wepy.page {
+	config = {
+		navigationBarTitleText: "发布"
+	}
+
+	components = {
+		bottomnavi: BottomNavi,
+		"apply-scope": ApplyScope,
+	}
+
+	mixins = []
+
+	data = {
+		current: 'paopao',
+		currentTitle: '',
+		XDBalance: 0,  //用户秀点余额
+		blogText: '',
+		pickPicsArray: [],
+		address: '',
+		latitude: 0,
+		longitude: 0,
+		selfInfo: {},
+		authorId: 0,
+
+		//悬赏块
+		priceArray: [{price: 1500},{price: 3000},{price: 4500},{price: 7500},{price: 12000},{price: 15000}],
+		pricePicked: 1500,
+		durationLayerShow: false,  //选择时长弹窗 
+		duration: 3,
+		tempDuration: 1,
+		addTopicLayerShow: false,  //添加话题弹窗
+		ruleShow: false,  //奖励规则弹窗
+		ruleText: '任务进行中：如果采纳了该用户的投稿，该用户立即获得悬赏金额的50%作为奖励，剩余用户平均分配剩余50%，超时未采纳将自动分配50%奖励参与用户。',
+
+		//动态及投稿块
+		topics: [],
+		topicId: 0,
+		topicPicked: '',
+		pickVideoArray: [],
+		contributionFromBlogId: 0,
+		blogAuthorId: 0,
+		currentTab: 'dating',
+		audioState: 'none',
+		audioExtraInfo: {text: '点击开始录音', imageBtnSrc: 'https://vxiaocheng-jh.oss-cn-beijing.aliyuncs.com/mercury/post_newblog/audio_start_btn.png', duration: 0, time: '0s/60s'},
+		innerAudioContext: '',
+		locationBtnShow: true,
+
+		//霸屏块
+		uninterruptedCountArray: [2, 3, 5, 10, 20],
+		uninterruptedCountPicked: 2,
+		broadcastPrice: 1500,
+		isAllowComment: true,
+
+		// 投稿通知数据
+		toUserId: 0,
+		blogContent: "",
+
+		onProcess: false,
+	}
+
+	computed = {
+	}
+
+	methods = {
+		doNothing() {},
+		switchChangeLocationShow(e) {
+			this.locationBtnShow = e.detail.value
+			this.$apply()
+		},
+		tapTabs(tab) {
+			if (tab == this.currentTab) return;
+			if (tab == 'dating' && this.innerAudioContext) {
+				clearInterval(this.audioExtraInfo.calcTime)
+				this.audioState = 'none'
+				this.audioExtraInfo.text = `点击开始录音`
+				this.audioExtraInfo.duration = 0
+				this.audioExtraInfo.time = `0s/60s`
+				this.audioExtraInfo.imageBtnSrc = `https://vxiaocheng-jh.oss-cn-beijing.aliyuncs.com/mercury/post_newblog/audio_start_btn.png`
+				this.innerAudioContext.stop()
+				this.$apply()
+			}
+			this.currentTab = tab
+		},
+		tapChangeAudioState() {
+			this.innerAudioContext ? '' : this.createInnerAudioContext()
+			console.log('点击的是',this.audioState,'按钮')
+			if (this.audioState == 'none') {
+				this.audioState = 'start'
+				console.log('应该开始录音了')
+				console.log('录音中')
+				this.audioExtraInfo.text = `点击完成录音`
+				this.audioExtraInfo.calcTime = setInterval(() => {
+					this.audioExtraInfo.duration += 1
+					this.audioExtraInfo.time = `${this.audioExtraInfo.duration}s/60s`
+					if (this.audioExtraInfo.duration >= 60) {
+						clearInterval(this.audioExtraInfo.calcTime)
+						this.audioState = 'stop'
+						this.audioExtraInfo.text = `点击试听`
+						this.audioExtraInfo.time = `60s`
+						this.audioExtraInfo.recordTime = 60
+						this.audioExtraInfo.imageBtnSrc = `https://vxiaocheng-jh.oss-cn-beijing.aliyuncs.com/mercury/post_newblog/audio_play_btn.png`
+					}
+					this.$apply()
+				}, 1000)
+				this.audioExtraInfo.recordTime = Date.now()
+
+				AudioService.start({duration: 60000, format: 'mp3'})
+
+				console.log('this.audioExtraInfo', this.audioExtraInfo)
+			}else if (this.audioState == 'start') {
+				this.audioExtraInfo.recordTime = (Date.now() - this.audioExtraInfo.recordTime) / 1000
+				clearInterval(this.audioExtraInfo.calcTime)
+				if (this.audioExtraInfo.recordTime < 1) {
+					const _this = this
+					AudioService.stop()
+					wx.showModal({
+						title: '提示',
+						content: `录音时间不可小于1s`,
+						showCancel: false,
+						success: (res) => {
+							if (res.confirm) {
+								_this.audioState = 'none'
+								_this.audioExtraInfo.text = `点击开始录音`
+								_this.audioExtraInfo.duration = 0
+								_this.audioExtraInfo.time = `0s/60s`
+								_this.audioExtraInfo.imageBtnSrc = `https://vxiaocheng-jh.oss-cn-beijing.aliyuncs.com/mercury/post_newblog/audio_start_btn.png`
+								_this.$apply()
+							}
+						}
+					})
+					return;
+				}
+				this.audioState = 'stop'
+				this.audioExtraInfo.imageBtnSrc = `https://vxiaocheng-jh.oss-cn-beijing.aliyuncs.com/mercury/post_newblog/audio_play_btn.png`
+				this.audioExtraInfo.text = `点击试听`
+				this.audioExtraInfo.time = `${this.audioExtraInfo.duration}s`
+				AudioService.stop()
+				console.log('this.audioExtraInfo', this.audioExtraInfo)
+			}else if (this.audioState == 'stop') {
+				this.audioState = 'playing'
+				this.innerAudioContext.src = AudioService.tempFilePath
+				this.innerAudioContext.play()
+				this.audioExtraInfo.text = `试听中`
+				this.audioExtraInfo.imageBtnSrc = `https://vxiaocheng-jh.oss-cn-beijing.aliyuncs.com/mercury/post_newblog/audio_pause_btn.png`
+				let i = this.audioExtraInfo.duration
+				this.audioExtraInfo.time = `${i}s/${this.audioExtraInfo.duration}s`
+				this.audioExtraInfo.calcTime = setInterval(() => {
+					i -= 1
+					this.audioExtraInfo.time = `${i}s/${this.audioExtraInfo.duration}s`
+					if (i <= 0) {
+						clearInterval(this.audioExtraInfo.calcTime)
+						this.audioState = 'stop'
+						this.audioExtraInfo.text = `点击试听`
+						this.audioExtraInfo.time = `${this.audioExtraInfo.duration}s`
+						this.audioExtraInfo.imageBtnSrc = `https://vxiaocheng-jh.oss-cn-beijing.aliyuncs.com/mercury/post_newblog/audio_play_btn.png`
+					}
+					this.$apply()
+				}, 1000)
+				console.log('录音播放中')
+				console.log('this.audioExtraInfo', this.audioExtraInfo)
+			}else if (this.audioState == 'playing') {
+				this.audioState = 'stop'
+				this.innerAudioContext.stop()
+				clearInterval(this.audioExtraInfo.calcTime)
+				this.audioExtraInfo.text = `点击试听`
+				this.audioExtraInfo.time = `${this.audioExtraInfo.duration}s`
+				this.audioExtraInfo.imageBtnSrc = `https://vxiaocheng-jh.oss-cn-beijing.aliyuncs.com/mercury/post_newblog/audio_play_btn.png`
+				this.$apply()
+			}
+		},
+		tapRemakeAudio() {
+			clearInterval(this.audioExtraInfo.calcTime)
+			this.audioState = 'none'
+			this.audioExtraInfo.text = `点击开始录音`
+			this.audioExtraInfo.duration = 0
+			this.audioExtraInfo.time = `0s/60s`
+			this.audioExtraInfo.imageBtnSrc = `https://vxiaocheng-jh.oss-cn-beijing.aliyuncs.com/mercury/post_newblog/audio_start_btn.png`
+			this.innerAudioContext.stop()
+			this.$apply()
+		},
+		//输入文本
+		inputText(e) {
+			this.blogText = e.detail.value
+		},
+		//选择图片
+		tapPickPics() {
+			if (this.pickVideoArray.length) return;
+			const _this = this
+			wx.chooseImage({
+				count: 9,
+				sizeType: ['original', 'compressed'],
+				sourceType: ['album', 'camera'],
+				success (res) {
+					_this.pickPicsArray.push(...res.tempFilePaths)
+					_this.pickPicsArray = _this.pickPicsArray.slice(-9)
+					_this.$apply()
+				}
+			})
+		},
+		//选择视频
+		tapPickVideo() {
+			if (this.pickPicsArray.length) return;
+			const _this = this
+			wx.chooseVideo({
+				sourceType: ['album', 'camera'],
+				maxDuration: 60,
+				camera: 'back',
+				success(res) {
+					_this.pickVideoArray.push(res.tempFilePath)
+					_this.$apply()
+				}
+			})
+		},
+		//删除当前图片
+		tapDelThePic(index) {
+			this.pickPicsArray.splice(index, 1)
+		},
+		//删除当前视频
+		tapDelVideo() {
+			this.pickVideoArray = []
+		},
+		//添加表情
+		tapPickEmoji() {
+		},
+		//手动设置当前位置
+		tapSetLocation() {
+			const _this = this
+			wx.chooseLocation({
+				success: function(res) {
+					_this.address = res.name
+					_this.latitude = res.latitude
+					_this.longitude = res.longitude
+					_this.$apply();
+				},
+				complete(res) {
+					_this.address = res.name
+					_this.latitude = res.latitude
+					_this.longitude = res.longitude
+					_this.$apply();
+				}
+			})
+
+			//停止录音
+			this.audioState = 'stop'
+			this.innerAudioContext.stop()
+			clearInterval(this.audioExtraInfo.calcTime)
+			this.audioExtraInfo.text = `点击试听`
+			this.audioExtraInfo.time = `${this.audioExtraInfo.duration}s`
+			this.audioExtraInfo.imageBtnSrc = `https://vxiaocheng-jh.oss-cn-beijing.aliyuncs.com/mercury/post_newblog/audio_play_btn.png`
+			this.$apply()
+		},
+		//选择秀点
+		tapPickPrice(price) {
+			this.pricePicked = price
+		},
+		//点击奖励规则
+		tapShowRuleLayer() {
+			this.ruleShow = true
+		},
+		//关闭奖励弹窗
+		tapHideRuleLayer() {
+			this.ruleShow = false
+		},
+		//添加话题弹窗
+		tapShowAddTopicLayer() {
+			this.addTopicLayerShow = true
+			if (!this.topics.length) {
+				//获取所有话题组
+				BlogService.getTopics(true).then(res => {
+					if (res.length) {
+						this.topics.push(...res)
+					}
+					this.$apply()
+				})
+			}
+		},
+		//选择话题
+		tapAddTheTopic(topicId) {
+			this.addTopicLayerShow = false
+			this.topicId = topicId
+			this.topicPicked = this.topics.find(e => e.id == topicId).title
+		},
+		//选择时长弹窗
+		tapShowDurationLayer() {
+			this.durationLayerShow = true
+			this.tempDuration = 1
+		},
+		pickDuration(e) {
+			this.tempDuration = +e.detail.value + 1
+		},
+		//关闭话题弹窗
+		tapHideAddTopicLayer() {
+			this.addTopicLayerShow = false
+		},
+		//关闭时长弹窗
+		tapHideDurationLayer(e) {
+			this.durationLayerShow = false
+			if (e == 'ok') {
+				this.duration = this.tempDuration
+			}
+		},
+		//选择连霸次数
+		tapPickCount(count) {
+			if (this.uninterruptedCountPicked == count) return;
+			this.uninterruptedCountPicked = count
+		},
+		//是否允许评论霸屏
+		switchAllowComment(e) {
+			this.isAllowComment = e.detail.value
+		},
+		//发起悬赏
+		tapTakeReward() {
+			if (!this.blogText || !this.pricePicked || this.pricePicked < 0) {
+				const part = !this.blogText ? '文本内容' : '秀点选择'
+				wx.showModal({
+					title: '提示',
+					content: `请先完成${part}部分`,
+					showCancel: false
+				})
+				return;
+			}
+
+			const data = {
+				topicId: 0,
+				content: this.blogText.trim(),
+				duration: this.duration,
+				count: this.pricePicked,
+				resource: this.pickPicsArray,
+				address: this.address,
+				latitude: this.latitude,
+				longitude: this.longitude
+			}
+
+			if (!this.onProcess) {
+				this.onProcess = true;
+				this.$apply();
+
+				if (this.XDBalance >= this.pricePicked) {
+					console.log('进入发送函数, data', data)
+
+					BlogService.postBlog(data, 'reward').then(res => {
+						if (res.id) {
+							wx.navigateTo({
+								url: `post_newblog_success?type=reward&rewardId=${res.id}&blogAuthorId=${this.authorId}`
+							})
+						}
+						this.emptyAll()
+						this.onProcess = false;
+						this.$apply();
+					})
+				}else {
+					wx.showModal({
+						title: '提示',
+						content: `余额不足，去充值~`,
+						success: function(res) {
+							if (res.confirm) {
+								wx.navigateTo({
+									url: '/pages/mpcoin/mpcoin?needBack=true'
+								})
+							}else if (res.cancel) {
+								return;
+							}
+						}
+					})
+				}
+				
+			}
+			
+		},
+		//发布投稿
+		tapPostContribution() {
+			const content = this.blogText.trim()
+			const resources = this.pickVideoArray.length ? this.pickVideoArray : this.pickPicsArray
+			if (!content || content.length == 0) {
+				wx.showToast({
+					title: '请输入文字内容',
+					icon: 'none',
+					duration: 1500
+				})
+				return;
+			}else if (!resources.length) {
+				wx.showToast({
+					title: '请至少选择一张图片或视频',
+					icon: 'none',
+					duration: 1500
+				})
+				return;
+			}
+
+			const resourcesType = this.pickVideoArray.length ? 'video' : 'image'
+			console.log('投稿数据为', content, resourcesType, resources, this.contributionFromBlogId)
+			if (!this.onProcess) {
+				this.onProcess = true;
+				this.$apply();
+
+				BlogService.postContribution(content, resourcesType, resources, this.contributionFromBlogId).then(res => {
+					if (res.id) {
+						wx.showToast({
+							title: '发送成功',
+							icon: 'success',
+							duration: 1500
+						})
+						let url = "pages/login/login?redirect=" + encodeURIComponent("/pages/reward_topic/reward_detail?rewardBlogId=" + this.contributionFromBlogId + "&accountId=" + this.blogAuthorId + "&iMax=true");
+						WeixinNotifyService.sendReplyNofitication(this.toUserId, this.selfInfo.name, "回复了您的悬赏，去看看", this.blogContent, url);
+						setTimeout(() => {
+							wx.navigateBack()
+						},1500)
+						this.onProcess = false;
+						this.$apply();
+					}else {
+						wx.showToast({
+							title: '发布动态失败',
+							icon: 'none',
+							duration: 1500
+						})
+						this.emptyAll()
+						this.onProcess = false;
+						this.$apply();
+					}
+				}, res => {
+					if (res.data.errCode == "blog:is_finished") {
+						wx.showToast({
+							title: '该悬赏已结束',
+							icon: 'none',
+							duration: 1500
+						})
+						this.onProcess = false;
+						this.$apply();
+					}
+				})
+			}
+			
+		},
+		//发布动态
+		async tapPostTrends() {
+			if (this.currentTab == 'dating') {
+				const resources = this.pickVideoArray.length ? this.pickVideoArray : this.pickPicsArray
+
+				if (!resources.length) {
+					wx.showToast({
+						title: '请先选择图片或一个视频',
+						icon: 'none',
+						duration: 1500
+					})
+					return;
+				}
+
+				const data = {
+					topicId: this.topicId,
+					content: this.blogText.trim(),
+					type: this.pickVideoArray.length ? 'video' : 'image',
+					resources: resources,
+					address: this.locationBtnShow ? this.address : '',
+					latitude: this.latitude,
+					longitude: this.longitude
+				}
+				
+				console.log('发布动态数据： data', data)
+				if (!this.onProcess) {
+					this.onProcess = true;
+					this.$apply();
+
+					BlogService.postBlog(data, 'trends').then(res => {
+						if (res.id) {
+							wx.showToast({
+								title: '发布动态成功',
+								icon: 'success',
+								duration: 1500
+							})
+							setTimeout(() => {
+								wx.switchTab({
+									url: `/pages/blogs/new_blogs`
+								})
+								this.emptyAll()
+								this.onProcess = false;
+								this.$apply();
+							},1500)
+							
+						}else {
+							wx.showToast({
+								title: '发布动态失败',
+								icon: 'none',
+								duration: 1500
+							})
+							this.emptyAll()
+							this.onProcess = false;
+							this.$apply();
+						}
+					})
+				}
+			}else if (this.currentTab == 'audio') {
+				if (this.audioState == 'none' || this.audioState == 'start') return;
+				console.log('点击发布语音')
+				let url = ''
+				url = await AudioService.upload()
+				console.log('最后发送的语音url是', url)
+				if (!url) {
+					wx.showToast({
+						title: '录音未知错误，无法发布',
+						icon: 'none',
+						duration: 1500
+					})
+					return
+				}
+				const data = {
+					topicId: this.topicId,
+					content: this.audioExtraInfo.recordTime,
+					type: 'audio',
+					resources: [url],
+					address: this.locationBtnShow ? this.address : '',
+					latitude: this.latitude,
+					longitude: this.longitude
+				}
+
+				console.log('发送语音动态的data', data)
+
+				BlogService.postBlog(data, 'trends').then(res => {
+					console.log('postBlog >> res ', res)
+					if (res) {
+						wx.showToast({
+							title: '语音AI识别审核中 通过后将发布',
+							icon: 'none',
+							duration: 2000
+						})
+						console.log('2s后跳转首页')
+						setTimeout(() => {
+							console.log('跳转回首页')
+							wx.switchTab({
+								url: `/pages/blogs/new_blogs`
+							})
+							this.emptyAll()
+							this.onProcess = false;
+							this.$apply();
+						},2000)
+					}else {
+						wx.showToast({
+							title: '发布语音失败',
+							icon: 'none',
+							duration: 1500
+						})
+						this.emptyAll()
+						this.onProcess = false;
+						this.$apply();
+					}
+				})
+
+			}
+		},
+		//发布霸屏
+		tapPostBroadcast() {
+			let that = this;
+			if (!this.onProcess) {
+				this.onProcess = true;
+				this.$apply();
+
+				if (this.broadcastPrice * this.uninterruptedCountPicked > this.XDBalance) {
+					wx.showModal({
+						title: '提示',
+						content: `余额不足，去充值~`,
+						success: function(res) {
+							that.onProcess = false;
+							that.$apply();
+							if (res.confirm) {
+								wx.navigateTo({
+									url: '/pages/mpcoin/mpcoin?needBack=true'
+								})
+							}else if (res.cancel) {
+								return;
+							}
+						}
+					})
+					return;
+				}else {
+					const content = this.blogText.trim()
+					const isAllowComment = this.isAllowComment
+					const count = this.uninterruptedCountPicked
+
+					BlogService.postBroadcastBlog("broadcast", content, isAllowComment, count).then(res => {
+						if (res) {
+							wx.showToast({
+								title: '发布霸屏成功',
+								icon: 'success',
+								duration: 1500
+							})
+							setTimeout(() => {
+								wx.navigateBack()
+								this.onProcess = false;
+								this.$apply();
+							},1500)
+							
+						}else {
+							this.emptyAll()
+							this.onProcess = false;
+							this.$apply();
+						}
+					})
+				
+				}
+			}
+		}
+	}
+
+	events = {
+
+	}
+
+	async onLoad(query) {
+		query.topicId ? this.topicId = query.topicId : ''
+		query.topicTitle ? this.topicPicked = query.topicTitle : ''
+		this.authorId = AccountService.getSelfId();
+		console.log('this.topicId', this.topicId)
+
+		//动态修改页面标题
+		if (query.type == 'reward') {
+			this.currentTitle = '发布悬赏'
+		}else if (query.type == 'dating') {
+			this.currentTitle = '发布动态'
+		}else if (query.type == 'contribution') {
+			this.currentTitle = '发布投稿'
+			this.contributionFromBlogId = query.blogId
+			this.toUserId = query.toUserId;
+			this.blogContent = query.blogContent;
+
+			let rewardBlog = await BlogService.getBlog(this.contributionFromBlogId)
+			this.blogAuthorId = rewardBlog.author.id;
+			this.$apply();
+
+			UserService.getUserInfo().then(
+				data => {
+					this.selfInfo = data;
+					this.$apply();
+				}
+			)
+		}else {
+			this.currentTitle = '发布动态'
+		}
+		wx.setNavigationBarTitle({title: this.currentTitle})
+	}
+
+	onShow() {
+		console.log('paoypao.onShow()')
+		
+		this.onProcess = false;
+		//获取当前用户秀点余额
+		IMoneyService.getBalance("mpcoin").then(res => {
+				this.XDBalance = res;
+				this.$apply();
+			}
+		)
+		
+		if (!this.address) {
+			//获取当前地理位置
+			LocationService.getCurrentLocation().then(coordinate => {
+				this.latitude = coordinate.lat
+				this.longitude = coordinate.lng
+				LocationService.getLocationText({
+					"latitude": coordinate.lat,
+					"longitude": coordinate.lng
+				}).then(address => {
+					this.address = address
+					this.$apply()
+				})
+			})
+		}
+	}
+
+	onUnload() {
+		this.emptyAll()
+	}
+
+	emptyAll() {
+		this.topicId = 0
+		this.topicPicked = ''
+		this.blogText = ''
+		this.duration = 1
+		this.pricePicked = 0
+		this.pickPicsArray = []
+		this.latitude = 0
+		this.longitude = 0
+		this.innerAudioContext ? this.innerAudioContext.stop() : ''
+		clearInterval(this.audioExtraInfo.calcTime)
+		this.$apply()
+	}
+
+	createInnerAudioContext() {
+		this.innerAudioContext = wx.createInnerAudioContext()
+	}
+}
+</script>

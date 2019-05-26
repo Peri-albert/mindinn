@@ -1,0 +1,173 @@
+<style lang="less">
+page {
+	//单行省略号
+	.ellipsis {
+		overflow: hidden;
+		text-overflow: ellipsis;
+		white-space: nowrap;
+	}
+	.topicList-container {
+		background-color: #eee;
+		box-sizing: border-box;
+		min-height: 100vh;
+		overflow: hidden;
+		padding-top: 18rpx;
+
+		.list {
+			background-color: #fff;
+			box-sizing: border-box;
+			border-bottom: 1rpx solid #eee;
+			height: 180rpx;
+			padding-left: 186rpx;
+			position: relative;
+
+			.list-pic {
+				display: block;
+				height: 140rpx;
+				left: 24rpx;
+				position: absolute;
+				top: 20rpx;
+				width: 140rpx;
+			}
+
+			.content {
+				display: flex;
+				flex-direction: column;
+				justify-content: space-around;
+				height: 100%;
+
+				.list-topic, .reward-num {
+					align-items: center;
+					display: flex;
+					flex: 1;
+				}
+
+				.list-topic {
+					.topic-txt {
+						font-size: 32rpx;
+						margin-right: 20rpx;
+						max-width: 15em;
+						.ellipsis;
+					}
+
+					.hot-icon {
+						display: block;
+						height: 26rpx;
+						width: 24rpx;
+					}
+				}
+
+				.reward-num {
+					color: #858585;
+					font-size: 26rpx;
+				}
+			}
+		}
+	}
+}
+
+</style>
+	
+<template>
+	<view class="topicList-container">
+		<block wx:for="{{normalTopicArray}}" wx:key="id">
+			<view class="list" @tap.stop="tapEnterTopicDetail({{item}})">
+				<image mode="aspectFill" class="list-pic" src="{{item.url ? item.url : defaultUrl}}"></image>
+				<view class="content">
+					<view class="list-topic">
+						<text class="topic-txt">{{item.title ? item.title : '加载中···'}}</text>
+						<image wx:if="{{0 <= index && index < 3}}" class="hot-icon" src="https://vxiaocheng-jh.oss-cn-beijing.aliyuncs.com/mercury/reward_topic_list/fire_icon.png"></image>
+					</view>
+					<view class="reward-num">{{item.reward_count ? item.reward_count : 0}}条动态</view>
+				</view>
+			</view>
+		</block>
+	</view>
+	<!-- 数据加载提示条 -->
+	<bottom-loader :isFinishLoad.sync="isFinishLoad"></bottom-loader>
+</template>
+
+<script>
+import wepy from 'wepy'
+import BottomLoader from './../../components/bottom_loader'
+import BlogService from '../../services/blog_service'
+
+export default class TopicList extends wepy.page {
+	config = {
+		navigationBarTitleText: "#热门话题#",
+		enablePullDownRefresh: true
+	}
+
+	components = {
+		'bottom-loader': BottomLoader
+	}
+
+	mixins = []
+
+	data = {
+		defaultUrl: '/images/default_avatar.png',  //获取数据前的占位图片
+		hotTopicArray: [],
+		normalTopicArray: [],
+		isFinishLoad: false
+	}
+
+	computed = {
+
+	}
+
+	methods = {
+		//话题跳转话题详情
+		tapEnterTopicDetail(item) {
+			let id = item.id,
+				title = item.title,
+				url = item.url,
+				count = item.reward_count;
+			wx.navigateTo({
+				url: `/pages/reward_topic/topic_detail?topicId=${id}&topicTitle=${title}&imgUrl=${url}&blogCount=${count}`
+			})
+		}
+	}
+
+	events = {}
+
+	onLoad() {
+		//获取所有话题组
+		BlogService.getTopics(true).then(res => {console.log('res', res)
+			if (res.length) {
+				this.normalTopicArray.push(...res)
+			}else {
+				this.isFinishLoad = true
+			}
+			this.$apply()
+		})
+	}
+
+	onShow() {}
+
+	onPullDownRefresh() {
+		this.normalTopicArray = []
+		//获取所有话题组
+		BlogService.getTopics(true).then(res => {console.log('res', res)
+			if (res.length) {
+				this.normalTopicArray.push(...res)
+			}else {
+				this.isFinishLoad = true
+			}
+			this.$apply()
+		})
+	}
+
+	onReachBottom() {
+		if (!this.isFinishLoad) {
+			BlogService.getTopics().then(res => {console.log('res', res)
+				if (res.length) {
+					this.normalTopicArray.push(...res)
+				}else {
+					this.isFinishLoad = true
+				}
+				this.$apply()
+			})
+		}
+	}
+}
+</script>

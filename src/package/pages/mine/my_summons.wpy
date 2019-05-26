@@ -1,0 +1,168 @@
+<style lang="less">
+page {
+	//flex居中
+	.flexCenter {
+		align-items: center;
+		display: flex;
+		justify-content: center;
+	}
+	.mySummons-container {
+		box-sizing: border-box;
+		min-height: 100vh;
+		overflow-x: hidden;
+		padding: 20rpx 20rpx 0;
+
+		.summons-wrapper {
+			background-color: #fff;
+			border-radius: 8rpx;
+			box-shadow: 0 4rpx 10rpx 2rpx #ccc;
+			margin-bottom: 24rpx;
+			overflow: hidden;
+
+			.summons-top {
+				border-bottom: 1rpx solid #ddd;
+				box-sizing: border-box;
+				display: flex;
+				flex-direction: column;
+				height: 160rpx;
+				justify-content: space-around;
+				padding-left: 40rpx;
+
+				.name-and-date {
+					align-items: center;
+					display: flex;
+					justify-content: space-between;
+
+					.name {
+						align-items: center;
+						display: flex;
+
+						image {
+							display: block;
+							height: 44rpx;
+							margin-right: 16rpx;
+							width: 34rpx;
+						}
+
+						text {
+							color: #444;
+							font-size: 30rpx;
+							font-weight: bold;
+						}
+					}
+
+					.date {
+						color: #999;
+						font-size: 24rpx;
+						margin-right: 30rpx;
+					}
+				}
+
+				.people-count {
+					font-size: 24rpx;
+
+					text {
+						color: #999;
+					}
+				}
+			}
+
+			.summons-bottom {
+				box-sizing: border-box;
+				font-size: 24rpx;
+				line-height: 36rpx;
+				padding: 20rpx 32rpx 20rpx 40rpx;
+
+				text {
+					color: #999;
+				}
+			}
+		}
+	}
+}
+
+</style>
+	
+<template>
+	<view class="mySummons-container">
+		<block wx:for="{{mySummonsArray}}" wx:key="id">
+			<view class="summons-wrapper" @tap="onTapEnterCallDetail({{item.red_packet_id}})">
+				<view class="summons-top">
+					<view class="name-and-date">
+						<view class="name">
+							<image src="https://vxiaocheng-jh.oss-cn-beijing.aliyuncs.com/mercury/my_summons/my-summons-icon.png"></image>
+							<text>{{item.bar.name}}</text>
+						</view>
+						<view class="date">{{item.date}}</view>
+					</view>
+					<!-- <view class="people-count">召唤人数：<text>0人</text></view> -->
+				</view>
+				<view class="summons-bottom">
+					内容：<text>{{item.content}}</text>
+				</view>
+			</view>
+		</block>
+	</view>
+	<!-- 数据加载提示条 -->
+	<!-- <bottom-loader :isFinishLoad.sync="isFinishLoad"></bottom-loader> -->
+</template>
+
+<script>
+import wepy from 'wepy'
+import BottomLoader from './../../../components/bottom_loader'
+import BlogService from '../../../services/blog_service'
+import AccountService from '../../../services/account_service'
+
+export default class MySummons extends wepy.page {
+	config = {
+		navigationBarTitleText: "我的召唤令",
+		enablePullDownRefresh: true
+	}
+
+	components = {
+		'bottom-loader': BottomLoader
+	}
+
+	mixins = []
+
+	data = {
+		selfId: 0,
+		mySummonsArray: [],
+		isFinishLoad: false
+	}
+
+	computed = {
+
+	}
+
+	methods = {
+		onTapEnterCallDetail(redPacketId) {
+			wx.navigateTo({
+				url: '/pages/group/call_detail?luckyMoneyId=' + redPacketId + '&userId=' + this.selfId,
+			})
+		}
+	}
+
+	events = {}
+
+	onLoad() {
+		this.selfId = AccountService.getSelfId();
+		BlogService.getMySummons().then(res => {console.log('我的召唤令 res', res)
+			res.forEach(e => {
+				e.date = `${e.created_at.slice(0, 4)}.${e.created_at.slice(5, 7)}.${e.created_at.slice(8, 10)}`
+			})
+			this.mySummonsArray = res
+			this.$apply()
+		})
+	}
+
+	onShow() {}
+
+	onPullDownRefresh() {
+
+	}
+
+	onReachBottom() {
+	}
+}
+</script>

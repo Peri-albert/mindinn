@@ -1,0 +1,463 @@
+<style lang="less">
+.container {
+	font-family: 'Microsoft YaHei', sans-serif;
+
+	.xui-shade {
+		position: fixed;
+		width: 100%;
+		height: 100%;
+		top: 0px;
+		left: 0px;
+		z-index: 666;
+		background-color: #a2a1a1;
+		opacity: .14;
+	}
+
+	.sendgift-head {
+		background-color: #fff;
+		border-bottom: 2rpx solid #eee;
+		border-top-left-radius: 12rpx;
+		border-top-right-radius: 12rpx;
+	//	bottom: 502rpx;
+		box-sizing: border-box;
+		display: flex;
+		height: 76rpx;
+		justify-content: space-between;
+		padding: 0 25rpx;
+		position: fixed;
+		width: 100vw;
+		z-index: 999;
+
+		view {
+			align-items: center;
+			color: #000;
+			display: flex;
+			font-size: 24rpx;
+			height: 100%;
+
+			text {
+				margin-right: 20rpx;
+			}
+
+			image {
+				border-radius: 50%;
+				display: block;
+				height: 48rpx;
+				width: 48rpx;
+			}
+		}
+	}
+
+	.xui-gift {
+		position: fixed;
+		left: 0rpx;
+		// bottom: 50rpx;  
+		background-color: #fff;
+		width: 100%;
+		height: 412rpx;
+		z-index: 999;
+		overflow: hidden;
+
+		.gift-item {
+			display: inline-block;
+			width: 25%;
+			text-align: center;
+			box-sizing: border-box;
+			border: 1px solid white;
+
+			image {
+				display: block;
+				width: 100rpx;
+				height: 86rpx;
+				margin: 10px auto 0;
+			}
+
+			.gift-name {
+				color: #525252;
+				display: block;
+				margin-top: 5rpx;
+				font-size: 22rpx;
+			}
+
+			.gift-price {
+				display: block;
+				font-size: 18rpx;
+				margin-top: 5rpx;
+				color: #767676;
+			}
+
+			.gift-count {
+				display: block;
+				font-size: 18rpx;
+				margin-top: 5rpx;
+				color: #f0f;
+			}
+		}
+
+		.gray-filter {
+			filter: grayscale(100%);
+		}
+
+		.select {
+			border: 1px solid purple;
+		}
+	}
+}
+
+
+.xui-send-gift {
+	align-items: center;
+	box-sizing: border-box;
+	color: #595959;
+	display: flex;
+	justify-content: space-between;
+	position: fixed;
+	left: 0;
+	// bottom: 46px;
+	z-index: 999;
+	width: 100%;
+	height: 90rpx;
+	font-size: 30rpx;
+	line-height: 60rpx;
+	background-color: #f0edee;
+	padding: 0 30rpx;
+
+	.charge {
+		color: #000;
+		padding: 0 30rpx;
+	}
+
+	.price-and-button {
+		background-color: #f0edee;
+		border: 2rpx solid #000;
+		border-radius: 8rpx;
+		box-sizing: border-box;
+		display: flex;
+		height: 65rpx;
+
+		text {
+			align-items: center;
+			display: flex;
+			justify-content: center;
+		}
+
+		.price {
+			color: #000;
+			padding: 0 25rpx;
+		}
+
+		.button {
+			background-color: #000;
+			color: #fff;
+			width: 100rpx;
+		}
+	}
+}
+
+.sharetip-wrapper {
+	align-items: center;
+	background-color: rgba(0, 0, 0, .5);
+	height: 100vh;
+	display: flex;
+	left: 0;
+	justify-content: center;
+	position: fixed;
+	top: 0;
+	width: 100vw;
+	z-index: 999;
+
+	.sharetip-bg {
+		height: 100%;
+		position: absolute;
+		width: 100%;
+		z-index: -1;
+	}
+
+	.sharetip-content {
+		background-color: #fff;
+		height: 272rpx;
+		width: 600rpx;
+
+		.sharetip-txt {
+			align-items: center;
+			display: flex;
+			height: 180rpx;
+			justify-content: center;
+		}
+
+		.sharetip-btns {
+			border-top: 1rpx solid #eee;
+			display: flex;
+			height: 91rpx;
+
+			button {
+				align-items: center;
+				background-color: #fff;
+				display: flex;
+				height: 100%;
+				flex: 1;
+				justify-content: center;
+				padding: 0;
+			}
+
+			button:last-child {
+				box-sizing: border-box;
+				border-left: 1rpx solid #eee;
+				color: #3cc51f;
+			}
+		}
+	}
+}
+</style>
+<template>
+	<view wx:if="{{showGift}}">
+		<view class="xui-shade" @tap="onTapCancleGift"></view>
+		<view class="sendgift-head" style="bottom:{{page == 'normal'? '501': '609'}}rpx;" wx:if="{{showTitle}}">
+			<view>选择礼物</view>
+			<view wx:if="{{isiPhoneUser}}" style="color:orange">*由于相关规范，暂不支持付费礼物</view>
+			<view>
+				<text>赠送对象</text>
+				<image mode="aspectFill" src="{{imageUrl}}"></image>
+			</view>
+		</view>
+		<swiper wx:if="{{page != undefined}}" class="xui-gift" style="bottom:{{page == 'normal'? '90': '197'}}rpx;" indicator-dots="true" duration="500" bindchange="swiperChange">
+			<repeat for="{{giftList}}" key="index" index="index" item="gifts">
+				<swiper-item>
+					<repeat for="{{gifts}}" key="gift.id" index="index" item="gift">
+						<view class="gift-item {{selectGiftId == gift.id ? 'select': ''}} {{isiPhoneUser && gift.price !== 0 ? 'gray-filter' : ''}}" wx:if="{{gift}}" @tap="selectGift({{gift}})">
+							<image src="{{gift.image}}" />
+							<text class="gift-name">{{gift.name}}</text>
+							<text wx:if="{{gift.price !== 0}}" class="gift-price">{{gift.price}} 秀点</text>
+							<text wx:if="{{gift.price === 0}}" class="gift-count">{{freeGiftCountText}}</text>
+						</view>
+					</repeat>
+				</swiper-item>
+			</repeat>
+		</swiper>
+		<view wx:if="{{page != undefined}}" class="xui-send-gift" style="bottom:{{page == 'normal'? '0': '108'}}rpx;">
+			<view>
+				<text>秀点: {{mpcoin}}</text>
+				<text class="charge" @tap="toCharge" wx:if="{{!isiPhoneUser}}">充值 ></text>
+			</view>
+			<view class="price-and-button">
+				<text class="price">{{selectGiftPrice ? selectGiftPrice : 0}} 秀点</text>
+				<text class="button" @tap="sendGift">发送</text>
+			</view>
+		</view>
+	</view>
+	<view wx:if="{{shareTipShow}}">
+		<view class="sharetip-wrapper">
+			<view class="sharetip-bg" @tap.stop="tapCloseShareTip"></view>
+			<view class="sharetip-content">
+				<view class="sharetip-txt">您的免费礼物已尽，转发可获之</view>
+				<view class="sharetip-btns">
+					<button @tap.stop="tapCloseShareTip">取消</button>
+					<button open-type="share" data-shareData="{{shareData}}" @tap="tapCloseShareTip">确定</button>
+				</view>
+			</view>
+		</view>
+	</view>
+</template>
+<script>
+import wepy from 'wepy'
+import GiftService from '../services/gift_service'
+import UserService from '../services/user_service'
+import IMoneyService from '../services/imoney_service'
+import StorageService from '../services/storage_service'
+
+export default class SendGift extends wepy.component {
+	props = {
+
+	}
+
+	data = {
+		showGift: false,
+		showTitle: true,
+		giftList: [],
+		page: undefined,
+
+		mpcoin: 0,
+		freeTimes: 0,
+		freeGiftCount: 0,
+		selectUserId: 0,
+		selectGiftId: 0,
+		selectGiftPrice: null,
+
+		currentNow: "0",
+		shareTipShow: false,
+		imageUrl: '',
+		shareData: { title: '遇见了我的TA，快来祝我一臂之力！让我把ta带回家~', base: '/pages/login/login?redirect=' },
+		isiPhoneUser: false,
+	}
+
+	events = {
+		'send-gift': function(userId, page, showTitle) {
+			this.page = page;
+			this.selectUserId = userId;
+			this.showTitle = showTitle;
+			this.loadMpcoinBalance();
+			this.loadFreeGiftCount();
+			this.showGift = true;
+			this.$apply();
+			UserService.getUserInfo(this.selectUserId).then(res => {
+				this.imageUrl = res.avatar
+				this.$apply()
+			})
+		}
+	}
+
+	computed = {
+		freeGiftCountText() {
+			if (this.freeGiftCount > 0) {
+				return "免费礼物" + this.freeGiftCount + "个";
+			} else if (this.freeGiftCount == 0) {
+				return "免费礼物用完了";
+			}
+		}
+	}
+
+	methods = {
+		onTapCancleGift: function() {
+			this.showGift = false;
+			this.selectGiftId = 0;
+			this.selectGiftPrice = null;
+			this.$apply();
+			this.$emit('close-gift', false, null);
+		},
+		selectGift(gift) {
+			if (this.isiPhoneUser && gift.price !== 0) {
+				return;
+			}
+
+			this.selectGiftId = gift.id;
+			this.selectGiftPrice = gift.price;
+			this.$apply();
+		},
+		toCharge() {
+			wx.navigateTo({
+				url: '/pages/mpcoin/mpcoin'
+			})
+		},
+		async sendGift() {
+			if (this.selectGiftId == 0) {
+				wx.showToast({
+					title: '请先选择礼物',
+					icon: 'none'
+				})
+				return;
+			}
+
+			if (this.selectGiftPrice == 0 && this.freeGiftCount == 0) {
+				wx.showToast({
+					title: '您没有可用的免费礼物数量',
+					icon: 'none'
+				})
+				return;
+			}
+
+			if (this.mpcoin < this.selectGiftPrice) {
+				wx.showModal({
+					title: '提示',
+					content: '您的余额不足，请前往充值',
+					showCancel: true,
+					success: function(res) {
+						if (res.confirm) {
+							wx.navigateTo({
+								url: '/pages/mpcoin/mpcoin'
+							})
+							console.log('用户点击确定')
+						} else if (res.cancel) {
+							console.log('用户点击取消')
+						}
+					}
+				})
+			} else {
+				let res = await GiftService.givingGift(this.selectUserId, this.selectGiftId);
+				if (this.selectGiftPrice == 0) {
+					this.freeGiftCount = this.freeGiftCount - 1;
+					this.$apply();
+					if (this.freeGiftCount == 0) {
+						setTimeout(() => {
+							this.shareTipShow = true
+							this.$apply()
+						}, 1500)
+					}
+				}
+				wx.showToast({
+					title: '礼物已发送'
+				})
+				let gift = await this.getGiftById(this.selectGiftId)
+				this.mpcoin = this.mpcoin - this.selectGiftPrice;
+				this.selectGiftId = 0;
+				this.selectGiftPrice = null;
+				this.showGift = false;
+				this.$apply();
+				this.$emit('close-gift', true, gift);
+			}
+		},
+		swiperChange(event) {
+			if (event.detail.source == "touch") {
+				let that = this;
+				if (event.detail.current == 0 && that.currentNow > 1) {
+					that.currentNow = that.currentNow;
+				} else {
+					that.currentNow = event.detail.current;
+				}
+			}
+		},
+		tapCloseShareTip() {
+			this.shareTipShow = false
+		}
+	}
+
+	loadMpcoinBalance() {
+		IMoneyService.getBalance("mpcoin").then(balance => {
+			this.mpcoin = balance;
+			this.$apply();
+		})
+	}
+
+	loadFreeGiftCount() {
+		GiftService.getUserFreeGiftCount().then(
+			data => {
+				this.freeGiftCount = data.count;
+				this.$apply();
+				console.log("free_gift_count:", this.freeGiftCount);
+			}
+		)
+	}
+
+	onLoad() {
+		this.isiPhoneUser = StorageService.get('isiPhoneUser');
+		this.loadMpcoinBalance();
+		this.loadFreeGiftCount();
+		GiftService.getGifts().then(
+			res => {
+				this.gifts = res.gifts;
+				let length = res.gifts.length / 8;
+				for (let i = 0; i < length; i++) {
+					this.giftList.push([])
+					for (let j = 0; j < 8; j++) {
+						let gift = res.gifts.shift();
+						this.giftList[i].push(gift);
+					}
+				}
+				this.$apply();
+				console.log('this.giftList ', this.giftList)
+			}
+		)
+		UserService.getUserInfo(this.selectUserId).then(res => this.imageUrl = res.avatar)
+
+	}
+	async getGiftById(giftid) {
+		let res = await GiftService.getGifts()
+		let targetgift = null;
+		res.gifts.forEach(gift => {
+			if (gift.id == giftid) {
+				targetgift = gift;
+			}
+		});
+		return targetgift;
+	}
+}
+</script>

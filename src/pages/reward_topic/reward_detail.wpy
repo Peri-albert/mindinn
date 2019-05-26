@@ -1,0 +1,570 @@
+<style lang="less">
+page {
+	background-color: #eee;
+	min-height: 100vh;
+	overflow-x: hidden;
+	//flex居中
+	.flexCenter {
+		align-items: center;
+		display: flex;
+		justify-content: center;
+	}
+	image {
+		display: block;
+	}
+	.rewardDetail-container {
+		background-color: #eee;
+		padding: 16rpx 0 96rpx;
+
+		.contributions-wrapper {
+			width: 100%;
+
+			.title {
+				align-items: center;
+				background-color: #fff;
+				box-sizing: border-box;
+				display: flex;
+				height: 69rpx;
+
+				.left-bar {
+					background-color: #F6865C;
+					border-radius: 6rpx;
+					height: 30rpx;
+					margin: 0 24rpx;
+					width: 5rpx;
+				}
+
+				.title-txt {
+					color: #F6865C;
+					font-size: 22rpx;
+				}
+			}
+		}
+	}
+
+	//立即投稿
+	.contribute {
+		align-items: center;
+		background-color: #e6981d;
+		bottom: 0;
+		display: flex;
+		justify-content: center;
+		left: 0;
+		height: 96rpx;
+		position: fixed;
+		width: 100vw;
+		z-index: 99;
+		
+		image {
+			display: block;
+			height: 36rpx;
+			margin-right: 22rpx;
+			width: 36rpx;
+		}
+
+		text {
+			color: #000;
+			font-size: 28rpx;
+		}
+	}
+
+	//采纳确认弹窗
+	.sure-adopt-layer {
+		background: rgba(0, 0, 0, .5);
+		height: 100vh;
+		left: 0;
+		position: fixed;
+		top: 0;
+		width: 100vw;
+		z-index: 99;
+		.flexCenter;
+
+		.sure-adopt {
+			align-items: center;
+			background-color: #fff;
+			border-radius: 10rpx;
+			box-sizing: border-box;
+			display: flex;
+			flex-direction: column;
+			height: 364rpx;
+			justify-content: space-around;
+			position: relative;
+			width: 576rpx;
+
+			.close-btn {
+				height: 38rpx;
+				font-size: 60rpx;
+				font-weight: lighter;
+				line-height: 38rpx;
+				position: absolute;
+				right: 30rpx;
+				top: 24rpx;
+				transform: rotate(45deg);
+				text-align: center;
+				width: 38rpx;
+			}
+
+			.title {
+				color: #000;
+				font-size: 30rpx;
+				font-weight: bold;
+			}
+
+			.txt {
+				color: #010101;
+				font-size: 30rpx;
+			}
+
+			.sure-btn {
+				background-color: #000;
+				border-radius: 70rpx;
+				color: #fff;
+				font-size: 28rpx;
+				height: 68rpx;
+				line-height: 68rpx;
+				text-align: center;
+				width: 276rpx;
+			}
+		}
+	}
+
+	//分享或海报弹窗
+	.share-or-poster-layer {
+		background: rgba(0, 0, 0, .5);
+		height: 100vh;
+		left: 0;
+		position: fixed;
+		top: 0;
+		visibility: hidden;
+		width: 100vw;
+		z-index: 99;
+
+		.share-or-poster-content {
+			background-color: #fff;
+			bottom: -365rpx;
+			display: flex;
+			flex-direction: column;
+			height: 365rpx;
+			position: absolute;
+			transition: .3s;
+			width: 100%;
+
+			.content-top {
+				align-items: center;
+				display: flex;
+				flex: 1;
+
+				.image-and-rule {
+					align-items: center;
+					display: flex;
+					justify-content: space-evenly;
+					width: 100%;
+
+					.image-btn {
+						align-items: center;
+						display: flex;
+						flex-direction: column;
+
+						image {
+							height: 100rpx;
+							margin-bottom: 18rpx;
+							width: 100rpx;
+						}
+
+						view {
+							color: #6a6a6a;
+							font-size: 24rpx;
+						}
+
+						&.button {
+							background: transparent;
+							margin: 0;
+							padding: 0;
+
+							view {
+								height: 32rpx;
+								line-height: 32rpx;
+							}
+						}
+						&.button::after {
+							border: 0;
+						}
+					}
+
+					.rule {
+						border-right: 1rpx solid #999;
+						height: 122rpx;
+					}
+				}
+			}
+
+			.content-btn {
+				box-sizing: border-box;
+				border-top: 1rpx solid #999;
+				color: #000;
+				font-size: 30rpx;
+				height: 98rpx;
+				.flexCenter;
+			}
+
+			&.active {
+				bottom: 0;
+			}
+		}
+
+		&.show {
+			visibility: visible;
+		}
+	}
+}
+
+</style>
+	
+<template>
+	<view class="rewardDetail-container">
+		<new-blog :blog.sync="rewardBlog"></new-blog>
+
+		<view class="contributions-wrapper">
+			<view class="title">
+				<view class="left-bar"></view>
+				<view class="title-txt">投稿作品</view>
+			</view>
+
+			<repeat for="{{contributionsArray}}" key="id" item="blog">
+				<new-blog :blog.sync="blog"></new-blog>
+			</repeat>
+		</view>
+	</view>
+
+	<!-- 立即投稿 -->
+	<view wx:if="{{!isSelfReward && !rewardBlog.is_finished}}" class="contribute" @tap.stop="tapContribute">
+		<image src="https://vxiaocheng-jh.oss-cn-beijing.aliyuncs.com/mercury/reward_detail/contribute_icon.png"></image>
+		<text>立即投稿</text>
+	</view>
+
+	<!-- 采纳确认弹窗 -->
+	<view wx:if="{{adoptLayerShow}}" class="sure-adopt-layer" catchtouchmove="doNothing">
+		<view class="sure-adopt">
+			<view class="close-btn" @tap.stop="tapCloseAdoptLayer">+</view>
+			<view class="title">确认采纳</view>
+			<view class="txt">是否采纳该条投稿？</view>
+			<view class="sure-btn" @tap.stop="tapAdoptContribution">是</view>
+		</view>
+	</view>
+
+	<!-- 分享或海报弹窗 -->
+	<view class="share-or-poster-layer {{shareAndPosterShow ? 'show' : ''}}">
+		<view class="share-or-poster-content {{shareAndPosterShow ? 'active' : ''}}">
+			<view class="content-top">
+				<view class="image-and-rule">
+					<button open-type="share" class="image-btn button">
+						<image src="https://vxiaocheng-jh.oss-cn-beijing.aliyuncs.com/mercury/reward_detail/wx_icon.png"></image>
+						<view>微信分享</view>
+					</button>
+					<view class="rule"></view>
+					<view class="image-btn" @tap.stop="tapCreatePoster">
+						<image src="https://vxiaocheng-jh.oss-cn-beijing.aliyuncs.com/mercury/reward_detail/take_poster_icon.png"></image>
+						<view>生成海报</view>
+					</view>
+				</view>
+			</view>
+			<view class="content-btn" @tap.stop="tapHideShareAndPosterLayer">取消</view>
+		</view>
+	</view>
+</template>
+
+<script>
+import wepy from 'wepy'
+import _ from '../../lib/mptool'
+import NewBlog from '../../components/new_blog'
+import UserService from '../../services/user_service'
+import BlogService from '../../services/blog_service'
+import BlogCommentService from '../../services/blog_comment_service'
+import WebIMService from '../../services/webim_service'
+import AccountService from '../../services/account_service'
+import WeixinNotifyService from '../../services/weixin_notify_service'
+
+export default class RewardDetail extends wepy.page {
+	config = {
+		navigationBarTitleText: "悬赏详情",
+		enablePullDownRefresh: true
+	}
+
+	components = {
+		'new-blog': NewBlog
+	}
+
+	data = {
+		accountId: 0,
+		blogId: 0,
+		blogAuthorId: 0,
+		rewardBlog: {},
+		contributionsArray: [],
+		contributeId: 0,
+		userId: 0,
+		adoptLayerShow: false,
+		isSelfReward: false,
+		countdown: '',
+		selfInfo: '',
+		shareAndPosterShow: false
+	}
+
+	methods = {
+		doNothing() {},
+		//立即投稿
+		tapContribute() {
+			let blog = this.rewardBlog;
+			wx.navigateTo({
+				url: `/pages/post_blog/post_newblog?type=contribution&blogId=${blog.id}&toUserId=${blog.author.id}&blogContent=${blog.content}`
+			})
+		},
+		tapCloseAdoptLayer() {
+			this.adoptLayerShow = false
+		},
+
+		//采纳投稿
+		tapAdoptContribution() {
+			this.adoptLayerShow = false
+			BlogService.adoptContribution(this.rewardBlog.id, this.contributeId).then(res => {
+				wx.showLoading({
+					title: '加载中'
+				})
+				if (res.is_success) {
+					wx.hideLoading()
+					wx.showToast({
+						title: '采纳成功',
+						icon: 'success',
+						duration: 1500
+					})
+					
+					this.onPullDownRefresh()
+					this.rewardBlog.is_finished = true
+					this.$apply()
+
+					let blog = this.rewardBlog;
+					let url = "pages/login/login?redirect=" + encodeURIComponent(`/pages/reward_topic/reward_detail?rewardBlogId=${blog.id}&accountId=${blog.author.id}&iMax=true`);
+					WeixinNotifyService.sendReplyNofitication(this.userId, blog.author.name, "恭喜！你的投稿被金主采纳！快去领赏金吧~", blog.content, url);
+				}else {
+					wx.hideLoading()
+					wx.showToast({
+						title: '采纳失败',
+						icon: 'none',
+						duration: 1500
+					})
+				}
+			})
+		},
+
+		tapCreatePoster() {
+			this.shareAndPosterShow = false
+			wx.navigateTo({
+				url: `/package/pages/my_poster/my_poster?rewardId=${this.rewardBlog.id}`
+			})
+		},
+
+		tapHideShareAndPosterLayer() {
+			this.shareAndPosterShow = false
+		}
+	}
+
+	events = {
+		'tap-adopt': function(contributeId, userId) {
+			this.contributeId = contributeId
+			this.userId = userId
+			this.adoptLayerShow = true
+			this.$apply()
+		},
+		'tap-upvote': function(blogId) {
+			let curBlog = this.contributionsArray.find(e => e.id == blogId)
+			if (!curBlog.is_liked_by_current_user) {
+				UserService.likeBlog(blogId).then(res => {
+					curBlog.like_count += 1
+					curBlog.is_liked_by_current_user = true
+					this.$apply()
+				})
+			}else {
+				UserService.unlikeBlog(blogId).then(res => {
+					curBlog.like_count -= 1
+					curBlog.is_liked_by_current_user = false
+					this.$apply()
+				})
+			}
+		},
+		'play-video': function(blogId) {
+			this.contributionsArray.forEach(e => {
+				e.playVideo = false
+				if (e.id == blogId) {
+					e.playVideo = true
+				}
+			})
+		},
+		'fitOneImage': (blogId, property) => {
+			this.rewardBlog.id == blogId ? this.rewardBlog[property] = true : ''
+			this.contributionsArray.find(e => e.id == blogId) ? this.contributionsArray.find(e => e.id == blogId)[property] = true : ''
+		},
+		'blog-input-change': (blogId, txt) => {
+			this.selfInfo ? '' : UserService.getUserInfo().then(res => this.selfInfo = res)
+
+			if (this.contributionsArray.find(e => e.id == blogId)) {
+				this.contributionsArray.find(e => e.id == blogId).inputValue = txt
+			}else {
+				wx.showToast({
+					title: '查无此blog',
+					icon: 'none',
+					duration: 1500
+				})
+				console.log('查无此blog')
+			}
+		},
+		'send-comment': (blogId) => {
+			if (this.contributionsArray.find(e => e.id == blogId)) {
+				const blog = this.contributionsArray.find(e => e.id == blogId)
+				const inputValue = blog.inputValue
+				const params = {
+					'type': 'blog',
+					'toUser': blog.author.id,
+					'name': this.selfInfo.name,
+					'topic': blog.content
+				}
+
+				if (!blog.inputValue || !blog.inputValue.trim()) {
+					wx.showToast({
+						title: '请输入评论内容',
+						icon: 'none',
+						duration: 1500
+					})
+					return;
+				}
+
+				BlogCommentService.commentBlog(blog.id, blog.inputValue, 0, params).then(res => {
+					if (res.isSuccess) {
+						blog.comments.unshift({
+							id: Math.ceil(Math.random() * 1000),
+							author: {name: this.selfInfo.name},
+							content: inputValue,
+							contentData: [{data: inputValue, type: 'txt'}]
+						})
+						blog.inputValue = ''
+						this.$apply()
+					} else {
+						let msg = res.title;
+						wx.showToast({
+							title: msg,
+							icon: 'none',
+							duration: 1500
+						})
+						console.log('评论失败')
+						return;
+					}
+				})
+			}else {
+				wx.showToast({
+					title: '请先输入评论内容',
+					icon: 'none',
+					duration: 1500
+				})
+			}
+		},
+		'open-share-layer': () => {
+			this.shareAndPosterShow = true
+		}
+	}
+
+	async onLoad(query) {
+		this.blogId = +query.rewardBlogId
+		this.blogAuthorId = +query.accountId
+		this.accountId = AccountService.getSelfId()
+		this.isSelfReward = this.accountId == this.blogAuthorId
+		this.rewardBlog = await BlogService.getBlog(this.blogId)
+		this.rewardBlog.address = this.rewardBlog.extra_data.address
+		this.rewardBlog.created_ago = this.rewardBlog.created_at ? _.calculateTime(this.rewardBlog.created_at) : ''
+		this.rewardBlog.amount = this.rewardBlog.amount ? Math.floor(this.rewardBlog.amount * 2 / 3) / 100 : ''
+		this.rewardBlog.iMax = true
+		//开始倒计时
+		this.countdown = setInterval(() => {
+			if (this.rewardBlog.leftTime <= 0) {
+				clearInterval(this.countdown)
+				this.rewardBlog.is_finished = true
+			}
+			this.calcCountdown(this.rewardBlog)
+			this.$apply()
+		}, 999)
+		this.$apply()
+		console.log('this.rewardBlog', this.rewardBlog, 'query', query, 'this.accountId', this.accountId)
+	}
+
+	onShow() {
+		// 获取投稿列表
+		BlogService.getContributionsFromReward(this.blogId).then(res => {
+			console.log('该悬赏列表下的投稿： ', res)
+			res.blogs.forEach(blog => {
+				blog.created_ago = blog.created_at ? _.calculateTime(blog.created_at) : ''
+				this.isSelfReward ? e.showAdoptBtn = true : ''
+				blog.comments.forEach(e => {
+					e.contentData = WebIMService.Emoji.parseEmoji(e.content)
+				})
+				BlogService.getLikers(blog.id, 10, true).then(upvoters => {
+					blog.upvoters = upvoters
+				})
+			})
+			this.contributionsArray = res.blogs
+			this.$apply()
+		})
+	}
+
+	onUnload() {
+		clearInterval(this.countdown)
+	}
+
+	onPullDownRefresh() {
+		this.contributionsArray = []
+		BlogService.getContributionsFromReward(this.blogId).then(res => {
+			console.log('获取的投稿', res)
+			res.blogs.forEach(blog => {
+				blog.created_ago = blog.created_at ? _.calculateTime(blog.created_at) : ''
+				this.isSelfReward ? blog.showAdoptBtn = true : ''
+			})
+			this.contributionsArray = res.blogs
+			this.$apply()
+			wx.stopPullDownRefresh()
+		})
+	}
+
+	onShareAppMessage() {
+		let base = '/pages/login/login?redirect=';
+		let target = encodeURIComponent(`/pages/reward_topic/reward_detail?rewardBlogId=${this.blogId}&accountId=${this.blogAuthorId}&iMax=true`);
+		console.log(base + target)
+
+		let data = {
+			path: base + target,
+			imageUrl: 'http://resource.vxiaocheng.com/mercury/reward_share.jpg'
+		};
+
+		let title = "";
+		if (this.isSelfReward) {
+			title = "我在享趣社区发布了一条悬赏，各位达人速来围观";
+		} else {
+			title = "我在享趣社区发现了一条悬赏，各位达人速来围观";
+		}
+		data["title"] = title;
+		
+		return data;
+	}
+
+	onReachBottom() {
+		
+	}
+
+	//倒计时
+	calcCountdown(blog) {
+		if (!blog.is_finished) {
+			const leftTime = Math.floor((Date.parse(blog.created_at.replace(/-/g, '/')) + blog.duration * 86400000 - Date.now()) / 1000)
+			blog.leftTime = leftTime
+			blog.left_time_days = leftTime > 86400 ? Math.floor(leftTime / 86400) : 0
+			blog.left_time_hours = leftTime % 86400 > 3600 ? Math.floor((leftTime % 86400) / 3600) : 0
+			blog.left_time_minutes = (leftTime % 86400) % 3600 > 60 ? Math.floor(((leftTime % 86400) % 3600) / 60) : 0
+			blog.left_time_seconds = leftTime >= 0 ? Math.floor(((leftTime % 86400) % 3600) % 60) : 0
+		}
+	}
+}
+</script>

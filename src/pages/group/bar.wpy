@@ -1,0 +1,584 @@
+<style lang="less">
+@import "../../base";
+page {
+	background-color: #f4f4f4;
+}
+.lineOverEllipsis {
+	display: block;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+.container {
+	overflow-x: hidden;
+	.x-bar {
+		.x-i-cover {
+			height: 330rpx;
+			overflow: hidden;
+			position: relative;
+			image {
+				width: 100%;
+			}
+
+			.x-i-sign {
+				font-size: 24rpx;
+				position: absolute;
+				left: 0rpx;
+				top: 0rpx;
+				width: 100%;
+				height: 330rpx;
+				background: rgba(0, 0, 0, 0.5);
+
+				.x-i-line {
+					text-align: center;
+					color: #FFF;
+					margin-top: 38rpx;
+				}
+
+				.x-i-visitor {
+					display: flex;
+					justify-content: center;
+					margin-top: 60rpx;
+
+					.x-i-count {
+						color: #f5d900;
+					}
+				}
+
+				.x-i-signBtn {
+					background-color: #fec631;
+					border-radius: 40rpx;
+					box-sizing: border-box;
+					height: 60rpx;
+					line-height: 60rpx;
+					width: 226rpx;
+					color: #FFF;
+					text-align: center;
+					font-size: 26rpx;
+					margin: 36rpx auto 0;
+				}
+
+				.x-i-signedBtn {
+					border: solid 1px #FFF;
+					background-color: rgba(0, 0, 0, 0.5);
+				}
+
+				.x-i-info {
+					color: #fff;
+					font-size: 24rpx;
+					display: flex;
+					justify-content: space-between;
+					margin-top: 36rpx;
+
+					.x-i-name {
+						margin-left: 34rpx;
+					}
+
+					.x-i-distance {
+						margin-right: 38rpx;
+					}
+				}
+			}
+		}
+	}
+
+	.x-filter {
+		display: flex;
+		justify-content: flex-end;
+		padding: 10rpx;
+		view {
+			flex: 1;
+			width: 615rpx;
+			height: 63rpx;
+			line-height: 63rpx;
+			background-image: url("https://vxiaocheng-jh.oss-cn-beijing.aliyuncs.com/mercury/group/bar_callup_bg.png");
+			background-size:  615rpx 63rpx;
+			background-repeat: no-repeat;
+			display: flex;
+			.x-i-laba {
+				width: 28rpx;
+				height: 28rpx;
+				margin: 17rpx 5rpx 17rpx 30rpx;
+			}
+			.x-i-avatar {
+				width: 40rpx;
+				height: 40rpx;
+				border-radius: 50%;
+				margin: 11rpx;
+			}
+			text {
+				color: goldenrod;
+				font-size: 22rpx;
+				flex: 1;
+			}
+		}
+
+		image {
+			display: block;
+			height: 52rpx;
+			width: 52rpx;
+			margin: 0 20rpx;
+		}
+	}
+
+	.x-visitors {
+		box-sizing: border-box;
+		display: flex;
+		flex-wrap: wrap;
+		padding: 0 34rpx;
+
+		.x-i-visitorWrap {
+			box-shadow: 0 5rpx 10rpx #AAA;
+			border-radius: 12rpx;
+			height: 410rpx;
+			margin-bottom: 20rpx;
+			overflow: hidden;
+			width: 170.5rpx;
+
+			.x-i-visitor {
+				display: flex;
+				flex-direction: column;
+				height: 100%;
+
+				.x-i-avatar {
+					height: 326rpx;
+					image {
+						display: block;
+						height: 100%;
+						width: 100%;
+					}
+				}
+
+				.x-i-info {
+					background-color: #fff;
+					box-sizing: border-box;
+					flex: 1;
+					color: #333;
+					padding: 18rpx 0 0 20rpx;
+					position: relative;
+					width: 100%;
+
+					.x-i-name {
+						color: #333;
+						font-size: 22rpx;
+						max-width: 50%;
+						.lineOverEllipsis;
+
+						.x-i-visitTime {
+							font-size: 18rpx;
+							color: #999;
+							margin-top: 12rpx;
+						}
+					}
+
+					.x-i-chatBtn {
+						background: linear-gradient(to top, #1b1b1b, #3c3c3c);
+						border-radius: 55rpx;
+						bottom: 14rpx;
+						height: 50rpx;
+						line-height: 50rpx;
+						color: #FFF;
+						font-size: 18rpx;
+						text-align: center;
+						position: absolute;
+						right: 10rpx;
+						width: 90rpx;
+					}
+				}
+			}
+		}
+	}
+
+	.xui-visitors {
+		display: flex;
+		flex-wrap: wrap;
+		padding: 0 34rpx;
+		.xui-visitorWrap {
+			height: 200rpx;
+			margin-bottom: 20rpx;
+			overflow: hidden;
+			width: 170.5rpx;
+			text-align: center;
+			image {
+				width: 100rpx;
+				height: 100rpx;
+				border-radius: 50%;
+			}
+			.xui-visitor-name {
+				font-size: 22rpx;
+				color: #333;
+				max-width: 100%;
+				.lineOverEllipsis;
+			}
+			.xui-visitor-visit-time {
+				font-size: 18rpx;
+				color: #999;
+				margin-top: 10rpx;
+			}
+			.xui-chat {
+				margin: 10rpx auto 0;
+				background: linear-gradient(to top, #1b1b1b, #3c3c3c);
+				border-radius: 55rpx;
+				height: 50rpx;
+				line-height: 50rpx;
+				color: #FFF;
+				font-size: 18rpx;
+				text-align: center;
+				width: 90rpx;
+			}
+		}
+	}
+
+	.x-call {
+		height: 150rpx;
+		width: 150rpx;
+		position: fixed;
+		right: 20rpx;
+		bottom: 100rpx;
+		z-index: 10;
+	}
+	.x-signin {
+		height: 150rpx;
+		width: 150rpx;
+		position: fixed;
+		right: 20rpx;
+		bottom: 275rpx;
+		z-index: 10;
+	}
+}
+</style>
+
+<template>
+
+<view class="container">
+<view class="x-bar" wx:if="{{bar != null}}">
+	<view class="x-i-cover">
+		<image lazy-load="true" mode="aspectFill" src="{{bar.cover}}" />
+		<view class="x-i-sign">
+			<view class="x-i-visitor x-i-line"><view class="x-i-count">{{bar.visitor_count}}</view>人来过</view>
+			<view class="x-i-line">打个卡，让TA知道你也在</view>
+			<view class="x-i-signBtn" wx:if="{{!selfBarVisit.visitInToday}}" @tap="onTapSign">今日打卡</view>
+			<view class="x-i-signBtn x-i-signedBtn" wx:if="{{selfBarVisit.visitInToday}}">已打卡</view>
+			<view class="x-i-info">
+				<view class="x-i-name">{{bar.name}}</view>
+				<view class="x-i-distance">{{bar.distance}}km</view>
+			</view>
+		</view>
+	</view>
+</view>
+
+<view class="x-filter">
+	<view @tap.stop="onTapEnterCallups" wx:if="{{callup != null}}">
+		<image class="x-i-laba" src="https://vxiaocheng-jh.oss-cn-beijing.aliyuncs.com/mercury/group/bar_callup_laba.png"></image>
+		<image class="x-i-avatar" src="{{callup.user.avatar}}" mode="aspectFill"></image>
+		<text>{{callup.user.name}}：{{callup.time}} 发起全员召唤</text></text>
+	</view>
+	<image lazy-load="true" src="https://vxiaocheng-jh.oss-cn-beijing.aliyuncs.com/mercury/group/group_select.png" @tap.stop="onTapFilter"></image>
+</view>
+
+<view class="xui-visitors" wx:if="{{userVisits && userVisits.length > 0}}" >
+	<view 
+		class="xui-visitorWrap" 
+		wx:for="{{userVisits}}" 
+		wx:key="{{userVisit.id}}" 
+		wx:for-item="userVisit"
+		@tap="onTapUser({{userVisit}})"
+	>
+		<image lazy-load="true" mode="aspectFill" src="{{userVisit.user.avatar}}"></image>
+		<view class="xui-visitor-name">{{userVisit.user.name}}</view>
+		<view class="xui-visitor-visit-time">{{userVisit.visit_time}}</view>
+		<!-- <view class="xui-chat" @tap.stop="onTapChat({{userVisit.user.id}})" wx:if="{{userVisit.user.id !== selfId}}">私聊</view> -->
+	</view>
+</view>
+
+<!-- <view class="x-visitors">
+	<view 
+		class="x-i-visitorWrap" 
+		wx:for="{{userVisits}}" 
+		wx:key="{{userVisit.id}}" 
+		wx:for-item="userVisit"
+		@tap="onTapUser({{userVisit}})"
+	>
+		<view class="x-i-visitor">
+			<view class="x-i-avatar">
+				<image lazy-load="true" src="{{userVisit.user.avatar}}" mode="aspectFill" />
+			</view>
+			<view class="x-i-info">
+				<view class="x-i-name">
+					{{userVisit.user.name}}
+					<view class="x-i-visitTime">{{userVisit.visit_time}}</view>
+				</view>
+				<view class="x-i-chatBtn" @tap.stop="onTapChat({{userVisit.user.id}})" wx:if="{{userVisit.user.id !== selfId}}">私聊</view>
+			</view>
+		</view>
+	</view>
+</view> -->
+<bottomloader :isFinishLoad.sync="isFinishLoad"></bottomloader>
+
+<mp-widget></mp-widget>
+</view>
+
+
+
+</template>
+
+<script>
+import wepy from 'wepy'
+const app = getApp()
+import BarService from '../../services/bar_service'
+import MPWidget from '../../components/mp_widget'
+import MP from '../../services/mp_service'
+import BottomLoader from '../../components/bottom_loader'
+import LoadMoreService from '../../services/loadmore_service'
+import AccountService from '../../services/account_service'
+import UserService from '../../services/user_service'
+import GiftService from '../../services/gift_service'
+import _ from '../../lib/mptool'
+import StorageService from '../../services/storage_service'
+
+export default class BlogDetail extends wepy.page {
+	config = {
+		navigationBarTitleText: '社交圈',
+		enablePullDownRefresh: false
+	}
+
+	components = {
+		'mp-widget': MPWidget,
+		bottomloader: BottomLoader,
+	}
+
+	mixins = []
+
+	data = {
+		corpId: 0,
+		selfId: 0,
+		bar: null,
+		userVisits: [],
+		selfBarVisit: null,
+		userInfo: null,
+		isFinishLoad: false,
+		filterSex: 'all',
+		callup: null,
+		isiPhoneUser: false,
+	}
+
+	computed = {
+
+	}
+
+	methods = {
+		onTapEnterCallups() {
+			wx.navigateTo({
+				url: '/pages/group/bar_callups?corpId=' + this.corpId,
+			})
+		},
+
+		onTapSign: function() {
+			wx.showLoading({
+				title: '打卡...',
+				mask: true
+			})
+			BarService.visitBar(this.bar.id).then(isSuccess => {
+				wx.hideLoading();
+				if (isSuccess) {
+					wx.showToast({
+						title: '打卡成功',
+						icon: 'none',
+						duration: 2000
+					})
+
+					this.selfBarVisit = {
+						visitInToday: true
+					}
+					this.bar.visitor_count = this.bar.visitor_count + 1;
+					this.$apply();
+
+					this.loadNextVisitors(true)
+				}
+			})
+		},
+
+		onTapCall: function() {
+			wx.navigateTo({
+				url: `/pages/group/call?id=${this.corpId}`
+			})
+		},
+
+		onTapUser: function(userVisit) {
+			wx.navigateTo({
+				url: `/pages/paoypao/paoypao_friend?id=${userVisit.user.id}`
+			})
+		},
+
+		onTapFilter: function() {
+			let _this = this;
+			wx.showActionSheet({
+				itemList: ['全部', '男神', '女神'],
+				success: function(res) {
+					if(res.tapIndex==0){
+						_this.filterSex = 'all';
+					} else if (res.tapIndex == 1) {
+						_this.filterSex = 'male';
+					} else if (res.tapIndex == 2) {
+						_this.filterSex = 'female';
+					}
+
+					_this.loadNextVisitors(true);
+				},
+				fail: function(res) {
+				}
+			})
+		},
+
+		onTapChat: async function(id) {
+			if (this.userInfo.sex == "female") {
+				wx.navigateTo({
+					url: '/package/pages/chatroom/chatroom?touserid=' + id,
+				})
+				return;
+			}
+
+			if (this.selfBarVisit && this.selfBarVisit.visitInToday) {
+				wx.navigateTo({
+					url: '/package/pages/chatroom/chatroom?touserid=' + id,
+				})
+				return;
+			} 
+
+			let permission = await UserService.getUserPrivateChatPermission(id);
+			if (permission.private_chat_permission) {
+				wx.navigateTo({
+					url: '/package/pages/chatroom/chatroom?touserid=' + id,
+				})
+				return;
+			}
+
+			let accostInfo = await GiftService.hasAccostUser(id);
+			if (accostInfo.is_accost) {
+				wx.navigateTo({
+					url: '/package/pages/chatroom/chatroom?touserid=' + id,
+				})
+				return;
+			}
+			
+			wx.showToast({
+				title: '你还没打卡哦，打卡后敞开聊~',
+				icon: 'none',
+				duration: 2000
+			})
+		}
+	}
+
+	events = {
+		
+	}
+
+	loadUserInfo() {
+		UserService.getUserInfo().then(
+			data => {
+				this.userInfo = data;
+				this.$apply();
+				console.log(this.userInfo)
+			}
+		)
+	}
+
+	getBarCallups() {
+		BarService.getBarCallups(this.corpId).then(
+			callups => {
+				if (callups && callups.length > 0) {
+					this.callup = callups[0];
+					this.callup.user.name = this.callup.user.name.length > 9 ? this.callup.user.name.slice(0, 9).concat('...') : this.callup.user.name
+					this.callup.time = _.calculateTime(this.callup.created_at);
+					this.$apply();
+					console.log(this.callup);
+				}
+			}
+		)
+	}
+
+	onLoad (query) {
+		this.bar = JSON.parse(query.bar);
+		this.selfId = AccountService.getSelfId();
+		this.isiPhoneUser = StorageService.get('isiPhoneUser');
+		this.loadUserInfo();
+		this.loadBar();
+		this.loadNextVisitors(this.bar.id);
+
+		UserService.getBarVisit(this.corpId).then(userVisit => {
+			if (userVisit == null) {
+				this.selfBarVisit = {
+					visitInToday: false
+				}
+			} else {
+				let visitDate = userVisit.visit_time.split(' ')[0];
+				let today = _.getFormatTime().split(' ')[0];
+				if (visitDate == today) {
+					this.selfBarVisit = {
+						visitInToday: true
+					}
+				} else {
+					this.selfBarVisit = {
+						visitInToday: false
+					}
+				}
+			}
+			this.$apply();
+			console.warn(this.selfBarVisit);
+		})
+	}
+
+	onShow() {
+		MP.bind(this);
+		this.getBarCallups();
+	}
+
+	loadBar () {
+		BarService.getBar(this.corpId).then(bar => {
+			this.bar = bar;
+			this.$apply();
+		})
+	}
+
+	loadNextVisitors (index) {
+		BarService.getUserVisitsForCorp(index).then(userVisits => {
+			this.isFinishLoad = true
+			// if (userVisits.length === 0) {
+			// 	if (reset) {
+			// 		this.visitors = [];
+			// 	}
+			// } else {
+			// 	userVisits.forEach(userVisit => {
+			// 		userVisit.visit_time = _.calculateTime(userVisit.visit_time)
+			// 	})
+			// 	if (reset) {
+			// 		this.userVisits = [...userVisits];
+			// 	} else {
+			// 		this.userVisits = [...this.userVisits, ...userVisits];
+			// 	}
+			// 	console.log(this.userVisits)
+			// }
+			this.userVisits = [...this.userVisits, ...userVisits]
+			this.$apply();
+		})
+		
+	}
+
+	onShareAppMessage() {
+		let base = '/pages/login/login?redirect=';
+		let target = encodeURIComponent(`/pages/group/bar?id=${this.corpId}`);
+		console.log(base + target)
+
+		let data = {
+			path: base + target,
+			title: '一支穿云箭，各路酒友来相见！'
+		};
+		
+		return data;
+	}
+
+	onReachBottom () {
+		// this.loadNextVisitors();
+	}
+}
+</script>

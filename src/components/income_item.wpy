@@ -1,0 +1,77 @@
+<style lang="less">
+.x-income-item {
+	background-color: #FFF;
+	padding: 20rpx;
+	display: flex;
+    flex-direction: row;
+    .x-income-title{
+        display: flex;
+        justify-content: space-between;
+        flex-direction: column;
+        .x-income-apptitle{
+            font-size: 15px;
+            line-height: 30px;
+        }
+        .x-income-time{
+            font-size: 15px;
+            line-height: 30px;
+            color: rgb(124, 124, 124);
+        }
+    }
+    .x-income-money{
+        font-size: 20px;
+        line-height: 60px;
+        text-align:right;
+        width: 50%;
+        align-items: center;
+        color: rgb(75,75,75);
+    }
+}
+.x-income-line{
+    background-color: #f5f5f5;
+    height: 2px;
+    margin-left: 12px;
+    margin-right: 12px;
+}
+</style>
+
+<template>
+<view class="x-income-item">
+    <view class="x-income-title">
+        <view class="x-income-apptitle">{{income.app}}提现</view>
+        <view class="x-income-time">{{income.created_at}}</view>
+    </view>
+    <view class="x-income-money">+ {{income.money}}</view>
+</view>
+<view class="x-income-line"></view>
+</template>
+
+<script>
+import wepy from 'wepy'
+
+export default class IncomeItem extends wepy.component {
+	props = {
+		income: {
+			type: Object,
+			default: {}
+		}
+	}
+
+	data = {
+	}
+
+	events = {
+
+	}
+
+	watch = {
+
+	}
+
+	methods = {
+	}
+
+	onLoad () {
+	}
+}
+</script>

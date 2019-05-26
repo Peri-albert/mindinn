@@ -1,0 +1,165 @@
+<style lang="less">
+.container {
+	background: white;
+
+	.xui-visitors {
+		width: 100%;
+		margin-top: 0rpx;
+		display: flex;
+		flex-wrap: wrap;
+
+		.xui-visitor {
+			align-items: center;
+			display: flex;
+			flex-direction: column;
+			justify-content: center;
+			margin: 20rpx 0;
+			position: relative;
+			width: 25%;
+
+			.xui-visitor-avatar {
+				display: block;
+				width: 80rpx;
+				height: 80rpx;
+				border-radius: 50%;
+				margin: 0 auto 5rpx;
+			}
+
+			.xui-visitor-sex {
+				position: absolute;
+				left: 75rpx;
+				top: 66rpx;
+				width: 37rpx;
+				height: 19rpx;
+			}
+
+			.xui-visitor-name {
+				display: block;
+				text-align: center;
+				font-size: 25rpx;
+				margin: 10rpx 0;
+				white-space: nowrap;
+				overflow: hidden;
+				text-overflow: ellipsis;
+				width: 100%;
+			}
+
+			.xui-visitor-time {
+				display: block;
+				text-align: center;
+				font-size: 18rpx;
+				color: gray;
+			}
+		}
+	}
+
+	
+}
+</style>
+	
+<template>
+	<view class="container">
+		<view class="xui-visitors">
+			<repeat for="{{visitors}}" key="{{visitor.id}}" index="index" item="visitor"> 
+			<view class="xui-visitor" @tap="onTapEnterUser({{visitor}})">
+					<image class="xui-visitor-avatar" src="{{visitor.visitor.avatar}}" mode="scaleToFill"></image>
+					<image class="xui-visitor-sex" src="{{visitor.visitor.sex == 'female' ? '../../images/girl.jpg': '../../images/boy.jpg'}}">
+					<text class="xui-visitor-name">{{visitor.visitor.name}}</text>
+					<text class="xui-visitor-time">{{visitor.visit_time}}</text>
+				</view>
+			</repeat>
+		</view>  
+		<bottomloader :isFinishLoad.sync="isFinishLoad"></bottomloader>
+	</view>
+</template>
+
+<script>
+	import wepy from 'wepy'
+	import Resource from '../../lib/resource'
+	import _ from '../../lib/mptool'
+	import UserService from '../../services/user_service'
+	import LoadMoreService from '../../services/loadmore_service'
+	import BottomLoader from '../../components/bottom_loader'
+
+	export default class Visitors extends wepy.page {
+	config = {
+		navigationBarTitleText: "访客",
+		enablePullDownRefresh: true
+	}
+
+	components = {
+		bottomloader: BottomLoader,
+	}
+
+	mixins = []
+
+	data = {
+		visitors: [],
+		isFinishLoad: false,
+		navigationBarTitleText: "访客",
+	}
+
+	computed = {
+
+	}
+
+	methods = {
+		onTapEnterUser(visitor) {
+			wx.navigateTo({
+				url: '/pages/paoypao/paoypao_friend?id=' + visitor.visitor.id,
+			})
+		}
+	}
+
+	events = {
+
+	}
+
+	loadVisitors(reset=false) {
+		UserService.getVisitors(reset).then(
+			visitors => {
+				this.finishRefresh();
+				this.isFinishLoad = LoadMoreService.isFinishLoad();
+				if (visitors.length == 0) {
+					if (reset) {
+						this.visitors = [];
+					}
+				} else {
+					for (let i=0; i<visitors.length; i++) {
+						visitors[i].visit_time = _.calculateTime(visitors[i].last_visited_at)
+					}
+
+					if (reset) {
+						this.visitors = [...visitors];
+					} else {
+						this.visitors = [...this.visitors, ...visitors];
+					}
+				}
+
+				this.$apply();
+				console.log(this.visitors)
+			},
+			res => {
+				console.log(res)
+			}
+		)
+	}
+
+	onLoad () {
+		this.loadVisitors(true);
+	}
+
+	onReachBottom () {
+		this.loadVisitors();
+	}
+
+	onPullDownRefresh() {
+		this.loadVisitors(true);
+	}
+
+	finishRefresh() {
+		wx.stopPullDownRefresh();
+		wx.hideLoading();
+	}
+}
+</script>

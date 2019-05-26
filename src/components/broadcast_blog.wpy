@@ -1,0 +1,427 @@
+<style lang="less">
+	.xui-broadcast-item {
+		width: 100%;
+
+		.x-i-card {
+			width: 100%;
+			position: relative;
+			.x-i-background {
+				width: 100%;
+				height: 100%;
+				position: absolute;
+				top: 0;
+				left: 0;
+				filter: blur(4rpx) brightness(60%);
+				z-index: -1;
+			}
+			.x-i-info {
+				width: 100%;
+				padding: 35rpx 41rpx 43rpx 32rpx;
+				display: flex;
+				image {
+					width: 116rpx;
+					height: 116rpx;
+					border-radius: 50%;
+					border: 4rpx solid #fff;
+					margin-right: 13rpx;
+				}
+				.x-i-user {
+					width: 60%;
+					padding-top: 10rpx;
+					.x-i-name {
+						display: inline-block;
+						max-width: 84%;
+						font-size: 34rpx;
+						color: #fff;
+						font-family: "微软雅黑";
+						overflow: hidden;
+						text-overflow:ellipsis;
+						white-space: nowrap;
+						vertical-align: middle;
+					}
+					image {
+						display: inline-block;
+						width: 30rpx;
+						height: 30rpx;
+						border: none;
+						vertical-align: middle;
+						margin-left: 13rpx;
+					}
+					.x-i-bp {
+						font-size: 24rpx;
+						font-family: "微软雅黑";
+						color: #ECBF23;
+						margin-top: 15rpx;
+					}
+				}
+				.x-i-count {
+					width: 80rpx;
+					font-family: "微软雅黑";
+					color: #ECBF23;
+					font-weight: 700;
+					padding-top: 4rpx;
+					text-align: right;
+					.x-i-mul {
+						font-size: 37rpx;
+					}
+					.x-i-num {
+						font-size: 46rpx;
+					}
+				}
+			}
+			.x-i-content {
+				color: #F3F3F3;
+				font-size: 30rpx;
+				font-family: "微软雅黑";
+				width: 80%;
+				margin: 0 auto;
+				padding-bottom: 66rpx;
+			}
+		}
+
+		.contribute-comments {
+			box-sizing: border-box;
+			margin-bottom: 4rpx;
+			padding: 0 26rpx;
+
+			.contribute-comment {
+				color: #7e7e7e;
+				font-size: 26rpx;
+				margin-bottom: 22rpx;
+
+				text {
+					color: #000;
+				}
+
+				image {
+					display: inline-block;
+					height: 40rpx;
+					vertical-align: text-bottom;
+					width: 40rpx;
+				}
+			}
+		}
+
+		.contribute-input {
+			align-items: center;
+			box-sizing: border-box;
+			display: flex;
+			height: 80rpx;
+			overflow: hidden;
+			padding: 0 20rpx 26rpx;
+
+			input {
+				background-color: #f3f3f3;
+				border-radius: 6rpx;
+				box-sizing: border-box;
+				display: block;
+				flex: 1;
+				font-size: 24rpx;
+				height: 54rpx;
+				line-height: 54rpx;
+				padding: 0 22rpx;
+			}
+
+			image {
+				height: 54rpx;
+				margin-left: 10rpx;
+				width: 54rpx;
+			}
+		}
+
+		.xui-broadcast-action {
+			width: 100%;
+			height: 25px;
+			position: relative;
+			margin: 5rpx 5rpx 0;
+			// border-bottom: 1px solid rgb(235, 235, 235);
+
+			.xui-i-action {
+			position: absolute;
+			left: 15px;
+			top: 5px;
+			font-size: 28rpx;
+			display: flex;
+			align-items: center;
+			color: #bbb;
+			.icon {
+				font-size: 34rpx;
+				margin-right: 2px;
+				&.liked {
+					color: #ff4181;
+				}
+			}
+			}
+
+			.xui-action-time {
+				position: absolute;
+				top: 4px;
+				font-size: 24rpx;
+				color: #949494;
+				right: 16px;
+			}
+		}
+
+		.xui-broadcast-comment {
+			width: 100%;
+			padding: 0 0 10px;
+			position: relative;
+
+			.xui-i-image {
+				position: absolute;
+				top: 6px;
+				left: 10px;
+				width: 18px;
+				height: 18px;
+			}
+
+			view {
+				display: block;
+				padding-left: 37px;
+			}
+
+			.xui-comment-name {
+				font-size: 30rpx;
+			}
+
+			.xui-comment-content {
+				color: gray;
+				font-size: 24rpx;
+			}
+
+			.xui-i-more {
+				text-align: center;
+				font-size: 10px;
+			}
+		}
+	}
+</style>
+
+<template>
+	<view class="xui-broadcast-item" @tap="onTapEnterBlogDetail({{blog}})">
+		<view class="x-i-card">
+			<image lazy-load="true" src="{{blog.author.avatar}}" class="x-i-background" mode="aspectFill"></image>
+			<view class="x-i-info">
+				<image lazy-load="true" class="x-i-avatar" src="{{blog.author.avatar}}" mode="aspectFill" @tap.stop="onTapEnterUser({{blog.author.id}})"></image>
+				<view class="x-i-user">
+					<view class="x-i-name">{{blog.author.name}}</view>
+					<image lazy-load="true" src="{{blog.author.sex == 'male' ? '../../images/male.png' : '../../images/female.png'}}"/>
+					<view class="x-i-bp">全网霸屏</view>
+				</view>
+				<view class="x-i-count">
+					<text class="x-i-mul">×</text>
+					<text class="x-i-num">{{blog.count}}</text>
+				</view>
+			</view>
+			<view class="x-i-content">{{blog.content}}</view>
+		</view>
+		<view class="xui-broadcast-action">
+			<!-- <view class="xui-i-action">
+				<view @tap.stop="onTapLike">
+					<text class="icon iconfont icon-favorite {{ blog.is_liked_by_current_user ? 'liked' : ''}}"></text>
+					<text style="margin-right: 10px;">{{blog.like_count}}</text>
+				</view>
+				<view @tap.stop="onTapComment({{blog}})" wx:if="{{blog.is_allow_comment}}">
+					<image lazy-load="true" mode="scaleToFill" src="../images/comment.png" style="width:16px;height:16px;"></image>
+					<text>{{blog.comment_count}}</text>
+				</view>
+				<view @tap.stop="onTapGift({{blog}})" style="margin-left:20rpx">
+					<text class="icon iconfont icon-picture-add"></text>
+					<text style="margin-right: 10px;">礼物</text>
+				</view>
+			</view> -->
+			<text class="xui-action-time">{{blog.created_at}}</text>
+		</view>
+		<view class="contribute-comments">
+			<block wx:for="{{blog.comments}}" wx:key="id">
+				<view class="contribute-comment"><text>{{item.author.name}}：</text>{{item.content[0].type == "txt" ? item.content[0].data : ''}}
+					<image lazy-load="true" src="{{'https://resource.vxiaocheng.com/mercury/faces/' + item.content[0].data}}" wx:if="{{item.content[0].type == 'emoji'}}"></image>
+				</view>
+			</block>
+		</view>
+		<view class="contribute-input" wx:if="{{blog.is_allow_comment}}">
+			<input placeholder="写评论" placeholder-style="color: #adadad;font-size: 24rpx;" value="{{blog.inputValue}}" data-blogId="{{blog.id}}" bindinput="onContributeInputChange" />
+			<image src="https://vxiaocheng-jh.oss-cn-beijing.aliyuncs.com/mercury/new_blog/send_btn.png" @tap.stop="sendBroadcastComment({{blog.id}})"></image>
+		</view>
+		<block>
+			<!-- <view class="xui-broadcast-comment" wx:if="{{blog.comments.length > 0}}">
+				<image lazy-load="true" class="xui-i-image" src="../images/comment_icon2.png" />
+				<repeat for="{{blog.comments}}" key="index" item="comment" index="index" wx:if="{{blog.comments.length > 0}}">
+					<view wx:if="{{index < 2}}">
+						<text class="xui-comment-name">{{comment.author.name}}<text wx:if="{{comment.at_user != undefined}}"> 回复 {{comment.at_user.name}}</text>: </text>
+						<text class="xui-comment-content">{{comment.content}}</text>
+						<block wx:for="{{comment.content}}">
+							<image lazy-load="true" wx:if="{{item.type === 'emoji'}}" class="avatar" src="{{'https://resource.vxiaocheng.com/mercury/faces/' + item.data }}"
+								style="width: 20px;height: 20px;vertical-align:middle;"/>
+							<text wx:if="{{item.type === 'txt'}}" style="font-size:28rpx;">{{ item.data }}</text>
+						</block>
+					</view>
+				</repeat>
+				<view class="xui-i-more"  wx:if="{{blog.comments.length > 2}}">●●●</view>
+			</view> -->
+		</block>
+		<!-- <block wx:else>
+			<view class="xui-broadcast-action">
+				<view class="xui-i-action">
+					<view @tap.stop="onTapLike">
+						<text class="icon iconfont icon-favorite {{ blog.is_liked_by_current_user ? 'liked' : ''}}"></text>
+						<text style="margin-right: 10px;">{{blog.like_count}}</text>
+					</view>
+					<view @tap.stop="onTapComment({{blog}})" wx:if="{{blog.is_allow_comment}}">
+						<image lazy-load="true" mode="scaleToFill" src="../images/comment.png" style="width:16px;height:16px;"></image>
+						<text>{{blog.comment_count}}</text>
+					</view>
+					<view @tap.stop="onTapGift({{blog}})" style="margin-left:20rpx">
+						<text class="icon iconfont icon-picture-add"></text>
+						<text style="margin-right: 10px;">礼物</text>
+					</view>
+				</view>
+				<text class="xui-action-time">{{blog.created_at}}</text>
+			</view>
+		</block> -->
+	</view>
+</template>
+
+<script>
+	import wepy from 'wepy'
+	import BlogService from '../services/blog_service'
+	import UserService from '../services/user_service'
+	import AccountService from '../services/account_service'
+	import BlogCommentService from '../services/blog_comment_service'
+	import LoadMoreService from '../services/loadmore_service'
+
+	export default class BroadcastBlog extends wepy.component {
+	props = {
+		blog: {
+			type: Object,
+			twoWay: true,
+			default: null
+		},
+		type: {
+			type: String,
+			default: "show",
+		},
+		enableMP: {
+			type: Boolean,
+			default: false,
+		}
+	}
+
+	computed = {
+	}
+
+	data = {
+		selfId: 0,
+	}
+
+	events = {
+		'change-blog-comment': (blogId, delta, comment) => {
+			if (blogId == this.data.blog.id) {
+				this.data.blog.comment_count = this.data.blog.comment_count + delta;
+				this.data.blog.comments = [comment, ...this.data.blog.comments]
+				this.$apply();
+			}
+		}
+	}
+
+	watch = {
+	}
+
+	methods = {
+		onTapEnterUser(id) {
+			wx.navigateTo({
+				url: '/pages/paoypao/paoypao_friend?id=' + id,
+			})
+		},
+		onTapEnterBlogDetail(blog) {
+			return;
+			// wx.navigateTo({
+			// 	url: '/pages/blog_detail/broadcast_blog_detail?id=' + blog.id
+			// })
+		},
+
+		onTapDelete(blog) {
+			this.$emit('show-dialog', blog);
+		},
+
+		async onTapLike () {
+			//更新服务器
+			if (this.blog.is_liked_by_current_user) {
+				let isSucess = await UserService.unlikeBlog(this.blog.id);
+				if (isSucess) {
+					this.blog.like_count -= 1;
+					this.blog.is_liked_by_current_user = !this.blog.is_liked_by_current_user;
+					this.$emit('update-blog');
+				} else {
+
+				}
+			} else {
+				let isSucess = await UserService.likeBlog(this.blog.id);
+				if (isSucess) {
+					this.blog.like_count += 1;
+					this.blog.is_liked_by_current_user = !this.blog.is_liked_by_current_user;
+					this.$emit('update-blog');
+				} else {
+
+				}
+			}
+		},
+
+		onTapComment (blog) {
+			if (blog.is_allow_comment == true) {
+				this.$emit('comment-blog', blog);
+			} else {
+				wx.showToast({
+					title: '该霸屏不允许评论',
+					icon: 'none',
+				})
+				return;
+			}
+		},
+
+		onTapGift (blog) {
+			this.$emit('tap-gift', blog);
+		},
+
+		onContributeInputChange(e) {
+			if (e.detail.value.trim()) {
+				this.$emit('blog-input-change', e.currentTarget.dataset.blogid, e.detail.value.trim())
+			}
+		},
+
+		sendBroadcastComment(blogId) {
+			this.$emit('send-broadcast-comment', blogId)
+		}
+	}
+
+	loadNextBlogComments (reset=false) {
+		if (reset) {
+			BlogCommentService.reset();
+		}
+
+		let comments = null;
+
+		comments = BlogCommentService.getComments(this.blog.id);
+		comments.then(data => {
+			this.isFinishLoad = LoadMoreService.isFinishLoad();
+			if (data.length === 0) {
+				if (reset) {
+					this.comments = [];
+				}
+			} else {
+				if (reset) {
+					this.comments = [...data];
+				} else {
+					this.comments = [...this.comments, ...data];
+				}
+			}
+
+			this.$apply();
+		})
+	}
+
+	onLoad () {
+		this.selfId = AccountService.getSelfId();
+	}
+}
+</script>

@@ -1,0 +1,348 @@
+<style lang="less">
+page {
+	height: 100vh;
+	background: #000;
+	overflow-x: hidden;
+
+	image {
+		display: block;
+	}
+	.index-container {
+		.top {
+			background-color: #fff;
+			height: 49vh;
+			position: relative;
+			width: 100vw;
+
+			.pic {
+				bottom: 0;
+				height: 47.07419vw;
+				left: 0;
+				position: absolute;
+				width: 100%;
+			}
+
+			.pass {
+				font-size: 24rpx;
+				opacity: .4;
+				position: absolute;
+				right: 10vw;
+				top: 2vh;
+			}
+
+			.welcome {
+				font-size: 55rpx;
+				left: 0;
+				position: absolute;
+				right: 0;
+				text-align: center;
+				top: 13vh;
+			}
+		}
+
+		.bottom {
+			background-color: #ffe411;
+			box-sizing: border-box;
+			height: 51vh;
+			padding-top: 3vh;
+
+			.title {
+				margin-bottom: 5vh;
+				text-align: center;
+			}
+
+			.sex-btns {
+				display: flex;
+				justify-content: center;
+
+				.sex-btn {
+					align-items: center;
+					background-color: #fff;
+					border-radius: 110rpx;
+					box-sizing: border-box;
+					box-shadow: 0 6rpx 12rpx #aaa;
+					display: flex;
+					height: 108rpx;
+					justify-content: center;
+					width: 269rpx;
+
+					image {
+						height: 33rpx;
+						margin-right: 10rpx;
+						width: 33rpx;
+					}
+				}
+
+				.sex-btn:first-child {
+					margin-right: 7vw;
+				}
+			}
+		}
+	}
+	
+}
+</style>
+
+<template>
+	<view class="index-container">
+		<view class="top">
+			<image class="pic" src="/images/page1_pic.png"></image>
+			<view class="pass" @tap.stop="tapPass">跳过 ></view>
+			<view class="welcome">欢迎来到享趣社区！</view>
+		</view>
+		<view class="bottom">
+			<view class="title">请选择你的性别</view>
+			<view class="sex-btns">
+				<view class="sex-btn" @tap.stop="tapChoseSex('male')">
+					<image src="/images/male.png"></image>
+					<view>男生</view>	
+				</view>
+				<view class="sex-btn" @tap.stop="tapChoseSex('female')">
+					<image src="/images/female.png"></image>
+					<view>女生</view>	
+				</view>
+			</view>
+		</view>
+	</view>
+	<auth-modal :appid.sync="appid" wx:if="{{showAuthModel}}"></auth-modal>
+</template>
+
+<script>
+import wepy from 'wepy';
+const app = getApp();
+import LoginService from '../../lib/login_service'
+import AccountService from '../../services/account_service'
+import IMoneyService from '../../services/imoney_service'
+import Session from '../../lib/session'
+import AuthModal from '../../components/auth_modal'
+import StorageService from '../../services/storage_service'
+import BlogService from '../../services/blog_service'
+import UserService from '../../services/user_service'
+import _ from '../../lib/mptool'
+import MP from '../../services/mp_service'
+
+export default class Login extends wepy.page {
+	config = {
+		'navigationBarTitleText': '欢迎加入我们'
+	}
+	components = {
+		'auth-modal': AuthModal,
+	}
+
+	data = {
+		showAuthModel: false,
+
+		redirectPath: null,
+		redirectTabPath: null,
+		source_type: '',
+		source: '',
+		isProfileInitialized: false
+	}
+
+	computed = {
+		appid: function() {
+			return this.$parent.globalData.app_id;
+		}
+	}
+
+	methods = {
+		tapPass() {
+			console.log('跳过')
+			wx.navigateTo({
+				url: `set_birthday?sex=unknow`
+			})
+		  },
+		  tapChoseSex(sex) {
+			  if (sex == 'male') {
+				  console.log('选择男生')
+			  }else {
+				  console.log('选择女生')
+			  }
+			  wx.navigateTo({
+				url: `set_birthday?sex=${sex}`
+			  })
+		  }
+	}
+
+	events = {
+		'bind-wxuser': function() {
+			console.log('bind-wxuser');
+			this.showAuthModel = false;
+			wx.showLoading({
+				title: '授权登录...',
+				mask: true
+			});
+		},
+
+		'finish-bind-wxuser': function(shouldCompleteProfile) {
+			console.log('finish-bind-wxuser');
+			wx.hideLoading();
+			// this.checkUserProfile(shouldCompleteProfile)
+		}
+	}
+
+	onLoad(options){
+		if (options.q !== undefined) {
+			let scan_url = decodeURIComponent(options.q);
+			if(scan_url.indexOf('todatingpage')>=0){
+				// 小程序
+				let datas = scan_url.split("?");
+				let datingParams = datas[datas.length-1];
+				this.redirectPath = '/package/pages/chatroom/groupchatroom?' + datingParams
+			}
+		} else if (options.scene) {
+			let scene = decodeURIComponent(options.scene)
+			if (scene.indexOf("/") !== -1) {
+				if (scene == "/pages/challenge/challenge") {
+					this.redirectTabPath = scene;
+				} else {
+					this.redirectPath = scene;
+					if (scene == '/pages/account/account') {
+						app.aldstat.sendEvent("H5扫码进入账户页面", {
+							"时间": _.getAldTime()
+						})
+					}
+				}
+			} else {
+				app.aldstat.sendEvent("登录泡泡小程序", {
+					"渠道": scene,
+					"时间": _.getAldTime()
+				})
+			}
+		} else{
+			this.source_type = "app"
+		}
+
+		if (options.redirect) {
+			this.redirectPath =  decodeURIComponent(options.redirect);
+		}
+
+		if (options.redirectToTab) {
+			this.redirectTabPath = decodeURIComponent(options.redirectToTab);
+		}
+
+		// 是否需要强制更新
+		AccountService.getForceUpdateVersion().then(
+			data => {
+				if (this.$parent.globalData.version < data.version) {
+					StorageService.set("forceUpdate", true);
+				}
+			}
+		)
+	}
+
+	onShow() {
+		MP.bind(this);
+		wx.showLoading({
+			title: '登录中',
+			mask: true
+		});
+		if (wx.getStorageSync('logined') === true) {
+			wx.switchTab({
+				url: `/pages/blogs/new_blogs`
+			})
+		}
+		let self = this;
+		let frompage = StorageService.getAndClear('frompage');
+		if(!this.redirectPath && frompage == 'performances'){
+			wx.switchTab({
+				url: '/pages/blogs/new_blogs',
+			});
+			return;
+		}
+		AccountService.checkAccount({
+			success: async () => {
+				try {
+					wx.hideLoading();
+					this.redirectPage();
+				} catch(e) {
+					wx.hideLoading();
+				}
+			},
+			fail: () => {
+				console.log("重新登录");
+				wx.hideLoading();
+				if (wx.getStorageSync('logined') === true) return;
+				this.showAuthModel = true;
+				this.$apply();
+				// AccountService.doSimpleLogin(this.$parent.globalData.app_id, {
+				// 	source_type: self.source_type,
+				// 	source: self.source,
+				// 	success: (shouldGetUserInfo) => {
+				// 		console.log('success shouldGetUserInfo', shouldGetUserInfo);
+				// 		wx.hideLoading();
+				// 		this.showAuthModel = true;
+				// 		this.$apply();
+				// 	},
+				// 	fail: () => {
+				// 		console.log('fail');
+				// 		wx.hideLoading();
+				// 		wx.showToast({
+				// 			title: '登录失败',
+				// 			icon: 'none',
+				// 			duration: 1500
+				// 		});
+				// 	}
+				// })
+			}
+		})
+	}
+
+	async checkUserProfile(shouldCompleteProfile) {
+		console.warn("now check user profile")
+		let isProfileInitialized = await UserService.isProfileInitialized();
+		if (shouldCompleteProfile && !isProfileInitialized) {
+			console.warn("go to perfetching_data page")
+			wx.navigateTo({
+				url: '/pages/profile/perfecting_data?sex=female'
+			})
+		} else {
+			console.warn("goto normal page")
+			this.redirectPage();
+		}
+	}
+
+	async redirectPage() {
+		let id = decodeURIComponent(this.redirectPath).split(/[=&]/)[2];
+		let redirectPath = this.redirectPath;
+		let redirectTabPath = this.redirectTabPath;
+		this.redirectPath = null;
+		this.redirectTabPath = null;
+
+		let selfId = AccountService.getSelfId();
+		UserService.dailyLogin(selfId).then(
+			data => {
+				if (data.today_first_login) {
+					Session.setKey("paopao_process_count", 0)
+					Session.setKey("paoypao__ActionOver", false)
+					Session.setKey("update_location", true);
+				}
+			}
+		);
+
+		wx.getSystemInfo({
+			success(res) {
+				if (res.brand === 'iPhone' || res.model.indexOf('iPhone') != -1) {
+					StorageService.set('isiPhoneUser', true);
+				} else {
+					StorageService.set('isiPhoneUser', false);
+				}
+			}
+		})
+
+		if(redirectPath){
+			wx.navigateTo({
+				url: redirectPath
+			});
+		} else if (redirectTabPath) {
+			wx.switchTab({
+				url: redirectTabPath
+			})
+		} else {
+			wx.switchTab({
+				url: '/pages/paoypao/paoypao',
+			});	
+		}
+	}
+}
+</script>

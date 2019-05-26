@@ -1,0 +1,1197 @@
+<style lang="less">
+
+@primaryColor: #621ac1;
+.x-profile-editor {
+	position: fixed;
+	left: 0;
+	top: 0;
+	transition: all .2s;
+	width: 100%;
+	height: 100%;
+	background-color: rgba(0, 0, 0, 0.2);
+	z-index: 99;
+	font-size: 32rpx;
+
+	form {
+		position: fixed;
+		// bottom: 46px;
+		left: 0;
+		width: 100%;
+		top: 200rpx;
+	}
+
+	.x-i-editor {
+		margin: 0rpx 50rpx 0rpx 50rpx;
+		background-color: #FFF;
+		border-radius: 24rpx;
+		box-shadow: 5rpx 5rpx 10rpx rgba(0,0,0, 0.3);
+		position: relative;
+		text-align: center;
+
+		.x-i-logo {
+			position: absolute;
+			left: 50%;
+			margin-left: -160rpx;
+			top: -100rpx;
+			width: 340rpx;
+			image {
+				width: 100%;
+			}
+		}
+
+		.x-i-title {
+			color: #010101;
+			margin-top: 32rpx;
+			font-size: 32rpx;
+			font-weight: 600;
+		}
+
+		.x-i-input-background {
+			margin-top: 70rpx;
+			.x-i-inputWrapper {
+				border: solid 1px rgb(190, 188, 188);
+				height: 70rpx;
+				border-radius: 40rpx;
+				position: relative;
+				margin-top: 0rpx;
+
+				.x-i-clear {
+					position: absolute;
+					width: 40rpx;
+					height: 40rpx;
+					top: 18rpx;
+					right: 18rpx;
+				}
+			}
+			.x-i-input {
+				background-color: #fff;
+				width: 60vw;
+				margin: 0px 70rpx 0rpx 40rpx;
+				height: 70rpx;
+				font-size: 30rpx;
+				text-align: left;
+			}
+			.x-i-help {
+				color: #a2a2a2;
+				font-size: 0.8em;
+				margin-left: 10rpx;
+				margin-top: 20rpx;
+				text-align: left;
+			}
+
+			.x-i-editor-content {
+				width: 90%;
+				margin: 0rpx 20rpx;
+			}
+		}
+
+		.x-i-btn {
+			background-color: #000;
+			color: #fff;
+			padding: 10rpx 100rpx;
+			border-radius: 40rpx;
+			//width: 214rpx;
+		}
+
+		.x-i-close {
+			width: 30rpx;
+			height: 30rpx;
+			position: absolute;
+			top: 20rpx;
+			right: 24rpx;
+		}
+	}
+
+	.x-i-editor-name, .x-i-editor-slogan {
+		display: flex !important;
+		flex-direction: column;
+		align-items: center;
+
+		.x-i-logo {
+			
+		}
+
+		.x-i-inputWrapper {
+			margin-top: 180rpx;
+		}
+
+		.x-i-btn {
+			margin-top: 50rpx;
+			margin-bottom: 30rpx;
+		}
+	}
+
+	.x-i-editor-phone {
+		display: flex !important;
+		flex-direction: column;
+		align-items: center;
+		position: relative;
+
+		.x-i-title {
+
+		}
+		.x-i-editor-content {
+			margin-top: 78rpx;
+			width: 100%;
+			text-align: center;
+			.x-i-inputWrapper {
+				margin-top: 0 !important;
+				width: 100%;
+				text-align: center;
+				position: relative;
+				.x-i-clear {
+					position: absolute;
+					width: 40rpx;
+					height: 40rpx;
+					top: 18rpx;
+					right: 96rpx;
+				}
+				.x-i-btn-wxPhone {
+					width: 476rpx;
+					color: #fff;
+					background-color: #1a1819;
+					font-size: 24rpx;
+					height: 78rpx;
+					line-height: 78rpx;
+					border-radius: 40rpx;
+					margin-bottom: 35rpx;
+					padding: 0;
+				}
+				.x-i-phone-verify {
+					width: 476rpx;
+					color: #000;
+					background-color: #e5e5e5;
+					font-size: 24rpx;
+					height: 78rpx;
+					line-height: 78rpx;
+					border-radius: 40rpx;
+					margin: 0 auto 45rpx;
+				}
+				.x-i-input-phone {
+					background-color: #fff;
+					border: 1px solid #999;
+					width: 415rpx !important;
+					height: 68rpx;
+					font-size: 26rpx;
+					text-align: left;
+					border-radius: 35rpx;
+					margin: 0 auto;
+					padding: 0 50rpx 0 30rpx;
+					margin-bottom: 17rpx;
+				}
+				.x-i-input-code {
+					display: inline-block;
+					width: 218rpx !important;
+					height: 68rpx;
+					background-color: #fff;
+					border: 1px solid #999;
+					border-radius: 35rpx;
+					margin-right: 20rpx;
+					font-size: 26rpx;
+					text-align: left;
+					margin-bottom: 46rpx;
+					padding-left: 30rpx;
+				}
+				.x-i-btn-verifyCode {
+					display: inline-block;
+					margin: 0;
+					padding: 0;
+					width: 228rpx !important;
+					height: 70rpx;
+					background-color: #d3d3d3;
+					color: #fff;
+					line-height: 68rpx;
+					border-radius: 35rpx;
+					margin-bottom: 46rpx;
+				}
+				.x-i-btn-right-phone {
+					background-color: #000;
+				}
+			}
+		}
+		.x-i-close {
+			width: 30rpx;
+			height: 30rpx;
+			position: absolute;
+			top: 20rpx;
+			right: 24rpx;
+		} 
+	}
+
+	.x-i-editor-sex {
+		display: flex !important;
+		flex-direction: column;
+		align-items: center;
+
+		.x-i-genders {
+			display: flex;
+			flex-direction: row;
+			margin: 200rpx 80rpx 10rpx 80rpx;
+			justify-content: space-between;
+		}
+		.x-i-gender {
+			width: 155rpx;
+			height: 190rpx;
+			border-radius: 50%;
+			border: dashed 1px #FFF;
+
+			image {
+				width: 135rpx;
+				height: 135rpx;
+				padding: 10rpx;
+			}
+
+			.x-i-female {
+				color: #dd2fc5;
+				font-size: 20rpx;
+				text-align: center;
+			}
+
+			.x-i-male {
+				color: #3942ce;
+				font-size: 20rpx;
+				text-align: center;
+			}
+		}
+		.x-i-gender-select {
+			border: dashed 1px @primaryColor !important;
+		}
+		.x-i-btn {
+			margin-top: 50rpx;
+			margin-bottom: 30rpx;
+		}
+	}
+
+	.x-i-editor-avatar {
+		display: flex !important;
+		flex-direction: column;
+		align-items: center;
+
+		.x-i-editor-content {
+			display: flex;
+			flex-direction: row;
+			margin-top: 150rpx;
+		}
+
+		.x-i-card {
+			width: 316rpx;
+			height: 406rpx;
+			border-radius: 20rpx;
+			padding-bottom: 15rpx;
+			overflow: hidden;
+			position: relative;
+			box-shadow: 0rpx 0rpx 5rpx rgba(0, 0, 0, 0.6);
+
+			.x-i-avatar {
+				height: 320rpx;
+
+				image {
+					//border-radius: 20rpx;
+					width: 100%;
+					height: 100%;
+				}
+			}
+
+			.x-i-name {
+				margin-top: 15rpx;
+				margin-left: 15rpx;
+				color: @primaryColor;
+				font-size: 0.8em;
+			}
+			.x-i-address {
+				margin-left: 15rpx;
+				color: @primaryColor;
+				font-size: 0.7em;
+			}
+			.x-i-loc {
+				position: absolute;
+				top: 335rpx;
+				right: 15rpx;
+				color: @primaryColor;
+				font-size: 0.7em;
+			}
+		}
+		.x-i-help {
+			text-align: center;
+			flex: 1;
+			margin-top: 140rpx;
+		}
+		.x-i-btn {
+			margin-top: 50rpx;
+			margin-bottom: 30rpx;
+		}
+	}
+
+	.x-i-editor-tag {
+		display: flex !important;
+		flex-direction: column;
+		align-items: center;
+
+		.x-i-types {
+			width: 100%;
+			display: flex;
+			flex-direction: row;
+			margin: 50rpx 0rpx 0rpx 0rpx;
+			justify-content: space-around;
+		}
+		.x-i-oneType {
+			text-align: center;
+			font-size: 24rpx;
+			color: #999999;
+			.x-i-typeName {
+				margin-top: 18rpx;
+			}
+			.x-i-text-select {
+				font-weight: 700;
+				color: #222;
+				margin-top: 10rpx;
+			}
+		}
+		.x-i-type {
+			width: 98rpx;
+			height: 98rpx;
+			border-radius: 50%;
+			border: 0;
+			position: relative;
+			view {
+				position: absolute;
+				top: 0;
+				left: 0;
+				width: 98rpx;
+				height: 98rpx;
+				border-radius: 50%;
+				background-color: rgba(0, 0, 0, 0.75);
+			}
+
+			image {
+				width: 90rpx;
+				height: 90rpx;
+				margin: 4rpx;
+			}
+		}
+		.x-i-type-select {
+			border: solid 4rpx #000;
+			image {
+				width: 98rpx;
+				height: 98rpx;
+				margin: 0;
+			}
+			view {
+				background-color: rgba(0, 0, 0, 0);
+			}
+		}
+		.x-i-tags {
+			width: 90%;
+			margin: 50rpx auto 46rpx;
+			display: flex;
+			flex-direction: row;
+			flex-wrap: wrap;
+			font-size: 22rpx;
+			color: #000;
+
+			.x-i-tag {
+				background-color: #fff;
+				height: 48rpx;
+				line-height: 48rpx;
+				padding: 0rpx 30rpx;
+				border-radius: 30rpx;
+				margin-right: 20rpx;
+				margin-bottom: 24rpx;
+				border: 2rpx solid #000;
+				font-weight: 600;
+			}
+			.x-i-tag-select {
+				background-color: #000;
+				color: #fff;
+			}
+		}
+		.x-i-myTags {
+			margin-top: 30rpx;
+			.x-i-tag-title {
+				font-size: 24rpx;
+				font-weight: 700;
+				line-height: 48rpx;
+				margin-right: 18rpx;
+			}
+		}
+		.x-i-btn {
+			margin-top: 0rpx;
+			margin-bottom: 30rpx;
+		}
+	}
+}
+</style>
+
+<template>
+<view class="x-profile-editor" wx:if="{{enable}}" @tap="onTapBg">
+	<form bindsubmit="onSubmit" @tap.stop="onTapForm">
+		<view class="x-i-editor x-i-editor-name" wx:if="{{type == 'name'}}">
+			<!-- <view class="x-i-logo">
+				<image src="http://resource.vxiaocheng.com/mercury/me/profile_editor_name.png" mode="widthFix" />
+			</view> -->
+			<view class="x-i-title">昵称</view>
+			<view class="x-i-input-background">
+				<view class="x-i-inputWrapper">
+					<input maxlength="{{maxlength}}" @input="onInputContent" class="x-i-input" name="content" value="{{content}}" type="text" placeholder="{{placeholder}}"/>
+					<image @tap="onTapClear" src="http://resource.vxiaocheng.com/mercury/profile_clear.png" class="x-i-clear"/>
+				</view>
+				<view class="x-i-help">
+					输入你的昵称(最多{{maxlength}}个字)
+				</view>
+			</view>
+			<button wx:if="{{type == 'init'}}" class="x-i-btn" type="primary" size="mini" form-type="submit">下一步</button>
+			<button wx:if="{{type == 'name'}}" class="x-i-btn" type="primary" size="mini" form-type="submit">确定</button>
+			<image @tap="onTapBg" src="http://resource.vxiaocheng.com/mercury/profile_close.png" class="x-i-close"/>
+		</view>
+
+		<view class="x-i-editor x-i-editor-phone" wx:if="{{type == 'phone'}}">
+			<!-- <view class="x-i-logo">
+				<image src="http://resource.vxiaocheng.com/mercury/me/pe_phone_logo.png" mode="widthFix" />
+			</view> -->
+			<view class="x-i-title">手机号</view>
+			<view class="x-i-editor-content">
+				<view class="x-i-inputWrapper" style="margin-top:200rpx;" wx:if="{{!showPhoneVerify}}">
+					<!-- <image src="http://resource.vxiaocheng.com/mercury/me/pe_phone_phone.png" class="x-i-prefix-icon"/> -->
+					<button 
+						class="x-i-btn-wxPhone" 
+						open-type="getPhoneNumber" 
+						bindgetphonenumber="getPhoneNumber"
+					>微信授权免验证</button>
+					<view class="x-i-phone-verify" @tap="onTapShowPhoneVerify">手机号验证登录</view>
+				</view>
+				<view class="x-i-inputWrapper" wx:if="{{showPhoneVerify && !isUserWxPhone}}">
+					<input 
+						@input="onInputPhone" 
+						class="x-i-input-phone" 
+						name="phone" 
+						value="{{phone}}" 
+						type="number" 
+						placeholder="请输入手机号"
+						style="width:250rpx;"
+					/>
+					<image @tap.stop="onTapClearPhone" src="http://resource.vxiaocheng.com/mercury/profile_clear.png" class="x-i-clear"/>
+					<input 
+						@input="onInputVerifyCode" 
+						class="x-i-input-code" 
+						name="verifycode" 
+						value="{{verifyCode}}" 
+						type="number" 
+						placeholder="请输入验证码"
+						style="width:250rpx;"
+					/>
+					<button class="x-i-btn-verifyCode {{inputRightPhone ? 'x-i-btn-right-phone': ''}}" wx:if="{{timer == 0}}" @tap="onTapFetchCheckCode">获取验证码</button>
+					<button class="x-i-btn-verifyCode {{inputRightPhone ? 'x-i-btn-right-phone': ''}}" wx:if="{{timer > 0}}">{{timer}}秒后重新获取</button>
+					<button class="x-i-btn" type="primary" size="mini" form-type="submit">确定</button>
+				</view>
+			</view>
+			<image @tap="onTapBg" src="http://resource.vxiaocheng.com/mercury/profile_close.png" class="x-i-close"/>
+		</view>
+
+		<view class="x-i-editor x-i-editor-slogan" wx:if="{{type == 'slogan'}}">
+			<!-- <view class="x-i-logo">
+				<image src="http://resource.vxiaocheng.com/mercury/me/profile_editor_slogan.png" mode="widthFix" />
+			</view> -->
+			<view class="x-i-title">个性签名</view>
+			<view class="x-i-input-background">
+				<view class="x-i-inputWrapper">
+					<input maxlength="{{maxlength}}" @input="onInputContent" class="x-i-input" name="content" value="{{content}}" type="text" placeholder="编辑你的个性签名(最多12字)"/>
+					<image @tap="onTapClear" src="http://resource.vxiaocheng.com/mercury/profile_clear.png" class="x-i-clear"/>
+				</view>
+				<!-- <view class="x-i-help">
+					输入你的个性签名(最多{{maxlength}}个字)
+				</view> -->
+			</view>
+			<image @tap="onTapBg" src="http://resource.vxiaocheng.com/mercury/profile_close.png" class="x-i-close"/>
+			<button class="x-i-btn" type="primary" size="mini" form-type="submit">确定</button>
+		</view>
+
+		<view class="x-i-editor x-i-editor-sex" wx:if="{{type == 'sex'}}">
+			<view class="x-i-logo">
+				<image src="http://resource.vxiaocheng.com/mercury/me/pe_sex_logo.png" mode="widthFix" />
+			</view>
+			<view class="x-i-title">性别</view>
+			<view class="x-i-editor-content">
+				<view class="x-i-genders">
+					<view class="x-i-gender {{gender == 'male' ? 'x-i-gender-select' : ''}}" @tap="onTapGender('male')">
+						<image src="http://resource.vxiaocheng.com/mercury/me/pe_male.png" mode="widthFix" />
+						<view class="x-i-male">男</view>
+					</view>
+					<view class="x-i-gender {{gender == 'female' ? 'x-i-gender-select' : ''}}" @tap="onTapGender('female')">
+						<image src="http://resource.vxiaocheng.com/mercury/me/pe_female.png" mode="widthFix" />
+						<view class="x-i-female">女</view>
+					</view>
+				</view>
+				<view class="x-i-help">
+					注意：请慎重选择性别，选定后将不可再编辑
+				</view>
+			</view>
+			<button wx:if="{{type == 'init'}}" class="x-i-btn" type="primary" size="mini" form-type="submit">下一步 {{stepInfo}}</button>
+			<button wx:if="{{type == 'sex'}}" class="x-i-btn" type="primary" size="mini" form-type="submit">确定</button>
+		</view>
+
+		<view class="x-i-editor x-i-editor-avatar" wx:if="{{type == 'avatar'}}">
+			<view class="x-i-logo">
+				<image src="http://resource.vxiaocheng.com/mercury/me/pe_avatar_logo.png" mode="widthFix" />
+			</view>
+			<view class="x-i-title">头像</view>
+			<view class="x-i-editor-content">
+				<view class="x-i-card" @tap="onTapSelectImage">
+					<view class="x-i-avatar">
+						<image src="{{avatar}}" mode="aspectFill" />
+					</view>
+					<view class="x-i-name">你的昵称</view>
+					<view class="x-i-address">你的地址</view>
+					<view class="x-i-loc">1.5 km</view>
+				</view>
+				<view class="x-i-help">
+					<view style="text-align:center;font-size:1.2em;">上传真实头像</view>
+					<view style="text-align:center;font-size:0.8em;">提升300%的配对几率</view>
+				</view>
+			</view>
+			<button class="x-i-btn" type="primary" size="mini" form-type="submit">下一步 {{stepInfo}}</button>
+		</view>
+
+		<view class="x-i-editor x-i-editor-tag" wx:if="{{type == 'tag'}}">
+			<!-- <view class="x-i-logo">
+				<image src="http://resource.vxiaocheng.com/mercury/me/pe_tag_logo.png" mode="widthFix" />
+			</view> -->
+			<view class="x-i-title">标签</view>
+			<view class="x-i-editor-content">
+				<view class="x-i-types">
+					<view class="x-i-oneType">
+						<view class="x-i-type {{tagType == 'looks' ? 'x-i-type-select' : ''}}" @tap="onTapTagType('looks')">
+							<view></view>
+							<image src="http://resource.vxiaocheng.com/mercury/paoypao/tag_face.png" mode="widthFix" />
+						</view>
+						<view class="x-i-typeName {{tagType == 'looks' ? 'x-i-text-select' : ''}}">颜值</view>
+					</view>
+					<view class="x-i-oneType">
+						<view class="x-i-type {{tagType == 'wine' ? 'x-i-type-select' : ''}}" @tap="onTapTagType('wine')">
+							<view></view>
+							<image src="http://resource.vxiaocheng.com/mercury/paoypao/tag_drink.png" mode="widthFix" />
+						</view>
+						<view class="x-i-typeName {{tagType == 'wine' ? 'x-i-text-select' : ''}}">喝酒</view>
+					</view>
+					<view class="x-i-oneType">
+						<view class="x-i-type {{tagType == 'dance' ? 'x-i-type-select' : ''}}" @tap="onTapTagType('dance')">
+							<view></view>
+							<image src="http://resource.vxiaocheng.com/mercury/paoypao/tag_dance.png" mode="widthFix" />
+						</view>
+						<view class="x-i-typeName {{tagType == 'dance' ? 'x-i-text-select' : ''}}">蹦迪</view>
+					</view>
+					<view class="x-i-oneType">
+						<view class="x-i-type {{tagType == 'music' ? 'x-i-type-select' : ''}}" @tap="onTapTagType('music')">
+							<view></view>
+							<image src="http://resource.vxiaocheng.com/mercury/paoypao/tag_music.png" mode="widthFix" />
+						</view>
+						<view class="x-i-typeName {{tagType == 'music' ? 'x-i-text-select' : ''}}">听歌</view>
+					</view>
+					<view class="x-i-oneType">
+						<view class="x-i-type {{tagType == 'friend' ? 'x-i-type-select' : ''}}" @tap="onTapTagType('friend')">
+							<view></view>
+							<image src="http://resource.vxiaocheng.com/mercury/paoypao/tag_friend.png" mode="widthFix" />
+						</view>
+						<view class="x-i-typeName {{tagType == 'friend' ? 'x-i-text-select' : ''}}">交友</view>
+					</view>
+				</view>
+				
+				<view class="x-i-tags">
+					<view 
+						wx:for="{{typedTags}}" 
+						wx:for-index="index" 
+						wx:for-item="tag"
+						class="x-i-tag {{tag.isSelect ? 'x-i-tag-select' : ''}}"
+						@tap="onTapTag({{tag}})"
+					>{{tag.name}}</view>
+				</view>
+				<view class="x-i-myTags">
+					<view class="x-i-tags">
+						<view class="x-i-tag-title">已选标签:</view>
+						<view 
+							wx:for="{{selectedTags}}" 
+							wx:for-index="index" 
+							wx:for-item="tag"
+							class="x-i-tag {{tag.isSelect ? 'x-i-tag-select' : ''}}"
+							@tap="onTapMyTag({{tag}})"
+						>{{tag.name}}</view>
+					</view>
+				</view>
+			</view>
+			<button wx:if="{{inInitMode}}" class="x-i-btn" type="primary" size="mini" form-type="submit">完成 {{stepInfo}}</button>
+			<button wx:else class="x-i-btn" type="primary" size="mini" form-type="submit">确定</button>
+		</view>
+	</form>
+</view>
+</template>
+
+<script>
+import wepy from 'wepy'
+import TagService from '../services/tag_service'
+import SMSService from '../services/sms_service'
+import Validator from '../lib/validator'
+import Resource from '../lib/resource'
+
+export default class ProfileEditor extends wepy.component {
+	props = {
+	}
+
+	data = {
+		mode: 'edit_single_item',
+		initStep: 0,
+		initStages: ['avatar', 'sex'],
+		initResult: {},
+		
+		type: '',
+		enable: false,
+		placeholder: '',
+		content: '',
+		maxlength: 0,
+		curSex: '',
+		gender: '',
+		avatar: '',
+		cachedAvatar: null,
+
+		phone: '',
+		timer: 0,
+		isUseWxPhone: false,
+		verifyCode: '',
+		help: '',
+
+		tagType: '',
+		minTagCount: 5,
+		tags: null,
+		userTags: null,
+
+		showPhoneVerify: false,
+		inputRightPhone: false
+	}
+
+	computed = {
+		typedTags: function() {
+			console.log(this.tagType);
+			console.log(this.tags);
+			if (this.tagType == '') {
+				return [];
+			}
+
+			let targetType = this.tagType;
+			if (targetType == 'looks') {
+				if (this.gender == 'male') {
+					targetType = 'male_looks';
+				} else {
+					targetType = 'female_looks';
+				}
+			}
+			console.log(targetType);
+			return this.tags.filter(tag => {
+				return tag.type == targetType;
+			})
+		},
+
+		selectedTags: function() {
+			if (this.tagType == '') {
+				return [];
+			}
+
+			return this.tags.filter(tag => {
+				return tag.isSelect;
+			})
+		},
+
+		lackingTagCount: function() {
+			if (this.tagType == '') {
+				return `(还差5个)`;
+			}
+
+			let selectedTags = this.tags.filter(tag => {
+				return tag.isSelect;
+			})
+			let count = selectedTags.length;
+			if (count >= this.minTagCount) {
+				return '';
+			} else {
+				return `(还差${this.minTagCount-count}个，每个类型一个)`
+			}
+		},
+
+		inInitMode: function() {
+			return this.mode == 'init';
+		},
+
+		stepInfo: function() {
+			return `(${this.initStep+1}/${this.initStages.length})`
+		}
+	}
+
+	events = {
+		'show-profile-editor': function(type, data) {
+			if (type == 'name' || type == 'slogan') {
+				this.mode = 'edit_single_item';
+				this.type = type;
+				this.placeholder = data.placeholder || '';
+				this.content = data.content || '';
+				this.maxlength = data.maxlength;
+			} else if (type == 'sex') {
+				this.mode = 'edit_single_item';
+				this.type = type;
+				this.curSex = data.curSex ? data.curSex : '';				
+			} else if (type == 'tag') {
+				this.mode = 'edit_single_item';
+				this.type = type;
+				this.gender = data.gender;
+				this.userTags = data.userTags;
+				if (!this.tags) {
+					this.loadTags();
+				}				
+			} else if (type == 'phone') {
+				this.mode = 'edit_single_item';
+				this.type = type;
+				this.phone = data.phone;
+				if (this.phone.length == 11) {
+					this.inputRightPhone = true;
+				}
+				this.verifyCode = '';
+				this.help = data.help;
+			} else if (type == 'avatar') {
+				this.mode = 'edit_single_item';
+				this.type = type;
+				this.avatar = data.avatar;
+				console.log(this.avatar);
+			} else if (type == 'init') {
+				this.mode = 'init';
+				this.initStep = 0;
+				if (this.cachedAvatar) {
+					this.avatar = this.cachedAvatar;
+				} else {
+					this.avatar = data.avatar;
+				}
+				this.type = this.initStages[this.initStep];
+				this.loadTags();
+			}
+			this.enable = true;
+			this.$apply();
+		},
+
+		'hide-profile-editor': function() {
+			this.placeholder = '';
+			this.page = undefined;
+			this.enable = false;
+			console.log('hide modal editor');
+			this.$apply();
+		}
+	}
+
+	watch = {
+
+	}
+
+	methods = {
+		onTapShowPhoneVerify() {
+			this.showPhoneVerify = true;
+		},
+
+		onTapBg: function() {
+			this.enable = false;
+			this.placeholder = '';
+			this.showPhoneVerify = false;
+			this.$apply();
+		},
+
+		getPhoneNumber: function(e) {
+			console.log(e);
+			let _this = this;
+			wx.showLoading({
+				title: '获取手机号...',
+				mask: true
+			})
+			wx.login({
+				success: res => {
+					console.log(res);
+					if (res.code) {
+						let code = res.code;
+						let appId = 'wx5b64659e0f2f5321';
+						// let appId = 'wx91bcb70a43f1d2e8'; //小泡泡
+						let data = {
+							app_id: appId,
+							code: code,
+							iv: e.detail.iv,
+							encrypted_data: e.detail.encryptedData
+						}
+						Resource.get({
+							service: 'skep',
+							resource: 'account.phone',
+							data: data
+						}).then(data => {
+							console.log(data);
+							_this.phone = data.phone_number;
+							_this.isUseWxPhone = true;
+							_this.$apply();
+							wx.hideLoading();
+						}, resp => {
+							wx.hideLoading();
+						})
+					}
+				},
+				fail: res => {
+					wx.hideLoading();
+					wx.showModal({
+						title: '提示',
+						content: '小程序无法获取微信登录信息，请关闭小程序后再次打开，重新登录',
+						showCancel: false,
+						success: function(res) {
+						}
+					})
+				}
+			});
+			/*
+			wx.checkSession({
+				success: function() {
+				},
+				fail: function() {
+					console.log('fail')
+				}
+			})
+			*/
+		},
+
+		onInputContent: function(e) {
+			this.content = e.detail.value;
+		},
+
+		onTapClear: function() {
+			this.content = '';
+			this.$apply();
+		},
+
+		onTapClearPhone: function() {
+			this.phone = "";
+			this.$apply();
+		},
+
+		onTapForm: function() {
+			console.log('tap form');
+		},
+
+		onTapGender: function(gender) {
+			this.gender = gender;
+			console.log(gender);
+		},
+
+		onTapTagType: function(tagType) {
+			this.tagType = tagType;
+		},
+
+		onTapWxPhone: function() {
+			console.log('wx phone')
+		},
+
+		onInputPhone: function(e) {
+			this.phone = e.detail.value.trim();
+			if (this.phone.length == 11) {
+				if (Validator.isPhoneNumber(this.phone)) {
+					this.inputRightPhone = true;
+				} else {
+					this.inputRightPhone = false;
+				}
+			} else {
+				this.inputRightPhone = false;
+			}
+		},
+
+		onInputVerifyCode: function(e) {
+			this.verifyCode = e.detail.value.trim();
+		},
+
+		onTapFetchCheckCode() {
+			if (!this.inputRightPhone) {
+				return;
+			}
+
+			if (!Validator.isPhoneNumber(this.phone)) {
+				console.warn("输入正确的手机号")
+				wx.showToast({
+					title: '请输入正确的手机号',
+					icon: 'none',
+					duration: 2000
+				})
+				return
+			}
+			
+			SMSService.getVerifyCode(this.phone).then(
+				code => {
+					console.log(code)
+					wx.showToast({
+						title: `验证码已发送`,
+						icon: 'none',
+						duration: 3000
+					});
+
+					this.timer = 5;
+					this.$apply();
+
+					this.intervalHandle = setInterval(() => {
+						this.timer -= 1;
+						if (this.timer == 0) {
+							clearInterval(this.intervalHandle);
+						}
+						this.$apply();
+					}, 1000);
+				},
+				res => {
+					let msg = ""
+
+					if (res.data.errCode == "sms:limit_control(minute)") {
+						msg = "验证码发送频繁，请一分钟后再试。"
+					} else if (res.data.errCode == "sms:limit_control(hour)") {
+						msg = "您的验证次数太多，请稍后再试。"
+					} else if (res.data.errCode == "sms:limit_control(day)") {
+						msg = "今日您的验证次数已达到上限，请明天再试。"
+					}
+
+					wx.showToast({
+						title: msg,
+						icon: 'none'
+					})
+				}
+			)
+		},
+
+		onTapTag: function(tag) {
+			let selectedTags = this.tags.filter(tag => {
+				return tag.isSelect;
+			})
+
+			let targetTag = this.tags.filter(oneTag => {
+				return oneTag.id == tag.id;
+			})[0]
+
+			selectedTags.forEach(selectedTag => {
+				if (selectedTag.type == targetTag.type) {
+					console.log('unselect ' + selectedTag.name);
+					selectedTag.isSelect = false;
+				}
+			})
+			
+			if (targetTag) {
+				targetTag.isSelect = !targetTag.isSelect;
+			}
+		},
+
+		onTapMyTag: function(tag) {
+			let targetTag = this.tags.filter(oneTag => {
+				return oneTag.id == tag.id;
+			})[0];
+
+			targetTag.isSelect = false;			
+		},
+
+		onTapSelectImage: function(index) {
+			var _this = this;
+			wx.chooseImage({
+				count: 1,  
+				sizeType: ['original', 'compressed'],
+				sourceType: ['album', 'camera'],
+				success: res => {
+					//this.avatar = res.tempFilePaths[0];
+					this.cachedAvatar = res.tempFilePaths[0];
+					this.avatar = this.cachedAvatar;
+					this.$apply();
+				}
+			})
+		},
+
+		onSubmit: function(e) {
+			console.log(this.type);
+			if (this.type == 'avatar') {
+				console.log(this.avatar);
+				if (this.avatar.indexOf("mercury/me/upload.png") != -1) {
+					wx.showToast({
+						title: '请上传真实头像',
+						icon: 'none',
+						duration: 1500
+					})
+					return;
+				} else {
+					this.initResult['avatar'] = this.avatar;
+					if (this.stepForwardForInit()) {
+						this.$apply();
+					}
+				}
+			} else if (this.type == 'sex') {
+				if (this.gender == this.curSex) {
+					this.enable = false
+					return;
+				}
+				if (!this.gender) {
+					wx.showToast({
+						title: '请选择性别',
+						icon: 'none',
+						duration: 1500
+					})
+					return;
+				}
+
+				if (this.inInitMode) {
+					this.initResult['sex'] = this.gender;
+					if (this.stepForwardForInit()) {
+						this.$apply();
+					} else {
+						this.$emit('submit-profile-editor', this.initResult);
+					}
+				} else {
+					this.$emit('submit-profile-editor', this.gender);
+				}
+			} else if (this.type == 'tag') {
+				let selectedTags = this.tags.filter(tag => {
+					return tag.isSelect;
+				})
+				// if (selectedTags.length < this.minTagCount) {
+				// 	wx.showToast({
+				// 		title: `请选择至少${this.minTagCount}个标签`,
+				// 		icon: 'none',
+				// 		duration: 1500
+				// 	})
+				// 	return;
+				// }
+
+				//收集已选择标签的类型
+				let type2exist = {
+					'looks': false,
+					'wine': false,
+					'friend': false,
+					'music': false,
+					'dance': false
+				}
+				selectedTags.forEach(tag => {
+					if (tag.type == 'male_looks' || tag.type == 'female_looks') {
+						type2exist['looks'] = true;
+					} else {
+						type2exist[tag.type] = true;
+					}
+				})
+
+				let missedTypes = [];
+				if (!type2exist['looks']) {missedTypes.push('颜值')}
+				if (!type2exist['wine']) {missedTypes.push('喝酒')}
+				if (!type2exist['dance']) {missedTypes.push('蹦迪')}
+				if (!type2exist['music']) {missedTypes.push('听歌')}
+				if (!type2exist['friend']) {missedTypes.push('交友')}
+				if (missedTypes.length > 0) {
+					wx.showToast({
+						title: `请选择"${missedTypes}"的标签`,
+						icon: 'none',
+						duration: 2000
+					})
+					return;
+				}
+
+				// if (this.inInitMode) {
+				// 	this.initResult['tags'] = selectedTags;
+				// 	if (this.stepForwardForInit()) {
+				// 		this.$apply();
+				// 	} else {
+				// 		this.$emit('submit-profile-editor', this.initResult);
+				// 	}
+				// } else {
+				// 	this.$emit('submit-profile-editor', selectedTags);
+				// }
+				this.$emit('submit-profile-editor', selectedTags);
+			} else if (this.type == 'name' || this.type == 'slogan') {
+				let content = e.detail.value.content.trim();
+				if (content.length > 0) {
+					this.$emit('submit-profile-editor', content);
+				} else {
+					wx.showToast({
+						title: '请输入评论内容',
+						icon: 'none',
+					})
+				}
+			} else if (this.type == 'phone') {
+				if (!Validator.isPhoneNumber(this.phone)) {
+					wx.showToast({
+						title: `请输入正确的手机号`,
+						icon: 'none',
+						duration: 1500
+					})
+					return;
+				}
+
+				if (this.isUseWxPhone) {
+					this.$emit('submit-profile-editor', this.phone);
+				} else {
+					if (this.verifyCode.length != 4) {
+						wx.showToast({
+							title: `请输入4位验证码`,
+							icon: 'none',
+							duration: 1500
+						})
+						return;
+					}
+
+					let code = `${this.phone}_${this.verifyCode}`;
+					SMSService.checkVerifyCode(code).then(isValid => {
+						if (isValid) {
+							this.$emit('submit-profile-editor', this.phone);
+							console.log('can submit phone');
+						} else {
+							wx.showToast({
+								title: '验证码错误，请重新输入',
+								icon: 'none',
+								duration: 2000
+							})
+							this.verifyCode = '';
+							this.$apply();
+						}
+					})
+				}
+			}
+		}
+	}
+
+	onLoad () {
+
+	}
+
+	loadTags() {
+		TagService.getTags().then(tags => {
+			this.tags = [];
+			let userTagIdSet = {};
+			if (this.userTags) {
+				this.userTags.forEach(userTag => {
+					userTagIdSet[userTag.id] = true;
+				})
+			}
+			tags.forEach(tag => {
+				// let isContainSex = (tag.type.indexOf('_') != -1);
+				// let items = tag.type.split('_');
+				// let tagGender = items[0];
+				// let tagType = items[1];
+				let oneTag = {
+					id: tag.id,
+					name: tag.name,
+					isSelect: userTagIdSet[tag.id] ? true : false,
+					type: tag.type
+				}
+				this.tags.push(oneTag);
+			})
+
+			this.tagType = 'looks';
+			this.$apply();
+		})
+	}
+
+	stepForwardForInit() {
+		if (this.initStep == this.initStages.length - 1) {
+			return false;
+		}
+
+		this.initStep += 1;
+		this.type = this.initStages[this.initStep];
+		return true;
+	}
+
+	getPhoneNumber(e) {
+		console.log(e);
+	}
+}
+</script>

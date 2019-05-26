@@ -1,0 +1,201 @@
+<style lang="less">
+@import "../base";
+
+
+  .x-code-layer{
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    top: 0px;
+    left: 0px;
+    z-index:999;
+    background-color:rgba(0,0,0,0.5);
+
+    .x-layer-toast{
+      border-radius: 8rpx;
+      overflow: hidden;
+      width: 85%;
+      transform: translateX(-50%);
+      margin-left:50%;
+      margin-top:200rpx;
+      display:flex;
+      background: white;
+      flex-direction: column;
+      justify-content: center;
+
+      .x-toast-title {
+        margin: 10rpx 0;
+        text-align: center;
+        font-size: 36rpx;
+        font-weight: bold;
+        color: rgb(65,65,65);
+      }
+
+      .x-toast-image{
+        width: 400rpx;
+        height: 400rpx;
+        margin: -20rpx auto 5rpx;
+      }
+
+      .x-toast-button {
+       width: 100%;
+        height: 100rpx;
+        line-height: 100rpx;
+        text-align: center;
+        color: white;
+        font-size: 30rpx;
+        background-color: #5113c3;
+      }
+
+      .x-toast-text{
+        margin: 5rpx auto;
+        width: 90%;
+        font-size: 28rpx;
+        color: rgb(65,65,65);
+        white-space: normal;
+        &.x-toast-text-bottom{
+          margin-bottom: 5rpx;
+        }
+      }
+
+      .x-toast-butto-bottom{
+        display: flex;
+        align-items: center;
+        .x-toast-button{
+          width: 55%;
+          text-align: center;
+          color: #5113c3;
+          font-size: 28rpx;
+          background-color: white;
+          
+        }
+        .x-toast-servise{
+          width:276.5rpx;
+          justify-content:flex-end;
+          margin-right:50rpx;
+          display: flex;
+          align-items: center;
+          color: rgb(124, 124, 124);
+          font-size: 28rpx;
+          .x-t-image{
+            width: 30rpx;
+            height: 30rpx;
+            margin-left: 10rpx;
+          }
+          .x-toast-button-servise{
+            width: 150rpx;
+            text-align:right;
+          }
+        }
+      }
+
+      .x-company{
+        width:400rpx;
+        height:400rpx;
+        margin:auto;
+        margin-top:30rpx;
+        display: flex;
+        height:96rpx;
+        .x-company-image{
+          width: 98rpx;
+          height: 96rpx;
+        }
+        .x-company-name{
+          margin-left: 40rpx;
+          line-height: 96rpx;
+        }
+      }
+    }
+  }
+</style>
+
+<template>
+<cover-view wx:if="{{showLayer}}" @tap="closeCode" class="x-code-layer">
+      <cover-view class="x-layer-toast" style="width:70%;margin-top:300rpx">
+        <cover-view class="x-toast-title" style=" margin-top:20rpx; margin-bottom:70rpx">提示</cover-view>
+        <cover-view class="x-toast-text x-toast-text-bottom" style="color:rgb(124,124,124)">{{title}}</cover-view>
+        <cover-view class="x-toast-butto-bottom">
+        <cover-view class="x-toast-button" @tap="closeCode">取消</cover-view>
+          <cover-view class="x-toast-servise">
+            <button class="x-toast-button" open-type="openSetting" bindopensetting="closeCode">去设置</button>
+          </cover-view>
+        </cover-view>
+      </cover-view>
+    </cover-view>
+</template>
+
+<script>
+import wepy from 'wepy'
+import StorageService from '../services/storage_service'
+
+export default class ApplyScope extends wepy.component {
+	props = {
+	}
+
+	data = {
+        showLayer: false,
+		title: "拒绝授权可能会影响部分功能使用，请设置授权",
+        SCOPES: [
+            'scope.userLocation',
+            'scope.address',
+            'scope.invoiceTitle',
+            'scope.werun',
+            'scope.record',
+            'scope.writePhotosAlbum',
+            'scope.camera'
+        ]
+	}
+
+	computed = {
+		
+	}
+
+	events = {
+        'apply-scope': (option, callback) => {
+			let scope = option.scope;
+			if (option.title) {
+				this.title = option.title;
+			}
+
+            if(this.SCOPES.indexOf(scope)<0){
+                return
+            }
+            let self = this;
+            wx.getSetting({
+                success: function(res){
+                    if(res.authSetting[scope]){
+                        callback()
+                    }else{
+                        wx.authorize({
+                            scope: scope,
+                            success: res=>{
+                                callback();
+                            },
+                            fail: res=>{
+                                self.showLayer=true;
+								StorageService.set("is_return_from_apply_scope", true);
+                                self.$apply();
+                            }
+                        })
+                    }
+                }
+            })
+        }
+	}
+
+	watch = {
+
+	}
+
+	methods = {
+		closeCode: function(e) {
+            this.showLayer=false;
+            this.$apply();
+        }
+	}
+
+	onLoad () {
+
+	}
+}
+</script>

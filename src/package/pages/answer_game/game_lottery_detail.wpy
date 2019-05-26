@@ -1,0 +1,147 @@
+<style lang="less">
+page {
+	min-height: 100vh;
+	overflow-x: hidden;
+
+	//flex居中
+	.flexCenter {
+		align-items: center;
+		display: flex;
+		justify-content: center;
+	}
+	image {
+		display: block;
+	}
+	.gameLottery-detail-container {
+		align-items: center;
+		background: url(https://vxiaocheng-jh.oss-cn-beijing.aliyuncs.com/mercury/challenge/container_bg.png) 0 0 / cover no-repeat;
+		box-sizing: border-box;
+		display: flex;
+		flex-direction: column;
+		min-height: 100vh;
+		overflow-x: hidden;
+		padding-top: 13.43283582vh;
+
+		.name-and-code {
+			align-items: center;
+			background: url(https://vxiaocheng-jh.oss-cn-beijing.aliyuncs.com/mercury/game_lottery/lottery_pic_bg.png) 0 0 / cover no-repeat;
+			box-sizing: border-box;
+			display: flex;
+			flex-direction: column;
+			height: 273rpx;
+			margin-bottom: 8.623548922vh;
+			padding-top: 108rpx;
+			width: 491rpx;
+
+			.lottery-name {
+				color: #ff1928;
+				font-size: 34rpx;
+				font-weight: bold;
+				line-height: 34rpx;
+				margin-bottom: 70rpx;
+				overflow: hidden;
+				text-overflow: ellipsis;
+				white-space: nowrap;
+				max-width: 12em;
+			}
+
+			.lottery-code {
+				color: #682f00;
+				font-size: 26rpx;
+				line-height: 26rpx;
+			}
+		}
+
+		.lottery-instruction {
+			color: #fff;
+			margin: 0 auto;
+			width: 606rpx;
+
+			text {
+				display: block;
+			}
+
+			.instruction-title {
+				font-size: 30rpx;
+				font-weight: bold;
+				margin-bottom: 32rpx;
+				text-align: center;
+			}
+
+			.instruction-text {
+				font-size: 24rpx;
+			}
+		}
+	}	
+}
+</style>
+
+<template>
+	<view class="gameLottery-detail-container">
+
+		<!-- 券码 -->
+		<view class="name-and-code">
+			<text class="lottery-name">{{lotteryName ? lotteryName : '券名'}}</text>
+			<text class="lottery-code">券码 : {{lotteryCode ? lotteryCode : 'xxxxxxxxxxxx'}}</text>
+		</view>
+
+		<!-- 券使用说明 -->
+		<view class="lottery-instruction">
+			<text class="instruction-title">使用说明</text>
+			<block wx:for="{{lotteryInstruction}}">
+				<text class="instruction-text">{{item}}</text>
+			</block>
+		</view>
+
+	</view>
+</template>
+
+<script>
+import wepy from 'wepy'
+import ChallengeService from '../../../services/challenge_service'
+
+export default class GameLotteryDetail extends wepy.page {
+	config = {
+		navigationBarTitleText: "奖品券"
+	}
+
+	components = {
+
+	}
+
+	mixins = []
+
+	data = {
+		lotteryName: '',
+		lotteryCode: '',
+		lotteryInstruction: ''
+	}
+
+	computed = {
+	}
+
+	methods = {
+	}
+
+	events = {
+
+	}
+
+	onLoad(query) {
+		console.log('query', query)
+		this.lotteryName = query.lotteryName
+		this.lotteryCode = query.lotteryCode
+		this.lotteryInstruction = query.lotteryInstruction
+
+	}
+
+	onShow() {
+		
+	}
+
+	onPullDownRefresh() {
+		
+	}
+
+}
+</script>
